@@ -3,8 +3,8 @@ export const config = {
   runtime: 'edge',
 };
 
-// Import the server build
-import server from '../dist/server/index.js';
+// Import the server build (copied during build process)
+import server from './server.js';
 
 export default async function handler(request) {
   try {

@@ -4,7 +4,7 @@ export const config = {
 };
 
 // Import the server build (copied during build process)
-import server from './server.js';
+import * as serverModule from './server.js';
 
 export default async function handler(request) {
   try {
@@ -28,8 +28,15 @@ export default async function handler(request) {
       passThroughOnException: () => {},
     };
 
+    // Get the server's default export (the server object with fetch method)
+    const server = serverModule.default;
+    
+    if (!server || typeof server.fetch !== 'function') {
+      throw new Error(`Server module structure is unexpected. Keys: ${Object.keys(serverModule).join(', ')}`);
+    }
+
     // Call the server's fetch handler (Cloudflare Workers compatible)
-    const response = await server.default.fetch(request, env, executionContext);
+    const response = await server.fetch(request, env, executionContext);
     
     return response;
   } catch (error) {
@@ -37,6 +44,7 @@ export default async function handler(request) {
     return new Response(JSON.stringify({ 
       error: 'Internal Server Error',
       message: error.message,
+      stack: error.stack,
     }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },

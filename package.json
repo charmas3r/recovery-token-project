@@ -5,8 +5,9 @@
   "version": "2025.7.3",
   "type": "module",
   "scripts": {
-    "build": "shopify hydrogen build --codegen && npm run build:copy-server",
+    "build": "shopify hydrogen build --codegen && npm run build:copy-server && npm run build:prepare-vercel",
     "build:copy-server": "cp dist/server/index.js api/server.js",
+    "build:prepare-vercel": "mkdir -p build && cp -r dist/client/* build/",
     "dev": "shopify hydrogen dev --codegen",
     "preview": "shopify hydrogen preview --build",
     "lint": "eslint --no-error-on-unmatched-pattern .",

@@ -10,4 +10,7 @@ import {hydrogenPreset} from '@shopify/hydrogen/react-router-preset';
  */
 export default {
   presets: [hydrogenPreset()],
+  ssr: true,
+  serverModuleFormat: 'esm',
+  buildDirectory: 'dist',
 } satisfies Config;

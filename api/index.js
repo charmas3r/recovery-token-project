@@ -3,63 +3,48 @@ export const config = {
   runtime: 'edge',
 };
 
-// Create a minimal Cache API polyfill for Vercel Edge Runtime
+// Create a no-op Cache API polyfill for Vercel Edge Runtime
+// This prevents stream reuse errors while allowing Hydrogen to call cache methods
 class CacheStorage {
-  constructor() {
-    this.caches = new Map();
-  }
-
   async open(cacheName) {
-    if (!this.caches.has(cacheName)) {
-      this.caches.set(cacheName, new Cache());
-    }
-    return this.caches.get(cacheName);
+    return new Cache();
   }
 
   async delete(cacheName) {
-    return this.caches.delete(cacheName);
+    return true;
   }
 
   async has(cacheName) {
-    return this.caches.has(cacheName);
+    return false;
   }
 
   async keys() {
-    return Array.from(this.caches.keys());
+    return [];
   }
 
   async match(request) {
-    for (const cache of this.caches.values()) {
-      const response = await cache.match(request);
-      if (response) return response;
-    }
     return undefined;
   }
 }
 
 class Cache {
-  constructor() {
-    this.store = new Map();
-  }
-
+  // No-op cache that doesn't actually store anything
+  // This prevents "Cannot perform I/O on behalf of a different request" errors
   async match(request) {
-    const key = typeof request === 'string' ? request : request.url;
-    return this.store.get(key);
+    return undefined;
   }
 
   async put(request, response) {
-    const key = typeof request === 'string' ? request : request.url;
-    // Clone the response so it can be read multiple times
-    this.store.set(key, response.clone());
+    // Don't actually store - just accept the call
+    return undefined;
   }
 
   async delete(request) {
-    const key = typeof request === 'string' ? request : request.url;
-    return this.store.delete(key);
+    return false;
   }
 
   async keys() {
-    return Array.from(this.store.keys());
+    return [];
   }
 }
 

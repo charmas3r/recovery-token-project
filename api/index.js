@@ -3,11 +3,20 @@ export const config = {
   runtime: 'edge',
 };
 
-// Import the server build (copied during build process)
-import * as serverModule from './server.js';
-
 export default async function handler(request) {
   try {
+    console.log('[Handler] Starting request:', request.url);
+    
+    // Try to dynamically import the server module
+    console.log('[Handler] Attempting to import server module...');
+    const serverModule = await import('./server.js');
+    console.log('[Handler] Server module imported. Keys:', Object.keys(serverModule));
+    console.log('[Handler] Default export type:', typeof serverModule.default);
+    
+    if (serverModule.default && typeof serverModule.default === 'object') {
+      console.log('[Handler] Default export keys:', Object.keys(serverModule.default));
+    }
+    
     // Create env object from environment variables
     const env = {
       SESSION_SECRET: process.env.SESSION_SECRET || 'default-secret',
@@ -19,10 +28,11 @@ export default async function handler(request) {
       PUBLIC_CUSTOMER_ACCOUNT_API_URL: process.env.PUBLIC_CUSTOMER_ACCOUNT_API_URL,
     };
 
+    console.log('[Handler] Environment keys:', Object.keys(env).filter(k => env[k]));
+
     // Create minimal execution context (compatible with Workers)
     const executionContext = {
       waitUntil: (promise) => {
-        // In Edge Runtime, we can't truly waitUntil, but we can at least not await
         promise.catch(err => console.error('waitUntil error:', err));
       },
       passThroughOnException: () => {},
@@ -32,19 +42,33 @@ export default async function handler(request) {
     const server = serverModule.default;
     
     if (!server || typeof server.fetch !== 'function') {
-      throw new Error(`Server module structure is unexpected. Keys: ${Object.keys(serverModule).join(', ')}`);
+      const errorDetails = {
+        hasDefault: !!serverModule.default,
+        defaultType: typeof serverModule.default,
+        moduleKeys: Object.keys(serverModule),
+        defaultKeys: serverModule.default ? Object.keys(serverModule.default) : 'N/A',
+      };
+      console.error('[Handler] Server structure invalid:', errorDetails);
+      throw new Error(`Server module structure is unexpected: ${JSON.stringify(errorDetails)}`);
     }
 
-    // Call the server's fetch handler (Cloudflare Workers compatible)
+    console.log('[Handler] Calling server.fetch...');
     const response = await server.fetch(request, env, executionContext);
+    console.log('[Handler] Response received:', response.status);
     
     return response;
   } catch (error) {
-    console.error('Server error:', error);
+    console.error('[Handler] Error occurred:', {
+      message: error.message,
+      stack: error.stack,
+      name: error.name,
+    });
+    
     return new Response(JSON.stringify({ 
       error: 'Internal Server Error',
       message: error.message,
       stack: error.stack,
+      timestamp: new Date().toISOString(),
     }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },

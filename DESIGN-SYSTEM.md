@@ -1,402 +1,454 @@
-# Recovery Token Store - Design System Implementation
+# Recovery Token Store - Design System
 
 ## Overview
 
-The application now fully implements the Recovery Token Store design system as specified in:
-- **PRD Section 3:** Design System & Visual Language
-- **Skill:** `.cursor/skills/design-system/SKILL.md`
-- **Reference:** `.cursor/skills/design-system/REFERENCE.md`
-- **Rule:** `.cursor/rules/design-system.mdc` (automatically enforces design consistency)
+The Recovery Token Store design system creates world-class, impactful experiences. The design draws inspiration from premium travel gear aesthetics—clean, bold, and confident with strong visual hierarchy. Every design decision prioritizes **clarity, impact, and emotional resonance**.
 
-The design is inspired by premium travel gear aesthetics (Nexura) - clean, bold, and confident with strong visual hierarchy.
+**Core Philosophy:** Information Architecture First → Visual Hierarchy as Navigation → Intentional White Space → Emotional Impact
 
 ---
 
-## What Was Implemented
+## Quick Reference
 
-### 1. ✅ Tailwind v4 Configuration (`app/styles/tailwind.css`)
+| Resource | Location | Purpose |
+|----------|----------|---------|
+| **PRD Design Section** | `prd.md` (Section 3) | Source of truth |
+| **Design Skill** | `.cursor/skills/design-system/SKILL.md` | Implementation patterns |
+| **Design Rule** | `.cursor/rules/design-system.mdc` | Enforcement rules |
+| **Tailwind Config** | `app/styles/tailwind.css` | Design tokens |
 
-**Design Tokens Added:**
-- **Typography Scale:** Major Third ratio (1.250) - 48px → 12px
-- **Color System:** Primary, Secondary, Accent, Surface colors
-- **Spacing System:** 8px grid (4px → 96px)
-- **Container Widths:** Prose (640px), Standard (1280px), Wide (1440px)
-- **Opacity Scale:** 85%, 60%, 40%, 10%
-- **Transitions:** Fast (200ms), Base (300ms), Slow (400ms)
+---
 
-**Typography Classes:**
-```css
-.text-hero           /* 48px, bold */
-.text-page-title     /* 36px, bold */
-.text-section        /* 28px, bold */
-.text-subsection     /* 20px, semibold */
-.text-body-lg        /* 18px, regular */
-.text-body           /* 16px, regular */
-.text-body-sm        /* 14px, regular */
-.text-caption        /* 12px, medium */
-```
+## Design Tokens
 
-**Color Classes:**
-```css
-.text-primary        /* Deep Navy #1A202C */
-.text-secondary      /* Slate #4A5568 */
-.text-accent         /* Bronze #B8764F */
-.bg-surface          /* Cool Gray #F7FAFC */
-.bg-surface-dark     /* Dark Surface #2D3748 */
-.text-success        /* Green #38A169 */
-.text-warning        /* Orange #DD6B20 */
-.text-error          /* Red #E53E3E */
-```
+### Typography Scale (Major Third - 1.250 ratio)
 
-**Container Classes:**
-```css
-.container-prose     /* max-width: 640px - long-form content */
-.container-standard  /* max-width: 1280px - general pages */
-.container-wide      /* max-width: 1440px - homepage, visual-heavy */
-```
+| Token | Size | Weight | Line Height | Usage |
+|-------|------|--------|-------------|-------|
+| `text-hero` | 48px | 700 | 1.1 | Homepage hero headlines |
+| `text-page-title` | 36px | 700 | 1.2 | Page titles, product names |
+| `text-section` | 28px | 700 | 1.3 | Section headings |
+| `text-subsection` | 20px | 600 | 1.4 | Feature titles, card headings |
+| `text-body-lg` | 18px | 400 | 1.6 | Descriptions, intro paragraphs |
+| `text-body` | 16px | 400 | 1.6 | General body text |
+| `text-body-sm` | 14px | 400 | 1.5 | Metadata, helper text |
+| `text-caption` | 12px | 500 | 1.4 | Badges, eyebrow text |
 
-### 2. ✅ Design System Fonts
-
-**Loaded in `app/root.tsx`:**
-- **Inter:** Body text (400, 500, 600, 700 weights)
-- **Manrope:** Display/headings (600, 700 weights)
-
-**Font Classes:**
+**Font Families:**
+- `font-display` - Manrope (headings, display text)
 - `font-sans` - Inter (body text)
-- `font-display` - Manrope (headings)
 
-### 3. ✅ UI Components (`app/components/ui/`)
+### Color System
 
-#### Button Component
-```tsx
-import {Button} from '~/components/ui';
+| Token | Hex | Usage |
+|-------|-----|-------|
+| `primary` | `#1A202C` | Headings, primary text, dark backgrounds |
+| `secondary` | `#4A5568` | Body text, secondary elements |
+| `accent` | `#B8764F` | CTAs, links, eyebrow text, highlights |
+| `surface` | `#F7FAFC` | Light backgrounds, cards |
+| `surface-dark` | `#2D3748` | Dark sections, footer |
+| `success` | `#38A169` | Confirmation, in-stock |
+| `warning` | `#DD6B20` | Important notices |
+| `error` | `#E53E3E` | Error messages |
+| `white` | `#FFFFFF` | Backgrounds, text on dark |
 
-<Button variant="primary" size="lg">Add to Cart</Button>
-<Button variant="secondary">Learn More</Button>
-<Button variant="tertiary">Cancel</Button>
-<Button variant="destructive">Delete</Button>
-```
+### Spacing System (8px Grid)
 
-**Features:**
-- ✅ **Elevated card appearance** with subtle shadow
-- ✅ **Very subtle border** on all variants
-- ✅ 4 variants (primary, secondary, tertiary, destructive)
-- ✅ 3 sizes (sm, md, lg) - md/lg meet 44px touch target
-- ✅ Focus ring (design system required)
-- ✅ Hover lift effect (-translate-y-0.5)
-- ✅ Enhanced shadow on hover
-- ✅ Disabled states
+| Token | Value | Usage |
+|-------|-------|-------|
+| `xs` | 4px | Icon padding, tight spacing |
+| `sm` | 8px | Small gaps, button padding |
+| `md` | 16px | Standard padding, element spacing |
+| `lg` | 24px | Component spacing, card padding |
+| `xl` | 32px | Between components |
+| `2xl` | 48px | Between sections |
+| `3xl` | 64px | Large section padding |
+| `4xl` | 96px | Hero section padding |
 
-**Button Styling:**
-- Shadow: `shadow-[0_2px_8px_rgba(0,0,0,0.08)]` (resting)
-- Hover shadow: `shadow-[0_4px_12px_rgba(0,0,0,0.12)]`
-- Border: Very subtle `border-black/10` or `border-accent/80`
-- Border radius: `rounded-lg` (8px)
+### Container Widths
 
-#### Card Component (Compound)
-```tsx
-import {Card} from '~/components/ui';
-
-<Card hover>
-  <Card.Image src="..." alt="..." aspectRatio="4/5" />
-  <Card.Content>
-    <Card.Title>Product Name</Card.Title>
-    <Card.Description>Description text</Card.Description>
-    <Card.Price>$200</Card.Price>
-  </Card.Content>
-</Card>
-```
-
-**Features:**
-- ✅ Hover lift effect
-- ✅ 4:5 aspect ratio images (prevents CLS)
-- ✅ Image hover zoom
-- ✅ Compound component structure
-
-#### Badge Component
-```tsx
-import {Badge} from '~/components/ui';
-
-<Badge variant="new">New</Badge>
-<Badge variant="sale">Sale</Badge>
-<Badge variant="in-stock">In Stock</Badge>
-<Badge variant="success">Success</Badge>
-```
-
-#### Input Component
-```tsx
-import {Input} from '~/components/ui';
-
-<Input
-  label="Email Address"
-  error={errors.email}
-  helperText="We'll never share your email"
-/>
-```
-
-**Features:**
-- ✅ 44px height (touch target)
-- ✅ Focus ring (design system required)
-- ✅ Error states
-- ✅ Helper text support
-
-### 4. ✅ Updated Existing Components
-
-#### ProductItem (`app/components/product/ProductItem.tsx`)
-- Now uses `<Card>` component
-- 4:5 aspect ratio images
-- Design system typography and spacing
-- Hover effects (lift + image zoom)
-
-#### AddToCartButton (`app/components/product/AddToCartButton.tsx`)
-- Now uses `<Button variant="primary">` 
-- Shows "Adding..." loading state
-- Full width button
-- 44px height touch target
-
-#### Homepage (`app/routes/($locale)._index.tsx`)
-- Container widths (`.container-wide`, `.container-standard`)
-- Typography scale (`text-hero`, `text-section`)
-- Spacing system (`space-y-3xl`, `py-3xl`)
-- Product grid skeleton loader
-- 16:9 hero image with overlay
-
-### 5. ✅ Utility Functions (`app/lib/utils.ts`)
-
-```tsx
-import {cn} from '~/lib/utils';
-
-// Merge classes with proper Tailwind precedence
-<div className={cn('px-2 py-1', isActive && 'bg-accent')} />
-```
+| Class | Width | Usage |
+|-------|-------|-------|
+| `.container-prose` | 640px | Long-form content, policies |
+| `.container-standard` | 1280px | General pages, collections |
+| `.container-wide` | 1440px | Homepage, visual-heavy pages |
 
 ---
 
-## Design System Rules (Auto-Enforced)
+## World-Class Landing Page Patterns
 
-The `.cursor/rules/design-system.mdc` rule **automatically enforces** design consistency whenever Cursor makes UI changes.
+### 1. Hero Section Pattern
 
-### ❌ FORBIDDEN
-
-```tsx
-// ❌ Arbitrary colors
-<div className="text-gray-700">Bad</div>
-<div className="bg-[#B8764F]">Bad</div>
-
-// ❌ Arbitrary sizes
-<h1 className="text-[42px]">Bad</h1>
-<p className="text-xl">Bad</p>
-
-// ❌ Arbitrary spacing
-<div className="p-[18px]">Bad</div>
-<div className="mt-3.5">Bad</div>
-
-// ❌ Missing focus states
-<button className="bg-accent">Bad</button>
-
-// ❌ Small touch targets
-<button className="h-8">Bad - only 32px</button>
-```
-
-### ✅ REQUIRED
+The hero creates immediate visual impact with immersive design.
 
 ```tsx
-// ✅ Design tokens only
-<div className="text-secondary">Good</div>
-<div className="bg-accent">Good</div>
-
-// ✅ Typography scale
-<h1 className="text-hero">Good</h1>
-<p className="text-body-lg">Good</p>
-
-// ✅ Spacing system (8px grid)
-<div className="p-md">Good - 16px</div>
-<div className="space-y-lg">Good - 24px gap</div>
-
-// ✅ Focus states on all interactive elements
-<button className="focus:ring-2 focus:ring-accent">Good</button>
-
-// ✅ Minimum 44px touch targets
-<button className="h-11">Good - 44px</button>
-```
-
----
-
-## Usage Guide
-
-### Creating a New Page
-
-```tsx
-import {Button} from '~/components/ui';
-
-export default function MyPage() {
-  return (
-    // Container with proper width
-    <div className="container-standard">
-      
-      {/* Section with vertical spacing */}
-      <section className="py-3xl space-y-2xl">
+<section className="relative bg-primary overflow-hidden">
+  {/* Gradient overlay */}
+  <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary to-surface-dark opacity-95" />
+  
+  <div className="container-wide relative z-10">
+    <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center min-h-[60vh] py-12 lg:py-8">
+      {/* Content Column */}
+      <div className="text-center lg:text-left w-full">
+        {/* Eyebrow */}
+        <span className="inline-block text-accent text-caption uppercase tracking-[0.25em] font-semibold mb-6">
+          Category Label
+        </span>
         
-        {/* Heading with design system typography */}
-        <h1 className="font-display text-page-title text-primary">
-          Page Title
+        {/* Main Heading - White with accent highlight */}
+        <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl xl:text-[4.5rem] font-bold text-white leading-[1.05] tracking-tight mb-6">
+          Main Headline
+          <span className="block text-accent">Highlighted Word</span>
         </h1>
         
-        {/* Body text */}
-        <p className="text-body-lg text-secondary">
-          Description text that introduces the page content.
+        {/* Subheading */}
+        <p className="text-lg lg:text-xl text-white/80 leading-relaxed mb-10 lg:max-w-[32rem]">
+          Supporting description text that reinforces the value proposition.
         </p>
         
-        {/* Primary CTA */}
-        <Button variant="primary" size="lg">
-          Get Started
-        </Button>
-        
-      </section>
+        {/* CTA Buttons */}
+        <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+          <Button variant="primary" className="!bg-accent">Primary CTA</Button>
+          <Button variant="secondary" className="!border-white/30 !text-white">Secondary CTA</Button>
+        </div>
+      </div>
+      
+      {/* Image Column with Glow */}
+      <div className="relative flex items-center justify-center w-full">
+        <div className="relative w-full max-w-[24rem] lg:max-w-[32rem]">
+          <div className="absolute inset-0 bg-accent/20 blur-3xl rounded-full scale-75" />
+          <img src={image} alt="" className="relative w-full h-auto object-contain drop-shadow-2xl" />
+        </div>
+      </div>
     </div>
-  );
-}
+  </div>
+  
+  {/* Decorative wave divider */}
+  <div className="absolute bottom-0 left-0 right-0">
+    <svg viewBox="0 0 1440 120" fill="none" className="w-full h-auto">
+      <path d="M0 120L60 110C120 100..." fill="#F7FAFC" />
+    </svg>
+  </div>
+</section>
 ```
 
-### Creating a Product Grid
+**Key Elements:**
+- Dark background with gradient overlay
+- Eyebrow text: uppercase, `text-caption`, `tracking-[0.25em]`, `text-accent`
+- Headline: Multi-size responsive, accent color highlight
+- Image with glow effect: `blur-3xl`, `bg-accent/20`
+- Wave divider for smooth section transition
+
+### 2. Trust Bar Pattern
+
+Builds immediate credibility with key benefits.
 
 ```tsx
-import {Card} from '~/components/ui';
+<section className="bg-surface py-10 md:py-12 border-b border-black/5">
+  <div className="container-standard">
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-10">
+      {features.map((feature) => (
+        <div className="flex items-center gap-4">
+          <div className="flex-shrink-0 w-14 h-14 rounded-full bg-accent/10 flex items-center justify-center text-accent">
+            {feature.icon}
+          </div>
+          <div>
+            <h3 className="font-display text-base font-bold text-primary">
+              {feature.title}
+            </h3>
+            <p className="text-sm text-secondary">
+              {feature.description}
+            </p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+```
 
-<div className="products-grid">
-  {products.map((product) => (
-    <Card hover key={product.id}>
-      <Card.Image
-        src={product.image}
-        alt={product.title}
-        aspectRatio="4/5"
-      />
-      <Card.Content>
-        <Card.Title>{product.title}</Card.Title>
-        <Card.Price>${product.price}</Card.Price>
-      </Card.Content>
-    </Card>
-  ))}
+**Key Elements:**
+- Light surface background
+- Icon in accent-tinted circle
+- Bold title + subtle description
+
+### 3. Product Showcase Pattern
+
+Features a product with flanking feature cards.
+
+```tsx
+<section className="py-20 md:py-28 bg-surface">
+  <div className="container-standard">
+    {/* Section Header */}
+    <div className="text-center mb-16">
+      <span className="inline-block text-accent text-caption uppercase tracking-[0.25em] font-semibold mb-4">
+        Eyebrow
+      </span>
+      <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-primary leading-tight mb-6">
+        Section Title
+      </h2>
+      <p className="text-body-lg text-secondary max-w-[42rem] mx-auto">
+        Description text centered under the heading.
+      </p>
+    </div>
+    
+    {/* Three-column layout */}
+    <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+      {/* Left Features */}
+      <div className="lg:col-span-3 space-y-6">
+        <FeatureCard align="right" />
+        <FeatureCard align="right" />
+      </div>
+      
+      {/* Center Product */}
+      <div className="lg:col-span-6">
+        <div className="relative mx-auto">
+          <div className="absolute inset-4 bg-white rounded-full shadow-inner" />
+          <img src={product} className="relative w-full h-auto" />
+        </div>
+      </div>
+      
+      {/* Right Features */}
+      <div className="lg:col-span-3 space-y-6">
+        <FeatureCard align="left" />
+        <FeatureCard align="left" />
+      </div>
+    </div>
+  </div>
+</section>
+```
+
+### 4. Feature Card Pattern
+
+```tsx
+<div className={`bg-white rounded-xl p-6 shadow-sm border border-black/5 ${
+  align === 'right' ? 'lg:text-right' : 'lg:text-left'
+}`}>
+  <div className={`flex items-center gap-3 mb-3 ${
+    align === 'right' ? 'lg:flex-row-reverse' : ''
+  }`}>
+    <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center text-accent">
+      {icon}
+    </div>
+    <h3 className="font-display text-base font-bold text-primary">{title}</h3>
+  </div>
+  <p className="text-body-sm text-secondary leading-relaxed">{description}</p>
 </div>
 ```
 
-### Creating a Form
+### 5. Brand Story Section Pattern
+
+Two-column layout with stats overlay.
 
 ```tsx
-import {Input, Button} from '~/components/ui';
+<section className="py-20 md:py-28 bg-primary text-white relative overflow-hidden">
+  {/* Background pattern */}
+  <div className="absolute inset-0 opacity-5">
+    <div className="absolute inset-0" style={{
+      backgroundImage: `url("data:image/svg+xml,...")`,
+    }} />
+  </div>
+  
+  <div className="container-standard relative z-10">
+    <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+      {/* Image with stat overlay */}
+      <div className="relative">
+        <div className="relative rounded-2xl overflow-hidden shadow-2xl">
+          <img src={image} className="w-full h-auto object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-t from-primary/50 to-transparent" />
+        </div>
+        
+        {/* Floating stat card */}
+        <div className="absolute -bottom-6 -right-6 md:right-8 bg-white rounded-xl p-6 shadow-xl max-w-[200px]">
+          <div className="text-4xl font-display font-bold text-accent mb-1">10K+</div>
+          <p className="text-sm text-secondary">Stat description</p>
+        </div>
+      </div>
+      
+      {/* Content */}
+      <div>
+        <span className="inline-block text-accent text-caption uppercase tracking-[0.25em] font-semibold mb-4">
+          Eyebrow
+        </span>
+        <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-6">
+          Section Headline
+        </h2>
+        <p className="text-lg text-white/80 leading-relaxed mb-8">
+          Body content...
+        </p>
+        
+        {/* Stats row */}
+        <div className="flex flex-wrap gap-8">
+          <div>
+            <div className="text-3xl font-display font-bold text-accent">100%</div>
+            <p className="text-sm text-white/60">Stat label</p>
+          </div>
+          {/* More stats */}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+```
 
-<form className="space-y-lg max-w-prose">
-  <Input
-    label="Email Address"
-    type="email"
-    name="email"
-    error={errors.email}
-  />
-  
-  <Input
-    label="Full Name"
-    name="name"
-    helperText="As it appears on your ID"
-  />
-  
-  <Button variant="primary" size="lg" type="submit">
-    Submit
-  </Button>
-</form>
+### 6. Testimonials Section Pattern
+
+```tsx
+<section className="py-20 md:py-28 bg-surface">
+  <div className="container-standard">
+    {/* Header */}
+    <div className="text-center mb-16">
+      <span className="inline-block text-accent text-caption uppercase tracking-[0.25em] font-semibold mb-4">
+        Testimonials
+      </span>
+      <h2 className="font-display text-3xl md:text-4xl font-bold text-primary">
+        Stories That Inspire
+      </h2>
+    </div>
+    
+    {/* Cards Grid */}
+    <div className="grid md:grid-cols-3 gap-8">
+      {testimonials.map((t) => (
+        <div className="bg-white rounded-2xl p-8 shadow-sm border border-black/5 relative">
+          {/* Quote icon */}
+          <div className="absolute -top-4 left-8 w-8 h-8 bg-accent rounded-full flex items-center justify-center">
+            <QuoteIcon />
+          </div>
+          
+          <p className="text-body text-secondary leading-relaxed mb-6 pt-2">
+            "{t.quote}"
+          </p>
+          
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-white font-display font-bold">
+              {t.avatar}
+            </div>
+            <div>
+              <div className="font-display font-bold text-primary">{t.author}</div>
+              <div className="text-caption text-accent">{t.role}</div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+```
+
+### 7. Final CTA Section Pattern
+
+```tsx
+<section className="py-20 md:py-24 bg-white">
+  <div className="container-standard">
+    <div className="bg-gradient-to-br from-primary to-surface-dark rounded-3xl p-10 md:p-16 text-center relative overflow-hidden">
+      {/* Background decorations */}
+      <div className="absolute top-0 right-0 w-64 h-64 bg-accent/10 rounded-full blur-3xl" />
+      <div className="absolute bottom-0 left-0 w-48 h-48 bg-accent/10 rounded-full blur-3xl" />
+      
+      <div className="relative z-10 max-w-[42rem] mx-auto px-4">
+        <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight mb-6">
+          Call to Action Headline
+        </h2>
+        <p className="text-lg text-white/80 mb-10">
+          Supporting text that drives urgency.
+        </p>
+        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <Button className="!bg-accent">Primary CTA</Button>
+          <Button className="!border-white/30 !text-white">Secondary CTA</Button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 ```
 
 ---
 
-## Accessibility Features
+## Section Alternation Pattern
 
-### ✅ Implemented
+Alternate backgrounds for visual rhythm:
 
-- **Focus Indicators:** 2px accent ring on all interactive elements
-- **Touch Targets:** Minimum 44x44px for buttons and links
-- **ARIA Labels:** Icon buttons have accessible labels
-- **Semantic HTML:** Proper use of header, nav, main, article, aside, footer
-- **Keyboard Navigation:** Tab order follows visual hierarchy
+```tsx
+<HeroSection />           {/* bg-primary */}
+<TrustBar />              {/* bg-surface */}
+<ProductShowcase />       {/* bg-surface */}
+<FeaturedProducts />      {/* bg-white */}
+<BrandStory />            {/* bg-primary */}
+<TestimonialsSection />   {/* bg-surface */}
+<FinalCTA />              {/* bg-white with gradient card */}
+```
+
+---
+
+## Component Guidelines
+
+### Button Variants
+
+```tsx
+// Primary - Accent background
+<Button variant="primary" className="!bg-accent !text-white">Shop Now</Button>
+
+// Secondary on dark - White border/text
+<Button variant="secondary" className="!border-white/30 !text-white">Learn More</Button>
+
+// Secondary on light - Default accent styling
+<Button variant="secondary">View Details</Button>
+```
+
+### Eyebrow Text Pattern
+
+Used consistently across all sections:
+
+```tsx
+<span className="inline-block text-accent text-caption uppercase tracking-[0.25em] font-semibold mb-4">
+  Category Label
+</span>
+```
+
+### Image Glow Effect
+
+For hero/featured images:
+
+```tsx
+<div className="relative">
+  <div className="absolute inset-0 bg-accent/20 blur-3xl rounded-full scale-75" />
+  <img src={image} className="relative drop-shadow-2xl" />
+</div>
+```
+
+### Stats Display
+
+```tsx
+<div className="text-3xl font-display font-bold text-accent">100%</div>
+<p className="text-sm text-white/60">Stat label</p>
+```
+
+---
+
+## Accessibility Requirements
+
+- **Focus States:** 2px accent ring on all interactive elements
+- **Touch Targets:** Minimum 44x44px
 - **Color Contrast:** WCAG AA minimum (4.5:1 body, 3:1 UI)
-- **Color Alone:** Never used to convey information (always paired with icons/text)
-- **Reduced Motion:** Animations disabled when `prefers-reduced-motion: reduce`
+- **Reduced Motion:** Animations respect `prefers-reduced-motion`
+- **ARIA Labels:** All icon buttons have accessible labels
+- **Semantic HTML:** Use proper elements (header, nav, main, section, etc.)
 
 ---
 
-## Performance Features
+## Pre-Commit Checklist
 
-### ✅ Implemented
-
-- **Image Aspect Ratios:** All images have explicit aspect ratios (prevents CLS)
-- **Lazy Loading:** Below-fold images load on scroll
-- **GPU-Accelerated Animations:** Only `transform` and `opacity` animated
-- **Font Loading:** `font-display: swap` for immediate text rendering
-- **Critical CSS:** Design tokens inline in `<head>`
-- **Animation Budget:** 200-400ms transitions max
-- **Skeleton Loaders:** Match actual content layout
-
----
-
-## Design System Checklist
-
-Before committing UI work, verify:
-
-- [ ] **Colors:** All colors use design tokens (no arbitrary values)
-- [ ] **Typography:** All text uses typography scale (no arbitrary sizes)
-- [ ] **Spacing:** All spacing uses 8px system (no arbitrary values)
-- [ ] **Components:** Used design system component patterns
-- [ ] **Layout:** Used proper container widths
-- [ ] **Responsive:** Tested at mobile (375px), tablet (768px), desktop (1280px)
-- [ ] **Focus States:** All interactive elements have visible focus rings
-- [ ] **Touch Targets:** All buttons/links are minimum 44x44px
-- [ ] **ARIA Labels:** All icon buttons have accessible labels
-- [ ] **Semantic HTML:** Used proper HTML elements
-- [ ] **Images:** Have aspect ratios set (prevent CLS)
-- [ ] **Animations:** Only use transform/opacity, respect reduced motion
-- [ ] **Contrast:** Text meets WCAG AA (4.5:1 body, 3:1 UI)
+- [ ] All colors use design tokens (no arbitrary hex values)
+- [ ] Typography uses scale classes (no arbitrary font sizes)
+- [ ] Spacing follows 8px grid (no arbitrary values)
+- [ ] Eyebrow text uses standard pattern
+- [ ] Section headers centered with proper spacing
+- [ ] Images have aspect ratios set
+- [ ] Focus states on all interactive elements
+- [ ] Touch targets minimum 44px
+- [ ] Responsive at mobile, tablet, desktop
+- [ ] Animations respect reduced motion
 
 ---
 
-## Next Steps
-
-### To Fully Apply Design System Across App:
-
-1. **Update Product Detail Page** (`app/routes/($locale).products.$handle.tsx`)
-   - Use design system layout
-   - Update typography scale
-   - Use Button component for Add to Cart
-
-2. **Update Collection Pages** (`app/routes/($locale).collections.$handle.tsx`)
-   - Use container widths
-   - Apply typography scale
-   - Use Card components in grid
-
-3. **Update Cart** (`app/components/cart/`)
-   - Use Button components
-   - Apply design system spacing
-   - Update typography
-
-4. **Update Account Pages** (`app/routes/($locale).account.*.tsx`)
-   - Use Input components
-   - Use Button components
-   - Apply proper layout patterns
-
-5. **Update Header/Footer** (`app/components/layout/`)
-   - Ensure design system colors
-   - Update typography
-   - Verify spacing
-
----
-
-## Resources
-
-- **PRD Section 3:** Design System & Visual Language
-- **Skill:** `.cursor/skills/design-system/SKILL.md`
-- **Reference:** `.cursor/skills/design-system/REFERENCE.md`
-- **Rule:** `.cursor/rules/design-system.mdc`
-- **Tailwind Config:** `app/styles/tailwind.css`
-
----
-
-**Status:** ✅ Foundation Complete - Design system ready for use throughout the application
-
-**Last Updated:** January 30, 2026
+**Last Updated:** January 31, 2026

@@ -1,495 +1,380 @@
 # Design System Skill
 
-## Overview
+## When to Use This Skill
 
-This skill translates the Recovery Token Store design system (PRD Section 3) into implementation patterns. Use this whenever building or modifying UI components, layouts, or styling. The design is inspired by premium travel gear aesthetics—clean, bold, and confident with strong visual hierarchy.
+Use this skill when:
+- Building or modifying UI components
+- Creating new pages or sections
+- Implementing landing page patterns
+- Working with colors, typography, or spacing
+- Ensuring design consistency
 
-**Core Philosophy:** Information Architecture First → Visual Hierarchy as Navigation → Intentional White Space
+**Always read this skill before making UI changes.**
+
+---
 
 ## Technology Stack
 
 | Component | Technology | Version |
 |-----------|------------|---------|
-| CSS Framework | Tailwind CSS | 4.1.6 |
+| CSS Framework | Tailwind CSS | 4.x |
 | Fonts | Inter / Manrope | Latest |
-| Icons | Lucide React | 0.563.0 |
-| Animation | Motion One | Latest |
+| Icons | Lucide React | 0.563.0+ |
+| Config | `app/styles/tailwind.css` | - |
 
-## Design Tokens
+---
 
-### Typography Scale (Major Third - 1.250 ratio)
+## Design Tokens Reference
 
-**Tailwind Config:**
-
-```javascript
-// tailwind.config.ts
-export default {
-  theme: {
-    extend: {
-      fontSize: {
-        // Hero & Major Headings
-        'hero': ['3rem', { lineHeight: '1.1', fontWeight: '700' }],      // 48px
-        'page-title': ['2.25rem', { lineHeight: '1.2', fontWeight: '700' }], // 36px
-        'section': ['1.75rem', { lineHeight: '1.3', fontWeight: '700' }],    // 28px
-        'subsection': ['1.25rem', { lineHeight: '1.4', fontWeight: '600' }], // 20px
-        
-        // Body Text
-        'body-lg': ['1.125rem', { lineHeight: '1.6', fontWeight: '400' }],   // 18px
-        'body': ['1rem', { lineHeight: '1.6', fontWeight: '400' }],          // 16px
-        'body-sm': ['0.875rem', { lineHeight: '1.5', fontWeight: '400' }],   // 14px
-        'caption': ['0.75rem', { lineHeight: '1.4', fontWeight: '500' }],    // 12px
-      },
-      fontFamily: {
-        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
-        display: ['Manrope', 'Inter', 'system-ui', 'sans-serif'],
-      },
-    },
-  },
-};
-```
-
-**Usage:**
+### Typography Classes
 
 ```tsx
-// Hero headline
-<h1 className="font-display text-hero text-primary">
-  Get Ready for Year-End Business Travel
-</h1>
+// Headings (use font-display)
+<h1 className="font-display text-hero text-primary">Hero Headline</h1>
+<h1 className="font-display text-page-title text-primary">Page Title</h1>
+<h2 className="font-display text-section text-primary">Section Heading</h2>
+<h3 className="font-display text-subsection text-primary">Subsection</h3>
 
-// Page title
-<h1 className="font-display text-page-title text-primary">
-  1 Year Sobriety Token
-</h1>
+// Body text
+<p className="text-body-lg text-secondary">Large body text</p>
+<p className="text-body text-secondary">Standard body text</p>
+<span className="text-body-sm text-secondary">Small text</span>
+<span className="text-caption text-secondary">Caption text</span>
 
-// Section heading
-<h2 className="font-display text-section text-primary">
-  Browse Backpack Collection
-</h2>
+// Responsive typography
+<h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-[4.5rem]">Responsive</h1>
+```
 
-// Subsection heading
-<h3 className="font-display text-subsection text-primary">
-  Product Features
-</h3>
+### Color Classes
 
-// Body large (descriptions, intros)
-<p className="text-body-lg text-secondary">
-  Designed for adventures, this pack offers ample space...
-</p>
+```tsx
+// Text colors
+<div className="text-primary">Deep Navy text</div>
+<div className="text-secondary">Slate text</div>
+<div className="text-accent">Bronze/Copper text</div>
+<div className="text-white">White text</div>
+<div className="text-white/80">80% opacity white</div>
 
-// Body standard
-<p className="text-body text-secondary">
-  Shop our stylish backpack collection...
-</p>
+// Background colors
+<div className="bg-primary">Dark navy background</div>
+<div className="bg-surface">Light gray background</div>
+<div className="bg-surface-dark">Dark surface</div>
+<div className="bg-accent">Accent background</div>
+<div className="bg-accent/10">10% accent tint</div>
+<div className="bg-white">White background</div>
 
-// Caption (metadata, badges)
-<span className="text-caption font-medium text-secondary/60">
-  In Stock • Ships in 2-3 days
+// Semantic colors
+<div className="text-success">Success green</div>
+<div className="text-warning">Warning orange</div>
+<div className="text-error">Error red</div>
+```
+
+### Spacing Classes
+
+```tsx
+// Padding
+<div className="p-xs">4px</div>
+<div className="p-sm">8px</div>
+<div className="p-md">16px</div>
+<div className="p-lg">24px</div>
+<div className="p-xl">32px</div>
+<div className="p-2xl">48px</div>
+<div className="p-3xl">64px</div>
+<div className="p-4xl">96px</div>
+
+// Section padding (responsive)
+<section className="py-20 md:py-28">Content</section>
+<section className="py-10 md:py-12">Tight section</section>
+
+// Gaps
+<div className="gap-4">16px gap</div>
+<div className="gap-6">24px gap</div>
+<div className="gap-8">32px gap</div>
+<div className="gap-12">48px gap</div>
+```
+
+### Container Classes
+
+```tsx
+// Standard page container
+<div className="container-standard">Max 1280px, centered, responsive padding</div>
+
+// Wide container (homepage)
+<div className="container-wide">Max 1440px, centered, responsive padding</div>
+
+// Prose container (long-form content)
+<div className="container-prose">Max 640px, centered</div>
+```
+
+---
+
+## World-Class Landing Page Patterns
+
+### 1. Eyebrow Text Pattern
+
+Used before every section heading:
+
+```tsx
+<span className="inline-block text-accent text-caption uppercase tracking-[0.25em] font-semibold mb-4">
+  Category Label
 </span>
 ```
 
-### Color System
+**Key Properties:**
+- `text-accent` - Bronze/copper color
+- `text-caption` - 12px, medium weight
+- `uppercase` - All caps
+- `tracking-[0.25em]` - Wide letter spacing
+- `font-semibold` - 600 weight
+- `mb-4` or `mb-6` - Bottom margin before heading
 
-**Tailwind Config:**
-
-```javascript
-// tailwind.config.ts
-export default {
-  theme: {
-    extend: {
-      colors: {
-        // Primary colors
-        primary: '#1A202C',      // Deep Navy - headings, primary text
-        secondary: '#4A5568',    // Slate - body text, secondary elements
-        accent: '#B8764F',       // Bronze/Copper - CTAs, links, milestone badges
-        
-        // Surface colors
-        surface: '#F7FAFC',      // Cool Gray - backgrounds, cards
-        'surface-dark': '#2D3748', // Dark surface - footer, overlays
-        
-        // Semantic colors
-        success: '#38A169',      // Confirmation, in-stock
-        warning: '#DD6B20',      // Important notices, low stock
-        error: '#E53E3E',        // Error messages, required fields
-      },
-      opacity: {
-        '85': '0.85',  // Body text
-        '60': '0.60',  // Metadata
-        '40': '0.40',  // Disabled states
-      },
-    },
-  },
-};
-```
-
-**Usage:**
+### 2. Hero Section Pattern
 
 ```tsx
-// Headings
-<h1 className="text-primary">Headline</h1>
-
-// Body text
-<p className="text-secondary">Body content</p>
-
-// Metadata
-<span className="text-secondary/60">Last updated: Jan 30</span>
-
-// CTA buttons
-<button className="bg-accent text-white hover:bg-accent/90">
-  Add to Cart
-</button>
-
-// Success message
-<div className="bg-success/10 text-success border border-success/20">
-  Item added successfully!
-</div>
-
-// Surface variation
-<section className="bg-surface">
-  <div className="bg-white rounded-lg">Card content</div>
-</section>
-```
-
-### Spacing System (8px base unit)
-
-**Tailwind Config:**
-
-```javascript
-// tailwind.config.ts
-export default {
-  theme: {
-    extend: {
-      spacing: {
-        'xs': '0.25rem',   // 4px
-        'sm': '0.5rem',    // 8px
-        'md': '1rem',      // 16px
-        'lg': '1.5rem',    // 24px
-        'xl': '2rem',      // 32px
-        '2xl': '3rem',     // 48px
-        '3xl': '4rem',     // 64px
-        '4xl': '6rem',     // 96px
-      },
-    },
-  },
-};
-```
-
-**Usage:**
-
-```tsx
-// Tight spacing (form fields, icon padding)
-<div className="p-xs">Icon container</div>
-
-// Standard spacing (card padding, element spacing)
-<div className="p-md space-y-md">
-  <p>Content</p>
-  <p>More content</p>
-</div>
-
-// Section spacing
-<section className="py-2xl md:py-3xl">
-  Section content
-</section>
-
-// Hero section
-<section className="py-4xl">
-  Hero content
-</section>
-```
-
-### Layout & Container Widths
-
-**Tailwind Config:**
-
-```javascript
-// tailwind.config.ts
-export default {
-  theme: {
-    extend: {
-      maxWidth: {
-        'prose': '640px',    // Long-form content
-        'standard': '1280px', // General pages
-        'wide': '1440px',    // Homepage, visual-heavy
-      },
-    },
-  },
-};
-```
-
-**Usage:**
-
-```tsx
-// Standard container (most pages)
-<div className="mx-auto max-w-standard px-md md:px-xl">
-  {children}
-</div>
-
-// Prose container (About, policies)
-<article className="mx-auto max-w-prose px-md">
-  <p>Long-form content...</p>
-</article>
-
-// Wide container (homepage)
-<div className="mx-auto max-w-wide px-md md:px-xl">
-  {children}
-</div>
-
-// Full-bleed (hero images)
-<div className="w-full">
-  <img src="hero.jpg" className="w-full" />
-</div>
-```
-
-## Component Patterns
-
-### Button Component (Design System Applied)
-
-```tsx
-import {clsx} from 'clsx';
-
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'tertiary' | 'destructive';
-  size?: 'sm' | 'md' | 'lg';
-  children: React.ReactNode;
-}
-
-export function Button({
-  variant = 'primary',
-  size = 'md',
-  className,
-  children,
-  ...props
-}: ButtonProps) {
+function HeroSection() {
   return (
-    <button
-      className={clsx(
-        // Base styles
-        'rounded-md font-semibold transition-all duration-200',
-        'focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2',
-        'disabled:opacity-40 disabled:cursor-not-allowed',
-        
-        // Variants (per design system)
-        {
-          'bg-accent text-white hover:bg-accent/90 hover:scale-[1.02] shadow-sm':
-            variant === 'primary',
-          'border-2 border-accent text-accent hover:bg-accent/5':
-            variant === 'secondary',
-          'text-accent hover:bg-accent/5':
-            variant === 'tertiary',
-          'bg-error text-white hover:bg-error/90':
-            variant === 'destructive',
-        },
-        
-        // Sizes (minimum 44px touch target)
-        {
-          'px-md py-sm text-body-sm': size === 'sm',
-          'px-xl py-md text-body h-11': size === 'md',    // 44px height
-          'px-2xl py-lg text-body-lg h-12': size === 'lg',
-        },
-        
-        className,
-      )}
-      {...props}
-    >
-      {children}
-    </button>
-  );
-}
-```
-
-**Usage:**
-
-```tsx
-// Primary CTA
-<Button variant="primary">Add to Cart</Button>
-
-// Secondary action
-<Button variant="secondary">Learn More</Button>
-
-// Tertiary/text button
-<Button variant="tertiary">Cancel</Button>
-
-// Destructive action
-<Button variant="destructive">Delete Address</Button>
-```
-
-### Card Component (Product Cards, Content Cards)
-
-```tsx
-interface CardProps {
-  children: React.ReactNode;
-  hover?: boolean;
-  className?: string;
-}
-
-export function Card({children, hover = false, className}: CardProps) {
-  return (
-    <div
-      className={clsx(
-        'bg-white rounded-md overflow-hidden',
-        'border border-surface-dark/10',
-        hover && 'transition-all duration-300 hover:shadow-lg hover:-translate-y-1',
-        className,
-      )}
-    >
-      {children}
-    </div>
-  );
-}
-
-// Product Card Pattern
-export function ProductCard({product}: {product: Product}) {
-  return (
-    <Card hover>
-      {/* Image (4:5 aspect ratio) */}
-      <div className="aspect-[4/5] bg-surface relative overflow-hidden">
-        <img
-          src={product.image}
-          alt={product.title}
-          className="w-full h-full object-cover transition-transform duration-400 hover:scale-105"
-        />
-      </div>
+    <section className="relative bg-primary overflow-hidden">
+      {/* Gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary to-surface-dark opacity-95" />
       
-      {/* Content */}
-      <div className="p-md space-y-xs">
-        {/* Product name (2 lines max) */}
-        <h3 className="text-subsection text-primary line-clamp-2">
-          {product.title}
-        </h3>
-        
-        {/* Rating */}
-        <div className="flex items-center gap-xs">
-          <div className="flex">
-            {/* Stars */}
-          </div>
-          <span className="text-caption text-secondary/60">
-            ({product.reviewCount})
-          </span>
-        </div>
-        
-        {/* Price */}
-        <p className="text-body-lg font-bold text-accent">
-          ${product.price}
-        </p>
-      </div>
-    </Card>
-  );
-}
-```
-
-### Form Input (Design System Applied)
-
-```tsx
-interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  label: string;
-  error?: string;
-  helperText?: string;
-}
-
-export function Input({label, error, helperText, className, ...props}: InputProps) {
-  return (
-    <div className="space-y-xs">
-      {/* Label */}
-      <label className="block text-body-sm font-semibold text-primary">
-        {label}
-      </label>
-      
-      {/* Input */}
-      <input
-        className={clsx(
-          'w-full h-11 px-md rounded-md border transition-colors',
-          'text-body text-primary placeholder:text-secondary/40',
-          'focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-1',
-          error
-            ? 'border-error focus:ring-error'
-            : 'border-secondary/20 focus:border-accent',
-          className,
-        )}
-        {...props}
-      />
-      
-      {/* Helper text or error */}
-      {(helperText || error) && (
-        <p
-          className={clsx(
-            'text-body-sm',
-            error ? 'text-error' : 'text-secondary/60',
-          )}
-        >
-          {error || helperText}
-        </p>
-      )}
-    </div>
-  );
-}
-```
-
-### Badge Component
-
-```tsx
-interface BadgeProps {
-  children: React.ReactNode;
-  variant?: 'new' | 'sale' | 'in-stock' | 'low-stock' | 'neutral';
-}
-
-export function Badge({children, variant = 'neutral'}: BadgeProps) {
-  return (
-    <span
-      className={clsx(
-        'inline-flex items-center px-md py-xs rounded-full',
-        'text-caption font-medium',
-        {
-          'bg-accent/10 text-accent': variant === 'new',
-          'bg-error/10 text-error': variant === 'sale',
-          'bg-success/10 text-success': variant === 'in-stock',
-          'bg-warning/10 text-warning': variant === 'low-stock',
-          'bg-surface text-secondary': variant === 'neutral',
-        },
-      )}
-    >
-      {children}
-    </span>
-  );
-}
-```
-
-## Layout Patterns
-
-### Hero Section Pattern
-
-```tsx
-export function HeroSection({
-  headline,
-  subheadline,
-  ctaText,
-  ctaHref,
-  imageSrc,
-}: HeroProps) {
-  return (
-    <section className="relative bg-surface-dark text-white overflow-hidden">
-      <div className="mx-auto max-w-wide px-md md:px-xl py-4xl">
-        <div className="grid md:grid-cols-2 gap-xl items-center">
-          {/* Left content */}
-          <div className="space-y-lg">
-            <h1 className="font-display text-hero">
-              {headline}
+      <div className="container-wide relative z-10">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center min-h-[60vh] py-12 lg:py-8">
+          {/* Content Column */}
+          <div className="order-2 lg:order-1 text-center lg:text-left w-full">
+            {/* Eyebrow */}
+            <span className="inline-block text-accent text-caption uppercase tracking-[0.25em] font-semibold mb-6">
+              Category Label
+            </span>
+            
+            {/* Main Heading */}
+            <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl xl:text-[4.5rem] font-bold text-white leading-[1.05] tracking-tight mb-6">
+              Main Headline
+              <span className="block text-accent">Highlighted Word</span>
             </h1>
             
-            <p className="text-body-lg opacity-85">
-              {subheadline}
+            {/* Subheading */}
+            <p className="text-lg lg:text-xl text-white/80 leading-relaxed mb-10 lg:max-w-[32rem]">
+              Supporting description with 80% opacity white.
             </p>
             
-            <Button variant="primary" size="lg" asChild>
-              <a href={ctaHref}>{ctaText}</a>
-            </Button>
+            {/* CTAs */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+              <Button variant="primary" className="!bg-accent !text-white">
+                Primary CTA
+              </Button>
+              <Button variant="secondary" className="!border-white/30 !text-white hover:!bg-white/10">
+                Secondary CTA
+              </Button>
+            </div>
           </div>
           
-          {/* Right image (60% width on desktop) */}
+          {/* Image Column */}
+          <div className="order-1 lg:order-2 relative flex items-center justify-center w-full">
+            <div className="relative w-full max-w-[24rem] sm:max-w-[28rem] lg:max-w-[32rem]">
+              {/* Glow effect */}
+              <div className="absolute inset-0 bg-accent/20 blur-3xl rounded-full scale-75" />
+              <img
+                src={imageSrc}
+                alt="Description"
+                className="relative w-full h-auto object-contain drop-shadow-2xl"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      {/* Wave divider */}
+      <WaveDivider />
+    </section>
+  );
+}
+```
+
+### 3. Trust Bar Pattern
+
+```tsx
+function TrustBar() {
+  const features = [
+    { icon: <ShippingIcon />, title: 'Free Shipping', description: 'On orders over $50' },
+    { icon: <QualityIcon />, title: 'Premium Quality', description: 'Hand-crafted' },
+    { icon: <SecureIcon />, title: 'Secure Checkout', description: '256-bit encryption' },
+    { icon: <SupportIcon />, title: '5-Star Support', description: "We're here to help" },
+  ];
+
+  return (
+    <section className="bg-surface py-10 md:py-12 border-b border-black/5">
+      <div className="container-standard">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-10">
+          {features.map((feature) => (
+            <div key={feature.title} className="flex items-center gap-4">
+              <div className="flex-shrink-0 w-14 h-14 rounded-full bg-accent/10 flex items-center justify-center text-accent">
+                {feature.icon}
+              </div>
+              <div>
+                <h3 className="font-display text-base font-bold text-primary">
+                  {feature.title}
+                </h3>
+                <p className="text-sm text-secondary">
+                  {feature.description}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+```
+
+### 4. Section Header Pattern
+
+```tsx
+<div className="text-center mb-16">
+  <span className="inline-block text-accent text-caption uppercase tracking-[0.25em] font-semibold mb-4">
+    Eyebrow Text
+  </span>
+  <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-primary leading-tight mb-6">
+    Section Title
+  </h2>
+  <p className="text-body-lg text-secondary max-w-[42rem] mx-auto">
+    Supporting description text that provides context.
+  </p>
+</div>
+```
+
+### 5. Feature Card Pattern
+
+```tsx
+function FeatureCard({ icon, title, description, align = 'left' }) {
+  return (
+    <div className={`bg-white rounded-xl p-6 shadow-sm border border-black/5 ${
+      align === 'right' ? 'lg:text-right' : 'lg:text-left'
+    }`}>
+      <div className={`flex items-center gap-3 mb-3 ${
+        align === 'right' ? 'lg:flex-row-reverse' : ''
+      }`}>
+        <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center text-accent flex-shrink-0">
+          {icon}
+        </div>
+        <h3 className="font-display text-base font-bold text-primary">
+          {title}
+        </h3>
+      </div>
+      <p className="text-body-sm text-secondary leading-relaxed">
+        {description}
+      </p>
+    </div>
+  );
+}
+```
+
+### 6. Product Showcase Pattern (3-column)
+
+```tsx
+<div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+  {/* Left features */}
+  <div className="lg:col-span-3 space-y-6 order-2 lg:order-1">
+    <FeatureCard align="right" />
+    <FeatureCard align="right" />
+  </div>
+  
+  {/* Center product */}
+  <div className="lg:col-span-6 order-1 lg:order-2">
+    <div className="relative mx-auto max-w-md lg:max-w-full">
+      <div className="absolute inset-4 bg-white rounded-full shadow-inner" />
+      <img src={product} className="relative w-full h-auto object-contain" />
+    </div>
+  </div>
+  
+  {/* Right features */}
+  <div className="lg:col-span-3 space-y-6 order-3">
+    <FeatureCard align="left" />
+    <FeatureCard align="left" />
+  </div>
+</div>
+```
+
+### 7. Testimonial Card Pattern
+
+```tsx
+function TestimonialCard({ quote, author, role, avatar }) {
+  return (
+    <div className="bg-white rounded-2xl p-8 shadow-sm border border-black/5 relative">
+      {/* Quote icon */}
+      <div className="absolute -top-4 left-8 w-8 h-8 bg-accent rounded-full flex items-center justify-center">
+        <QuoteIcon className="w-4 h-4 text-white" />
+      </div>
+      
+      <p className="text-body text-secondary leading-relaxed mb-6 pt-2">
+        "{quote}"
+      </p>
+      
+      <div className="flex items-center gap-4">
+        <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-white font-display font-bold">
+          {avatar}
+        </div>
+        <div>
+          <div className="font-display font-bold text-primary">{author}</div>
+          <div className="text-caption text-accent">{role}</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+```
+
+### 8. Brand Story Section Pattern
+
+```tsx
+function BrandStory() {
+  return (
+    <section className="py-20 md:py-28 bg-primary text-white relative overflow-hidden">
+      {/* Background pattern */}
+      <div className="absolute inset-0 opacity-5">
+        <div className="absolute inset-0" style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60'...")`,
+        }} />
+      </div>
+      
+      <div className="container-standard relative z-10">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+          {/* Image with stat overlay */}
           <div className="relative">
-            <img
-              src={imageSrc}
-              alt=""
-              className="w-full rounded-lg"
-            />
+            <div className="relative rounded-2xl overflow-hidden shadow-2xl">
+              <img src={image} className="w-full h-auto object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-primary/50 to-transparent" />
+            </div>
+            
+            {/* Floating stat card */}
+            <div className="absolute -bottom-6 -right-6 md:right-8 bg-white rounded-xl p-6 shadow-xl max-w-[200px]">
+              <div className="text-4xl font-display font-bold text-accent mb-1">10K+</div>
+              <p className="text-sm text-secondary">Stat description</p>
+            </div>
+          </div>
+          
+          {/* Content */}
+          <div>
+            <span className="inline-block text-accent text-caption uppercase tracking-[0.25em] font-semibold mb-4">
+              Our Mission
+            </span>
+            <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-6">
+              Section Headline
+            </h2>
+            <p className="text-lg text-white/80 leading-relaxed mb-6">First paragraph...</p>
+            <p className="text-lg text-white/80 leading-relaxed mb-8">Second paragraph...</p>
+            
+            {/* Stats row */}
+            <div className="flex flex-wrap gap-8">
+              <div>
+                <div className="text-3xl font-display font-bold text-accent">100%</div>
+                <p className="text-sm text-white/60">Stat label</p>
+              </div>
+              <div>
+                <div className="text-3xl font-display font-bold text-accent">5★</div>
+                <p className="text-sm text-white/60">Stat label</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -498,355 +383,180 @@ export function HeroSection({
 }
 ```
 
-### Product Grid Pattern
+### 9. Final CTA Section Pattern
 
 ```tsx
-export function ProductGrid({products}: {products: Product[]}) {
+function FinalCTA() {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-lg">
-      {products.map((product) => (
-        <ProductCard key={product.id} product={product} />
+    <section className="py-20 md:py-24 bg-white">
+      <div className="container-standard">
+        <div className="bg-gradient-to-br from-primary to-surface-dark rounded-3xl p-10 md:p-16 text-center relative overflow-hidden">
+          {/* Background decorations */}
+          <div className="absolute top-0 right-0 w-64 h-64 bg-accent/10 rounded-full blur-3xl" />
+          <div className="absolute bottom-0 left-0 w-48 h-48 bg-accent/10 rounded-full blur-3xl" />
+          
+          <div className="relative z-10 max-w-[42rem] mx-auto px-4">
+            <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight mb-6">
+              CTA Headline
+            </h2>
+            <p className="text-lg text-white/80 mb-10">
+              Supporting text that drives action.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button variant="primary" className="!bg-accent !text-white !px-12">
+                Primary CTA
+              </Button>
+              <Button variant="secondary" className="!border-white/30 !text-white">
+                Secondary CTA
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+```
+
+---
+
+## Common UI Patterns
+
+### Button Styling on Dark Backgrounds
+
+```tsx
+// Primary button (accent colored)
+<Button variant="primary" className="!bg-accent !text-white !border-accent hover:!bg-accent/90">
+  Shop Now
+</Button>
+
+// Secondary button (white outline)
+<Button variant="secondary" className="!border-white/30 !text-white hover:!bg-white/10">
+  Learn More
+</Button>
+```
+
+### Image Glow Effect
+
+```tsx
+<div className="relative">
+  <div className="absolute inset-0 bg-accent/20 blur-3xl rounded-full scale-75" />
+  <img src={image} className="relative w-full h-auto drop-shadow-2xl" />
+</div>
+```
+
+### Wave Divider
+
+```tsx
+function WaveDivider({ fillColor = '#F7FAFC' }) {
+  return (
+    <div className="absolute bottom-0 left-0 right-0">
+      <svg viewBox="0 0 1440 120" fill="none" className="w-full h-auto">
+        <path 
+          d="M0 120L60 110C120 100 240 80 360 70C480 60 600 60 720 65C840 70 960 80 1080 85C1200 90 1320 90 1380 90L1440 90V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" 
+          fill={fillColor}
+        />
+      </svg>
+    </div>
+  );
+}
+```
+
+### Products Grid
+
+```tsx
+<div className="products-grid">
+  {products.map((product) => (
+    <ProductItem key={product.id} product={product} />
+  ))}
+</div>
+```
+
+### Loading Skeleton
+
+```tsx
+function ProductsGridSkeleton() {
+  return (
+    <div className="products-grid">
+      {Array.from({ length: 4 }).map((_, i) => (
+        <div key={i} className="animate-pulse">
+          <div className="aspect-[4/5] bg-surface rounded-lg" />
+          <div className="p-4 space-y-3">
+            <div className="h-5 bg-surface rounded w-3/4" />
+            <div className="h-5 bg-surface rounded w-1/3" />
+          </div>
+        </div>
       ))}
     </div>
   );
 }
 ```
 
-### Feature Section Pattern
+---
+
+## Section Backgrounds
+
+Alternate backgrounds for visual rhythm:
+
+| Section | Background |
+|---------|------------|
+| Hero | `bg-primary` with gradient |
+| Trust Bar | `bg-surface` |
+| Product Showcase | `bg-surface` |
+| Featured Products | `bg-white` |
+| Brand Story | `bg-primary` |
+| Testimonials | `bg-surface` |
+| Final CTA | `bg-white` with gradient card |
+
+---
+
+## Responsive Design
+
+### Mobile-First Breakpoints
 
 ```tsx
-export function FeatureSection({
-  heading,
-  description,
-  features,
-}: FeatureSectionProps) {
-  return (
-    <section className="py-3xl">
-      <div className="mx-auto max-w-standard px-md md:px-xl">
-        {/* Heading */}
-        <div className="text-center space-y-md mb-2xl">
-          <h2 className="font-display text-section text-primary">
-            {heading}
-          </h2>
-          <p className="text-body-lg text-secondary max-w-prose mx-auto">
-            {description}
-          </p>
-        </div>
-        
-        {/* Features grid */}
-        <div className="grid md:grid-cols-3 gap-xl">
-          {features.map((feature) => (
-            <div key={feature.title} className="text-center space-y-md">
-              {/* Icon */}
-              <div className="mx-auto w-12 h-12 flex items-center justify-center bg-accent/10 rounded-lg">
-                {feature.icon}
-              </div>
-              
-              {/* Title */}
-              <h3 className="font-display text-subsection text-primary">
-                {feature.title}
-              </h3>
-              
-              {/* Description */}
-              <p className="text-body text-secondary">
-                {feature.description}
-              </p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
+// Text sizing
+<h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-[4.5rem]">
+
+// Layout
+<div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
+
+// Visibility
+<div className="hidden md:block">Desktop only</div>
+<div className="md:hidden">Mobile only</div>
+
+// Alignment
+<div className="text-center lg:text-left">
+
+// Order
+<div className="order-2 lg:order-1">Content first on desktop</div>
 ```
 
-### Section Alternation Pattern (White/Gray backgrounds)
+---
 
-```tsx
-export function AlternatingSections() {
-  return (
-    <>
-      {/* White section */}
-      <section className="bg-white py-3xl">
-        <div className="mx-auto max-w-standard px-md md:px-xl">
-          Content
-        </div>
-      </section>
-      
-      {/* Gray section */}
-      <section className="bg-surface py-3xl">
-        <div className="mx-auto max-w-standard px-md md:px-xl">
-          Content
-        </div>
-      </section>
-      
-      {/* White section */}
-      <section className="bg-white py-3xl">
-        <div className="mx-auto max-w-standard px-md md:px-xl">
-          Content
-        </div>
-      </section>
-    </>
-  );
-}
-```
+## Accessibility Checklist
 
-## Responsive Design Patterns
+- [ ] Focus states on all interactive elements
+- [ ] Touch targets minimum 44x44px
+- [ ] Color contrast WCAG AA (4.5:1 body, 3:1 UI)
+- [ ] `prefers-reduced-motion` respected
+- [ ] ARIA labels on icon buttons
+- [ ] Semantic HTML elements
+- [ ] Alt text on images
 
-### Breakpoints (Mobile-First)
-
-```tsx
-// Tailwind default breakpoints (already mobile-first)
-// sm: 640px
-// md: 768px
-// lg: 1024px
-// xl: 1280px
-// 2xl: 1536px
-
-// Typography responsive
-<h1 className="text-page-title md:text-hero">
-  Responsive Headline
-</h1>
-
-// Grid responsive
-<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-lg">
-  {/* Products */}
-</div>
-
-// Spacing responsive
-<section className="py-2xl md:py-3xl">
-  {/* Section content */}
-</section>
-
-// Container padding responsive
-<div className="px-md md:px-xl lg:px-2xl">
-  {/* Content */}
-</div>
-```
-
-### Mobile-Specific Patterns
-
-```tsx
-// Bottom sticky CTA (mobile PDP)
-<div className="fixed bottom-0 left-0 right-0 p-md bg-white border-t md:hidden">
-  <Button variant="primary" className="w-full">
-    Add to Cart
-  </Button>
-</div>
-
-// Mobile navigation toggle
-<button className="md:hidden p-sm">
-  <Menu className="w-6 h-6" />
-</button>
-
-// Desktop-only hover effects
-<div className="hover:scale-105 md:transition-transform">
-  {/* Only animates on desktop */}
-</div>
-```
-
-## Animation Patterns
-
-### Micro-interactions
-
-```tsx
-// Button hover (design system spec)
-<button className="
-  transition-all duration-200
-  hover:scale-[1.02]
-  active:scale-[0.98]
-">
-  Click me
-</button>
-
-// Cart drawer slide-in
-<aside className="
-  fixed right-0 top-0 bottom-0 w-96
-  bg-white shadow-2xl
-  transform transition-transform duration-400 ease-out
-  data-[state=closed]:translate-x-full
-  data-[state=open]:translate-x-0
-">
-  Cart content
-</aside>
-
-// Image hover zoom
-<div className="overflow-hidden">
-  <img
-    className="transition-transform duration-400 hover:scale-105"
-    src={imageSrc}
-  />
-</div>
-
-// Fade in on mount
-<div className="animate-in fade-in duration-300">
-  Content
-</div>
-```
-
-### Respect Reduced Motion
-
-```tsx
-// Add to globals
-<style jsx global>{`
-  @media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
-    }
-  }
-`}</style>
-```
-
-## Accessibility Patterns
-
-### Focus States (Design System Spec)
-
-```tsx
-// All interactive elements need focus
-<button className="
-  focus:outline-none
-  focus:ring-2
-  focus:ring-accent
-  focus:ring-offset-2
-">
-  Interactive element
-</button>
-
-// Custom focus for cards
-<a className="
-  block rounded-md
-  focus:outline-none
-  focus:ring-2
-  focus:ring-accent
-  focus:ring-offset-2
-">
-  Card content
-</a>
-```
-
-### Semantic HTML
-
-```tsx
-// ✅ DO: Use semantic elements
-<header>...</header>
-<nav>...</nav>
-<main>...</main>
-<article>...</article>
-<aside>...</aside>
-<footer>...</footer>
-
-// ❌ AVOID: Generic divs for structure
-<div className="header">...</div>
-<div className="nav">...</div>
-```
-
-### ARIA Labels
-
-```tsx
-// Icon buttons need labels
-<button aria-label="Close menu">
-  <X className="w-5 h-5" />
-</button>
-
-// Badge with semantic info
-<span className="badge" aria-label="New product">
-  New
-</span>
-```
-
-## Loading States
-
-### Skeleton Patterns
-
-```tsx
-// Product card skeleton (matches design)
-export function ProductCardSkeleton() {
-  return (
-    <div className="animate-pulse">
-      {/* Image skeleton (4:5 aspect) */}
-      <div className="aspect-[4/5] bg-surface rounded-md" />
-      
-      {/* Text skeletons */}
-      <div className="p-md space-y-xs">
-        <div className="h-6 bg-surface rounded w-3/4" />
-        <div className="h-4 bg-surface rounded w-1/2" />
-        <div className="h-6 bg-surface rounded w-1/4 mt-md" />
-      </div>
-    </div>
-  );
-}
-
-// Section skeleton
-export function SectionSkeleton() {
-  return (
-    <div className="py-3xl">
-      <div className="mx-auto max-w-standard px-md md:px-xl">
-        {/* Heading skeleton */}
-        <div className="h-10 bg-surface rounded w-1/3 mx-auto mb-2xl" />
-        
-        {/* Grid skeleton */}
-        <div className="grid md:grid-cols-3 gap-xl">
-          {[...Array(3)].map((_, i) => (
-            <div key={i} className="space-y-md">
-              <div className="h-12 w-12 bg-surface rounded-lg mx-auto" />
-              <div className="h-6 bg-surface rounded w-2/3 mx-auto" />
-              <div className="h-4 bg-surface rounded w-full" />
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-```
-
-## Design System Checklist
-
-Before committing UI work, verify:
-
-- [ ] Colors use design tokens (`text-primary`, `bg-accent`, etc.)
-- [ ] Typography uses design scale (`text-hero`, `text-section`, etc.)
-- [ ] Spacing follows 8px system (`p-md`, `space-y-lg`, etc.)
-- [ ] Interactive elements are minimum 44px touch target
-- [ ] Focus states are visible with 2px accent ring
-- [ ] Responsive at all breakpoints (mobile, tablet, desktop)
-- [ ] Animations respect `prefers-reduced-motion`
-- [ ] WCAG AA contrast (4.5:1 body, 3:1 UI elements)
-- [ ] Images have aspect ratios set (prevent CLS)
-- [ ] Loading states match content layout
-
-## Gotchas & Best Practices
-
-### DO:
-- **Reference the design system first** before creating any UI
-- **Use design tokens** instead of arbitrary values
-- **Follow the hierarchy** (48px → 36px → 28px → 20px scale)
-- **Maintain consistent spacing** (8px base unit)
-- **Test on mobile first**, then enhance for desktop
-- **Use semantic HTML** for structure
-- **Provide focus indicators** for keyboard navigation
-
-### AVOID:
-- ❌ Arbitrary colors (`text-gray-500` → use `text-secondary`)
-- ❌ Arbitrary sizes (`text-[17px]` → use `text-body-lg`)
-- ❌ Inconsistent spacing (`p-3.5` → use `p-md` or `p-lg`)
-- ❌ Small touch targets (< 44px on mobile)
-- ❌ Missing focus states on interactive elements
-- ❌ Using `div` for buttons (`<div onClick>` → `<button>`)
-- ❌ Hardcoding breakpoint values
+---
 
 ## Related Skills
 
-- `ui-components` - Base component primitives
-- `react-router-patterns` - Page layout and routing
-- `product-personalization` - Dialog patterns
-- `cart-management` - Drawer/aside patterns
+- **ui-components** - Base component primitives
+- **react-router-patterns** - Page layouts and routing
+- **product-personalization** - Dialog patterns
+- **cart-management** - Drawer/aside patterns
+
+---
 
 ## Related Documentation
 
-- **PRD Section 3:** Design System & Visual Language (source of truth)
-- **Design Rule:** `.cursor/rules/design-system.mdc` (enforcement)
+- **PRD Section 3** - Design System source of truth
+- **DESIGN-SYSTEM.md** - Full pattern documentation
+- **design-system.mdc** - Enforcement rules

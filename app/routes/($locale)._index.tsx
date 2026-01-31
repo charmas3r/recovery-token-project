@@ -6,7 +6,7 @@ import type {
   RecommendedProductsQuery,
 } from 'storefrontapi.generated';
 import {ProductItem} from '~/components/product/ProductItem';
-import {Button} from '~/components/ui/Button';
+import {Button} from '~/components/ui';
 
 export const meta: Route.MetaFunction = () => {
   return [{title: 'Hydrogen | Home'}];

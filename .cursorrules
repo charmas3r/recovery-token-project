@@ -84,6 +84,7 @@ import type {Product} from 'storefrontapi.generated';
 | Engraving, customization | `.cursor/skills/product-personalization/SKILL.md` | 🟡 HIGH |
 | GraphQL patterns | `.cursor/skills/graphql-queries/SKILL.md` | 🟡 HIGH |
 | UI components | `.cursor/skills/ui-components/SKILL.md` | 🟡 HIGH |
+| Animations | `.cursor/skills/framer-motion/SKILL.md` | 🟡 HIGH |
 | Meta tags, Schema.org | `.cursor/skills/seo-structured-data/SKILL.md` | 🟢 MEDIUM |
 | Resend, newsletters | `.cursor/skills/email-integration/SKILL.md` | 🟢 MEDIUM |
 | Judge.me reviews | `.cursor/skills/reviews-integration/SKILL.md` | 🟢 MEDIUM |
@@ -99,7 +100,7 @@ import type {Product} from 'storefrontapi.generated';
 
 ## 4. Design System (CRITICAL)
 
-**Before ANY UI work, read:** `.cursor/skills/design-system/SKILL.md`
+**Before ANY UI work, read:** `.cursor/skills/design-system/SKILL.md` + `.cursor/skills/design-system/REFERENCE.md`
 
 ### Typography
 
@@ -206,7 +207,7 @@ export default function Page() {
 
 ## 6. GraphQL Patterns
 
-**Read:** `.cursor/skills/graphql-queries/SKILL.md`
+**Read:** `.cursor/skills/graphql-queries/SKILL.md` + `.cursor/skills/graphql-queries/REFERENCE.md`
 
 ### Query Structure
 
@@ -283,7 +284,7 @@ import {Card} from '~/components/ui/Card';
 
 ## 8. Cart Management
 
-**Read:** `.cursor/skills/cart-management/SKILL.md`
+**Read:** `.cursor/skills/cart-management/SKILL.md` + `.cursor/skills/cart-management/REFERENCE.md`
 
 ```tsx
 import {CartForm} from '@shopify/hydrogen';
@@ -302,7 +303,7 @@ import {CartForm} from '@shopify/hydrogen';
 
 ## 9. Form Validation
 
-**Read:** `.cursor/skills/form-validation/SKILL.md`
+**Read:** `.cursor/skills/form-validation/SKILL.md` + `.cursor/skills/form-validation/REFERENCE.md`
 
 ```typescript
 import {z} from 'zod';
@@ -316,7 +317,72 @@ const ContactSchema = z.object({
 
 ---
 
-## 10. Environment Variables
+## 10. Framer Motion Animations
+
+**Read:** `.cursor/skills/framer-motion/SKILL.md` (patterns) + `.cursor/skills/framer-motion/REFERENCE.md` (API reference)
+
+### Animation Components
+
+```tsx
+import {
+  FadeUp,
+  SlideIn,
+  ScaleIn,
+  StaggerContainer,
+  StaggerItem,
+  HeroContent,
+  HeroItem,
+  HoverScale,
+  HoverLift,
+  motion,
+} from '~/components/ui/Animations';
+```
+
+### Common Patterns
+
+**Scroll Reveal:**
+```tsx
+<FadeUp>
+  <h2>Section Title</h2>
+</FadeUp>
+```
+
+**Staggered Lists:**
+```tsx
+<StaggerContainer staggerDelay={0.1}>
+  {items.map((item) => (
+    <StaggerItem key={item.id}>
+      <Card>{item.content}</Card>
+    </StaggerItem>
+  ))}
+</StaggerContainer>
+```
+
+**Hero Animations:**
+```tsx
+<HeroContent>
+  <HeroItem><span className="eyebrow">Eyebrow</span></HeroItem>
+  <HeroItem><h1>Headline</h1></HeroItem>
+  <HeroItem><Button>CTA</Button></HeroItem>
+</HeroContent>
+```
+
+**Hover Effects:**
+```tsx
+<HoverLift lift={-6}>
+  <Card>Lifts on hover</Card>
+</HoverLift>
+
+<motion.button whileHover={{scale: 1.02}} whileTap={{scale: 0.98}}>
+  Animated Button
+</motion.button>
+```
+
+**Important:** All animations automatically respect `prefers-reduced-motion`.
+
+---
+
+## 11. Environment Variables
 
 | Variable | Description | Required |
 |----------|-------------|----------|
@@ -328,7 +394,7 @@ const ContactSchema = z.object({
 
 ---
 
-## 11. Common Commands
+## 12. Common Commands
 
 ```bash
 # Development
@@ -343,7 +409,7 @@ npm run codegen          # Generate types
 
 ---
 
-## 12. Checklists
+## 13. Checklists
 
 ### File Creation Checklist
 
@@ -371,18 +437,20 @@ npm run codegen          # Generate types
 - [ ] Typography: Use scale classes only
 - [ ] Spacing: Use 8px system only
 - [ ] Images: Have aspect ratios set
-- [ ] Animations: Respect reduced motion
+- [ ] Animations: Use Framer Motion components from `~/components/ui/Animations`
+- [ ] Animations: Respect reduced motion (handled automatically by components)
 - [ ] Contrast: WCAG AA minimum
 
 ---
 
-## 13. Quick Reference Links
+## 14. Quick Reference Links
 
 | Resource | Location |
 |----------|----------|
 | PRD | `prd.md` |
 | Design System | `DESIGN-SYSTEM.md` |
 | Skills Index | `.cursor/skills/INDEX.md` |
+| Animations | `app/components/ui/Animations.tsx` |
 | Tailwind Config | `app/styles/tailwind.css` |
 | Type Definitions | `storefrontapi.generated.d.ts` |
 
@@ -390,9 +458,10 @@ npm run codegen          # Generate types
 
 ## Summary
 
-1. **Read skills before implementing** - Always check relevant skill documentation
+1. **Read skills before implementing** - Always check relevant SKILL.md + REFERENCE.md documentation
 2. **Use design tokens** - No arbitrary colors, sizes, or spacing
 3. **Follow React Router patterns** - Never use Remix imports
 4. **Include eyebrow text** - Every section header needs one
-5. **Ensure accessibility** - Focus states, touch targets, ARIA labels
-6. **Be responsive** - Test at mobile, tablet, desktop
+5. **Add animations** - Use Framer Motion components from `~/components/ui/Animations`
+6. **Ensure accessibility** - Focus states, touch targets, ARIA labels, reduced motion
+7. **Be responsive** - Test at mobile, tablet, desktop

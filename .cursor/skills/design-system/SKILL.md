@@ -106,6 +106,47 @@ Use this skill when:
 <div className="container-prose">Max 640px, centered</div>
 ```
 
+### Centering Text in Max-Width Containers
+
+**CRITICAL PATTERN:** When centering text inside a max-width container, separate concerns:
+
+```tsx
+// ✅ CORRECT - Separate container centering from text centering
+<div className="max-w-[42rem] mx-auto">
+  <p className="text-body-lg text-secondary text-center">
+    Your centered text content here.
+  </p>
+</div>
+
+// ❌ WRONG - Combining on same element can cause conflicts
+<p className="text-body-lg text-secondary max-w-[42rem] mx-auto text-center">
+  This may not center properly
+</p>
+```
+
+**Why this works:**
+- **Outer div**: `max-w-[*] mx-auto` centers the container horizontally
+- **Inner element**: `text-center` centers the text within that container
+
+**Usage:**
+```tsx
+<FadeUp className="mb-16">
+  <div className="text-center">
+    <span className="inline-block text-accent text-caption uppercase tracking-[0.25em] font-semibold mb-4">
+      Eyebrow Text
+    </span>
+  </div>
+  <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-primary leading-tight mb-6 text-center">
+    Section Heading
+  </h2>
+  <div className="max-w-[42rem] mx-auto">
+    <p className="text-body-lg text-secondary text-center">
+      Centered description text with max width.
+    </p>
+  </div>
+</FadeUp>
+```
+
 ---
 
 ## World-Class Landing Page Patterns

@@ -30,7 +30,408 @@ The target audience includes individuals in recovery celebrating personal milest
 
 ---
 
-## 3. Target Users
+## 3. Design System & Visual Language
+
+### Design Philosophy
+
+The Recovery Token Store design system draws inspiration from premium travel gear aesthetics—clean, bold, and confident. The visual language prioritizes **clarity over cleverness**, using strong typography, generous white space, and intentional hierarchy to guide users through their milestone celebration journey.
+
+**Core Design Principles**:
+1. **Information Architecture First**: Every layout decision serves wayfinding and comprehension
+2. **Visual Hierarchy as Navigation**: Size, weight, and contrast create a clear reading order
+3. **Intentional White Space**: Breathing room reduces cognitive load and conveys premium quality
+4. **Accessible by Default**: WCAG AA minimum, designed for all abilities and contexts
+5. **Performance-Aware Design**: Every visual element optimized for fast loading
+
+**Reference**: [Nexura Travel Gear Ecommerce](https://dribbble.com/shots/25142615-Nexura-Travel-Gear-Ecommerce-Website) - exemplifies the clean, structured approach we're emulating.
+
+---
+
+### Information Architecture
+
+**Site Structure** (3-level hierarchy maximum):
+
+```
+Home
+├── Shop
+│   ├── All Products
+│   ├── By Milestone
+│   │   ├── 24 Hours
+│   │   ├── 30 Days
+│   │   ├── 90 Days
+│   │   ├── 6 Months
+│   │   └── 1+ Years
+│   └── By Material
+│       ├── Bronze
+│       ├── Silver
+│       └── Gold
+├── About
+│   ├── Our Story
+│   ├── Why Tokens Matter
+│   └── Testimonials
+├── Support
+│   ├── FAQ
+│   ├── Shipping & Returns
+│   └── Contact Us
+├── Reviews
+└── Account
+    ├── Dashboard
+    ├── Orders
+    ├── Profile
+    └── Addresses
+```
+
+**Navigation Hierarchy**:
+1. **Primary Navigation** (Header): Shop, About, Reviews, Support, Account
+2. **Secondary Navigation** (Footer): Policies, Newsletter, Social, Contact
+3. **Utility Navigation** (Header Right): Search, Cart, Account Menu
+4. **Contextual Navigation** (In-page): Breadcrumbs, Related Products, Quick Links
+
+**Wayfinding Strategies**:
+- **Breadcrumbs**: Every non-homepage view shows path (Home > Shop > 1 Year Tokens > Bronze Token)
+- **Active State Indicators**: Current page/section visually distinct in navigation
+- **Persistent Cart Icon**: Badge count always visible, immediate feedback on add-to-cart
+- **Progress Indicators**: Clear steps for engraving confirmation, checkout handoff
+- **Back-to-Top**: Appears after 2 viewport scrolls on long pages
+
+---
+
+### Visual Hierarchy System
+
+**Typography Scale** (Major Third - 1.250 ratio):
+
+| Element | Size | Weight | Line Height | Usage |
+|---------|------|--------|-------------|-------|
+| **Hero Headline** | 48px (3rem) | 700 (Bold) | 1.1 | Homepage hero, major section headers |
+| **Page Title** | 36px (2.25rem) | 700 (Bold) | 1.2 | PDP product name, collection titles |
+| **Section Heading** | 28px (1.75rem) | 700 (Bold) | 1.3 | Feature sections, "Browse by Milestone" |
+| **Subsection Heading** | 20px (1.25rem) | 600 (SemiBold) | 1.4 | Product card titles, form section headers |
+| **Body Large** | 18px (1.125rem) | 400 (Regular) | 1.6 | Product descriptions, intro paragraphs |
+| **Body** | 16px (1rem) | 400 (Regular) | 1.6 | General body text, form labels |
+| **Body Small** | 14px (0.875rem) | 400 (Regular) | 1.5 | Metadata, timestamps, disclaimers |
+| **Caption** | 12px (0.75rem) | 500 (Medium) | 1.4 | Helper text, badges, tags |
+
+**Font Families**:
+- **Primary (Headings & UI)**: `Inter` or `Manrope` - geometric sans-serif, excellent legibility
+- **Secondary (Body)**: `Inter` - same family for cohesion, or `Outfit` for slightly warmer feel
+- **Monospace (Technical)**: `JetBrains Mono` - order numbers, SKUs (if needed)
+
+**Visual Weight Distribution**:
+
+```
+┌─────────────────────────────────────────┐
+│  HERO HEADLINE (700, 48px)              │  ← Maximum visual weight
+│  Supporting text (400, 18px)            │  ← 40% weight drop
+│  [Primary CTA]                          │  ← Strong color contrast
+└─────────────────────────────────────────┘
+
+┌─────────────────────────────────────────┐
+│  Section Heading (700, 28px)            │  ← Clear section start
+│                                         │
+│  ┌───────────┐  ┌───────────┐          │
+│  │  Product  │  │  Product  │          │  ← Equal visual weight
+│  │  Image    │  │  Image    │          │
+│  │           │  │           │          │
+│  │  Title    │  │  Title    │          │  ← Secondary weight
+│  │  $200     │  │  $200     │          │  ← Tertiary (price emphasis)
+│  └───────────┘  └───────────┘          │
+└─────────────────────────────────────────┘
+```
+
+**Hierarchy Techniques**:
+1. **Size Contrast**: Minimum 1.25x difference between adjacent hierarchy levels
+2. **Weight Contrast**: 700 (headings) vs 400 (body) creates clear distinction
+3. **Color Contrast**: Headings at 100% opacity, body at 85%, metadata at 60%
+4. **Spatial Contrast**: 2-3x more space above headings than below
+5. **Grouping**: Related elements have less space between them than unrelated elements
+
+**Content Prioritization** (Order of Visual Attention):
+
+**Homepage**:
+1. Hero headline + CTA
+2. Social proof (80+ products, 120K customers)
+3. Featured product image
+4. Milestone collection links
+5. Trust indicators (Free Shipping, Secure Checkout)
+6. Newsletter signup
+7. Footer navigation
+
+**Product Detail Page**:
+1. Product image (60% of viewport on load)
+2. Product name + milestone
+3. Star rating + review count
+4. Price
+5. Engraving CTA
+6. Add to Cart button
+7. Product description
+8. Reviews section
+9. Related products
+
+---
+
+### Color System
+
+**Primary Palette** (Inspired by Nexura - monochromatic with strategic accents):
+
+| Color | Hex | Usage | Contrast Ratio (on white) |
+|-------|-----|-------|---------------------------|
+| **Primary (Deep Navy)** | `#1A202C` | Primary text, headings, navigation | 16.1:1 (AAA) |
+| **Secondary (Slate)** | `#4A5568` | Body text, secondary elements | 8.2:1 (AAA) |
+| **Accent (Bronze/Copper)** | `#B8764F` | CTAs, links, milestone badges | 4.5:1 (AA) |
+| **Surface (Cool Gray)** | `#F7FAFC` | Backgrounds, cards, alternating sections | N/A |
+| **Surface Dark** | `#2D3748` | Footer, dark mode (future), image overlays | N/A |
+| **White** | `#FFFFFF` | Primary background, card backgrounds | N/A |
+| **Success** | `#38A169` | Confirmation messages, in-stock badges | 4.6:1 (AA) |
+| **Warning** | `#DD6B20` | Important notices, low stock warnings | 4.5:1 (AA) |
+| **Error** | `#E53E3E` | Error messages, required fields | 4.5:1 (AA) |
+
+**Opacity Scale** (for hierarchy):
+- 100%: Primary headings, critical actions
+- 85%: Body text, secondary actions
+- 60%: Metadata, timestamps, helper text
+- 40%: Disabled states, placeholder text
+- 10%: Dividers, subtle borders
+
+**Color Application Rules**:
+1. **High Contrast Text**: All body text minimum 4.5:1, headings 7:1+
+2. **CTA Prominence**: Accent color reserved for primary actions only
+3. **Surface Variation**: Alternate between white and cool gray to define sections
+4. **Dark Backgrounds**: White text at 90-95% opacity (softer on eyes than pure white)
+5. **Semantic Color**: Success/warning/error colors only for status, never decoration
+
+---
+
+### Layout & Grid System
+
+**Grid Structure** (12-column responsive grid):
+
+```
+Mobile (< 768px):
+┌─────────────────────┐
+│  [12-col span]      │  ← Full width
+│  (Single column)    │
+└─────────────────────┘
+
+Tablet (768px - 1023px):
+┌───────────┬───────────┐
+│  [6-col]  │  [6-col]  │  ← 2-column
+└───────────┴───────────┘
+
+Desktop (1024px+):
+┌─────┬─────┬─────┬─────┐
+│ [3] │ [3] │ [3] │ [3] │  ← 4-column (products)
+└─────┴─────┴─────┴─────┘
+
+PDP Desktop:
+┌─────────────┬──────────┐
+│   [7-col]   │  [5-col] │  ← Image : Details
+│   Gallery   │  Form    │
+└─────────────┴──────────┘
+```
+
+**Spacing System** (8px base unit):
+
+| Token | Value | Usage |
+|-------|-------|-------|
+| `xs` | 4px (0.25rem) | Icon padding, tight inline elements |
+| `sm` | 8px (0.5rem) | Button padding Y, form field padding |
+| `md` | 16px (1rem) | Element spacing, card padding |
+| `lg` | 24px (1.5rem) | Component spacing, section padding mobile |
+| `xl` | 32px (2rem) | Between components, section padding tablet |
+| `2xl` | 48px (3rem) | Between major sections |
+| `3xl` | 64px (4rem) | Section padding desktop |
+| `4xl` | 96px (6rem) | Hero section padding |
+
+**Container Widths**:
+- **Narrow (prose)**: 640px - long-form content (About, policies)
+- **Standard**: 1280px - general pages (collections, PDP)
+- **Wide**: 1440px - homepage, visual-heavy sections
+- **Full-bleed**: 100vw - hero images, dark sections for contrast
+
+**Layout Patterns**:
+
+**1. Hero Section** (Homepage, Collection Pages):
+```
+┌────────────────────────────────────────────┐
+│ ╔════════════════════════════════════════╗ │
+│ ║                                        ║ │
+│ ║  HEADLINE (Left-aligned)               ║ │
+│ ║  Subhead                               ║ │
+│ ║  [Primary CTA]                         ║ │
+│ ║                                        ║ │
+│ ║          [Hero Image - Right 60%]     ║ │
+│ ║                                        ║ │
+│ ╚════════════════════════════════════════╝ │
+└────────────────────────────────────────────┘
+```
+
+**2. Product Grid** (Collection Pages):
+```
+┌────┬────┬────┬────┐
+│ 🖼️ │ 🖼️ │ 🖼️ │ 🖼️ │  ← Product images (aspect ratio 4:5)
+│Name│Name│Name│Name│  ← Product name (2 lines max)
+│★★★★│★★★★│★★★★│★★★★│  ← Rating
+│$200│$200│$200│$200│  ← Price (bold, accent color)
+└────┴────┴────┴────┘
+```
+
+**3. Feature Section** (Homepage):
+```
+┌──────────────────────────────────────┐
+│  SECTION HEADING                     │
+│  Description text                    │
+│                                      │
+│  ┌─────────┐  ┌─────────┐  ┌───────┐│
+│  │  Icon   │  │  Icon   │  │ Icon  ││
+│  │  Title  │  │  Title  │  │ Title ││
+│  │  Text   │  │  Text   │  │ Text  ││
+│  └─────────┘  └─────────┘  └───────┘│
+└──────────────────────────────────────┘
+```
+
+---
+
+### Component Design Patterns
+
+**Buttons**:
+
+| Type | Style | Usage |
+|------|-------|-------|
+| **Primary** | Solid accent color, white text, 600 weight | Add to Cart, Checkout, Submit |
+| **Secondary** | Outline accent color, accent text | Continue Shopping, Learn More |
+| **Tertiary** | No border, accent text | Cancel, Back, Edit |
+| **Destructive** | Solid error color | Delete, Remove |
+
+**Button Anatomy**:
+- Height: 44px (minimum touch target)
+- Padding: 16px horizontal, 12px vertical
+- Border radius: 6px
+- Font: 600 weight, 16px
+- Hover: Darken 10%, scale 1.02, subtle shadow
+- Active: Darken 15%, scale 0.98
+
+**Cards** (Product Cards, Order Cards):
+```
+┌─────────────────────┐
+│                     │
+│   [Image 4:5]       │  ← Hover: subtle lift + shadow
+│                     │
+├─────────────────────┤
+│ Product Name        │  ← 2 lines, truncate after
+│ ★★★★☆ (24)         │  ← Rating + count
+│ $200                │  ← Bold, accent color
+├─────────────────────┤
+│ 🛒 Add to Cart      │  ← Appears on hover (desktop)
+└─────────────────────┘
+```
+
+**Forms**:
+- Label: Above input, 14px, 600 weight
+- Input: 44px height, 16px text, 1px border
+- Focus: Accent color border, subtle glow
+- Error: Error color border, message below in error color
+- Success: Success color border, checkmark icon
+
+**Badges & Tags**:
+- Pill shape (9999px border radius)
+- Small text (12px, 500 weight)
+- Semantic colors: New (accent), Sale (error), In Stock (success)
+- Low contrast: 10% opacity background, full opacity text
+
+---
+
+### Interaction Design
+
+**Micro-interactions**:
+1. **Add to Cart**: Button → Loading spinner → Success checkmark → Cart badge bounces
+2. **Image Gallery**: Thumbnail click → Main image crossfade (300ms)
+3. **Quantity Input**: +/- buttons scale on tap, number animates
+4. **Cart Drawer**: Slides from right (400ms ease-out), backdrop fades in
+5. **Form Validation**: Real-time after first blur, debounced 500ms
+
+**Loading States**:
+- **Skeleton Screens**: Gray blocks match content dimensions (cards, text lines)
+- **Spinners**: Only for unpredictable actions (form submission)
+- **Progress Bars**: Stepped checkout progress indicator
+- **Optimistic UI**: Cart updates immediately, reconciles in background
+
+**Hover States** (Desktop only):
+- **Links**: Underline appears (200ms ease)
+- **Buttons**: Scale 1.02, brightness +10%, shadow depth +1
+- **Product Cards**: Lift 4px, shadow intensity +20%, "Add to Cart" appears
+- **Images**: Slight zoom (1.05x, 400ms ease-out)
+
+**Accessibility Features**:
+- **Focus Indicators**: 2px accent color outline, 2px offset
+- **Skip Links**: "Skip to main content" (visible on focus)
+- **ARIA Labels**: All icon buttons, complex interactions
+- **Keyboard Navigation**: Tab order follows visual hierarchy
+- **Reduced Motion**: Disable animations when `prefers-reduced-motion: reduce`
+
+---
+
+### Responsive Design Breakpoints
+
+| Breakpoint | Width | Layout Changes |
+|------------|-------|----------------|
+| **Mobile** | < 640px | Single column, stacked navigation, full-width CTAs |
+| **Tablet** | 640px - 1023px | 2-column grid, collapsible navigation, side-by-side forms |
+| **Desktop** | 1024px - 1439px | 4-column grid, full navigation, hover interactions |
+| **Wide** | 1440px+ | Same as desktop, increased max-width, more white space |
+
+**Mobile-First Enhancements**:
+- **Bottom Sheet**: Cart drawer slides from bottom on mobile
+- **Sticky CTA**: Add to Cart button sticks to bottom on PDP scroll
+- **Touch Targets**: Minimum 44x44px, increased spacing between tappable elements
+- **Collapsible Sections**: FAQ, product details accordion on mobile
+- **Horizontal Scroll**: Related products carousel (with scroll indicators)
+
+---
+
+### Performance-Aware Design Decisions
+
+**Image Strategy**:
+- **Dominant Color Placeholders**: Prevents CLS, extracted from product images
+- **Aspect Ratio Boxes**: Reserve space before image loads (4:5 for products, 16:9 for hero)
+- **Lazy Loading**: Below-fold images load on scroll proximity
+- **Responsive Sizes**: `srcset` with 320w, 640w, 1024w, 1280w, 1920w
+- **Format**: WebP with JPEG fallback via Shopify CDN
+
+**Animation Budget**:
+- **Critical Path**: No animations blocking LCP (hero image, headline)
+- **Deferred**: Cart drawer, modals animate after page interactive
+- **GPU-Accelerated**: Only `transform` and `opacity` properties animated
+- **Duration**: 200-400ms (feels immediate), 600ms max (complex transitions)
+- **Easing**: `ease-out` for entrances, `ease-in` for exits, `ease-in-out` for continuous
+
+**Font Loading**:
+- **System Font Fallback**: `-apple-system, BlinkMacSystemFont, "Segoe UI"` while loading
+- **Font Display**: `font-display: swap` - show text immediately
+- **Subset**: Only Latin character set (reduce file size 60%+)
+- **Variable Fonts**: Single file for multiple weights (if using variable font)
+
+---
+
+### Design Quality Checklist
+
+**Before Launch**:
+- [ ] All text meets WCAG AA contrast (4.5:1 body, 3:1 UI)
+- [ ] All interactive elements minimum 44x44px
+- [ ] Focus indicators visible on all focusable elements
+- [ ] No horizontal scroll at any breakpoint
+- [ ] Images have explicit width/height (prevent CLS)
+- [ ] Animations respect `prefers-reduced-motion`
+- [ ] Typography scale is consistent (no arbitrary sizes)
+- [ ] Spacing follows 8px base unit system
+- [ ] All icons have accessible labels
+- [ ] Forms have clear error states with helpful messages
+- [ ] Loading states for all async actions
+- [ ] Empty states for carts, orders, search (not just blank)
+- [ ] 404 and error pages are branded and helpful
+
+---
+
+## 4. Target Users
 
 ### Primary Persona: The Milestone Celebrant
 - **Who**: Individuals in recovery (alcohol, substance, or behavioral) celebrating a personal milestone
@@ -66,7 +467,7 @@ The target audience includes individuals in recovery celebrating personal milest
 
 ---
 
-## 4. MVP Scope
+## 5. MVP Scope
 
 ### In Scope (Core Functionality)
 
@@ -152,7 +553,7 @@ The target audience includes individuals in recovery celebrating personal milest
 
 ---
 
-## 5. User Stories
+## 6. User Stories
 
 ### Primary User Stories
 
@@ -217,7 +618,7 @@ The target audience includes individuals in recovery celebrating personal milest
 
 ---
 
-## 6. Core Architecture & Patterns
+## 7. Core Architecture & Patterns
 
 ### High-Level Architecture
 
@@ -366,9 +767,9 @@ recovery-token-store/
 
 ---
 
-## 7. Features
+## 8. Features
 
-### 7.1 Product Display System
+### 8.1 Product Display System
 
 **Purpose**: Display recovery tokens with milestone-specific information and imagery
 
@@ -388,7 +789,7 @@ recovery-token-store/
 - Blurhash for hero images (premium loading feel)
 - Lazy loading for below-fold images
 
-### 7.2 Personalization (Engraving)
+### 8.2 Personalization (Engraving)
 
 **Purpose**: Allow customers to add custom engraving to tokens
 
@@ -410,7 +811,7 @@ recovery-token-store/
 - Uses underscore prefix (`_engravingNote`) to hide from packing slip
 - Allows context like "This is for my 2-year anniversary"
 
-### 7.3 Cart System
+### 8.3 Cart System
 
 **Purpose**: Manage shopping cart with real-time updates
 
@@ -437,7 +838,7 @@ recovery-token-store/
 - Error handling for out-of-stock, invalid quantities
 - Cart icon in header shows item count badge
 
-### 7.4 Reviews Integration (Judge.me)
+### 8.4 Reviews Integration (Judge.me)
 
 **Purpose**: Display verified customer reviews for social proof
 
@@ -453,7 +854,7 @@ recovery-token-store/
 - Fallback: "Reviews temporarily unavailable" message
 - PDP remains fully functional if Judge.me fails
 
-### 7.5 Contact & Newsletter
+### 8.5 Contact & Newsletter
 
 **Contact Form**:
 - Fields: Name, email, subject, message
@@ -468,7 +869,7 @@ recovery-token-store/
 - Clear consent copy: "Get product drops and recovery stories"
 - Unsubscribe link in all marketing emails
 
-### 7.6 SEO & Structured Data
+### 8.6 SEO & Structured Data
 
 **Schema.org Types**:
 - `Product` (PDP): name, description, image, offers, aggregateRating
@@ -482,7 +883,7 @@ recovery-token-store/
 - OpenGraph and Twitter Card tags
 - Robots directives
 
-### 7.7 Customer Account Management
+### 8.7 Customer Account Management
 
 **Purpose**: Enable customers to create accounts, manage their profile, and track their recovery journey through order history
 
@@ -535,7 +936,7 @@ recovery-token-store/
 - Rate limiting on authentication endpoints
 - Privacy-focused error messages
 
-### 7.8 Error Handling & Maintenance
+### 8.8 Error Handling & Maintenance
 
 **Error Boundaries**:
 - Root: Branded error page with support contact
@@ -550,7 +951,7 @@ recovery-token-store/
 
 ---
 
-## 8. Technology Stack
+## 9. Technology Stack
 
 ### Core Platform
 | Component | Technology | Version | Purpose |
@@ -613,7 +1014,7 @@ recovery-token-store/
 
 ---
 
-## 9. Security & Configuration
+## 10. Security & Configuration
 
 ### Authentication & Authorization
 
@@ -704,7 +1105,7 @@ Referrer-Policy: strict-origin-when-cross-origin
 
 ---
 
-## 10. API Specification
+## 11. API Specification
 
 ### Shopify Storefront API
 
@@ -909,7 +1310,7 @@ await resend.contacts.create({
 
 ---
 
-## 11. Success Criteria
+## 12. Success Criteria
 
 ### MVP Success Definition
 
@@ -997,7 +1398,7 @@ The MVP is successful when:
 
 ---
 
-## 12. Implementation Phases
+## 13. Implementation Phases
 
 **Selected Scope**: Phase 1a (MVP + Customer Accounts & Order History)
 
@@ -1137,7 +1538,7 @@ The MVP is successful when:
 
 ---
 
-## 13. Future Considerations
+## 14. Future Considerations
 
 ### Post-MVP Enhancements
 
@@ -1176,7 +1577,7 @@ The MVP is successful when:
 
 ---
 
-## 14. Risks & Mitigations
+## 15. Risks & Mitigations
 
 ### Risk 1: Judge.me Widget Reliability
 
@@ -1233,7 +1634,138 @@ The MVP is successful when:
 
 ---
 
-## 15. Appendix
+## 16. Pre-Launch Security Checklist
+
+### 🚨 CRITICAL: Production Security Requirements
+
+These items are **MANDATORY** before launching to production. Failure to complete these tasks will result in security vulnerabilities.
+
+#### 1. SESSION_SECRET Configuration (BLOCKER)
+
+**Status**: ⚠️ **MUST BE COMPLETED BEFORE LAUNCH**
+
+**Issue**: Development is currently using a weak SESSION_SECRET (`lucid-dev-secret`). This is **NOT SECURE** for production use.
+
+**Required Action**:
+
+1. **Generate a cryptographically secure SESSION_SECRET**:
+   ```bash
+   node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
+   ```
+
+2. **Update production environment variables**:
+   - **Vercel**: Add to Environment Variables in project settings
+   - **Oxygen**: Add via Shopify Admin → Hydrogen channel settings
+   - **Never** commit the production secret to the repository
+
+3. **Verify the secret is unique and strong**:
+   - Minimum 32 bytes (256 bits) of entropy
+   - Must be different from development secret
+   - Should be different across environments (production, staging, preview)
+
+**Why This Matters**:
+- `SESSION_SECRET` is used to encrypt session cookies containing customer authentication tokens
+- A weak or public secret allows attackers to forge session cookies and impersonate users
+- This could lead to unauthorized access to customer accounts, orders, and personal information
+
+**Timeline**: ✅ **Complete this BEFORE first production deployment**
+
+#### 2. Environment Variable Audit
+
+Before launch, verify all environment variables are properly configured:
+
+**Local Development (`.env`)**:
+```env
+SESSION_SECRET="lucid-dev-secret"  # ✅ OK for local dev only
+```
+
+**Production (Vercel/Oxygen)**:
+```env
+SESSION_SECRET="<STRONG_UNIQUE_SECRET_HERE>"  # 🚨 MUST be different!
+```
+
+**Checklist**:
+- [ ] Production `SESSION_SECRET` is cryptographically secure (32+ bytes)
+- [ ] Production secret is different from development secret
+- [ ] Secret is stored securely in hosting platform (never in code)
+- [ ] All team members understand not to share/commit production secrets
+- [ ] Secrets rotation plan documented (recommend: rotate quarterly)
+
+#### 3. HTTPS Enforcement
+
+**Requirement**: All production traffic must use HTTPS
+
+- [ ] SSL/TLS certificate configured on hosting platform
+- [ ] HTTP requests automatically redirect to HTTPS
+- [ ] `Secure` flag set on all cookies (handled by Hydrogen)
+- [ ] HSTS header configured (max-age=31536000)
+
+#### 4. Customer Account API Configuration
+
+- [ ] Customer Account API credentials verified in Shopify Admin
+- [ ] Allowed domains configured for production URL
+- [ ] Callback URLs properly set for authentication flow
+- [ ] Test authentication flow on production domain before launch
+
+#### 5. Security Headers
+
+Verify these security headers are configured:
+
+```http
+Strict-Transport-Security: max-age=31536000; includeSubDomains
+X-Content-Type-Options: nosniff
+X-Frame-Options: DENY
+Referrer-Policy: strict-origin-when-cross-origin
+Content-Security-Policy: [configured for your domain]
+```
+
+#### 6. API Token Security
+
+- [ ] Storefront API tokens have minimal required permissions
+- [ ] No admin API tokens exposed to frontend
+- [ ] Private tokens (e.g., `PRIVATE_STOREFRONT_API_TOKEN`) never sent to client
+- [ ] All API tokens rotated if ever committed to version control
+
+#### 7. Rate Limiting
+
+- [ ] Rate limiting configured on authentication endpoints
+- [ ] Contact form has rate limiting and honeypot protection
+- [ ] Newsletter signup protected against abuse
+
+---
+
+### Pre-Launch Testing Checklist
+
+Before launching, complete these security tests:
+
+- [ ] Attempt to access protected routes without authentication
+- [ ] Verify session cookies are HTTP-only and Secure
+- [ ] Test password reset flow end-to-end
+- [ ] Verify CSRF protection on all forms
+- [ ] Run security audit: `npm audit`
+- [ ] Test with invalid/expired session tokens
+- [ ] Verify sensitive data not logged in production
+
+---
+
+### Emergency Contacts & Procedures
+
+**If a security issue is discovered post-launch**:
+
+1. **Rotate compromised secrets immediately**
+2. **Invalidate all active sessions** (force re-authentication)
+3. **Review access logs** for suspicious activity
+4. **Notify affected customers** if data was accessed
+5. **Document incident** and update security procedures
+
+**Security Response Team**:
+- Technical Lead: [Contact Info]
+- Store Owner: [Contact Info]
+- Shopify Support: [Partner Dashboard]
+
+---
+
+## 17. Appendix
 
 ### Related Documents
 
@@ -1270,4 +1802,4 @@ The MVP is successful when:
 ---
 
 *Document created: January 23, 2026*  
-*Last updated: January 23, 2026 (Phase 1a scope confirmed)*
+*Last updated: January 30, 2026 (Added Design System & Visual Language - Section 3)*

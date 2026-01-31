@@ -1,5 +1,13 @@
+/**
+ * AddToCartButton Component - Design System
+ * 
+ * Primary CTA button using design system Button component
+ * @see .cursor/skills/design-system/SKILL.md
+ */
+
 import {type FetcherWithComponents} from 'react-router';
 import {CartForm, type OptimisticCartLineInput} from '@shopify/hydrogen';
+import {Button} from '~/components/ui';
 
 export function AddToCartButton({
   analytics,
@@ -23,13 +31,16 @@ export function AddToCartButton({
             type="hidden"
             value={JSON.stringify(analytics)}
           />
-          <button
+          <Button
             type="submit"
+            variant="primary"
+            size="lg"
             onClick={onClick}
             disabled={disabled ?? fetcher.state !== 'idle'}
+            className="w-full"
           >
-            {children}
-          </button>
+            {fetcher.state !== 'idle' ? 'Adding...' : children}
+          </Button>
         </>
       )}
     </CartForm>

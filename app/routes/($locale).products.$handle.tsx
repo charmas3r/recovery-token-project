@@ -12,13 +12,61 @@ import {ProductPrice} from '~/components/product/ProductPrice';
 import {ProductImage} from '~/components/product/ProductImage';
 import {ProductForm} from '~/components/product/ProductForm';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
+import {RatingBadge} from '~/components/reviews/RatingBadge';
+import {ReviewsWidget} from '~/components/reviews/ReviewsWidget';
+import {ReviewsFallback} from '~/components/reviews/ReviewsFallback';
+import {JsonLd} from '~/components/seo/JsonLd';
+import {getJudgeMeClient} from '~/lib/judgeme.server';
+import {extractProductId} from '~/lib/judgeme';
+import {ErrorBoundary} from 'react-error-boundary';
 
 export const meta: Route.MetaFunction = ({data}) => {
+  const product = data?.product;
+  const reviewsSummary = data?.reviewsSummary;
+
+  if (!product) {
+    return [{title: 'Product Not Found'}];
+  }
+
   return [
-    {title: `Hydrogen | ${data?.product.title ?? ''}`},
+    {title: `${product.title} | Recovery Token Store`},
+    {name: 'description', content: product.description},
     {
+      tagName: 'link',
       rel: 'canonical',
-      href: `/products/${data?.product.handle}`,
+      href: `https://recoverytoken.store/products/${product.handle}`,
+    },
+
+    // OpenGraph
+    {property: 'og:type', content: 'product'},
+    {property: 'og:title', content: product.title},
+    {property: 'og:description', content: product.description},
+    {
+      property: 'og:image',
+      content: product.selectedOrFirstAvailableVariant?.image?.url,
+    },
+    {
+      property: 'og:url',
+      content: `https://recoverytoken.store/products/${product.handle}`,
+    },
+
+    // Twitter Card
+    {name: 'twitter:card', content: 'summary_large_image'},
+    {name: 'twitter:title', content: product.title},
+    {name: 'twitter:description', content: product.description},
+    {
+      name: 'twitter:image',
+      content: product.selectedOrFirstAvailableVariant?.image?.url,
+    },
+
+    // Product-specific meta
+    {
+      property: 'product:price:amount',
+      content: product.selectedOrFirstAvailableVariant?.price.amount,
+    },
+    {
+      property: 'product:price:currency',
+      content: product.selectedOrFirstAvailableVariant?.price.currencyCode,
     },
   ];
 };
@@ -70,14 +118,67 @@ async function loadCriticalData({context, params, request}: Route.LoaderArgs) {
  * Make sure to not throw any errors here, as it will cause the page to 500.
  */
 function loadDeferredData({context, params}: Route.LoaderArgs) {
-  // Put any API calls that is not critical to be available on first page render
-  // For example: product reviews, product recommendations, social feeds.
+  const {env} = context;
+  const hasJudgeme = !!env.JUDGEME_PUBLIC_TOKEN;
 
-  return {};
+  // Fetch reviews summary for rating badge and SEO (only if configured)
+  const reviewsSummary = hasJudgeme 
+    ? fetchReviewsSummary(context, params.handle!).catch(
+        (error) => {
+          console.error('Failed to fetch reviews summary:', error);
+          return null; // Non-blocking - continue without reviews
+        }
+      )
+    : Promise.resolve(null);
+
+  return {reviewsSummary, hasJudgeme};
+}
+
+/**
+ * Fetch reviews summary from Judge.me
+ * Non-blocking - errors are caught in loadDeferredData
+ */
+async function fetchReviewsSummary(context: Route.LoaderArgs['context'], handle: string) {
+  const {storefront, env} = context;
+
+  // Check if Judge.me is configured
+  if (!env.JUDGEME_PUBLIC_TOKEN) {
+    console.warn('Judge.me not configured - skipping reviews');
+    return null;
+  }
+
+  try {
+    // Get product ID
+    const {product} = await storefront.query(
+      `#graphql
+        query ProductId($handle: String!) {
+          product(handle: $handle) {
+            id
+          }
+        }
+      `,
+      {variables: {handle}}
+    );
+
+    if (!product?.id) {
+      return null;
+    }
+
+    // Fetch reviews from Judge.me
+    const judgeme = getJudgeMeClient(env);
+    const productId = extractProductId(product.id);
+    const summary = await judgeme.getRatingSummary(productId);
+
+    return summary;
+  } catch (error) {
+    // Log but don't throw - reviews are non-critical
+    console.error('Judge.me API error:', error);
+    return null;
+  }
 }
 
 export default function Product() {
-  const {product} = useLoaderData<typeof loader>();
+  const {product, reviewsSummary, hasJudgeme} = useLoaderData<typeof loader>();
 
   // Optimistically selects a variant with given available variant information
   const selectedVariant = useOptimisticVariant(
@@ -96,12 +197,56 @@ export default function Product() {
   });
 
   const {title, descriptionHtml} = product;
+  const productId = extractProductId(product.id);
+
+  // Build product schema with reviews
+  const productSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: product.title,
+    description: product.description,
+    image: selectedVariant?.image?.url,
+    sku: selectedVariant?.sku,
+    brand: {
+      '@type': 'Brand',
+      name: product.vendor || 'Recovery Token Store',
+    },
+    offers: {
+      '@type': 'Offer',
+      price: selectedVariant?.price.amount,
+      priceCurrency: selectedVariant?.price.currencyCode,
+      availability: selectedVariant?.availableForSale
+        ? 'https://schema.org/InStock'
+        : 'https://schema.org/OutOfStock',
+      url: `https://recoverytoken.store/products/${product.handle}`,
+    },
+    aggregateRating: reviewsSummary && reviewsSummary.reviewCount > 0 ? {
+      '@type': 'AggregateRating',
+      ratingValue: reviewsSummary.rating,
+      reviewCount: reviewsSummary.reviewCount,
+      bestRating: 5,
+      worstRating: 1,
+    } : undefined,
+  };
 
   return (
     <div className="product">
+      {/* JSON-LD Structured Data */}
+      <JsonLd data={productSchema} />
+
       <ProductImage image={selectedVariant?.image} />
       <div className="product-main">
         <h1>{title}</h1>
+
+        {/* Rating Badge */}
+        {reviewsSummary && reviewsSummary.reviewCount > 0 && (
+          <RatingBadge
+            rating={reviewsSummary.rating}
+            reviewCount={reviewsSummary.reviewCount}
+            className="mb-4"
+          />
+        )}
+
         <ProductPrice
           price={selectedVariant?.price}
           compareAtPrice={selectedVariant?.compareAtPrice}
@@ -119,6 +264,20 @@ export default function Product() {
         <br />
         <div dangerouslySetInnerHTML={{__html: descriptionHtml}} />
         <br />
+        <br />
+
+        {/* Reviews Section - Only show if Judge.me is configured */}
+        {hasJudgeme && (
+          <div className="product-reviews">
+            <h2 className="text-2xl font-bold mb-6">Customer Reviews</h2>
+            <ErrorBoundary FallbackComponent={ReviewsFallback}>
+              <ReviewsWidget
+                productId={productId}
+                shopDomain={PUBLIC_JUDGEME_SHOP_DOMAIN}
+              />
+            </ErrorBoundary>
+          </div>
+        )}
       </div>
       <Analytics.ProductView
         data={{
@@ -138,6 +297,9 @@ export default function Product() {
     </div>
   );
 }
+
+// Environment variable for Judge.me shop domain
+const PUBLIC_JUDGEME_SHOP_DOMAIN = 'recovery-token-store.myshopify.com';
 
 const PRODUCT_VARIANT_FRAGMENT = `#graphql
   fragment ProductVariant on ProductVariant {

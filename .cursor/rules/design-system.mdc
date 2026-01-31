@@ -1,0 +1,444 @@
+# Design System Rule
+
+## When This Rule Applies
+
+This rule applies whenever you are:
+- Creating or modifying UI components
+- Writing or updating CSS/Tailwind classes
+- Implementing layouts or page designs
+- Working on styling, spacing, colors, or typography
+- Building forms, buttons, cards, or other visual elements
+- Implementing responsive design
+- Adding animations or transitions
+
+## Before Making Any UI Changes
+
+**ALWAYS read these documents first (in order):**
+
+1. **PRD Section 3: Design System & Visual Language**
+   - File: `prd.md` (Section 3)
+   - This is the source of truth for all design decisions
+
+2. **Design System Skill**
+   - File: `.cursor/skills/design-system/SKILL.md`
+   - Contains implementation patterns and code examples
+
+3. **Design System Reference** (for complex work)
+   - File: `.cursor/skills/design-system/REFERENCE.md`
+   - Contains best practices and advanced patterns
+
+## Mandatory Design System Requirements
+
+### 1. Colors - Use Design Tokens Only
+
+**✅ REQUIRED:**
+```tsx
+// Primary text
+<h1 className="text-primary">Heading</h1>
+
+// Secondary text
+<p className="text-secondary">Body text</p>
+
+// Accent (CTAs, links)
+<button className="bg-accent text-white">Add to Cart</button>
+
+// Surface backgrounds
+<section className="bg-surface">Content</section>
+
+// Semantic colors
+<div className="text-success">Success message</div>
+<div className="text-error">Error message</div>
+```
+
+**❌ FORBIDDEN:**
+```tsx
+// Never use arbitrary colors
+<div className="text-gray-700">Bad</div>
+<div className="bg-[#B8764F]">Bad</div>
+<div className="text-blue-600">Bad</div>
+```
+
+**Available Color Tokens:**
+- `text-primary` / `bg-primary` - Deep Navy (#1A202C)
+- `text-secondary` / `bg-secondary` - Slate (#4A5568)
+- `text-accent` / `bg-accent` - Bronze (#B8764F)
+- `bg-surface` - Cool Gray (#F7FAFC)
+- `bg-surface-dark` - Dark surface (#2D3748)
+- `text-success` / `bg-success` - Green (#38A169)
+- `text-warning` / `bg-warning` - Orange (#DD6B20)
+- `text-error` / `bg-error` - Red (#E53E3E)
+
+### 2. Typography - Use Typography Scale Only
+
+**✅ REQUIRED:**
+```tsx
+// Hero headline (48px, bold)
+<h1 className="font-display text-hero text-primary">Hero</h1>
+
+// Page title (36px, bold)
+<h1 className="font-display text-page-title text-primary">Product Name</h1>
+
+// Section heading (28px, bold)
+<h2 className="font-display text-section text-primary">Browse Collection</h2>
+
+// Subsection heading (20px, semibold)
+<h3 className="font-display text-subsection text-primary">Features</h3>
+
+// Body large (18px, regular) - descriptions, intros
+<p className="text-body-lg text-secondary">Description text</p>
+
+// Body standard (16px, regular) - general content
+<p className="text-body text-secondary">Body text</p>
+
+// Body small (14px, regular) - metadata
+<span className="text-body-sm text-secondary/60">Last updated</span>
+
+// Caption (12px, medium) - badges, tags
+<span className="text-caption font-medium">New</span>
+```
+
+**❌ FORBIDDEN:**
+```tsx
+// Never use arbitrary sizes
+<h1 className="text-[42px]">Bad</h1>
+<p className="text-xl">Bad - use design scale</p>
+```
+
+**Available Typography Tokens:**
+- `text-hero` - 48px, line-height 1.1, weight 700
+- `text-page-title` - 36px, line-height 1.2, weight 700
+- `text-section` - 28px, line-height 1.3, weight 700
+- `text-subsection` - 20px, line-height 1.4, weight 600
+- `text-body-lg` - 18px, line-height 1.6, weight 400
+- `text-body` - 16px, line-height 1.6, weight 400
+- `text-body-sm` - 14px, line-height 1.5, weight 400
+- `text-caption` - 12px, line-height 1.4, weight 500
+
+**Font Families:**
+- `font-display` - Use for all headings (Manrope/Inter)
+- `font-sans` - Use for body text (Inter)
+
+### 3. Spacing - Use 8px System Only
+
+**✅ REQUIRED:**
+```tsx
+// Use spacing tokens based on 8px grid
+<div className="p-md">Padding 16px</div>
+<div className="space-y-lg">Gap 24px</div>
+<section className="py-3xl">Section padding 64px</section>
+```
+
+**❌ FORBIDDEN:**
+```tsx
+// Never use arbitrary spacing
+<div className="p-[18px]">Bad</div>
+<div className="space-y-[26px]">Bad</div>
+<div className="mt-3.5">Bad - not on 8px grid</div>
+```
+
+**Available Spacing Tokens:**
+- `xs` - 4px (0.25rem) - Icon padding, tight elements
+- `sm` - 8px (0.5rem) - Form field padding
+- `md` - 16px (1rem) - Element spacing, card padding
+- `lg` - 24px (1.5rem) - Component spacing
+- `xl` - 32px (2rem) - Between components
+- `2xl` - 48px (3rem) - Between major sections
+- `3xl` - 64px (4rem) - Section padding desktop
+- `4xl` - 96px (6rem) - Hero section padding
+
+### 4. Component Patterns - Use Design System Components
+
+**Buttons (Elevated Card Appearance):**
+All buttons have an elevated card appearance with:
+- Subtle shadow: `shadow-[0_2px_8px_rgba(0,0,0,0.08)]`
+- Very subtle border: `border-black/10` or `border-accent/80`
+- Hover lift effect: `-translate-y-0.5`
+- Enhanced hover shadow: `shadow-[0_4px_12px_rgba(0,0,0,0.12)]`
+
+```tsx
+// Primary CTA - Accent background with subtle border
+<Button variant="primary">Add to Cart</Button>
+
+// Secondary action - White background, subtle border
+<Button variant="secondary">Learn More</Button>
+
+// Tertiary/text - Transparent, border on hover
+<Button variant="tertiary">Cancel</Button>
+
+// Destructive - Error color with subtle border
+<Button variant="destructive">Delete</Button>
+```
+
+**Cards:**
+```tsx
+// Product card with hover effect
+<Card hover>
+  <div className="aspect-[4/5] bg-surface">
+    <img src={image} alt={title} />
+  </div>
+  <div className="p-md space-y-xs">
+    <h3 className="text-subsection text-primary">{title}</h3>
+    <p className="text-body-lg font-bold text-accent">${price}</p>
+  </div>
+</Card>
+```
+
+**Form Inputs:**
+```tsx
+// Minimum 44px height for touch targets
+<Input
+  label="Email Address"
+  error={errors.email}
+  className="h-11"
+/>
+```
+
+### 5. Layout - Use Container Widths
+
+**✅ REQUIRED:**
+```tsx
+// Standard container (most pages)
+<div className="mx-auto max-w-standard px-md md:px-xl">
+  {children}
+</div>
+
+// Prose container (long-form content)
+<article className="mx-auto max-w-prose px-md">
+  {content}
+</article>
+
+// Wide container (homepage)
+<div className="mx-auto max-w-wide px-md md:px-xl">
+  {children}
+</div>
+```
+
+**Container Widths:**
+- `max-w-prose` - 640px (About, policies)
+- `max-w-standard` - 1280px (general pages)
+- `max-w-wide` - 1440px (homepage, visual-heavy)
+
+### 6. Responsive Design - Mobile First
+
+**✅ REQUIRED:**
+```tsx
+// Mobile first, then enhance
+<div className="
+  grid
+  grid-cols-1           // Mobile: 1 column
+  sm:grid-cols-2        // Tablet: 2 columns
+  md:grid-cols-3        // Desktop: 3 columns
+  lg:grid-cols-4        // Large: 4 columns
+  gap-lg
+">
+  {products}
+</div>
+
+// Responsive typography
+<h1 className="text-page-title md:text-hero">
+  Responsive Headline
+</h1>
+
+// Responsive spacing
+<section className="py-2xl md:py-3xl">
+  {content}
+</section>
+```
+
+**Breakpoints:**
+- `sm:` - 640px+ (tablet)
+- `md:` - 768px+ (desktop)
+- `lg:` - 1024px+ (large desktop)
+- `xl:` - 1280px+ (extra large)
+
+### 7. Accessibility - WCAG AA Minimum
+
+**✅ REQUIRED:**
+
+**Focus States (all interactive elements):**
+```tsx
+<button className="
+  focus:outline-none
+  focus:ring-2
+  focus:ring-accent
+  focus:ring-offset-2
+">
+  Interactive Element
+</button>
+```
+
+**Touch Targets (minimum 44x44px):**
+```tsx
+// All buttons and links
+<button className="min-h-[44px] min-w-[44px] px-md">
+  Click me
+</button>
+```
+
+**ARIA Labels (icon buttons):**
+```tsx
+<button aria-label="Close menu">
+  <X className="w-5 h-5" />
+</button>
+```
+
+**Semantic HTML:**
+```tsx
+// ✅ Good
+<header>...</header>
+<nav>...</nav>
+<main>...</main>
+<button>Click</button>
+
+// ❌ Bad
+<div className="header">...</div>
+<div onClick={...}>Click</div>
+```
+
+**Color Alone (never convey info with color only):**
+```tsx
+// ✅ Good - icon + color + text
+<span className="flex items-center gap-xs text-success">
+  <CheckCircle className="w-4 h-4" />
+  In Stock
+</span>
+
+// ❌ Bad - color only
+<span className="text-success">In Stock</span>
+```
+
+### 8. Performance - Critical Rendering Path
+
+**✅ REQUIRED:**
+
+**Image Aspect Ratios (prevent CLS):**
+```tsx
+// Product images: 4:5 ratio
+<div className="aspect-[4/5] bg-surface">
+  <img src={image} className="w-full h-full object-cover" />
+</div>
+
+// Hero images: 16:9 ratio
+<div className="aspect-video bg-surface">
+  <img src={hero} className="w-full h-full object-cover" />
+</div>
+```
+
+**GPU-Accelerated Animations Only:**
+```tsx
+// ✅ Good - transform & opacity
+<div className="transition-transform hover:scale-105">
+  Content
+</div>
+
+// ❌ Bad - triggers layout recalc
+<div className="transition-all hover:w-[400px]">
+  Content
+</div>
+```
+
+**Respect Reduced Motion:**
+```tsx
+// Animations automatically disabled via CSS:
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+```
+
+**Animation Duration Limits:**
+- Simple transitions: 200ms
+- Complex transitions: 400ms maximum
+- Never exceed 600ms
+
+## Pre-Commit Checklist
+
+Before committing any UI changes, verify:
+
+- [ ] **Colors**: All colors use design tokens (no arbitrary values)
+- [ ] **Typography**: All text uses typography scale (no arbitrary sizes)
+- [ ] **Spacing**: All spacing uses 8px system tokens (no arbitrary spacing)
+- [ ] **Components**: Used design system component patterns
+- [ ] **Layout**: Used proper container widths
+- [ ] **Responsive**: Tested at mobile (375px), tablet (768px), desktop (1280px)
+- [ ] **Focus States**: All interactive elements have visible focus rings
+- [ ] **Touch Targets**: All buttons/links are minimum 44x44px
+- [ ] **ARIA Labels**: All icon buttons have accessible labels
+- [ ] **Semantic HTML**: Used proper HTML elements (not divs for everything)
+- [ ] **Images**: Have aspect ratios set (prevent CLS)
+- [ ] **Animations**: Only use transform/opacity, respect reduced motion
+- [ ] **Contrast**: Text meets WCAG AA (4.5:1 body, 3:1 UI)
+
+## Error Messages
+
+If you see these violations, they must be fixed:
+
+**"Arbitrary color detected"**
+```tsx
+// ❌ Wrong
+<div className="text-gray-700">Text</div>
+
+// ✅ Fix
+<div className="text-secondary">Text</div>
+```
+
+**"Arbitrary size detected"**
+```tsx
+// ❌ Wrong
+<h1 className="text-[40px]">Heading</h1>
+
+// ✅ Fix
+<h1 className="text-page-title">Heading</h1>
+```
+
+**"Arbitrary spacing detected"**
+```tsx
+// ❌ Wrong
+<div className="p-[18px]">Content</div>
+
+// ✅ Fix
+<div className="p-md">Content</div>
+```
+
+**"Focus state missing"**
+```tsx
+// ❌ Wrong
+<button className="bg-accent text-white">Click</button>
+
+// ✅ Fix
+<button className="bg-accent text-white focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2">
+  Click
+</button>
+```
+
+## When to Ask Questions
+
+If you encounter:
+- A design requirement not covered by the design system
+- Conflicting design patterns
+- Unclear hierarchy decisions
+- Accessibility concerns
+
+**STOP and ask the user** before proceeding with arbitrary decisions.
+
+## Summary
+
+**Every UI change MUST:**
+1. Read PRD Section 3 first
+2. Use design tokens (colors, typography, spacing)
+3. Follow component patterns from design system skill
+4. Meet accessibility requirements (WCAG AA)
+5. Be responsive (mobile-first)
+6. Pass pre-commit checklist
+
+**Never use:**
+- Arbitrary colors (`text-gray-700`, `bg-[#...]`)
+- Arbitrary sizes (`text-[40px]`, `text-xl`)
+- Arbitrary spacing (`p-[18px]`, `mt-3.5`)
+- Divs for buttons (`<div onClick>`)
+- Color alone to convey information
+- Animations that aren't transform/opacity
+
+This design system ensures consistency, accessibility, and performance across the entire application.

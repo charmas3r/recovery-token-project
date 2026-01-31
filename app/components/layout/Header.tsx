@@ -25,17 +25,29 @@ export function Header({
 }: HeaderProps) {
   const {shop, menu} = header;
   return (
-    <header className="header">
-      <NavLink prefetch="intent" to="/" style={activeLinkStyle} end>
-        <strong>{shop.name}</strong>
-      </NavLink>
-      <HeaderMenu
-        menu={menu}
-        viewport="desktop"
-        primaryDomainUrl={header.shop.primaryDomain.url}
-        publicStoreDomain={publicStoreDomain}
-      />
-      <HeaderCtas isLoggedIn={isLoggedIn} cart={cart} />
+    <header className="bg-white border-b border-black/5">
+      <div className="max-w-[1440px] mx-auto px-6 lg:px-8 h-16 flex items-center justify-between">
+        {/* Logo - Left */}
+        <NavLink 
+          prefetch="intent" 
+          to="/" 
+          end
+          className="font-display text-xl font-bold text-primary uppercase tracking-wide hover:text-accent transition-colors"
+        >
+          {shop.name}
+        </NavLink>
+
+        {/* Navigation Menu - Center (Desktop only) */}
+        <HeaderMenu
+          menu={menu}
+          viewport="desktop"
+          primaryDomainUrl={header.shop.primaryDomain.url}
+          publicStoreDomain={publicStoreDomain}
+        />
+
+        {/* CTAs - Right */}
+        <HeaderCtas isLoggedIn={isLoggedIn} cart={cart} />
+      </div>
     </header>
   );
 }
@@ -51,26 +63,51 @@ export function HeaderMenu({
   viewport: Viewport;
   publicStoreDomain: HeaderProps['publicStoreDomain'];
 }) {
-  const className = `header-menu-${viewport}`;
   const {close} = useAside();
 
-  return (
-    <nav className={className} role="navigation">
-      {viewport === 'mobile' && (
+  if (viewport === 'mobile') {
+    return (
+      <nav className="flex flex-col gap-4 p-6" role="navigation">
         <NavLink
           end
           onClick={close}
           prefetch="intent"
-          style={activeLinkStyle}
           to="/"
+          className="text-base font-medium text-primary hover:text-accent transition-colors"
         >
           Home
         </NavLink>
-      )}
+        {(menu || FALLBACK_HEADER_MENU).items.map((item) => {
+          if (!item.url) return null;
+
+          const url =
+            item.url.includes('myshopify.com') ||
+            item.url.includes(publicStoreDomain) ||
+            item.url.includes(primaryDomainUrl)
+              ? new URL(item.url).pathname
+              : item.url;
+          return (
+            <NavLink
+              end
+              key={item.id}
+              onClick={close}
+              prefetch="intent"
+              to={url}
+              className="text-base font-medium text-primary hover:text-accent transition-colors"
+            >
+              {item.title}
+            </NavLink>
+          );
+        })}
+      </nav>
+    );
+  }
+
+  return (
+    <nav className="hidden lg:flex items-center gap-8 absolute left-1/2 transform -translate-x-1/2" role="navigation">
       {(menu || FALLBACK_HEADER_MENU).items.map((item) => {
         if (!item.url) return null;
 
-        // if the url is internal, we strip the domain
         const url =
           item.url.includes('myshopify.com') ||
           item.url.includes(publicStoreDomain) ||
@@ -79,13 +116,15 @@ export function HeaderMenu({
             : item.url;
         return (
           <NavLink
-            className="header-menu-item"
             end
             key={item.id}
-            onClick={close}
             prefetch="intent"
-            style={activeLinkStyle}
             to={url}
+            className={({isActive}) =>
+              `text-base font-medium transition-colors ${
+                isActive ? 'text-accent font-semibold' : 'text-primary hover:text-accent'
+              }`
+            }
           >
             {item.title}
           </NavLink>
@@ -100,17 +139,24 @@ function HeaderCtas({
   cart,
 }: Pick<HeaderProps, 'isLoggedIn' | 'cart'>) {
   return (
-    <nav className="header-ctas" role="navigation">
+    <nav className="flex items-center gap-6" role="navigation">
       <HeaderMenuMobileToggle />
-      <NavLink prefetch="intent" to="/account" style={activeLinkStyle}>
-        <Suspense fallback="Sign in">
-          <Await resolve={isLoggedIn} errorElement="Sign in">
-            {(isLoggedIn) => (isLoggedIn ? 'Account' : 'Sign in')}
-          </Await>
-        </Suspense>
-      </NavLink>
-      <SearchToggle />
-      <CartToggle cart={cart} />
+      <div className="hidden lg:flex items-center gap-6">
+        <SearchToggle />
+        <CartToggle cart={cart} />
+        <NavLink 
+          prefetch="intent" 
+          to="/account"
+          className="text-primary hover:text-accent transition-colors"
+          aria-label="Account"
+        >
+          <Suspense fallback={<AccountIcon />}>
+            <Await resolve={isLoggedIn} errorElement={<AccountIcon />}>
+              {() => <AccountIcon />}
+            </Await>
+          </Suspense>
+        </NavLink>
+      </div>
     </nav>
   );
 }
@@ -119,10 +165,15 @@ function HeaderMenuMobileToggle() {
   const {open} = useAside();
   return (
     <button
-      className="header-menu-mobile-toggle reset"
+      className="lg:hidden text-primary hover:text-accent transition-colors p-2"
       onClick={() => open('mobile')}
+      aria-label="Open menu"
     >
-      <h3>☰</h3>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <line x1="3" y1="6" x2="21" y2="6" />
+        <line x1="3" y1="12" x2="21" y2="12" />
+        <line x1="3" y1="18" x2="21" y2="18" />
+      </svg>
     </button>
   );
 }
@@ -130,8 +181,15 @@ function HeaderMenuMobileToggle() {
 function SearchToggle() {
   const {open} = useAside();
   return (
-    <button className="reset" onClick={() => open('search')}>
-      Search
+    <button 
+      className="text-primary hover:text-accent transition-colors p-2" 
+      onClick={() => open('search')}
+      aria-label="Search"
+    >
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <circle cx="11" cy="11" r="8" />
+        <path d="m21 21-4.35-4.35" />
+      </svg>
     </button>
   );
 }
@@ -141,8 +199,8 @@ function CartBadge({count}: {count: number | null}) {
   const {publish, shop, cart, prevCart} = useAnalytics();
 
   return (
-    <a
-      href="/cart"
+    <button
+      className="relative text-primary hover:text-accent transition-colors p-2"
       onClick={(e) => {
         e.preventDefault();
         open('cart');
@@ -153,9 +211,19 @@ function CartBadge({count}: {count: number | null}) {
           url: window.location.href || '',
         } as CartViewPayload);
       }}
+      aria-label={`Cart with ${count ?? 0} items`}
     >
-      Cart {count === null ? <span>&nbsp;</span> : count}
-    </a>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" />
+        <path d="M3 6h18" />
+        <path d="M16 10a4 4 0 0 1-8 0" />
+      </svg>
+      {count !== null && count > 0 && (
+        <span className="absolute -top-1 -right-1 bg-accent text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+          {count}
+        </span>
+      )}
+    </button>
   );
 }
 
@@ -173,6 +241,15 @@ function CartBanner() {
   const originalCart = useAsyncValue() as CartApiQueryFragment | null;
   const cart = useOptimisticCart(originalCart);
   return <CartBadge count={cart?.totalQuantity ?? 0} />;
+}
+
+function AccountIcon() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+      <circle cx="12" cy="7" r="4" />
+    </svg>
+  );
 }
 
 const FALLBACK_HEADER_MENU = {
@@ -216,16 +293,3 @@ const FALLBACK_HEADER_MENU = {
     },
   ],
 };
-
-function activeLinkStyle({
-  isActive,
-  isPending,
-}: {
-  isActive: boolean;
-  isPending: boolean;
-}) {
-  return {
-    fontWeight: isActive ? 'bold' : undefined,
-    color: isPending ? 'grey' : 'black',
-  };
-}

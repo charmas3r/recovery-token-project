@@ -52,8 +52,13 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
  * It's a temporary fix until the issue is resolved.
  * https://github.com/remix-run/remix/issues/9242
  */
+/**
+ * Design System Fonts & Assets
+ * @see .cursor/skills/design-system/SKILL.md
+ */
 export function links() {
   return [
+    // Preconnect to Shopify CDN
     {
       rel: 'preconnect',
       href: 'https://cdn.shopify.com',
@@ -62,6 +67,25 @@ export function links() {
       rel: 'preconnect',
       href: 'https://shop.app',
     },
+    
+    // Preconnect to Google Fonts for design system fonts
+    {
+      rel: 'preconnect',
+      href: 'https://fonts.googleapis.com',
+    },
+    {
+      rel: 'preconnect',
+      href: 'https://fonts.gstatic.com',
+      crossOrigin: 'anonymous',
+    },
+    
+    // Load design system fonts: Inter (body) & Manrope (display/headings)
+    {
+      rel: 'stylesheet',
+      href: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700&display=swap',
+    },
+    
+    // Favicon
     {rel: 'icon', type: 'image/svg+xml', href: favicon},
   ];
 }

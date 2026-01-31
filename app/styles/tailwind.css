@@ -1,6 +1,541 @@
 /**
- * Configure Tailwind v4 in this file using CSS variables and directives:
- * https://tailwindcss.com/docs/v4-beta#css-first-configuration
+ * Tailwind CSS v4 Configuration
+ * Design System: Recovery Token Store
+ * Reference: PRD Section 3 & .cursor/skills/design-system/SKILL.md
  */
 
 @import 'tailwindcss';
+
+/**
+ * ===================================
+ * Design System Tokens
+ * ===================================
+ */
+
+@theme {
+  /* Typography Scale - Major Third (1.250 ratio) */
+  --font-family-sans: 'Inter', system-ui, -apple-system, 'BlinkMacSystemFont', 'Segoe UI', sans-serif;
+  --font-family-display: 'Manrope', 'Inter', system-ui, -apple-system, sans-serif;
+  
+  /* Font Sizes with Line Heights */
+  --font-size-hero: 3rem;              /* 48px */
+  --font-size-hero--line-height: 1.1;
+  
+  --font-size-page-title: 2.25rem;     /* 36px */
+  --font-size-page-title--line-height: 1.2;
+  
+  --font-size-section: 1.75rem;        /* 28px */
+  --font-size-section--line-height: 1.3;
+  
+  --font-size-subsection: 1.25rem;     /* 20px */
+  --font-size-subsection--line-height: 1.4;
+  
+  --font-size-body-lg: 1.125rem;       /* 18px */
+  --font-size-body-lg--line-height: 1.6;
+  
+  --font-size-body: 1rem;              /* 16px */
+  --font-size-body--line-height: 1.6;
+  
+  --font-size-body-sm: 0.875rem;       /* 14px */
+  --font-size-body-sm--line-height: 1.5;
+  
+  --font-size-caption: 0.75rem;        /* 12px */
+  --font-size-caption--line-height: 1.4;
+  
+  /* Color System */
+  --color-primary: #1A202C;            /* Deep Navy - headings, primary text */
+  --color-secondary: #4A5568;          /* Slate - body text, secondary elements */
+  --color-accent: #B8764F;             /* Bronze/Copper - CTAs, links, badges */
+  --color-surface: #F7FAFC;            /* Cool Gray - backgrounds, cards */
+  --color-surface-dark: #2D3748;       /* Dark surface - footer, overlays */
+  --color-success: #38A169;            /* Confirmation, in-stock */
+  --color-warning: #DD6B20;            /* Important notices, low stock */
+  --color-error: #E53E3E;              /* Error messages, required fields */
+  --color-white: #FFFFFF;
+  --color-black: #000000;
+  
+  /* Spacing Scale - 8px Grid System */
+  --spacing-xs: 0.25rem;               /* 4px */
+  --spacing-sm: 0.5rem;                /* 8px */
+  --spacing-md: 1rem;                  /* 16px */
+  --spacing-lg: 1.5rem;                /* 24px */
+  --spacing-xl: 2rem;                  /* 32px */
+  --spacing-2xl: 3rem;                 /* 48px */
+  --spacing-3xl: 4rem;                 /* 64px */
+  --spacing-4xl: 6rem;                 /* 96px */
+  
+  /* Container Max Widths */
+  --max-width-prose: 640px;            /* Long-form content */
+  --max-width-standard: 1280px;        /* General pages */
+  --max-width-wide: 1440px;            /* Homepage, visual-heavy */
+  
+  /* Opacity Scale */
+  --opacity-85: 0.85;                  /* Body text */
+  --opacity-60: 0.60;                  /* Metadata */
+  --opacity-40: 0.40;                  /* Disabled states */
+  --opacity-10: 0.10;                  /* Subtle backgrounds */
+  
+  /* Border Radius */
+  --radius-sm: 0.25rem;                /* 4px */
+  --radius-md: 0.375rem;               /* 6px */
+  --radius-lg: 0.5rem;                 /* 8px */
+  --radius-full: 9999px;               /* Pills */
+  
+  /* Transitions */
+  --transition-fast: 200ms ease;
+  --transition-base: 300ms ease;
+  --transition-slow: 400ms ease-out;
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+  
+  /* Legacy Variables (for backward compatibility) */
+  --aside-width: 400px;
+  --cart-aside-summary-height-with-discount: 300px;
+  --cart-aside-summary-height: 250px;
+  --grid-item-width: 355px;
+  --header-height: 64px;
+  --color-dark: var(--color-primary);
+  --color-light: var(--color-white);
+}
+
+/**
+ * ===================================
+ * Global Base Styles
+ * ===================================
+ */
+
+* {
+  /* Respect reduced motion preference */
+  @media (prefers-reduced-motion: reduce) {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-body);
+  line-height: var(--font-size-body--line-height);
+  color: var(--color-secondary);
+  background-color: var(--color-white);
+}
+
+/* Typography Defaults */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-family-display);
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+/* Images */
+img {
+  border-radius: var(--radius-sm);
+}
+
+/**
+ * ===================================
+ * Utility Classes
+ * ===================================
+ */
+
+/* Container Classes */
+.container-prose {
+  max-width: var(--max-width-prose);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--spacing-md);
+  padding-right: var(--spacing-md);
+}
+
+.container-standard {
+  max-width: var(--max-width-standard);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--spacing-md);
+  padding-right: var(--spacing-md);
+}
+
+@media (min-width: 768px) {
+  .container-standard {
+    padding-left: var(--spacing-xl);
+    padding-right: var(--spacing-xl);
+  }
+}
+
+.container-wide {
+  max-width: var(--max-width-wide);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--spacing-md);
+  padding-right: var(--spacing-md);
+}
+
+@media (min-width: 768px) {
+  .container-wide {
+    padding-left: var(--spacing-xl);
+    padding-right: var(--spacing-xl);
+  }
+}
+
+/* Typography Utility Classes */
+.text-hero {
+  font-size: var(--font-size-hero);
+  line-height: var(--font-size-hero--line-height);
+  font-weight: 700;
+}
+
+.text-page-title {
+  font-size: var(--font-size-page-title);
+  line-height: var(--font-size-page-title--line-height);
+  font-weight: 700;
+}
+
+.text-section {
+  font-size: var(--font-size-section);
+  line-height: var(--font-size-section--line-height);
+  font-weight: 700;
+}
+
+.text-subsection {
+  font-size: var(--font-size-subsection);
+  line-height: var(--font-size-subsection--line-height);
+  font-weight: 600;
+}
+
+.text-body-lg {
+  font-size: var(--font-size-body-lg);
+  line-height: var(--font-size-body-lg--line-height);
+  font-weight: 400;
+}
+
+.text-body {
+  font-size: var(--font-size-body);
+  line-height: var(--font-size-body--line-height);
+  font-weight: 400;
+}
+
+.text-body-sm {
+  font-size: var(--font-size-body-sm);
+  line-height: var(--font-size-body-sm--line-height);
+  font-weight: 400;
+}
+
+.text-caption {
+  font-size: var(--font-size-caption);
+  line-height: var(--font-size-caption--line-height);
+  font-weight: 500;
+}
+
+/* Color Utility Classes */
+.text-primary {
+  color: var(--color-primary);
+}
+
+.text-secondary {
+  color: var(--color-secondary);
+}
+
+.text-accent {
+  color: var(--color-accent);
+}
+
+.bg-primary {
+  background-color: var(--color-primary);
+}
+
+.bg-secondary {
+  background-color: var(--color-secondary);
+}
+
+.bg-accent {
+  background-color: var(--color-accent);
+}
+
+.bg-surface {
+  background-color: var(--color-surface);
+}
+
+.bg-surface-dark {
+  background-color: var(--color-surface-dark);
+}
+
+.text-success {
+  color: var(--color-success);
+}
+
+.bg-success {
+  background-color: var(--color-success);
+}
+
+.text-warning {
+  color: var(--color-warning);
+}
+
+.bg-warning {
+  background-color: var(--color-warning);
+}
+
+.text-error {
+  color: var(--color-error);
+}
+
+.bg-error {
+  background-color: var(--color-error);
+}
+
+/* Focus States - Design System Required */
+.focus-ring {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-white), 0 0 0 4px var(--color-accent);
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-white), 0 0 0 4px var(--color-accent);
+}
+
+/**
+ * ===================================
+ * Component Styles (Legacy Compatibility)
+ * ===================================
+ */
+
+/* Non-anchor links */
+.link:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* Aside Component */
+@media (max-width: 45em) {
+  html:has(.overlay.expanded) {
+    overflow: hidden;
+  }
+}
+
+aside {
+  background: var(--color-white);
+  box-shadow: var(--shadow-xl);
+  height: 100vh;
+  width: min(var(--aside-width), 100vw);
+  position: fixed;
+  right: calc(-1 * var(--aside-width));
+  top: 0;
+  transition: transform var(--transition-fast);
+}
+
+aside header {
+  align-items: center;
+  border-bottom: 1px solid var(--color-primary);
+  display: flex;
+  height: var(--header-height);
+  justify-content: space-between;
+  padding: 0 var(--spacing-lg);
+}
+
+aside header h3 {
+  margin: 0;
+  font-size: var(--font-size-subsection);
+  color: var(--color-primary);
+}
+
+aside header .close {
+  font-weight: bold;
+  opacity: var(--opacity-85);
+  text-decoration: none;
+  transition: all var(--transition-fast);
+  width: 20px;
+}
+
+aside header .close:hover {
+  opacity: 1;
+}
+
+aside main {
+  margin: var(--spacing-md);
+}
+
+.overlay {
+  background: rgba(0, 0, 0, 0.2);
+  bottom: 0;
+  left: 0;
+  opacity: 0;
+  pointer-events: none;
+  position: fixed;
+  right: 0;
+  top: 0;
+  transition: opacity var(--transition-slow);
+  visibility: hidden;
+  z-index: 10;
+}
+
+.overlay.expanded {
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
+}
+
+.overlay.expanded aside {
+  transform: translateX(calc(var(--aside-width) * -1));
+}
+
+/* Header */
+.header {
+  align-items: center;
+  background: var(--color-white);
+  display: flex;
+  height: var(--header-height);
+  padding: 0 var(--spacing-md);
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  border-bottom: 1px solid var(--color-surface);
+}
+
+.header-menu-mobile-toggle {
+  @media (min-width: 48em) {
+    display: none;
+  }
+}
+
+.header-menu-desktop {
+  display: none;
+  gap: var(--spacing-lg);
+  @media (min-width: 45em) {
+    display: flex;
+    margin-left: var(--spacing-2xl);
+  }
+}
+
+.header-menu-item {
+  cursor: pointer;
+  font-size: var(--font-size-body);
+  font-weight: 500;
+  color: var(--color-primary);
+  transition: color var(--transition-fast);
+}
+
+.header-menu-item:hover {
+  color: var(--color-accent);
+}
+
+.header-ctas {
+  align-items: center;
+  display: flex;
+  gap: var(--spacing-md);
+  margin-left: auto;
+}
+
+/* Footer */
+.footer {
+  background: var(--color-surface-dark);
+  margin-top: auto;
+  padding: var(--spacing-2xl) 0;
+}
+
+.footer-menu {
+  justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-lg);
+  padding: var(--spacing-md);
+}
+
+.footer-menu a {
+  color: var(--color-white);
+  min-width: fit-content;
+  font-size: var(--font-size-body-sm);
+}
+
+/* Cart */
+.cart-main {
+  height: 100%;
+  max-height: calc(100vh - var(--cart-aside-summary-height));
+  overflow-y: auto;
+}
+
+.cart-line {
+  display: flex;
+  padding: var(--spacing-md) 0;
+  border-bottom: 1px solid var(--color-surface);
+}
+
+.cart-line img {
+  height: 100%;
+  display: block;
+  margin-right: var(--spacing-md);
+}
+
+.cart-summary-aside {
+  background: var(--color-white);
+  border-top: 1px solid var(--color-primary);
+  bottom: 0;
+  padding-top: var(--spacing-md);
+  position: absolute;
+  width: calc(var(--aside-width) - 40px);
+}
+
+/* Product Grid */
+.products-grid {
+  display: grid;
+  gap: var(--spacing-lg);
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  margin-bottom: var(--spacing-2xl);
+}
+
+@media (min-width: 640px) {
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 768px) {
+  .products-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .products-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Product Detail Page */
+.product {
+  display: grid;
+  gap: var(--spacing-2xl);
+  @media (min-width: 768px) {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-4xl);
+  }
+}
+
+.product-main {
+  align-self: start;
+  position: sticky;
+  top: calc(var(--header-height) + var(--spacing-xl));
+}
+
+/* Reset Button */
+button.reset {
+  border: 0;
+  background: inherit;
+  font-size: inherit;
+  padding: 0;
+  margin: 0;
+}
+
+button.reset:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}

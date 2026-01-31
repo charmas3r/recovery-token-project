@@ -37,21 +37,39 @@ export function PageLayout({
       <CartAside cart={cart} />
       <SearchAside />
       <MobileMenuAside header={header} publicStoreDomain={publicStoreDomain} />
-      {header && (
-        <Header
-          header={header}
-          cart={cart}
-          isLoggedIn={isLoggedIn}
-          publicStoreDomain={publicStoreDomain}
-        />
-      )}
-      <main>{children}</main>
+      <div className="fixed top-0 left-0 right-0 z-50">
+        <AnnouncementBar />
+        {header && (
+          <Header
+            header={header}
+            cart={cart}
+            isLoggedIn={isLoggedIn}
+            publicStoreDomain={publicStoreDomain}
+          />
+        )}
+      </div>
+      {/* Padding for fixed header + announcement bar */}
+      <main className="pt-24">{children}</main>
       <Footer
         footer={footer}
         header={header}
         publicStoreDomain={publicStoreDomain}
       />
     </Aside.Provider>
+  );
+}
+
+/**
+ * Announcement Bar Component
+ * Displays promotional messages at the top of the page
+ */
+function AnnouncementBar() {
+  return (
+    <div className="bg-primary text-white py-3 px-4 text-center">
+      <p className="text-sm font-medium tracking-wide">
+        Enjoy an exclusive 10% coupon for your first purchase.
+      </p>
+    </div>
   );
 }
 

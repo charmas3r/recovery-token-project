@@ -13,7 +13,6 @@ import type {
   RecommendedProductFragment,
 } from 'storefrontapi.generated';
 import {useVariantUrl} from '~/lib/variants';
-import {Card} from '~/components/ui';
 
 export function ProductItem({
   product,

@@ -19,16 +19,6 @@ export const CUSTOMER_FRAGMENT = `#graphql
         ...Address
       }
     }
-    metafields(identifiers: [
-      {namespace: "custom", key: "sobriety_date"}
-      {namespace: "custom", key: "recovery_program"}
-      {namespace: "custom", key: "milestone_reminders"}
-    ]) {
-      key
-      namespace
-      value
-      type
-    }
   }
   fragment Address on CustomerAddress {
     id

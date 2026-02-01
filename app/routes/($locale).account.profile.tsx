@@ -106,15 +106,6 @@ export default function AccountProfile() {
   const action = useActionData<typeof action>();
   const customer = account?.customer;
   
-  // Get metafield values
-  const getMetafield = (key: string) => {
-    return customer?.metafields?.find((m: any) => m.key === key)?.value;
-  };
-  
-  const sobrietyDate = getMetafield('sobriety_date');
-  const recoveryProgram = getMetafield('recovery_program');
-  const milestoneReminders = getMetafield('milestone_reminders');
-  
   // Calculate profile completion
   const calculateCompletion = () => {
     let completed = 0;
@@ -181,9 +172,6 @@ export default function AccountProfile() {
         
         {/* Recovery Journey */}
         <RecoveryJourneySection 
-          sobrietyDate={sobrietyDate}
-          recoveryProgram={recoveryProgram}
-          milestoneReminders={milestoneReminders}
           isSubmitting={state !== 'idle'}
         />
         
@@ -306,14 +294,8 @@ function PersonalInformationSection({
 }
 
 function RecoveryJourneySection({
-  sobrietyDate,
-  recoveryProgram,
-  milestoneReminders,
   isSubmitting,
 }: {
-  sobrietyDate?: string;
-  recoveryProgram?: string;
-  milestoneReminders?: string;
   isSubmitting: boolean;
 }) {
   return (
@@ -342,7 +324,6 @@ function RecoveryJourneySection({
             id="sobriety_date"
             name="sobriety_date"
             type="date"
-            defaultValue={sobrietyDate ?? ''}
             className="w-full"
             max={new Date().toISOString().split('T')[0]}
             disabled
@@ -359,7 +340,6 @@ function RecoveryJourneySection({
           <select
             id="recovery_program"
             name="recovery_program"
-            defaultValue={recoveryProgram ?? ''}
             className="w-full px-4 py-3 border border-black/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent text-body text-primary bg-white"
             disabled
           >

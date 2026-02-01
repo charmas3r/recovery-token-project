@@ -6,11 +6,9 @@ export const CUSTOMER_FRAGMENT = `#graphql
     lastName
     emailAddress {
       emailAddress
-      marketingState
     }
     phoneNumber {
       phoneNumber
-      marketingState
     }
     createdAt
     defaultAddress {
@@ -21,7 +19,6 @@ export const CUSTOMER_FRAGMENT = `#graphql
         ...Address
       }
     }
-    numberOfOrders
     metafields(identifiers: [
       {namespace: "custom", key: "sobriety_date"}
       {namespace: "custom", key: "recovery_program"}

@@ -1,9 +1,6 @@
 import type {CustomerFragment} from 'customer-accountapi.generated';
 import type {CustomerUpdateInput} from '@shopify/hydrogen/customer-account-api-types';
-import {
-  CUSTOMER_UPDATE_MUTATION,
-  CUSTOMER_EMAIL_MARKETING_MUTATION,
-} from '~/graphql/customer-account/CustomerUpdateMutation';
+import {CUSTOMER_UPDATE_MUTATION} from '~/graphql/customer-account/CustomerUpdateMutation';
 import {CUSTOMER_METAFIELDS_SET_MUTATION} from '~/graphql/customer-account/CustomerMetafieldsMutation';
 import {
   data,
@@ -16,7 +13,7 @@ import type {Route} from './+types/account.profile';
 import {AccountLayout} from '~/components/account/AccountLayout';
 import {Button} from '~/components/ui/Button';
 import {Input} from '~/components/ui/Input';
-import {CheckCircle, AlertCircle, Calendar, Heart, Bell, Mail, Package, Clock} from 'lucide-react';
+import {CheckCircle, AlertCircle, Calendar, Heart, Mail, Clock} from 'lucide-react';
 
 export type ActionResponse = {
   success?: boolean;
@@ -83,12 +80,16 @@ export async function action({request, context}: Route.ActionArgs) {
     // Handle Recovery Journey Update (Metafields)
     if (section === 'recovery') {
       const {data: customerData} = await customerAccount.query(`#graphql
-        query GetCustomerId {
+        query GetCustomerId($language: LanguageCode) @inContext(language: $language) {
           customer {
             id
           }
         }
-      `);
+      `, {
+        variables: {
+          language: customerAccount.i18n.language,
+        },
+      });
 
       const customerId = customerData?.customer?.id;
       if (!customerId) throw new Error('Customer ID not found');
@@ -154,41 +155,6 @@ export async function action({request, context}: Route.ActionArgs) {
       });
     }
 
-    // Handle Marketing Preferences Update
-    if (section === 'marketing') {
-      const emailMarketing = form.get('email_marketing')?.toString();
-      
-      if (emailMarketing) {
-        const marketingState = emailMarketing === 'on' ? 'SUBSCRIBED' : 'UNSUBSCRIBED';
-        
-        const {data: mutationData, errors} = await customerAccount.mutate(
-          CUSTOMER_EMAIL_MARKETING_MUTATION,
-          {
-            variables: {
-              input: {
-                marketingState,
-              },
-              language: customerAccount.i18n.language,
-            },
-          },
-        );
-
-        if (errors?.length || mutationData?.customerEmailMarketingConsentUpdate?.userErrors?.length) {
-          throw new Error(
-            mutationData?.customerEmailMarketingConsentUpdate?.userErrors?.[0]?.message || 
-            errors?.[0]?.message || 
-            'Update failed'
-          );
-        }
-      }
-
-      return data({
-        success: true,
-        message: 'Communication preferences updated successfully',
-        section: 'marketing',
-      });
-    }
-
     return data({error: 'Invalid section'}, {status: 400});
   } catch (error: any) {
     return data(
@@ -220,15 +186,13 @@ export default function AccountProfile() {
   // Calculate profile completion
   const calculateCompletion = () => {
     let completed = 0;
-    const total = 7;
+    const total = 5;
     
     if (customer?.firstName) completed++;
     if (customer?.lastName) completed++;
     if (customer?.phoneNumber?.phoneNumber) completed++;
     if (sobrietyDate) completed++;
     if (recoveryProgram) completed++;
-    if (customer?.emailAddress?.marketingState) completed++;
-    if (milestoneReminders !== undefined) completed++;
     
     return Math.round((completed / total) * 100);
   };
@@ -304,16 +268,9 @@ export default function AccountProfile() {
           isSubmitting={state !== 'idle'}
         />
         
-        {/* Communication Preferences */}
-        <CommunicationPreferencesSection 
-          emailMarketing={customer?.emailAddress?.marketingState === 'SUBSCRIBED'}
-          isSubmitting={state !== 'idle'}
-        />
-        
         {/* Account Summary */}
         <AccountSummarySection 
           memberSince={memberSince}
-          numberOfOrders={customer?.numberOfOrders ?? 0}
           daysInRecovery={daysInRecovery}
         />
       </div>
@@ -531,93 +488,18 @@ function RecoveryJourneySection({
   );
 }
 
-function CommunicationPreferencesSection({
-  emailMarketing,
-  isSubmitting,
-}: {
-  emailMarketing?: boolean;
-  isSubmitting: boolean;
-}) {
-  return (
-    <div className="bg-white rounded-xl border border-black/5 p-6">
-      <div className="flex items-center gap-3 mb-6">
-        <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center">
-          <Bell className="w-5 h-5 text-accent" />
-        </div>
-        <div>
-          <h2 className="font-display text-xl font-bold text-primary">Communication Preferences</h2>
-          <p className="text-body-sm text-secondary">Choose how you'd like to hear from us</p>
-        </div>
-      </div>
-
-      <Form method="PUT">
-        <input type="hidden" name="section" value="marketing" />
-        
-        <div className="space-y-5">
-          <div className="p-4 bg-surface rounded-lg">
-            <label className="flex items-start gap-3 cursor-pointer group">
-              <input
-                type="checkbox"
-                name="email_marketing"
-                defaultChecked={emailMarketing}
-                className="mt-1 w-5 h-5 rounded border-black/20 text-accent focus:ring-accent"
-              />
-              <div className="flex-1">
-                <span className="text-body font-medium text-primary group-hover:text-accent transition-colors">
-                  Email Marketing
-                </span>
-                <p className="text-caption text-secondary mt-1">
-                  Receive exclusive offers, new product announcements, and recovery inspiration
-                </p>
-              </div>
-            </label>
-          </div>
-
-          <div className="p-4 bg-surface/50 rounded-lg border border-dashed border-black/10">
-            <div className="flex items-start gap-3">
-              <Bell className="w-5 h-5 text-secondary flex-shrink-0 mt-0.5" />
-              <div className="flex-1">
-                <span className="text-body font-medium text-secondary">
-                  SMS Marketing (Coming Soon)
-                </span>
-                <p className="text-caption text-secondary mt-1">
-                  Get order updates and milestone reminders via text message
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="mt-6 pt-6 border-t border-black/5">
-          <Button
-            type="submit"
-            variant="primary"
-            size="lg"
-            disabled={isSubmitting}
-            className="w-full sm:w-auto"
-          >
-            {isSubmitting ? 'Saving...' : 'Save Preferences'}
-          </Button>
-        </div>
-      </Form>
-    </div>
-  );
-}
-
 function AccountSummarySection({
   memberSince,
-  numberOfOrders,
   daysInRecovery,
 }: {
   memberSince: string | null;
-  numberOfOrders: number;
   daysInRecovery: number | null;
 }) {
   return (
     <div className="bg-gradient-to-br from-primary to-surface-dark rounded-xl p-6 text-white">
       <h2 className="font-display text-xl font-bold mb-6">Account Summary</h2>
       
-      <div className="grid sm:grid-cols-3 gap-6">
+      <div className="grid sm:grid-cols-2 gap-6">
         <div className="flex items-start gap-4">
           <div className="w-12 h-12 rounded-lg bg-white/10 flex items-center justify-center flex-shrink-0">
             <Clock className="w-6 h-6" />
@@ -628,17 +510,7 @@ function AccountSummarySection({
           </div>
         </div>
 
-        <div className="flex items-start gap-4">
-          <div className="w-12 h-12 rounded-lg bg-white/10 flex items-center justify-center flex-shrink-0">
-            <Package className="w-6 h-6" />
-          </div>
-          <div>
-            <div className="text-caption text-white/60 mb-1">Total Orders</div>
-            <div className="font-display text-lg font-bold">{numberOfOrders}</div>
-          </div>
-        </div>
-
-        {daysInRecovery !== null && (
+        {daysInRecovery !== null ? (
           <div className="flex items-start gap-4">
             <div className="w-12 h-12 rounded-lg bg-accent flex items-center justify-center flex-shrink-0">
               <Heart className="w-6 h-6 text-white" />
@@ -646,6 +518,16 @@ function AccountSummarySection({
             <div>
               <div className="text-caption text-white/60 mb-1">Days in Recovery</div>
               <div className="font-display text-lg font-bold text-accent">{daysInRecovery} 🎉</div>
+            </div>
+          </div>
+        ) : (
+          <div className="flex items-start gap-4">
+            <div className="w-12 h-12 rounded-lg bg-white/10 flex items-center justify-center flex-shrink-0">
+              <Calendar className="w-6 h-6" />
+            </div>
+            <div>
+              <div className="text-caption text-white/60 mb-1">Recovery Journey</div>
+              <div className="text-body-sm text-white/80">Not set</div>
             </div>
           </div>
         )}

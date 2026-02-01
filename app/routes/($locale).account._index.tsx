@@ -19,7 +19,7 @@ export default function AccountDashboard() {
       subheading="Manage your account and track your recovery journey"
     >
       {/* Quick Stats */}
-      <div className="grid sm:grid-cols-2 gap-4 mb-8">
+      <div className="grid sm:grid-cols-2 gap-6 mb-12">
         <QuickStatCard
           icon={<MapPin className="w-5 h-5" />}
           label="Saved Addresses"
@@ -32,9 +32,9 @@ export default function AccountDashboard() {
         />
       </div>
       
-      {/* Quick Links */}
-      <div className="space-y-4">
-        <h2 className="font-display text-lg font-bold text-primary">
+      {/* Quick Actions */}
+      <div>
+        <h2 className="font-display text-xl font-bold text-primary mb-6">
           Quick Actions
         </h2>
         <div className="grid sm:grid-cols-2 gap-4">
@@ -78,14 +78,14 @@ function QuickStatCard({
   value: string;
 }) {
   return (
-    <div className="bg-surface rounded-xl p-5 text-center">
-      <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-accent/10 text-accent mb-3">
+    <div className="bg-surface rounded-xl p-6 text-center">
+      <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent/10 text-accent mb-4">
         {icon}
       </div>
-      <div className="font-display text-2xl font-bold text-primary mb-1">
+      <div className="font-display text-3xl font-bold text-primary mb-2">
         {value}
       </div>
-      <div className="text-body-sm text-secondary">{label}</div>
+      <div className="text-body text-secondary">{label}</div>
     </div>
   );
 }
@@ -104,18 +104,18 @@ function QuickLinkCard({
   return (
     <Link
       to={to}
-      className="flex items-center gap-4 p-4 rounded-xl border border-black/5 hover:border-accent/20 hover:bg-surface/50 transition-all duration-200 group"
+      className="flex items-start gap-4 p-5 rounded-xl border border-black/5 hover:border-accent/20 hover:bg-surface/50 transition-all duration-200 group"
     >
       <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center text-accent group-hover:bg-accent group-hover:text-white transition-colors">
         {icon}
       </div>
-      <div className="flex-1 min-w-0">
-        <h3 className="font-display font-bold text-primary group-hover:text-accent transition-colors">
+      <div className="flex-1 min-w-0 pt-0.5">
+        <h3 className="font-display text-base font-bold text-primary group-hover:text-accent transition-colors mb-1">
           {title}
         </h3>
-        <p className="text-body-sm text-secondary">{description}</p>
+        <p className="text-body-sm text-secondary leading-relaxed">{description}</p>
       </div>
-      <ChevronRight className="w-5 h-5 text-secondary group-hover:text-accent transition-colors" />
+      <ChevronRight className="flex-shrink-0 w-5 h-5 text-secondary group-hover:text-accent transition-colors mt-1" />
     </Link>
   );
 }

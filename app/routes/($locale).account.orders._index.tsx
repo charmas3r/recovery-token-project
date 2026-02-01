@@ -76,22 +76,20 @@ export default function Orders() {
       
       {/* Orders List */}
       {orders?.nodes.length ? (
-        <div className="mt-6">
-          <PaginatedResourceSection connection={orders}>
-            {({node: order}) => {
-              const fulfillmentStatus = flattenConnection(order.fulfillments)[0]?.status ?? null;
-              return (
-                <div className="mb-4">
-                  <OrderCard 
-                    key={order.id} 
-                    order={order} 
-                    fulfillmentStatus={fulfillmentStatus}
-                  />
-                </div>
-              );
-            }}
-          </PaginatedResourceSection>
-        </div>
+        <PaginatedResourceSection connection={orders}>
+          {({node: order}) => {
+            const fulfillmentStatus = flattenConnection(order.fulfillments)[0]?.status ?? null;
+            return (
+              <div className="mb-4">
+                <OrderCard 
+                  key={order.id} 
+                  order={order} 
+                  fulfillmentStatus={fulfillmentStatus}
+                />
+              </div>
+            );
+          }}
+        </PaginatedResourceSection>
       ) : (
         <EmptyOrders hasFilters={hasFilters} />
       )}
@@ -101,32 +99,36 @@ export default function Orders() {
 
 function EmptyOrders({hasFilters = false}: {hasFilters?: boolean}) {
   return (
-    <div className="text-center py-12">
-      <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-surface mb-4">
-        <Package className="w-8 h-8 text-secondary" />
+    <div className="text-center py-16 px-4">
+      <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-surface mb-6">
+        <Package className="w-10 h-10 text-secondary" />
       </div>
       {hasFilters ? (
         <>
-          <h3 className="font-display text-xl font-bold text-primary mb-2">
+          <h3 className="font-display text-2xl font-bold text-primary mb-3">
             No orders found
           </h3>
-          <p className="text-body text-secondary mb-6">
-            No orders match your search criteria.
-          </p>
+          <div className="max-w-md mx-auto">
+            <p className="text-body-lg text-secondary mb-8">
+              No orders match your search criteria.
+            </p>
+          </div>
           <Link to="/account/orders">
-            <Button variant="secondary">Clear Filters</Button>
+            <Button variant="secondary" size="lg">Clear Filters</Button>
           </Link>
         </>
       ) : (
         <>
-          <h3 className="font-display text-xl font-bold text-primary mb-2">
+          <h3 className="font-display text-2xl font-bold text-primary mb-3">
             No orders yet
           </h3>
-          <p className="text-body text-secondary mb-6">
-            You haven't placed any orders yet. Start shopping to celebrate your milestones!
-          </p>
+          <div className="max-w-md mx-auto">
+            <p className="text-body-lg text-secondary mb-8">
+              You haven't placed any orders yet. Start shopping to celebrate your milestones!
+            </p>
+          </div>
           <Link to="/collections">
-            <Button variant="primary">Browse Tokens</Button>
+            <Button variant="primary" size="lg">Browse Tokens</Button>
           </Link>
         </>
       )}
@@ -170,7 +172,7 @@ function OrderSearchForm({
     <form
       ref={formRef}
       onSubmit={handleSubmit}
-      className="bg-surface rounded-xl p-4"
+      className="bg-surface rounded-xl p-5 mb-6"
       aria-label="Search orders"
     >
       <div className="flex flex-col sm:flex-row gap-3">
@@ -194,10 +196,10 @@ function OrderSearchForm({
             className="w-full"
           />
         </div>
-        <div className="flex gap-2">
-          <Button type="submit" variant="primary" disabled={isSearching}>
-            <Search className="w-4 h-4 mr-2" />
-            {isSearching ? 'Searching...' : 'Search'}
+        <div className="flex gap-2 sm:flex-shrink-0">
+          <Button type="submit" variant="primary" disabled={isSearching} className="sm:w-auto">
+            <Search className="w-4 h-4 sm:mr-2" />
+            <span className="hidden sm:inline">{isSearching ? 'Searching...' : 'Search'}</span>
           </Button>
           {hasFilters && (
             <Button
@@ -208,6 +210,7 @@ function OrderSearchForm({
                 setSearchParams(new URLSearchParams());
                 formRef.current?.reset();
               }}
+              aria-label="Clear filters"
             >
               <X className="w-4 h-4" />
             </Button>

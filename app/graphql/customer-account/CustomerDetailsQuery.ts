@@ -4,6 +4,15 @@ export const CUSTOMER_FRAGMENT = `#graphql
     id
     firstName
     lastName
+    emailAddress {
+      emailAddress
+      marketingState
+    }
+    phoneNumber {
+      phoneNumber
+      marketingState
+    }
+    createdAt
     defaultAddress {
       ...Address
     }
@@ -11,6 +20,17 @@ export const CUSTOMER_FRAGMENT = `#graphql
       nodes {
         ...Address
       }
+    }
+    numberOfOrders
+    metafields(identifiers: [
+      {namespace: "custom", key: "sobriety_date"}
+      {namespace: "custom", key: "recovery_program"}
+      {namespace: "custom", key: "milestone_reminders"}
+    ]) {
+      key
+      namespace
+      value
+      type
     }
   }
   fragment Address on CustomerAddress {

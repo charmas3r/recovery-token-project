@@ -250,8 +250,9 @@ export default function Addresses() {
       {!showNewForm && (
         <Button
           variant="secondary"
+          size="lg"
           onClick={() => setShowNewForm(true)}
-          className="mb-6"
+          className="mb-8"
         >
           <Plus className="w-4 h-4 mr-2" />
           Add New Address
@@ -260,8 +261,8 @@ export default function Addresses() {
 
       {/* New Address Form */}
       {showNewForm && (
-        <div className="mb-8 p-6 bg-surface rounded-xl">
-          <h2 className="font-display text-lg font-bold text-primary mb-4">
+        <div className="mb-10 p-6 bg-surface rounded-xl border border-black/5">
+          <h2 className="font-display text-xl font-bold text-primary mb-6">
             Add New Address
           </h2>
           <NewAddressForm onCancel={() => setShowNewForm(false)} />
@@ -271,10 +272,10 @@ export default function Addresses() {
       {/* Existing Addresses */}
       {addresses.nodes.length > 0 ? (
         <div className="space-y-6">
-          <h2 className="font-display text-lg font-bold text-primary">
+          <h2 className="font-display text-xl font-bold text-primary">
             Saved Addresses
           </h2>
-          <div className="grid sm:grid-cols-2 gap-4">
+          <div className="grid sm:grid-cols-2 gap-6">
             {addresses.nodes.map((address) => (
               <AddressCard
                 key={address.id}
@@ -286,17 +287,19 @@ export default function Addresses() {
         </div>
       ) : (
         !showNewForm && (
-          <div className="text-center py-12">
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-surface mb-4">
-              <MapPin className="w-8 h-8 text-secondary" />
+          <div className="text-center py-16 px-4">
+            <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-surface mb-6">
+              <MapPin className="w-10 h-10 text-secondary" />
             </div>
-            <h3 className="font-display text-xl font-bold text-primary mb-2">
+            <h3 className="font-display text-2xl font-bold text-primary mb-3">
               No addresses saved
             </h3>
-            <p className="text-body text-secondary mb-6">
-              Add a shipping address to make checkout faster.
-            </p>
-            <Button variant="primary" onClick={() => setShowNewForm(true)}>
+            <div className="max-w-md mx-auto">
+              <p className="text-body-lg text-secondary mb-8">
+                Add a shipping address to make checkout faster.
+              </p>
+            </div>
+            <Button variant="primary" size="lg" onClick={() => setShowNewForm(true)}>
               <Plus className="w-4 h-4 mr-2" />
               Add Address
             </Button>
@@ -329,16 +332,18 @@ function NewAddressForm({onCancel}: {onCancel: () => void}) {
       defaultAddress={null}
     >
       {({stateForMethod}) => (
-        <div className="flex gap-3 mt-6">
+        <div className="flex flex-col sm:flex-row gap-3 mt-6">
           <Button
             type="submit"
             variant="primary"
+            size="lg"
             formMethod="POST"
             disabled={stateForMethod('POST') !== 'idle'}
+            className="w-full sm:w-auto"
           >
             {stateForMethod('POST') !== 'idle' ? 'Creating...' : 'Create Address'}
           </Button>
-          <Button type="button" variant="secondary" onClick={onCancel}>
+          <Button type="button" variant="secondary" size="lg" onClick={onCancel} className="w-full sm:w-auto">
             Cancel
           </Button>
         </div>
@@ -367,19 +372,23 @@ function AddressCard({
           defaultAddress={defaultAddress}
         >
           {({stateForMethod}) => (
-            <div className="flex gap-3 mt-6">
+            <div className="flex flex-col sm:flex-row gap-3 mt-6">
               <Button
                 type="submit"
                 variant="primary"
+                size="lg"
                 formMethod="PUT"
                 disabled={stateForMethod('PUT') !== 'idle'}
+                className="w-full sm:w-auto"
               >
-                {stateForMethod('PUT') !== 'idle' ? 'Saving...' : 'Save'}
+                {stateForMethod('PUT') !== 'idle' ? 'Saving...' : 'Save Changes'}
               </Button>
               <Button
                 type="button"
                 variant="secondary"
+                size="lg"
                 onClick={() => setIsEditing(false)}
+                className="w-full sm:w-auto"
               >
                 Cancel
               </Button>
@@ -475,9 +484,9 @@ function AddressForm({
         </div>
       )}
 
-      <div className="grid sm:grid-cols-2 gap-4">
+      <div className="grid sm:grid-cols-2 gap-5">
         <div>
-          <label htmlFor={`firstName-${addressId}`} className="block text-body-sm font-medium text-primary mb-1.5">
+          <label htmlFor={`firstName-${addressId}`} className="block text-body font-medium text-primary mb-2">
             First Name *
           </label>
           <Input
@@ -492,7 +501,7 @@ function AddressForm({
         </div>
 
         <div>
-          <label htmlFor={`lastName-${addressId}`} className="block text-body-sm font-medium text-primary mb-1.5">
+          <label htmlFor={`lastName-${addressId}`} className="block text-body font-medium text-primary mb-2">
             Last Name *
           </label>
           <Input
@@ -507,7 +516,7 @@ function AddressForm({
         </div>
 
         <div className="sm:col-span-2">
-          <label htmlFor={`company-${addressId}`} className="block text-body-sm font-medium text-primary mb-1.5">
+          <label htmlFor={`company-${addressId}`} className="block text-body font-medium text-primary mb-2">
             Company
           </label>
           <Input
@@ -521,7 +530,7 @@ function AddressForm({
         </div>
 
         <div className="sm:col-span-2">
-          <label htmlFor={`address1-${addressId}`} className="block text-body-sm font-medium text-primary mb-1.5">
+          <label htmlFor={`address1-${addressId}`} className="block text-body font-medium text-primary mb-2">
             Address Line 1 *
           </label>
           <Input
@@ -536,7 +545,7 @@ function AddressForm({
         </div>
 
         <div className="sm:col-span-2">
-          <label htmlFor={`address2-${addressId}`} className="block text-body-sm font-medium text-primary mb-1.5">
+          <label htmlFor={`address2-${addressId}`} className="block text-body font-medium text-primary mb-2">
             Address Line 2
           </label>
           <Input
@@ -550,7 +559,7 @@ function AddressForm({
         </div>
 
         <div>
-          <label htmlFor={`city-${addressId}`} className="block text-body-sm font-medium text-primary mb-1.5">
+          <label htmlFor={`city-${addressId}`} className="block text-body font-medium text-primary mb-2">
             City *
           </label>
           <Input
@@ -565,7 +574,7 @@ function AddressForm({
         </div>
 
         <div>
-          <label htmlFor={`zoneCode-${addressId}`} className="block text-body-sm font-medium text-primary mb-1.5">
+          <label htmlFor={`zoneCode-${addressId}`} className="block text-body font-medium text-primary mb-2">
             State / Province *
           </label>
           <Input
@@ -580,7 +589,7 @@ function AddressForm({
         </div>
 
         <div>
-          <label htmlFor={`zip-${addressId}`} className="block text-body-sm font-medium text-primary mb-1.5">
+          <label htmlFor={`zip-${addressId}`} className="block text-body font-medium text-primary mb-2">
             ZIP / Postal Code *
           </label>
           <Input
@@ -595,7 +604,7 @@ function AddressForm({
         </div>
 
         <div>
-          <label htmlFor={`territoryCode-${addressId}`} className="block text-body-sm font-medium text-primary mb-1.5">
+          <label htmlFor={`territoryCode-${addressId}`} className="block text-body font-medium text-primary mb-2">
             Country Code *
           </label>
           <Input
@@ -612,7 +621,7 @@ function AddressForm({
         </div>
 
         <div className="sm:col-span-2">
-          <label htmlFor={`phoneNumber-${addressId}`} className="block text-body-sm font-medium text-primary mb-1.5">
+          <label htmlFor={`phoneNumber-${addressId}`} className="block text-body font-medium text-primary mb-2">
             Phone
           </label>
           <Input

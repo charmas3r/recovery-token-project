@@ -119,10 +119,6 @@ export default function AccountProfile() {
   };
   
   const completion = calculateCompletion();
-  const memberSince = customer?.createdAt ? new Date(customer.createdAt).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-  }) : null;
 
   return (
     <AccountLayout
@@ -176,9 +172,7 @@ export default function AccountProfile() {
         />
         
         {/* Account Summary */}
-        <AccountSummarySection 
-          memberSince={memberSince}
-        />
+        <AccountSummarySection />
       </div>
     </AccountLayout>
   );
@@ -386,11 +380,7 @@ function RecoveryJourneySection({
   );
 }
 
-function AccountSummarySection({
-  memberSince,
-}: {
-  memberSince: string | null;
-}) {
+function AccountSummarySection() {
   return (
     <div className="bg-gradient-to-br from-primary to-surface-dark rounded-xl p-6 text-white">
       <h2 className="font-display text-xl font-bold mb-6">Account Summary</h2>
@@ -401,8 +391,8 @@ function AccountSummarySection({
             <Clock className="w-6 h-6" />
           </div>
           <div>
-            <div className="text-caption text-white/60 mb-1">Member Since</div>
-            <div className="font-display text-lg font-bold">{memberSince || 'N/A'}</div>
+            <div className="text-caption text-white/60 mb-1">Account Stats</div>
+            <div className="text-body-sm text-white/80">Coming Soon</div>
           </div>
         </div>
 
@@ -419,7 +409,7 @@ function AccountSummarySection({
 
       <div className="mt-6 p-4 bg-white/10 rounded-lg border border-white/20">
         <p className="text-body-sm text-white/80">
-          ✨ Recovery milestone tracking will be available soon! This feature will help you track your progress and celebrate important milestones.
+          ✨ Enhanced account features coming soon! Track your account history, recovery milestones, and celebrate important achievements.
         </p>
       </div>
     </div>

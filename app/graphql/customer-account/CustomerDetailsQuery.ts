@@ -10,7 +10,6 @@ export const CUSTOMER_FRAGMENT = `#graphql
     phoneNumber {
       phoneNumber
     }
-    createdAt
     defaultAddress {
       ...Address
     }

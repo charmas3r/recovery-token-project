@@ -134,6 +134,61 @@ function loadDeferredData({context}: Route.LoaderArgs) {
 }
 ```
 
+### When to Load Data as Critical vs Deferred
+
+**Load as CRITICAL (awaited in loader):**
+- Product details needed for initial render
+- Reviews summary for SEO (aggregateRating in Schema.org)
+- Data used directly in JSX without Suspense/Await
+- Data needed for meta tags or JSON-LD structured data
+- Above-the-fold content
+- Error states that should cause 404/500 responses
+
+**Load as DEFERRED (Promise, not awaited):**
+- Related/recommended products
+- Full reviews list (not just summary)
+- Content below the fold
+- Non-essential social proof elements
+- Analytics data
+- Third-party widget data
+
+**Real-World Example from PDP:**
+
+```typescript
+async function loadCriticalData({context, params}: Route.LoaderArgs) {
+  const {storefront, env} = context;
+
+  // Reviews summary is critical because:
+  // 1. Used in JSON-LD schema for SEO (aggregateRating)
+  // 2. Displayed in rating badge above fold
+  // 3. Used directly without Suspense wrapper
+  const [{product}, reviewsSummary] = await Promise.all([
+    storefront.query(PRODUCT_QUERY, {
+      variables: {handle: params.handle},
+    }),
+    fetchReviewsSummary(context, params.handle).catch(() => null),
+  ]);
+
+  return {product, reviewsSummary};
+}
+
+function loadDeferredData({context, params}: Route.LoaderArgs) {
+  // Full reviews are deferred because:
+  // 1. Displayed below fold in separate section
+  // 2. Wrapped in Suspense/Await for progressive loading
+  // 3. Not needed for SEO (summary covers aggregateRating)
+  // 4. Page is fully functional without them
+  return {
+    productReviews: fetchProductReviews(context, params.handle)
+      .catch(() => null),
+    relatedProducts: context.storefront.query(RELATED_PRODUCTS_QUERY)
+      .catch(() => null),
+  };
+}
+```
+
+**Key Principle:** If removing the data would make the page return a 404/500 or break critical SEO, load it as critical. If the page is still valuable without it, defer it.
+
 ### Pattern: Handling Localization
 
 **When to use:** Support multiple languages and countries

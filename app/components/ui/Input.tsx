@@ -10,7 +10,7 @@ import {clsx} from 'clsx';
 import type {InputHTMLAttributes} from 'react';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  label: string;
+  label?: string;
   error?: string;
   helperText?: string;
   id?: string;
@@ -25,7 +25,28 @@ export function Input({
   name,
   ...props
 }: InputProps) {
-  const inputId = id || name || label.toLowerCase().replace(/\s+/g, '-');
+  const inputId = id || name || label?.toLowerCase().replace(/\s+/g, '-');
+
+  // If no label, just return the input
+  if (!label) {
+    return (
+      <input
+        id={inputId}
+        name={name}
+        className={clsx(
+          'w-full h-11 px-4 rounded-md border transition-colors',
+          'text-body text-primary placeholder:text-secondary/40',
+          'focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-1',
+          error
+            ? 'border-error focus:ring-error'
+            : 'border-secondary/20 focus:border-accent',
+          'disabled:opacity-40 disabled:cursor-not-allowed',
+          className,
+        )}
+        {...props}
+      />
+    );
+  }
 
   return (
     <div className="space-y-1">

@@ -533,6 +533,148 @@ function ProductsGridSkeleton() {
 }
 ```
 
+### Product Detail Page Layout
+
+**Two-Column Sticky Layout:**
+
+```tsx
+<div className="grid lg:grid-cols-2 gap-8 lg:gap-16">
+  {/* Left Column: Gallery */}
+  <div>
+    <ProductGallery 
+      images={product.images.nodes}
+      selectedImage={selectedVariant?.image}
+    />
+  </div>
+  
+  {/* Right Column: Sticky Info Panel */}
+  <div className="lg:sticky lg:top-24 lg:self-start space-y-6">
+    {/* Eyebrow */}
+    <span className="inline-block text-accent text-caption uppercase tracking-[0.25em] font-semibold">
+      Product Category
+    </span>
+    
+    {/* Product Title */}
+    <h1 className="font-display text-3xl md:text-4xl font-bold text-primary leading-tight">
+      Product Name
+    </h1>
+    
+    {/* Rating Badge */}
+    <RatingBadge rating={4.8} reviewCount={124} />
+    
+    {/* Price */}
+    <ProductPrice price={price} compareAtPrice={compareAtPrice} />
+    
+    {/* Variant Selector & Add to Cart */}
+    <ProductForm productOptions={options} selectedVariant={variant} />
+    
+    {/* Trust Badges */}
+    <TrustBadges className="pt-4 border-t border-black/5" />
+    
+    {/* Description */}
+    <div className="pt-6 border-t border-black/5">
+      <h2 className="font-display text-lg font-bold text-primary mb-4">
+        About This Product
+      </h2>
+      <div className="text-body text-secondary leading-relaxed prose prose-sm"
+        dangerouslySetInnerHTML={{__html: descriptionHtml}} 
+      />
+    </div>
+  </div>
+</div>
+```
+
+**Key Features:**
+- `lg:sticky lg:top-24` - Right column sticks when scrolling on desktop
+- `lg:self-start` - Prevents stretching to match left column height
+- `space-y-6` - Consistent vertical spacing between sections
+- Border separators for visual organization
+- Responsive: stacks on mobile, side-by-side on desktop
+
+### Breadcrumbs Pattern
+
+```tsx
+import {Breadcrumbs} from '~/components/ui/Breadcrumbs';
+
+<Breadcrumbs 
+  items={[
+    {label: 'Shop', href: '/collections'},
+    {label: 'Product Name'}, // Last item without href
+  ]} 
+  className="mb-8" 
+/>
+```
+
+**Features:**
+- Automatic "Home" link prepended
+- ChevronRight separators between items
+- Last item is non-clickable (represents current page)
+- Hover states with accent color transition
+- Uses `text-body-sm` for compact display
+- ARIA label for accessibility
+
+**Usage Example:**
+```tsx
+// Dynamic breadcrumbs based on product
+const breadcrumbItems = [
+  {label: 'Shop', href: '/collections'},
+  {label: product.title}, // Current page, no href
+];
+
+<Breadcrumbs items={breadcrumbItems} className="mb-8" />
+```
+
+### Product Gallery Pattern
+
+**Thumbnail Strip with Main Image:**
+
+```tsx
+import {ProductGallery} from '~/components/product/ProductGallery';
+
+<ProductGallery 
+  images={product.images.nodes}
+  selectedImage={selectedVariant?.image}
+/>
+```
+
+**Features:**
+- Large main image (aspect-square, 1:1 ratio)
+- Thumbnail strip below (horizontally scrollable)
+- Active thumbnail highlighted with accent border + ring
+- Subtle glow effect behind main image (`bg-accent/5 blur-3xl`)
+- Click thumbnail to change main image with crossfade
+- Responsive image loading with srcset
+- Handles variant image selection automatically
+
+**Visual Design:**
+- Main image: `rounded-2xl` with `bg-surface` background
+- Thumbnails: `w-20 h-20 rounded-lg` with hover states
+- Active state: `border-accent ring-2 ring-accent/20`
+- Hover state: `border-accent/30`
+
+### Trust Badges Pattern
+
+**Horizontal Icon + Text Grid:**
+
+```tsx
+import {TrustBadges} from '~/components/product/TrustBadges';
+
+<TrustBadges className="pt-4 border-t border-black/5" />
+```
+
+**Displays:**
+1. **Free Shipping** - Truck icon, "Free shipping over $50"
+2. **Secure Checkout** - ShieldCheck icon, "Secure checkout"
+3. **30-Day Returns** - RefreshCw icon, "30-day returns"
+4. **Premium Quality** - Award icon, "Premium quality"
+
+**Layout:**
+- Grid layout: 2 columns on mobile, 4 columns on desktop
+- Each badge: icon (left) + text (right)
+- Icon: 20px with `text-accent` color
+- Text: `text-body-sm text-secondary`
+- Compact spacing for minimal visual weight
+
 ---
 
 ## Section Backgrounds
@@ -572,6 +714,88 @@ Alternate backgrounds for visual rhythm:
 // Order
 <div className="order-2 lg:order-1">Content first on desktop</div>
 ```
+
+---
+
+## Known Issues & Workarounds
+
+### Tailwind Classes Not Applying in Suspense/Deferred Content
+
+**Symptoms:**
+- Text breaking on every word (single word per line)
+- Text appearing left-aligned when `text-center` is applied
+- Layout classes like `mx-auto`, `max-w-*` not working
+- Content rendered inside `<Suspense>` or `<Await>` boundaries behaving unexpectedly
+
+**Root Cause:**
+In some contexts (especially deferred content rendered via React Router's `<Await>` component or React's `<Suspense>`), Tailwind CSS classes may not be processed correctly. This can happen with Tailwind v4's JIT compilation or SSR hydration.
+
+**Solution - Use Inline Styles as Fallback:**
+
+When Tailwind classes don't work reliably in deferred/suspense content, use inline styles:
+
+```tsx
+// ❌ PROBLEMATIC - Tailwind may not apply in Suspense boundaries
+function EmptyState() {
+  return (
+    <div className="text-center py-12">
+      <h3 className="text-2xl font-bold text-primary mb-4">
+        Heading Text
+      </h3>
+      <p className="text-lg text-secondary max-w-lg mx-auto">
+        Description text that should be centered.
+      </p>
+    </div>
+  );
+}
+
+// ✅ RELIABLE - Inline styles always work
+function EmptyState() {
+  return (
+    <div style={{padding: '3rem 1rem', textAlign: 'center', width: '100%'}}>
+      <h3 style={{
+        fontSize: 'clamp(1.5rem, 4vw, 1.875rem)',
+        fontWeight: 'bold',
+        color: '#1A202C',
+        marginBottom: '1rem',
+        textAlign: 'center'
+      }}>
+        Heading Text
+      </h3>
+      <p style={{
+        fontSize: '1.125rem',
+        color: '#4A5568',
+        maxWidth: '32rem',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        textAlign: 'center',
+        lineHeight: 1.6
+      }}>
+        Description text that should be centered.
+      </p>
+    </div>
+  );
+}
+```
+
+**Design Token Values for Inline Styles:**
+
+| Token | CSS Value |
+|-------|-----------|
+| `text-primary` | `color: '#1A202C'` |
+| `text-secondary` | `color: '#4A5568'` |
+| `text-accent` | `color: '#B8764F'` |
+| `bg-surface` | `background: '#F7FAFC'` |
+| `font-display` | `fontFamily: 'Manrope, sans-serif'` |
+
+**When to Use Inline Styles:**
+- Content rendered inside `<Suspense fallback={...}>` boundaries
+- Content rendered via `<Await resolve={...}>` patterns
+- Empty state components that appear after async data resolves
+- Any component where Tailwind classes aren't visually applying
+
+**Prevention:**
+Always visually verify centered/layout-dependent content in the browser, especially for components that render inside Suspense boundaries.
 
 ---
 

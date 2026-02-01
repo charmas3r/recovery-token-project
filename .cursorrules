@@ -440,6 +440,38 @@ npm run codegen          # Generate types
 - [ ] Animations: Use Framer Motion components from `~/components/ui/Animations`
 - [ ] Animations: Respect reduced motion (handled automatically by components)
 - [ ] Contrast: WCAG AA minimum
+- [ ] **Suspense content: Verify Tailwind classes apply** (see below)
+
+### Tailwind in Suspense/Await Boundaries (CRITICAL)
+
+Tailwind classes may NOT apply correctly in components rendered inside `<Suspense>` or `<Await>` boundaries. **Always visually verify** centered text and layouts.
+
+**Symptoms:**
+- Text breaking on every word (one word per line)
+- Text left-aligned when `text-center` is applied
+- `mx-auto` or `max-w-*` not working
+
+**Solution:** Use inline styles for reliable rendering:
+
+```tsx
+// Instead of Tailwind classes that may not work:
+<div style={{textAlign: 'center', padding: '3rem 1rem'}}>
+  <h3 style={{fontSize: '1.875rem', fontWeight: 'bold', color: '#1A202C'}}>
+    Heading
+  </h3>
+  <p style={{
+    fontSize: '1.125rem',
+    color: '#4A5568',
+    maxWidth: '32rem',
+    marginLeft: 'auto',
+    marginRight: 'auto'
+  }}>
+    Centered text
+  </p>
+</div>
+```
+
+See `.cursor/skills/design-system/SKILL.md` for full token values.
 
 ---
 
@@ -465,3 +497,4 @@ npm run codegen          # Generate types
 5. **Add animations** - Use Framer Motion components from `~/components/ui/Animations`
 6. **Ensure accessibility** - Focus states, touch targets, ARIA labels, reduced motion
 7. **Be responsive** - Test at mobile, tablet, desktop
+8. **Verify Suspense content** - Tailwind may not work in `<Suspense>`/`<Await>` boundaries; use inline styles if needed

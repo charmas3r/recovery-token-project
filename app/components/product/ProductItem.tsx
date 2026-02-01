@@ -14,16 +14,27 @@ import type {
 } from 'storefrontapi.generated';
 import {useVariantUrl} from '~/lib/variants';
 
-export function ProductItem({
-  product,
-  loading,
-}: {
+interface ProductItemProps {
   product:
     | CollectionItemFragment
     | ProductItemFragment
     | RecommendedProductFragment;
   loading?: 'eager' | 'lazy';
-}) {
+  /** Star rating to display (0-5). Shows 5 stars by default */
+  rating?: number;
+  /** Number of reviews. Shows "New" badge if undefined or 0 */
+  reviewCount?: number;
+  /** Whether to show the rating display */
+  showRating?: boolean;
+}
+
+export function ProductItem({
+  product,
+  loading,
+  rating = 5,
+  reviewCount,
+  showRating = true,
+}: ProductItemProps) {
   const variantUrl = useVariantUrl(product.handle);
   const image = product.featuredImage;
   
@@ -58,6 +69,11 @@ export function ProductItem({
             {product.title}
           </h3>
           
+          {/* Star Rating */}
+          {showRating && (
+            <ProductRating rating={rating} reviewCount={reviewCount} />
+          )}
+          
           {/* Product Price - Bold accent color */}
           <p className="text-lg md:text-xl font-bold text-black">
             <Money data={product.priceRange.minVariantPrice} />
@@ -65,5 +81,58 @@ export function ProductItem({
         </div>
       </div>
     </Link>
+  );
+}
+
+/**
+ * Product Rating Component
+ * Displays star rating with optional review count
+ */
+function ProductRating({
+  rating,
+  reviewCount,
+}: {
+  rating: number;
+  reviewCount?: number;
+}) {
+  const hasReviews = reviewCount !== undefined && reviewCount > 0;
+  
+  return (
+    <div className="flex items-center gap-2 mb-2">
+      {/* Stars */}
+      <div className="flex items-center gap-0.5" role="img" aria-label={`${rating} out of 5 stars`}>
+        {Array.from({length: 5}).map((_, i) => {
+          const isFilled = i < Math.floor(rating);
+          const isPartial = i === Math.floor(rating) && rating % 1 !== 0;
+          
+          return (
+            <svg
+              key={i}
+              viewBox="0 0 24 24"
+              className={`w-4 h-4 ${
+                isFilled
+                  ? 'text-yellow-400 fill-yellow-400'
+                  : isPartial
+                  ? 'text-yellow-400 fill-yellow-400/50'
+                  : 'text-gray-300 fill-gray-300'
+              }`}
+            >
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+            </svg>
+          );
+        })}
+      </div>
+      
+      {/* Review count or "New" badge */}
+      {hasReviews ? (
+        <span className="text-xs text-secondary">
+          ({reviewCount})
+        </span>
+      ) : (
+        <span className="text-xs font-medium text-accent">
+          New
+        </span>
+      )}
+    </div>
   );
 }

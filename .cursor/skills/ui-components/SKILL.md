@@ -462,11 +462,40 @@ describe('Button', () => {
 - **DO:** Provide focus styles for keyboard navigation
 - **DO:** Use consistent spacing and sizing scales
 - **DO:** Test components with screen readers
-- **AVOID:** Inline styles (use Tailwind classes)
+- **DO:** Visually verify components in Suspense boundaries (see below)
 - **AVOID:** Forgetting to handle loading and error states
 - **AVOID:** Using div for interactive elements (use button)
 - **AVOID:** Hardcoding colors (use Tailwind tokens)
 - **AVOID:** Ignoring reduced motion preferences
+
+### Tailwind in Suspense/Await Boundaries
+
+**CRITICAL:** Tailwind classes may not apply correctly in components rendered inside `<Suspense>` or `<Await>` boundaries. If text appears broken (one word per line) or layouts don't work:
+
+```tsx
+// If Tailwind doesn't work, use inline styles:
+<div style={{textAlign: 'center', padding: '3rem 1rem'}}>
+  <h3 style={{
+    fontSize: '1.875rem',
+    fontWeight: 'bold',
+    color: '#1A202C',
+    marginBottom: '1rem'
+  }}>
+    Heading
+  </h3>
+  <p style={{
+    fontSize: '1.125rem',
+    color: '#4A5568',
+    maxWidth: '32rem',
+    marginLeft: 'auto',
+    marginRight: 'auto'
+  }}>
+    Centered description text.
+  </p>
+</div>
+```
+
+See **design-system/SKILL.md** for full token values and patterns.
 
 ## Related Skills
 

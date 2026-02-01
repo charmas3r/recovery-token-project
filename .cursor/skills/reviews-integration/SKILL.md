@@ -365,11 +365,48 @@ describe('Judge.me Integration', () => {
 - **DO:** Lazy-load full reviews widget (performance)
 - **DO:** Cache review summaries (reduce API calls)
 - **DO:** Include Schema.org review markup
+- **DO:** Use inline styles for empty/loading states rendered in Suspense boundaries (Tailwind may not apply)
 - **AVOID:** Blocking page render on reviews API
 - **AVOID:** Showing error messages for review failures
 - **AVOID:** Querying reviews on every page load (cache)
 - **AVOID:** Forgetting verified buyer badges
 - **AVOID:** Not handling empty review states
+- **AVOID:** Using Tailwind-only classes in `<Await>` resolved content without verifying they render
+
+### Empty State Styling (IMPORTANT)
+
+Review empty states render inside `<Await>` boundaries where Tailwind classes may not apply correctly. Use **inline styles** for reliable centering and layout:
+
+```tsx
+function EmptyReviewsState({productTitle}: {productTitle: string}) {
+  return (
+    <div style={{padding: '3rem 1rem', textAlign: 'center', width: '100%'}}>
+      <h3 style={{
+        fontSize: 'clamp(1.5rem, 4vw, 1.875rem)',
+        fontWeight: 'bold',
+        color: '#1A202C',
+        marginBottom: '1rem',
+        textAlign: 'center'
+      }}>
+        Be the First to Share Your Story
+      </h3>
+      <p style={{
+        fontSize: '1.125rem',
+        color: '#4A5568',
+        maxWidth: '32rem',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        textAlign: 'center',
+        lineHeight: 1.6
+      }}>
+        No reviews yet for <span style={{fontWeight: '600', color: '#1A202C'}}>{productTitle}</span>.
+      </p>
+    </div>
+  );
+}
+```
+
+See `design-system/SKILL.md` for full design token values.
 
 ## Related Skills
 

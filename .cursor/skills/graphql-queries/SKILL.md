@@ -501,6 +501,12 @@ describe('GraphQL Queries', () => {
 - **DO:** Handle both GraphQL errors and userErrors in mutations
 - **DO:** Query only the fields you need (avoid over-fetching)
 - **DO:** Use pagination for large lists
+- **DO:** Use unique operation names across the ENTIRE codebase
+- **CRITICAL:** GraphQL operation names must be unique globally, not just within a file
+  - ❌ WRONG: Having `query RecommendedProducts` in both `_index.tsx` and `products.$handle.tsx`
+  - ✅ CORRECT: Use distinct names like `query RecommendedProducts` (homepage) and `query RelatedProducts` (PDP)
+  - Build will fail with "Not all operations have an unique name" if duplicates exist
+  - This applies to queries, mutations, and fragments across all route files
 - **AVOID:** Hardcoding API versions (use config)
 - **AVOID:** Nesting fragments too deeply (performance impact)
 - **AVOID:** Querying unnecessary fields

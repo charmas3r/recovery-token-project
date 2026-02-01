@@ -51,8 +51,65 @@ function loadDeferredData({context}: Route.LoaderArgs) {
       return null;
     });
 
+  // Fetch store reviews from Judge.me (non-blocking)
+  const storeReviews = fetchStoreReviews(context.env).catch((error: Error) => {
+    console.error('Failed to fetch store reviews:', error);
+    return null;
+  });
+
   return {
     recommendedProducts,
+    storeReviews,
+  };
+}
+
+/**
+ * Fetch recent store reviews for testimonials section
+ */
+async function fetchStoreReviews(env: {
+  PUBLIC_JUDGEME_SHOP_DOMAIN?: string;
+  PUBLIC_STORE_DOMAIN?: string;
+  JUDGEME_PUBLIC_TOKEN?: string;
+}) {
+  const shopDomain = env.PUBLIC_JUDGEME_SHOP_DOMAIN || env.PUBLIC_STORE_DOMAIN;
+  
+  if (!env.JUDGEME_PUBLIC_TOKEN || !shopDomain) {
+    return null;
+  }
+
+  const params = new URLSearchParams({
+    shop_domain: shopDomain,
+    api_token: env.JUDGEME_PUBLIC_TOKEN,
+    per_page: '6',
+    page: '1',
+  });
+
+  const response = await fetch(
+    `https://judge.me/api/v1/reviews?${params}`
+  );
+
+  if (!response.ok) {
+    throw new Error(`Judge.me API error: ${response.status}`);
+  }
+
+  const data = (await response.json()) as {
+    reviews?: Array<{
+      id: string;
+      title: string;
+      body: string;
+      rating: number;
+      created_at: string;
+      reviewer: {
+        name: string;
+        verified: boolean;
+      };
+    }>;
+    total?: number;
+  };
+  
+  return {
+    reviews: data.reviews || [],
+    total: data.total || 0,
   };
 }
 
@@ -69,7 +126,7 @@ export default function Homepage() {
       <ProductShowcase />
       <FeaturedProducts products={data.recommendedProducts} />
       <BrandStory />
-      <TestimonialsSection />
+      <CustomerReviewsSection reviews={data.storeReviews} />
       <FinalCTA collection={data.featuredCollection} />
     </div>
   );
@@ -729,9 +786,30 @@ function BrandStory() {
 }
 
 /**
- * Testimonials Section
+ * Testimonials Section - Original style with hardcoded testimonials
+ * Falls back to animated 5-star widget when Judge.me has no reviews
  */
-function TestimonialsSection() {
+interface StoreReviewsData {
+  reviews: Array<{
+    id: string;
+    title: string;
+    body: string;
+    rating: number;
+    created_at: string;
+    reviewer: {
+      name: string;
+      verified: boolean;
+    };
+  }>;
+  total: number;
+}
+
+function CustomerReviewsSection({
+  reviews,
+}: {
+  reviews: Promise<StoreReviewsData | null>;
+}) {
+  // Hardcoded testimonials for the original style
   const testimonials = [
     {
       quote: "This token means everything to me. I carry it every day as a reminder of how far I've come.",
@@ -766,7 +844,7 @@ function TestimonialsSection() {
           </h2>
         </FadeUp>
         
-        {/* Testimonials Grid */}
+        {/* Testimonials Grid - Original hardcoded style */}
         <StaggerContainer className="grid md:grid-cols-3 gap-8" staggerDelay={0.15}>
           {testimonials.map((testimonial, index) => (
             <StaggerItem key={index}>
@@ -817,6 +895,72 @@ function TestimonialsSection() {
         </StaggerContainer>
       </div>
     </section>
+  );
+}
+
+/**
+ * Animated 5-Star Widget - For empty state (preserved for future use)
+ */
+function AnimatedStarWidget() {
+  return (
+    <motion.div 
+      className="inline-block relative mb-10"
+      initial={{scale: 0.8, opacity: 0}}
+      animate={{scale: 1, opacity: 1}}
+      transition={{delay: 0.2, type: 'spring', stiffness: 200}}
+    >
+      <div className="absolute -inset-8 bg-yellow-400/15 blur-3xl rounded-full pointer-events-none" />
+      <div className="relative bg-white rounded-3xl px-12 py-10 shadow-xl border border-black/5">
+        <div className="flex justify-center gap-2.5 mb-5">
+          {[1, 2, 3, 4, 5].map((n) => (
+            <motion.div
+              key={n}
+              initial={{scale: 0, rotate: -180}}
+              animate={{scale: 1, rotate: 0}}
+              transition={{delay: 0.3 + n * 0.1, type: 'spring', stiffness: 200}}
+            >
+              <StarIcon className="w-10 h-10 text-yellow-400 fill-yellow-400 drop-shadow-sm" />
+            </motion.div>
+          ))}
+        </div>
+        <div className="flex items-center justify-center gap-4">
+          <span className="text-4xl font-display font-bold text-primary">5.0</span>
+          <div className="text-left">
+            <p className="text-sm font-semibold text-primary">Perfect Rating</p>
+            <p className="text-xs text-secondary">Expected quality</p>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+/**
+ * Star Icon Component
+ */
+function StarIcon({className = ''}: {className?: string}) {
+  return (
+    <svg 
+      viewBox="0 0 24 24" 
+      className={className}
+      fill="currentColor"
+      stroke="currentColor"
+      strokeWidth="1.5"
+    >
+      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+    </svg>
+  );
+}
+
+/**
+ * Verified Icon Component
+ */
+function VerifiedIcon({className = ''}: {className?: string}) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className} stroke="currentColor" strokeWidth="2">
+      <path d="M9 12l2 2 4-4" />
+      <circle cx="12" cy="12" r="10" />
+    </svg>
   );
 }
 

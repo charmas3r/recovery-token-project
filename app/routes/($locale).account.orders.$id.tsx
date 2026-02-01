@@ -1,4 +1,4 @@
-import {redirect, useLoaderData} from 'react-router';
+import {redirect, useLoaderData, Link} from 'react-router';
 import type {Route} from './+types/account.orders.$id';
 import {Money, Image} from '@shopify/hydrogen';
 import type {
@@ -6,6 +6,9 @@ import type {
   OrderQuery,
 } from 'customer-accountapi.generated';
 import {CUSTOMER_ORDER_QUERY} from '~/graphql/customer-account/CustomerOrderQuery';
+import {AccountLayout} from '~/components/account/AccountLayout';
+import {Button} from '~/components/ui/Button';
+import {ArrowLeft, ExternalLink, Package, MapPin, CreditCard} from 'lucide-react';
 
 export const meta: Route.MetaFunction = ({data}) => {
   return [{title: `Order ${data?.order?.name}`}];
@@ -31,37 +34,18 @@ export async function loader({params, context}: Route.LoaderArgs) {
   }
 
   const {order} = data;
-
-  // Extract line items directly from nodes array
   const lineItems = order.lineItems.nodes;
-
-  // Extract discount applications directly from nodes array
   const discountApplications = order.discountApplications.nodes;
-
-  // Get fulfillment status from first fulfillment node
   const fulfillmentStatus = order.fulfillments.nodes[0]?.status ?? 'N/A';
 
-  // Get first discount value with proper type checking
   const firstDiscount = discountApplications[0]?.value;
-
-  // Type guard for MoneyV2 discount
   const discountValue =
     firstDiscount?.__typename === 'MoneyV2'
-      ? (firstDiscount as Extract<
-          typeof firstDiscount,
-          {__typename: 'MoneyV2'}
-        >)
+      ? (firstDiscount as Extract<typeof firstDiscount, {__typename: 'MoneyV2'}>)
       : null;
-
-  // Type guard for percentage discount
   const discountPercentage =
     firstDiscount?.__typename === 'PricingPercentageValue'
-      ? (
-          firstDiscount as Extract<
-            typeof firstDiscount,
-            {__typename: 'PricingPercentageValue'}
-          >
-        ).percentage
+      ? (firstDiscount as Extract<typeof firstDiscount, {__typename: 'PricingPercentageValue'}>).percentage
       : null;
 
   return {
@@ -81,142 +65,167 @@ export default function OrderRoute() {
     discountPercentage,
     fulfillmentStatus,
   } = useLoaderData<typeof loader>();
+  
+  const orderDate = new Date(order.processedAt!).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+
   return (
-    <div className="account-order">
-      <h2>Order {order.name}</h2>
-      <p>Placed on {new Date(order.processedAt!).toDateString()}</p>
-      {order.confirmationNumber && (
-        <p>Confirmation: {order.confirmationNumber}</p>
-      )}
-      <br />
-      <div>
-        <table>
-          <thead>
-            <tr>
-              <th scope="col">Product</th>
-              <th scope="col">Price</th>
-              <th scope="col">Quantity</th>
-              <th scope="col">Total</th>
-            </tr>
-          </thead>
-          <tbody>
-            {lineItems.map((lineItem, lineItemIndex) => (
-              // eslint-disable-next-line react/no-array-index-key
-              <OrderLineRow key={lineItemIndex} lineItem={lineItem} />
-            ))}
-          </tbody>
-          <tfoot>
-            {((discountValue && discountValue.amount) ||
-              discountPercentage) && (
-              <tr>
-                <th scope="row" colSpan={3}>
-                  <p>Discounts</p>
-                </th>
-                <th scope="row">
-                  <p>Discounts</p>
-                </th>
-                <td>
-                  {discountPercentage ? (
-                    <span>-{discountPercentage}% OFF</span>
-                  ) : (
-                    discountValue && <Money data={discountValue!} />
-                  )}
-                </td>
-              </tr>
-            )}
-            <tr>
-              <th scope="row" colSpan={3}>
-                <p>Subtotal</p>
-              </th>
-              <th scope="row">
-                <p>Subtotal</p>
-              </th>
-              <td>
-                <Money data={order.subtotal!} />
-              </td>
-            </tr>
-            <tr>
-              <th scope="row" colSpan={3}>
-                Tax
-              </th>
-              <th scope="row">
-                <p>Tax</p>
-              </th>
-              <td>
-                <Money data={order.totalTax!} />
-              </td>
-            </tr>
-            <tr>
-              <th scope="row" colSpan={3}>
-                Total
-              </th>
-              <th scope="row">
-                <p>Total</p>
-              </th>
-              <td>
-                <Money data={order.totalPrice!} />
-              </td>
-            </tr>
-          </tfoot>
-        </table>
-        <div>
-          <h3>Shipping Address</h3>
-          {order?.shippingAddress ? (
-            <address>
-              <p>{order.shippingAddress.name}</p>
-              {order.shippingAddress.formatted ? (
-                <p>{order.shippingAddress.formatted}</p>
-              ) : (
-                ''
-              )}
-              {order.shippingAddress.formattedArea ? (
-                <p>{order.shippingAddress.formattedArea}</p>
-              ) : (
-                ''
-              )}
-            </address>
-          ) : (
-            <p>No shipping address defined</p>
-          )}
-          <h3>Status</h3>
+    <AccountLayout
+      heading={`Order ${order.name}`}
+      subheading={`Placed on ${orderDate}`}
+    >
+      {/* Back Link */}
+      <Link
+        to="/account/orders"
+        className="inline-flex items-center gap-2 text-body-sm text-secondary hover:text-accent transition-colors mb-6"
+      >
+        <ArrowLeft className="w-4 h-4" />
+        Back to Orders
+      </Link>
+
+      {/* Order Status */}
+      <div className="bg-surface rounded-xl p-4 mb-6 flex flex-wrap items-center justify-between gap-4">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center">
+            <Package className="w-5 h-5 text-accent" />
+          </div>
           <div>
-            <p>{fulfillmentStatus}</p>
+            <p className="text-body-sm text-secondary">Status</p>
+            <p className="font-display font-bold text-primary">{fulfillmentStatus}</p>
+          </div>
+        </div>
+        {order.confirmationNumber && (
+          <div>
+            <p className="text-body-sm text-secondary">Confirmation</p>
+            <p className="font-display font-bold text-primary">{order.confirmationNumber}</p>
+          </div>
+        )}
+        <a
+          href={order.statusPageUrl}
+          target="_blank"
+          rel="noreferrer"
+          className="inline-flex items-center gap-2"
+        >
+          <Button variant="secondary" size="sm">
+            Track Order
+            <ExternalLink className="w-4 h-4 ml-1" />
+          </Button>
+        </a>
+      </div>
+
+      {/* Line Items */}
+      <div className="mb-6">
+        <h2 className="font-display text-lg font-bold text-primary mb-4">
+          Items Ordered
+        </h2>
+        <div className="space-y-3">
+          {lineItems.map((lineItem, index) => (
+            <OrderLineItem key={index} lineItem={lineItem} />
+          ))}
+        </div>
+      </div>
+
+      {/* Order Summary */}
+      <div className="bg-surface rounded-xl p-5 mb-6">
+        <h2 className="font-display text-lg font-bold text-primary mb-4">
+          Order Summary
+        </h2>
+        <div className="space-y-2">
+          {((discountValue && discountValue.amount) || discountPercentage) && (
+            <div className="flex justify-between text-body-sm">
+              <span className="text-secondary">Discount</span>
+              <span className="text-success font-medium">
+                {discountPercentage ? (
+                  `-${discountPercentage}%`
+                ) : (
+                  discountValue && <>-<Money data={discountValue} /></>
+                )}
+              </span>
+            </div>
+          )}
+          <div className="flex justify-between text-body-sm">
+            <span className="text-secondary">Subtotal</span>
+            <span className="text-primary"><Money data={order.subtotal!} /></span>
+          </div>
+          <div className="flex justify-between text-body-sm">
+            <span className="text-secondary">Tax</span>
+            <span className="text-primary"><Money data={order.totalTax!} /></span>
+          </div>
+          <div className="flex justify-between text-body font-bold pt-2 border-t border-black/5">
+            <span className="text-primary">Total</span>
+            <span className="text-primary"><Money data={order.totalPrice!} /></span>
           </div>
         </div>
       </div>
-      <br />
-      <p>
-        <a target="_blank" href={order.statusPageUrl} rel="noreferrer">
-          View Order Status →
-        </a>
-      </p>
-    </div>
+
+      {/* Shipping Address */}
+      <div className="grid md:grid-cols-2 gap-6">
+        <div className="bg-surface rounded-xl p-5">
+          <div className="flex items-center gap-2 mb-3">
+            <MapPin className="w-5 h-5 text-accent" />
+            <h2 className="font-display text-lg font-bold text-primary">
+              Shipping Address
+            </h2>
+          </div>
+          {order.shippingAddress ? (
+            <address className="text-body-sm text-secondary not-italic space-y-0.5">
+              <p className="font-medium text-primary">{order.shippingAddress.name}</p>
+              {order.shippingAddress.formatted && (
+                <p>{order.shippingAddress.formatted}</p>
+              )}
+              {order.shippingAddress.formattedArea && (
+                <p>{order.shippingAddress.formattedArea}</p>
+              )}
+            </address>
+          ) : (
+            <p className="text-body-sm text-secondary">No shipping address</p>
+          )}
+        </div>
+
+        <div className="bg-surface rounded-xl p-5">
+          <div className="flex items-center gap-2 mb-3">
+            <CreditCard className="w-5 h-5 text-accent" />
+            <h2 className="font-display text-lg font-bold text-primary">
+              Payment
+            </h2>
+          </div>
+          <p className="text-body-sm text-secondary">
+            Paid
+          </p>
+        </div>
+      </div>
+    </AccountLayout>
   );
 }
 
-function OrderLineRow({lineItem}: {lineItem: OrderLineItemFullFragment}) {
+function OrderLineItem({lineItem}: {lineItem: OrderLineItemFullFragment}) {
   return (
-    <tr key={lineItem.id}>
-      <td>
-        <div>
-          {lineItem?.image && (
-            <div>
-              <Image data={lineItem.image} width={96} height={96} />
-            </div>
-          )}
-          <div>
-            <p>{lineItem.title}</p>
-            <small>{lineItem.variantTitle}</small>
-          </div>
+    <div className="flex gap-4 bg-white rounded-lg p-4 border border-black/5">
+      {lineItem.image && (
+        <div className="w-16 h-16 rounded-lg overflow-hidden bg-surface flex-shrink-0">
+          <Image
+            data={lineItem.image}
+            width={64}
+            height={64}
+            className="w-full h-full object-cover"
+          />
         </div>
-      </td>
-      <td>
-        <Money data={lineItem.price!} />
-      </td>
-      <td>{lineItem.quantity}</td>
-      <td>
-        <Money data={lineItem.totalDiscount!} />
-      </td>
-    </tr>
+      )}
+      <div className="flex-1 min-w-0">
+        <h3 className="font-display font-bold text-primary">{lineItem.title}</h3>
+        {lineItem.variantTitle && lineItem.variantTitle !== 'Default Title' && (
+          <p className="text-body-sm text-secondary">{lineItem.variantTitle}</p>
+        )}
+        <p className="text-body-sm text-secondary mt-1">Qty: {lineItem.quantity}</p>
+      </div>
+      <div className="text-right">
+        <p className="font-display font-bold text-primary">
+          <Money data={lineItem.price!} />
+        </p>
+      </div>
+    </div>
   );
 }

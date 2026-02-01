@@ -17,10 +17,10 @@ interface AccountLayoutProps {
 export function AccountLayout({children, heading, subheading}: AccountLayoutProps) {
   return (
     <div className="bg-surface min-h-screen">
-      <div className="container-standard py-8 md:py-12">
-        <div className="grid lg:grid-cols-[280px_1fr] gap-8 lg:gap-12">
+      <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+        <div className="flex flex-col lg:flex-row gap-6 lg:gap-10">
           {/* Sidebar - Hidden on mobile */}
-          <aside className="hidden lg:block">
+          <aside className="hidden lg:block lg:w-[280px] flex-shrink-0">
             <div className="bg-white rounded-2xl p-6 shadow-sm border border-black/5 sticky top-24">
               <AccountNav />
             </div>
@@ -39,15 +39,15 @@ export function AccountLayout({children, heading, subheading}: AccountLayoutProp
           </div>
           
           {/* Main Content */}
-          <main>
-            <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-black/5">
+          <main className="flex-1 min-w-0">
+            <div className="bg-white rounded-2xl p-6 md:p-10 shadow-sm border border-black/5">
               {/* Page Header */}
               <div className="mb-8 pb-6 border-b border-black/5">
-                <h1 className="font-display text-2xl md:text-3xl font-bold text-primary">
+                <h1 className="font-display text-2xl md:text-3xl lg:text-4xl font-bold text-primary">
                   {heading}
                 </h1>
                 {subheading && (
-                  <p className="mt-2 text-body text-secondary">{subheading}</p>
+                  <p className="mt-3 text-body-lg text-secondary">{subheading}</p>
                 )}
               </div>
               

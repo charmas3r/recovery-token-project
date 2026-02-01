@@ -76,20 +76,22 @@ export default function Orders() {
       
       {/* Orders List */}
       {orders?.nodes.length ? (
-        <PaginatedResourceSection connection={orders}>
-          {({node: order}) => {
-            const fulfillmentStatus = flattenConnection(order.fulfillments)[0]?.status ?? null;
-            return (
-              <div className="mb-4">
-                <OrderCard 
-                  key={order.id} 
-                  order={order} 
-                  fulfillmentStatus={fulfillmentStatus}
-                />
-              </div>
-            );
-          }}
-        </PaginatedResourceSection>
+        <div className="space-y-4 lg:space-y-6">
+          <PaginatedResourceSection connection={orders}>
+            {({node: order}) => {
+              const fulfillmentStatus = flattenConnection(order.fulfillments)[0]?.status ?? null;
+              return (
+                <div className="mb-4 lg:mb-6">
+                  <OrderCard 
+                    key={order.id} 
+                    order={order} 
+                    fulfillmentStatus={fulfillmentStatus}
+                  />
+                </div>
+              );
+            }}
+          </PaginatedResourceSection>
+        </div>
       ) : (
         <EmptyOrders hasFilters={hasFilters} />
       )}
@@ -172,10 +174,10 @@ function OrderSearchForm({
     <form
       ref={formRef}
       onSubmit={handleSubmit}
-      className="bg-surface rounded-xl p-5 mb-6"
+      className="bg-surface rounded-xl p-5 lg:p-6 mb-8"
       aria-label="Search orders"
     >
-      <div className="flex flex-col sm:flex-row gap-3">
+      <div className="flex flex-col sm:flex-row gap-3 lg:gap-4">
         <div className="flex-1">
           <Input
             type="search"
@@ -197,7 +199,7 @@ function OrderSearchForm({
           />
         </div>
         <div className="flex gap-2 sm:flex-shrink-0">
-          <Button type="submit" variant="primary" disabled={isSearching} className="sm:w-auto">
+          <Button type="submit" variant="primary" size="lg" disabled={isSearching} className="sm:w-auto">
             <Search className="w-4 h-4 sm:mr-2" />
             <span className="hidden sm:inline">{isSearching ? 'Searching...' : 'Search'}</span>
           </Button>
@@ -205,6 +207,7 @@ function OrderSearchForm({
             <Button
               type="button"
               variant="secondary"
+              size="lg"
               disabled={isSearching}
               onClick={() => {
                 setSearchParams(new URLSearchParams());

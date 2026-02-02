@@ -172,14 +172,14 @@ export function ProductForm({
                   'min-w-[44px] min-h-[44px]', // Touch target
                   'focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2',
                   {
-                    // Selected state
+                    // Selected state (always show selected styling regardless of availability)
                     'bg-primary text-white border-2 border-primary': selected,
                     // Available but not selected
                     'bg-white text-primary border-2 border-black/10 hover:border-accent/50':
                       !selected && available && exists,
-                    // Unavailable
+                    // Unavailable and not selected
                     'bg-surface text-secondary/50 border-2 border-transparent cursor-not-allowed':
-                      !available || !exists,
+                      !selected && (!available || !exists),
                   },
                 );
 

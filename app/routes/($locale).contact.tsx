@@ -62,6 +62,9 @@ export async function action({request, context}: Route.ActionArgs): Promise<Acti
 
   // Send to Klaviyo
   try {
+    // Debug: Check if env var is present
+    console.log('[Contact] KLAVIYO_PRIVATE_API_KEY present:', !!context.env.KLAVIYO_PRIVATE_API_KEY);
+
     const klaviyo = getKlaviyoClient(context.env);
 
     await klaviyo.createEvent({

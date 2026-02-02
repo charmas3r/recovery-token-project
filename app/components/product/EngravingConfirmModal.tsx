@@ -7,12 +7,13 @@
  * @see prd.md Section 8.2
  */
 
-import {useState} from 'react';
+import {useState, useMemo} from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 import {clsx} from 'clsx';
-import {X, AlertTriangle, CheckCircle2} from 'lucide-react';
+import {X, AlertTriangle, CheckCircle2, User, Calendar, Hash} from 'lucide-react';
 import {Button} from '~/components/ui';
 import type {EngravingData} from './EngravingForm';
+import {formatEngravingPreview} from './EngravingForm';
 
 interface EngravingConfirmModalProps {
   open: boolean;
@@ -35,6 +36,12 @@ export function EngravingConfirmModal({
 }: EngravingConfirmModalProps) {
   const [isConfirmed, setIsConfirmed] = useState(false);
 
+  // Format the preview text
+  const previewText = useMemo(
+    () => formatEngravingPreview(engravingData, variantTitle),
+    [engravingData, variantTitle],
+  );
+
   // Reset confirmation when modal opens/closes
   const handleOpenChange = (newOpen: boolean) => {
     if (!newOpen) {
@@ -48,6 +55,17 @@ export function EngravingConfirmModal({
       onConfirm();
     }
   };
+
+  // Format clean date for display
+  const formattedCleanDate = useMemo(() => {
+    if (!engravingData.cleanDate) return null;
+    const date = new Date(engravingData.cleanDate);
+    return date.toLocaleDateString('en-US', {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric',
+    });
+  }, [engravingData.cleanDate]);
 
   return (
     <Dialog.Root open={open} onOpenChange={handleOpenChange}>
@@ -106,23 +124,57 @@ export function EngravingConfirmModal({
 
             {/* Engraving Preview */}
             <div className="border-2 border-accent/30 rounded-lg p-4 bg-accent/5">
-              <p className="text-caption font-semibold text-accent mb-2 flex items-center gap-2">
+              <p className="text-caption font-semibold text-accent mb-3 flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4" />
                 Your Engraving
               </p>
-              <p className="font-display text-xl text-primary text-center tracking-wide py-2">
-                {engravingData.engravingText}
-              </p>
+
+              {/* Individual Fields */}
+              <div className="space-y-2 mb-3">
+                {engravingData.name && (
+                  <div className="flex items-center gap-2 text-body-sm">
+                    <User className="w-4 h-4 text-accent" />
+                    <span className="text-secondary">Name:</span>
+                    <span className="text-primary font-medium">{engravingData.name}</span>
+                  </div>
+                )}
+                {formattedCleanDate && (
+                  <div className="flex items-center gap-2 text-body-sm">
+                    <Calendar className="w-4 h-4 text-accent" />
+                    <span className="text-secondary">Clean Date:</span>
+                    <span className="text-primary font-medium">{formattedCleanDate}</span>
+                  </div>
+                )}
+                {engravingData.years && (
+                  <div className="flex items-center gap-2 text-body-sm">
+                    <Hash className="w-4 h-4 text-accent" />
+                    <span className="text-secondary">Years:</span>
+                    <span className="text-primary font-medium">
+                      {engravingData.years} {parseInt(engravingData.years, 10) === 1 ? 'Year' : 'Years'}
+                    </span>
+                  </div>
+                )}
+              </div>
+
+              {/* Combined Preview */}
+              {previewText && (
+                <div className="pt-3 border-t border-accent/20">
+                  <p className="text-caption text-secondary mb-1">Engraving Preview:</p>
+                  <p className="font-display text-lg text-primary text-center tracking-wide">
+                    {previewText}
+                  </p>
+                </div>
+              )}
             </div>
 
             {/* Private Note (if present) */}
-            {engravingData.engravingNote && (
+            {engravingData.note && (
               <div className="bg-surface/50 rounded-lg p-3">
                 <p className="text-caption font-semibold text-secondary mb-1">
                   Private Note to Engraver
                 </p>
                 <p className="text-body-sm text-secondary italic">
-                  "{engravingData.engravingNote}"
+                  "{engravingData.note}"
                 </p>
               </div>
             )}

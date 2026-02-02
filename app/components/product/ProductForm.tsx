@@ -17,7 +17,13 @@ import {useAside} from '~/components/layout/Aside';
 import type {ProductFragment} from 'storefrontapi.generated';
 import {clsx} from 'clsx';
 import {Button} from '~/components/ui';
-import {EngravingForm, type EngravingData} from './EngravingForm';
+import {
+  EngravingForm,
+  type EngravingData,
+  EMPTY_ENGRAVING_DATA,
+  isEngravingComplete,
+  formatEngravingPreview,
+} from './EngravingForm';
 import {EngravingConfirmModal} from './EngravingConfirmModal';
 
 export function ProductForm({
@@ -34,14 +40,12 @@ export function ProductForm({
   const fetcher = useFetcher();
 
   // Engraving state
-  const [engravingData, setEngravingData] = useState<EngravingData>({
-    engravingText: '',
-    engravingNote: '',
-  });
+  const [engravingData, setEngravingData] = useState<EngravingData>(EMPTY_ENGRAVING_DATA);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   const isSubmitting = fetcher.state !== 'idle';
-  const hasEngraving = engravingData.engravingText.trim().length > 0;
+  const variantTitle = selectedVariant?.title;
+  const hasEngraving = isEngravingComplete(engravingData, variantTitle);
 
   // Handle add to cart click
   const handleAddToCartClick = useCallback(() => {
@@ -58,21 +62,51 @@ export function ProductForm({
   const submitToCart = useCallback(() => {
     if (!selectedVariant) return;
 
-    // Build attributes array for engraving
+    // Build attributes array for engraving - each field as separate attribute
     const attributes: Array<{key: string; value: string}> = [];
 
-    if (engravingData.engravingText.trim()) {
+    if (engravingData.name.trim()) {
       attributes.push({
-        key: 'Engraving',
-        value: engravingData.engravingText.trim(),
+        key: 'Engraving Name',
+        value: engravingData.name.trim(),
       });
     }
 
-    if (engravingData.engravingNote.trim()) {
-      // Underscore prefix hides from packing slip
+    if (engravingData.years.trim()) {
       attributes.push({
-        key: '_engravingNote',
-        value: engravingData.engravingNote.trim(),
+        key: 'Engraving Years',
+        value: engravingData.years.trim(),
+      });
+    }
+
+    if (engravingData.cleanDate.trim()) {
+      // Format date for display
+      const date = new Date(engravingData.cleanDate);
+      const formattedDate = date.toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+      });
+      attributes.push({
+        key: 'Engraving Clean Date',
+        value: formattedDate,
+      });
+    }
+
+    // Also include a combined preview for easy viewing
+    const preview = formatEngravingPreview(engravingData, variantTitle);
+    if (preview) {
+      attributes.push({
+        key: 'Engraving Preview',
+        value: preview,
+      });
+    }
+
+    if (engravingData.note.trim()) {
+      // Underscore prefix hides from packing slip (private note)
+      attributes.push({
+        key: '_Engraving Note',
+        value: engravingData.note.trim(),
       });
     }
 
@@ -100,8 +134,8 @@ export function ProductForm({
     open('cart');
 
     // Reset engraving form after successful add
-    setEngravingData({engravingText: '', engravingNote: ''});
-  }, [selectedVariant, engravingData, fetcher, open]);
+    setEngravingData(EMPTY_ENGRAVING_DATA);
+  }, [selectedVariant, engravingData, variantTitle, fetcher, open]);
 
   // Handle modal confirmation
   const handleConfirmEngraving = useCallback(() => {
@@ -192,6 +226,7 @@ export function ProductForm({
       <EngravingForm
         value={engravingData}
         onChange={setEngravingData}
+        selectedVariantTitle={variantTitle}
         disabled={!selectedVariant?.availableForSale || isSubmitting}
       />
 

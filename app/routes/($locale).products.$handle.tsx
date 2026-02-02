@@ -372,6 +372,7 @@ export default function Product() {
               <ProductForm
                 productOptions={productOptions}
                 selectedVariant={selectedVariant}
+                productTitle={title}
               />
 
               {/* Trust Badges */}

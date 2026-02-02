@@ -1,33 +1,116 @@
 /**
  * ProductForm Component - Design System
- * 
- * Variant selector and add to cart form
+ *
+ * Variant selector, engraving form, and add to cart
  * @see .cursor/skills/design-system/SKILL.md
+ * @see .cursor/skills/product-personalization/SKILL.md
  */
 
-import {Link, useNavigate} from 'react-router';
-import {type MappedProductOptions} from '@shopify/hydrogen';
+import {useState, useCallback} from 'react';
+import {Link, useNavigate, useFetcher} from 'react-router';
+import {type MappedProductOptions, CartForm} from '@shopify/hydrogen';
 import type {
   Maybe,
   ProductOptionValueSwatch,
 } from '@shopify/hydrogen/storefront-api-types';
-import {AddToCartButton} from './AddToCartButton';
 import {useAside} from '~/components/layout/Aside';
 import type {ProductFragment} from 'storefrontapi.generated';
 import {clsx} from 'clsx';
+import {Button} from '~/components/ui';
+import {EngravingForm, type EngravingData} from './EngravingForm';
+import {EngravingConfirmModal} from './EngravingConfirmModal';
 
 export function ProductForm({
   productOptions,
   selectedVariant,
+  productTitle,
 }: {
   productOptions: MappedProductOptions[];
   selectedVariant: ProductFragment['selectedOrFirstAvailableVariant'];
+  productTitle: string;
 }) {
   const navigate = useNavigate();
   const {open} = useAside();
-  
+  const fetcher = useFetcher();
+
+  // Engraving state
+  const [engravingData, setEngravingData] = useState<EngravingData>({
+    engravingText: '',
+    engravingNote: '',
+  });
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+
+  const isSubmitting = fetcher.state !== 'idle';
+  const hasEngraving = engravingData.engravingText.trim().length > 0;
+
+  // Handle add to cart click
+  const handleAddToCartClick = useCallback(() => {
+    if (hasEngraving) {
+      // Show confirmation modal for engraved items
+      setShowConfirmModal(true);
+    } else {
+      // Add to cart directly for non-engraved items
+      submitToCart();
+    }
+  }, [hasEngraving]);
+
+  // Submit to cart (called directly or after modal confirmation)
+  const submitToCart = useCallback(() => {
+    if (!selectedVariant) return;
+
+    // Build attributes array for engraving
+    const attributes: Array<{key: string; value: string}> = [];
+
+    if (engravingData.engravingText.trim()) {
+      attributes.push({
+        key: 'Engraving',
+        value: engravingData.engravingText.trim(),
+      });
+    }
+
+    if (engravingData.engravingNote.trim()) {
+      // Underscore prefix hides from packing slip
+      attributes.push({
+        key: '_engravingNote',
+        value: engravingData.engravingNote.trim(),
+      });
+    }
+
+    const lines = [
+      {
+        merchandiseId: selectedVariant.id,
+        quantity: 1,
+        attributes: attributes.length > 0 ? attributes : undefined,
+      },
+    ];
+
+    // Submit via fetcher
+    fetcher.submit(
+      {
+        [CartForm.INPUT_NAME]: JSON.stringify({
+          action: CartForm.ACTIONS.LinesAdd,
+          inputs: {lines},
+        }),
+      },
+      {method: 'POST', action: '/cart'},
+    );
+
+    // Close modal and open cart
+    setShowConfirmModal(false);
+    open('cart');
+
+    // Reset engraving form after successful add
+    setEngravingData({engravingText: '', engravingNote: ''});
+  }, [selectedVariant, engravingData, fetcher, open]);
+
+  // Handle modal confirmation
+  const handleConfirmEngraving = useCallback(() => {
+    submitToCart();
+  }, [submitToCart]);
+
   return (
     <div className="space-y-6">
+      {/* Variant Options */}
       {productOptions.map((option) => {
         // If there is only a single value in the option values, don't display the option
         if (option.optionValues.length === 1) return null;
@@ -58,10 +141,12 @@ export function ProductForm({
                     // Selected state
                     'bg-primary text-white border-2 border-primary': selected,
                     // Available but not selected
-                    'bg-white text-primary border-2 border-black/10 hover:border-accent/50': !selected && available && exists,
+                    'bg-white text-primary border-2 border-black/10 hover:border-accent/50':
+                      !selected && available && exists,
                     // Unavailable
-                    'bg-surface text-secondary/50 border-2 border-transparent cursor-not-allowed': !available || !exists,
-                  }
+                    'bg-surface text-secondary/50 border-2 border-transparent cursor-not-allowed':
+                      !available || !exists,
+                  },
                 );
 
                 if (isDifferentProduct) {
@@ -102,29 +187,48 @@ export function ProductForm({
           </div>
         );
       })}
-      
-      {/* Add to Cart */}
-      <div className="pt-4">
-        <AddToCartButton
-          disabled={!selectedVariant || !selectedVariant.availableForSale}
-          onClick={() => {
-            open('cart');
-          }}
-          lines={
-            selectedVariant
-              ? [
-                  {
-                    merchandiseId: selectedVariant.id,
-                    quantity: 1,
-                    selectedVariant,
-                  },
-                ]
-              : []
+
+      {/* Engraving Form */}
+      <EngravingForm
+        value={engravingData}
+        onChange={setEngravingData}
+        disabled={!selectedVariant?.availableForSale || isSubmitting}
+      />
+
+      {/* Add to Cart Button */}
+      <div className="pt-2">
+        <Button
+          type="button"
+          variant="primary"
+          size="lg"
+          className="w-full"
+          onClick={handleAddToCartClick}
+          disabled={
+            !selectedVariant ||
+            !selectedVariant.availableForSale ||
+            isSubmitting
           }
         >
-          {selectedVariant?.availableForSale ? 'Add to Cart' : 'Sold Out'}
-        </AddToCartButton>
+          {isSubmitting
+            ? 'Adding...'
+            : selectedVariant?.availableForSale
+              ? hasEngraving
+                ? 'Review Engraving & Add to Cart'
+                : 'Add to Cart'
+              : 'Sold Out'}
+        </Button>
       </div>
+
+      {/* Engraving Confirmation Modal */}
+      <EngravingConfirmModal
+        open={showConfirmModal}
+        onOpenChange={setShowConfirmModal}
+        engravingData={engravingData}
+        productTitle={productTitle}
+        variantTitle={selectedVariant?.title}
+        onConfirm={handleConfirmEngraving}
+        isSubmitting={isSubmitting}
+      />
     </div>
   );
 }

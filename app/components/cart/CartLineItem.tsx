@@ -6,6 +6,7 @@ import {Link} from 'react-router';
 import {ProductPrice} from '~/components/product/ProductPrice';
 import {useAside} from '~/components/layout/Aside';
 import type {CartApiQueryFragment} from 'storefrontapi.generated';
+import {Type} from 'lucide-react';
 
 type CartLine = OptimisticCartLine<CartApiQueryFragment>;
 
@@ -20,10 +21,13 @@ export function CartLineItem({
   layout: CartLayout;
   line: CartLine;
 }) {
-  const {id, merchandise} = line;
+  const {id, merchandise, attributes} = line;
   const {product, title, image, selectedOptions} = merchandise;
   const lineItemUrl = useVariantUrl(product.handle, selectedOptions);
   const {close} = useAside();
+
+  // Find engraving attribute (public, without underscore prefix)
+  const engravingAttr = attributes?.find((attr) => attr.key === 'Engraving');
 
   return (
     <li key={id} className="cart-line">
@@ -62,6 +66,22 @@ export function CartLineItem({
             </li>
           ))}
         </ul>
+
+        {/* Engraving Display */}
+        {engravingAttr && (
+          <div className="mt-2 p-2 bg-accent/10 rounded-md border border-accent/20">
+            <div className="flex items-center gap-1.5 text-accent">
+              <Type className="w-3.5 h-3.5" />
+              <span className="text-xs font-semibold uppercase tracking-wide">
+                Engraving
+              </span>
+            </div>
+            <p className="text-sm text-primary font-medium mt-1">
+              "{engravingAttr.value}"
+            </p>
+          </div>
+        )}
+
         <CartLineQuantity line={line} />
       </div>
     </li>
@@ -72,17 +92,31 @@ export function CartLineItem({
  * Provides the controls to update the quantity of a line item in the cart.
  * These controls are disabled when the line item is new, and the server
  * hasn't yet responded that it was successfully added to the cart.
+ *
+ * IMPORTANT: Preserves line attributes (like engraving) when updating quantity.
  */
 function CartLineQuantity({line}: {line: CartLine}) {
   if (!line || typeof line?.quantity === 'undefined') return null;
-  const {id: lineId, quantity, isOptimistic} = line;
+  const {id: lineId, quantity, isOptimistic, attributes} = line;
   const prevQuantity = Number(Math.max(0, quantity - 1).toFixed(0));
   const nextQuantity = Number((quantity + 1).toFixed(0));
+
+  // Convert attributes to the format expected by CartLineUpdateInput
+  // This preserves engraving and other custom attributes when updating quantity
+  // Filter out attributes with undefined/null values as they're not valid for updates
+  const lineAttributes = attributes
+    ?.filter((attr) => attr.key && attr.value)
+    .map((attr) => ({
+      key: attr.key,
+      value: attr.value as string,
+    }));
 
   return (
     <div className="cart-line-quantity">
       <small>Quantity: {quantity} &nbsp;&nbsp;</small>
-      <CartLineUpdateButton lines={[{id: lineId, quantity: prevQuantity}]}>
+      <CartLineUpdateButton
+        lines={[{id: lineId, quantity: prevQuantity, attributes: lineAttributes}]}
+      >
         <button
           aria-label="Decrease quantity"
           disabled={quantity <= 1 || !!isOptimistic}
@@ -93,7 +127,9 @@ function CartLineQuantity({line}: {line: CartLine}) {
         </button>
       </CartLineUpdateButton>
       &nbsp;
-      <CartLineUpdateButton lines={[{id: lineId, quantity: nextQuantity}]}>
+      <CartLineUpdateButton
+        lines={[{id: lineId, quantity: nextQuantity, attributes: lineAttributes}]}
+      >
         <button
           aria-label="Increase quantity"
           name="increase-quantity"

@@ -73,6 +73,12 @@ export type CustomerFragment = Pick<
   CustomerAccountAPI.Customer,
   'id' | 'firstName' | 'lastName'
 > & {
+  emailAddress?: CustomerAccountAPI.Maybe<
+    Pick<CustomerAccountAPI.CustomerEmailAddress, 'emailAddress'>
+  >;
+  phoneNumber?: CustomerAccountAPI.Maybe<
+    Pick<CustomerAccountAPI.CustomerPhoneNumber, 'phoneNumber'>
+  >;
   defaultAddress?: CustomerAccountAPI.Maybe<
     Pick<
       CustomerAccountAPI.CustomerAddress,
@@ -136,6 +142,12 @@ export type CustomerDetailsQuery = {
     CustomerAccountAPI.Customer,
     'id' | 'firstName' | 'lastName'
   > & {
+    emailAddress?: CustomerAccountAPI.Maybe<
+      Pick<CustomerAccountAPI.CustomerEmailAddress, 'emailAddress'>
+    >;
+    phoneNumber?: CustomerAccountAPI.Maybe<
+      Pick<CustomerAccountAPI.CustomerPhoneNumber, 'phoneNumber'>
+    >;
     defaultAddress?: CustomerAccountAPI.Maybe<
       Pick<
         CustomerAccountAPI.CustomerAddress,
@@ -173,6 +185,32 @@ export type CustomerDetailsQuery = {
       >;
     };
   };
+};
+
+export type CustomerMetafieldsSetMutationVariables = CustomerAccountAPI.Exact<{
+  metafields:
+    | Array<CustomerAccountAPI.MetafieldsSetInput>
+    | CustomerAccountAPI.MetafieldsSetInput;
+  language?: CustomerAccountAPI.InputMaybe<CustomerAccountAPI.LanguageCode>;
+}>;
+
+export type CustomerMetafieldsSetMutation = {
+  metafieldsSet?: CustomerAccountAPI.Maybe<{
+    metafields?: CustomerAccountAPI.Maybe<
+      Array<
+        Pick<
+          CustomerAccountAPI.Metafield,
+          'key' | 'namespace' | 'value' | 'type'
+        >
+      >
+    >;
+    userErrors: Array<
+      Pick<
+        CustomerAccountAPI.MetafieldsSetUserError,
+        'code' | 'field' | 'message'
+      >
+    >;
+  }>;
 };
 
 export type OrderMoneyFragment = Pick<
@@ -485,7 +523,7 @@ export type CustomerUpdateMutationVariables = CustomerAccountAPI.Exact<{
 export type CustomerUpdateMutation = {
   customerUpdate?: CustomerAccountAPI.Maybe<{
     customer?: CustomerAccountAPI.Maybe<
-      Pick<CustomerAccountAPI.Customer, 'firstName' | 'lastName'> & {
+      Pick<CustomerAccountAPI.Customer, 'id' | 'firstName' | 'lastName'> & {
         emailAddress?: CustomerAccountAPI.Maybe<
           Pick<CustomerAccountAPI.CustomerEmailAddress, 'emailAddress'>
         >;
@@ -504,7 +542,7 @@ export type CustomerUpdateMutation = {
 };
 
 interface GeneratedQueryTypes {
-  '#graphql\n  query CustomerDetails($language: LanguageCode) @inContext(language: $language) {\n    customer {\n      ...Customer\n    }\n  }\n  #graphql\n  fragment Customer on Customer {\n    id\n    firstName\n    lastName\n    defaultAddress {\n      ...Address\n    }\n    addresses(first: 6) {\n      nodes {\n        ...Address\n      }\n    }\n  }\n  fragment Address on CustomerAddress {\n    id\n    formatted\n    firstName\n    lastName\n    company\n    address1\n    address2\n    territoryCode\n    zoneCode\n    city\n    zip\n    phoneNumber\n  }\n\n': {
+  '#graphql\n  query CustomerDetails($language: LanguageCode) @inContext(language: $language) {\n    customer {\n      ...Customer\n    }\n  }\n  #graphql\n  fragment Customer on Customer {\n    id\n    firstName\n    lastName\n    emailAddress {\n      emailAddress\n    }\n    phoneNumber {\n      phoneNumber\n    }\n    defaultAddress {\n      ...Address\n    }\n    addresses(first: 6) {\n      nodes {\n        ...Address\n      }\n    }\n  }\n  fragment Address on CustomerAddress {\n    id\n    formatted\n    firstName\n    lastName\n    company\n    address1\n    address2\n    territoryCode\n    zoneCode\n    city\n    zip\n    phoneNumber\n  }\n\n': {
     return: CustomerDetailsQuery;
     variables: CustomerDetailsQueryVariables;
   };
@@ -531,7 +569,11 @@ interface GeneratedMutationTypes {
     return: CustomerAddressCreateMutation;
     variables: CustomerAddressCreateMutationVariables;
   };
-  '#graphql\n  mutation customerUpdate(\n    $customer: CustomerUpdateInput!\n    $language: LanguageCode\n  ) @inContext(language: $language) {\n    customerUpdate(input: $customer) {\n      customer {\n        firstName\n        lastName\n        emailAddress {\n          emailAddress\n        }\n        phoneNumber {\n          phoneNumber\n        }\n      }\n      userErrors {\n        code\n        field\n        message\n      }\n    }\n  }\n': {
+  '#graphql\n  mutation CustomerMetafieldsSet(\n    $metafields: [MetafieldsSetInput!]!\n    $language: LanguageCode\n  ) @inContext(language: $language) {\n    metafieldsSet(metafields: $metafields) {\n      metafields {\n        key\n        namespace\n        value\n        type\n      }\n      userErrors {\n        code\n        field\n        message\n      }\n    }\n  }\n': {
+    return: CustomerMetafieldsSetMutation;
+    variables: CustomerMetafieldsSetMutationVariables;
+  };
+  '#graphql\n  mutation customerUpdate(\n    $customer: CustomerUpdateInput!\n    $language: LanguageCode\n  ) @inContext(language: $language) {\n    customerUpdate(input: $customer) {\n      customer {\n        id\n        firstName\n        lastName\n        emailAddress {\n          emailAddress\n        }\n        phoneNumber {\n          phoneNumber\n        }\n      }\n      userErrors {\n        code\n        field\n        message\n      }\n    }\n  }\n': {
     return: CustomerUpdateMutation;
     variables: CustomerUpdateMutationVariables;
   };

@@ -86,9 +86,6 @@ export function createKlaviyoClient(config: KlaviyoConfig) {
   ): Promise<T> {
     const url = `${KLAVIYO_API_URL}${endpoint}`;
 
-    // Log the request for debugging (remove in production)
-    console.log(`[Klaviyo] ${options.method || 'GET'} ${endpoint}`);
-
     const response = await fetch(url, {
       ...options,
       headers: {
@@ -100,8 +97,6 @@ export function createKlaviyoClient(config: KlaviyoConfig) {
       },
     });
 
-    console.log(`[Klaviyo] Response status: ${response.status}`);
-
     if (!response.ok) {
       let errorData: KlaviyoErrorResponse | null = null;
       let rawBody = '';
@@ -111,8 +106,6 @@ export function createKlaviyoClient(config: KlaviyoConfig) {
       } catch {
         // Response body might not be JSON
       }
-
-      console.error(`[Klaviyo] Error response:`, rawBody || response.statusText);
 
       const errorMessage =
         errorData?.errors?.[0]?.detail ||
@@ -130,7 +123,6 @@ export function createKlaviyoClient(config: KlaviyoConfig) {
       response.status === 204 ||
       response.headers.get('content-length') === '0'
     ) {
-      console.log(`[Klaviyo] Success (no body)`);
       return {} as T;
     }
 
@@ -179,14 +171,10 @@ export function createKlaviyoClient(config: KlaviyoConfig) {
       },
     };
 
-    console.log(`[Klaviyo] Creating event "${event}" for ${email}`);
-
     await request('/events', {
       method: 'POST',
       body: JSON.stringify(payload),
     });
-
-    console.log(`[Klaviyo] Event created successfully`);
   }
 
   /**

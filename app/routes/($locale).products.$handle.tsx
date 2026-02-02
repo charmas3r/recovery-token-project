@@ -349,12 +349,10 @@ export default function Product() {
                 <span className="text-accent text-caption uppercase tracking-[0.25em] font-semibold">
                   Recovery Token
                 </span>
-                {reviewsSummary && reviewsSummary.reviewCount > 0 && (
-                  <RatingBadge
-                    rating={reviewsSummary.rating}
-                    reviewCount={reviewsSummary.reviewCount}
-                  />
-                )}
+                <RatingBadge
+                  rating={reviewsSummary?.rating ?? 0}
+                  reviewCount={reviewsSummary?.reviewCount ?? 0}
+                />
               </div>
 
               {/* Product Title */}

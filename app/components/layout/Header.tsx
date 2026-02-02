@@ -65,6 +65,27 @@ export function HeaderMenu({
 }) {
   const {close} = useAside();
 
+  // URL rewrites for custom routes that replace Shopify CMS pages
+  const URL_REWRITES: Record<string, string> = {
+    '/pages/contact': '/contact',
+  };
+
+  const getUrl = (itemUrl: string) => {
+    let url =
+      itemUrl.includes('myshopify.com') ||
+      itemUrl.includes(publicStoreDomain) ||
+      itemUrl.includes(primaryDomainUrl)
+        ? new URL(itemUrl).pathname
+        : itemUrl;
+
+    // Apply URL rewrites for custom routes
+    if (URL_REWRITES[url]) {
+      url = URL_REWRITES[url];
+    }
+
+    return url;
+  };
+
   if (viewport === 'mobile') {
     return (
       <nav className="flex flex-col gap-4 p-6" role="navigation">
@@ -79,13 +100,7 @@ export function HeaderMenu({
         </NavLink>
         {(menu || FALLBACK_HEADER_MENU).items.map((item) => {
           if (!item.url) return null;
-
-          const url =
-            item.url.includes('myshopify.com') ||
-            item.url.includes(publicStoreDomain) ||
-            item.url.includes(primaryDomainUrl)
-              ? new URL(item.url).pathname
-              : item.url;
+          const url = getUrl(item.url);
           return (
             <NavLink
               end
@@ -107,13 +122,7 @@ export function HeaderMenu({
     <nav className="hidden lg:flex items-center gap-8 absolute left-1/2 transform -translate-x-1/2" role="navigation">
       {(menu || FALLBACK_HEADER_MENU).items.map((item) => {
         if (!item.url) return null;
-
-        const url =
-          item.url.includes('myshopify.com') ||
-          item.url.includes(publicStoreDomain) ||
-          item.url.includes(primaryDomainUrl)
-            ? new URL(item.url).pathname
-            : item.url;
+        const url = getUrl(item.url);
         return (
           <NavLink
             end

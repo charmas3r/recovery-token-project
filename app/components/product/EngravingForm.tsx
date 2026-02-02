@@ -155,13 +155,11 @@ export function EngravingForm({
               maxLength={MAX_ENGRAVING_LENGTH}
               aria-describedby="engraving-help"
               className={clsx(
-                'w-full h-11 px-4 rounded-md border transition-colors',
-                'text-body text-primary placeholder:text-secondary/80',
-                'focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-1',
-                displayError
-                  ? 'border-error focus:ring-error'
-                  : 'border-black/10 focus:border-accent',
-                'disabled:opacity-40 disabled:cursor-not-allowed',
+                'w-full h-12 px-4 rounded-lg bg-white transition-all duration-200',
+                'text-body text-primary placeholder:text-secondary/50',
+                'focus:outline-none focus:ring-2 focus:ring-accent/20 focus:shadow-sm',
+                displayError && 'ring-2 ring-error/30 bg-error/5',
+                'disabled:opacity-40 disabled:cursor-not-allowed disabled:bg-surface/30',
               )}
             />
             {displayError && (
@@ -204,13 +202,11 @@ export function EngravingForm({
               rows={2}
               maxLength={MAX_NOTE_LENGTH}
               className={clsx(
-                'w-full px-4 py-3 rounded-md border transition-colors resize-none',
-                'text-body text-primary placeholder:text-secondary/80',
-                'focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-1',
-                errors?.engravingNote
-                  ? 'border-error focus:ring-error'
-                  : 'border-black/10 focus:border-accent',
-                'disabled:opacity-40 disabled:cursor-not-allowed',
+                'w-full px-4 py-3 rounded-lg bg-white transition-all duration-200 resize-none',
+                'text-body text-primary placeholder:text-secondary/50',
+                'focus:outline-none focus:ring-2 focus:ring-accent/20 focus:shadow-sm',
+                errors?.engravingNote && 'ring-2 ring-error/30 bg-error/5',
+                'disabled:opacity-40 disabled:cursor-not-allowed disabled:bg-surface/30',
               )}
               aria-describedby="note-help"
             />

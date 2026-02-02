@@ -334,7 +334,7 @@ function RecoveryJourneySection({
           <select
             id="recovery_program"
             name="recovery_program"
-            className="w-full px-4 py-3 border border-black/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent text-body text-primary bg-white"
+            className="w-full h-12 px-4 rounded-lg bg-surface/50 text-body text-primary focus:outline-none focus:bg-white focus:ring-2 focus:ring-accent/20 focus:shadow-sm transition-all duration-200"
             disabled
           >
             <option value="">Select a program</option>

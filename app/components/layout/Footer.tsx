@@ -217,12 +217,12 @@ function FooterContent({
                 placeholder="Enter your email"
                 required
                 disabled={isSubmitting}
-                className="w-full px-4 py-3 pr-32 rounded-lg bg-white/10 border border-white/30 text-white placeholder:text-white/60 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all duration-200 disabled:opacity-50"
+                className="w-full h-12 px-4 pr-32 rounded-lg bg-white/10 text-white placeholder:text-white/50 focus:outline-none focus:bg-white/15 focus:ring-2 focus:ring-accent/40 transition-all duration-200 disabled:opacity-50"
               />
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="absolute right-2 top-1/2 -translate-y-1/2 px-5 py-2 bg-accent text-white text-sm font-semibold rounded-md hover:bg-accent/90 transition-colors duration-200 shadow-sm disabled:opacity-50"
+                className="absolute right-1.5 top-1/2 -translate-y-1/2 px-5 py-2 bg-accent text-white text-sm font-semibold rounded-md hover:bg-accent/90 transition-colors duration-200 disabled:opacity-50"
               >
                 {isSubmitting ? 'Subscribing...' : isSuccess ? 'Subscribed!' : 'Subscribe'}
               </button>

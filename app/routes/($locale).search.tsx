@@ -41,21 +41,26 @@ export default function SearchPage() {
   if (type === 'predictive') return null;
 
   return (
-    <div className="search">
-      <h1>Search</h1>
+    <div className="py-12 px-4 max-w-4xl mx-auto">
+      <h1 className="font-display text-section text-primary mb-8">Search</h1>
       <SearchForm>
         {({inputRef}) => (
-          <>
+          <div className="flex gap-3 max-w-xl">
             <input
               defaultValue={term}
               name="q"
-              placeholder="Search…"
+              placeholder="Search products..."
               ref={inputRef}
               type="search"
+              className="flex-1 h-12 px-4 rounded-lg bg-surface/50 text-body text-primary placeholder:text-secondary/50 focus:outline-none focus:bg-white focus:ring-2 focus:ring-accent/20 focus:shadow-sm transition-all duration-200"
             />
-            &nbsp;
-            <button type="submit">Search</button>
-          </>
+            <button
+              type="submit"
+              className="h-12 px-6 rounded-lg bg-accent text-white font-semibold hover:bg-accent/90 transition-colors duration-200"
+            >
+              Search
+            </button>
+          </div>
         )}
       </SearchForm>
       {error && <p style={{color: 'red'}}>{error}</p>}

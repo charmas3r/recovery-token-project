@@ -152,7 +152,7 @@ export default function ContactPage() {
 
       {/* Contact Form */}
       <div style={{maxWidth: '32rem', margin: '0 auto'}}>
-        <Form method="post" className="space-y-6">
+        <Form method="post" action="/contact" className="space-y-6">
           {/* General error */}
           {actionData?.error && (
             <div className="p-4 rounded-lg bg-red-50 flex items-start gap-3">

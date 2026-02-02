@@ -344,21 +344,21 @@ export default function Product() {
 
             {/* Right Column - Product Info */}
             <div className="lg:sticky lg:top-24 lg:self-start space-y-6">
-              {/* Eyebrow + Rating - Top of page for immediate visibility */}
-              <div className="flex flex-wrap items-center gap-3">
-                <span className="text-accent text-caption uppercase tracking-[0.25em] font-semibold">
-                  Recovery Token
-                </span>
-                <RatingBadge
-                  rating={reviewsSummary?.rating ?? 0}
-                  reviewCount={reviewsSummary?.reviewCount ?? 0}
-                />
-              </div>
+              {/* Eyebrow */}
+              <span className="inline-block text-accent text-caption uppercase tracking-[0.25em] font-semibold">
+                Recovery Token
+              </span>
 
               {/* Product Title */}
               <h1 className="font-display text-3xl md:text-4xl font-bold text-primary leading-tight">
                 {title}
               </h1>
+
+              {/* Star Rating - Below title for visibility */}
+              <RatingBadge
+                rating={reviewsSummary?.rating ?? 0}
+                reviewCount={reviewsSummary?.reviewCount ?? 0}
+              />
 
               {/* Price */}
               <ProductPrice

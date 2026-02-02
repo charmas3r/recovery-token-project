@@ -1,5 +1,5 @@
-import {Suspense, useState} from 'react';
-import {Await, NavLink, Link} from 'react-router';
+import {Suspense, useState, useEffect} from 'react';
+import {Await, NavLink, Link, useFetcher} from 'react-router';
 import type {FooterQuery, HeaderQuery} from 'storefrontapi.generated';
 import {FadeUp, StaggerContainer, StaggerItem} from '~/components/ui/Animations';
 
@@ -42,16 +42,24 @@ function FooterContent({
   publicStoreDomain: string;
 }) {
   const [email, setEmail] = useState('');
-  const [isSubscribed, setIsSubscribed] = useState(false);
+  const fetcher = useFetcher<{success?: boolean; error?: string}>();
+  const isSubmitting = fetcher.state === 'submitting';
+  const isSuccess = fetcher.data?.success;
+  const hasError = fetcher.data?.error;
+
+  // Reset form after successful subscription
+  useEffect(() => {
+    if (isSuccess) {
+      setEmail('');
+    }
+  }, [isSuccess]);
 
   const handleNewsletterSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Integrate with email service
-    setIsSubscribed(true);
-    setTimeout(() => {
-      setIsSubscribed(false);
-      setEmail('');
-    }, 3000);
+    fetcher.submit(
+      {email, consent: 'true'},
+      {method: 'POST', action: '/newsletter'},
+    );
   };
 
   return (
@@ -160,7 +168,7 @@ function FooterContent({
             <ul className="space-y-3">
               <li>
                 <Link
-                  to="/pages/contact"
+                  to="/contact"
                   className="!text-white/70 text-[15px] hover:!text-accent transition-colors duration-200 inline-block"
                 >
                   Contact Us
@@ -208,15 +216,23 @@ function FooterContent({
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email"
                 required
-                className="w-full px-4 py-3 pr-32 rounded-lg bg-white/10 border border-white/30 text-white placeholder:text-white/60 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all duration-200"
+                disabled={isSubmitting}
+                className="w-full px-4 py-3 pr-32 rounded-lg bg-white/10 border border-white/30 text-white placeholder:text-white/60 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all duration-200 disabled:opacity-50"
               />
               <button
                 type="submit"
-                className="absolute right-2 top-1/2 -translate-y-1/2 px-5 py-2 bg-accent text-white text-sm font-semibold rounded-md hover:bg-accent/90 transition-colors duration-200 shadow-sm"
+                disabled={isSubmitting}
+                className="absolute right-2 top-1/2 -translate-y-1/2 px-5 py-2 bg-accent text-white text-sm font-semibold rounded-md hover:bg-accent/90 transition-colors duration-200 shadow-sm disabled:opacity-50"
               >
-                {isSubscribed ? 'Subscribed!' : 'Subscribe'}
+                {isSubmitting ? 'Subscribing...' : isSuccess ? 'Subscribed!' : 'Subscribe'}
               </button>
             </form>
+            {hasError && (
+              <p className="text-sm text-red-400 mt-2">{fetcher.data?.error}</p>
+            )}
+            {isSuccess && (
+              <p className="text-sm text-green-400 mt-2">Thanks for subscribing!</p>
+            )}
           </StaggerItem>
         </StaggerContainer>
 

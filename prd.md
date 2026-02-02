@@ -463,7 +463,7 @@ PDP Desktop:
   - Update product information and pricing in Shopify admin
   - View and moderate reviews via Judge.me
   - Monitor site performance and errors
-  - Manage email campaigns via Resend
+  - Manage email campaigns via Klaviyo
 
 ---
 
@@ -496,14 +496,14 @@ PDP Desktop:
 **Content Pages**:
 - ✅ Homepage with hero, featured products, brand story
 - ✅ About/Mission page
-- ✅ Contact form (Resend integration)
+- ✅ Contact form (Klaviyo integration)
 - ✅ FAQ page
 - ✅ Support hub (shipping/returns, customer service)
 - ✅ Legal pages (privacy, terms, refund policy)
 
 **Email & Newsletter**:
-- ✅ Contact form submission emails via Resend
-- ✅ Newsletter signup with double opt-in (Resend Audiences)
+- ✅ Contact form submission emails via Klaviyo
+- ✅ Newsletter signup with double opt-in (Klaviyo Lists)
 
 **Customer Accounts**:
 - ✅ User registration and login (Shopify Customer Account API)
@@ -640,9 +640,9 @@ PDP Desktop:
          │                    │                    │
          ▼                    ▼                    ▼
 ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐
-│  Shopify APIs   │  │    Judge.me     │  │     Resend      │
-│  - Storefront   │  │  Reviews API    │  │   Email API     │
-│  - Cart         │  │                 │  │                 │
+│  Shopify APIs   │  │    Judge.me     │  │     Klaviyo     │
+│  - Storefront   │  │  Reviews API    │  │   Events API    │
+│  - Cart         │  │                 │  │   Lists API     │
 │  - Checkout     │  │                 │  │                 │
 └─────────────────┘  └─────────────────┘  └─────────────────┘
 ```
@@ -691,7 +691,7 @@ recovery-token-store/
 │   │   ├── customer.server.ts
 │   │   ├── session.server.ts
 │   │   ├── judgeme.server.ts
-│   │   ├── resend.server.ts
+│   │   ├── klaviyo.server.ts
 │   │   ├── cache.ts
 │   │   └── validation.ts
 │   ├── routes/
@@ -860,14 +860,16 @@ recovery-token-store/
 - Fields: Name, email, subject, message
 - Server-side validation with Zod
 - Honeypot spam protection
-- Resend API for email delivery
+- Klaviyo Events API for email delivery (triggers flow-based transactional email)
 - Success/error feedback with empathetic messaging
+- Contact submissions tracked as profiles in Klaviyo
 
 **Newsletter Signup**:
 - Footer signup form
-- Double opt-in flow (Resend Audiences)
+- Double opt-in flow (Klaviyo Lists API)
 - Clear consent copy: "Get product drops and recovery stories"
 - Unsubscribe link in all marketing emails
+- Subscribers added to Klaviyo newsletter list
 
 ### 8.6 SEO & Structured Data
 
@@ -992,9 +994,8 @@ recovery-token-store/
 | Component | Technology | Purpose |
 |-----------|------------|---------|
 | Reviews | Judge.me (Awesome plan) | Product reviews |
-| Transactional Email | Resend | Contact form, confirmations |
-| Marketing Email | Resend Audiences/Broadcasts | Newsletter |
-| Email Templates | React Email | Template authoring |
+| Email & Marketing | Klaviyo | Contact form events, newsletter, customer data |
+| Email Templates | Klaviyo Flows | Template authoring in Klaviyo dashboard |
 
 ### Testing & Quality
 | Component | Technology | Purpose |
@@ -1030,7 +1031,7 @@ recovery-token-store/
 **Admin**:
 - Shopify Admin for product/order/customer management
 - Judge.me dashboard for review moderation
-- Resend dashboard for email management
+- Klaviyo dashboard for email management
 
 ### Environment Variables
 
@@ -1050,8 +1051,9 @@ JUDGEME_SHOP_DOMAIN=<store>.myshopify.com
 JUDGEME_PUBLIC_TOKEN=<judgeme-public-token>
 JUDGEME_CDN_HOST=https://cdn.judge.me
 
-# Resend
-RESEND_API_KEY=<resend-api-key>
+# Klaviyo
+KLAVIYO_PRIVATE_API_KEY=<klaviyo-private-api-key>
+KLAVIYO_NEWSLETTER_LIST_ID=<klaviyo-list-id>
 ```
 
 **Production (Oxygen)**:
@@ -1277,36 +1279,32 @@ query CustomerOrders($customerAccessToken: String!, $first: Int!) {
 }
 ```
 
-### Resend API
+### Klaviyo API
 
-**Send Email** (Contact Form):
+**Create Event** (Contact Form - triggers flow):
 ```typescript
-await resend.emails.send({
-  from: 'noreply@recoverytoken.store',
-  to: 'support@recoverytoken.store',
-  subject: `Contact Form: ${subject}`,
-  react: ContactFormEmail({ name, email, message }),
+await klaviyo.createEvent({
+  event: 'Contact Form Submitted',
+  email: customerEmail,
+  properties: {
+    name,
+    subject,
+    message,
+    submitted_at: new Date().toISOString(),
+  },
 });
 ```
 
-**Send Account Email** (Welcome, Password Reset):
+**Subscribe to Newsletter**:
 ```typescript
-await resend.emails.send({
-  from: 'noreply@recoverytoken.store',
-  to: customerEmail,
-  subject: 'Welcome to Recovery Token Store',
-  react: WelcomeEmail({ firstName }),
-});
-```
-
-**Add to Audience** (Newsletter):
-```typescript
-await resend.contacts.create({
+await klaviyo.subscribeToList({
+  listId: KLAVIYO_NEWSLETTER_LIST_ID,
   email: subscriberEmail,
-  audienceId: NEWSLETTER_AUDIENCE_ID,
-  unsubscribed: false,
+  source: 'Website Footer',
 });
 ```
+
+**Note**: Klaviyo uses event-triggered flows for transactional emails. Contact form submissions create events that trigger notification flows configured in the Klaviyo dashboard.
 
 ---
 
@@ -1333,7 +1331,7 @@ The MVP is successful when:
 | **Mobile Bounce Rate** | < 50% | GA4 | Warning: > 60% |
 | **Page Error Rate** | < 0.1% | Sentry | Alert: > 1% |
 | **Contact Form Completion** | > 80% | Custom event tracking | Warning: < 60% |
-| **Newsletter Signup Rate** | > 1% of visitors | Resend + GA4 | N/A |
+| **Newsletter Signup Rate** | > 1% of visitors | Klaviyo + GA4 | N/A |
 | **Review Widget Load Success** | > 99% | Error boundary tracking | Alert: < 95% |
 
 **Telemetry Implementation**:
@@ -1451,8 +1449,8 @@ The MVP is successful when:
 - ✅ Engraving form with validation
 - ✅ Engraving confirmation modal
 - ✅ Line item properties in cart
-- ✅ Contact form (Resend)
-- ✅ Newsletter signup (Resend Audiences)
+- ✅ Contact form (Klaviyo)
+- ✅ Newsletter signup (Klaviyo Lists)
 - ✅ Empathetic error messaging
 - ✅ Trust badges and return policy display
 
@@ -1789,8 +1787,7 @@ Before launching, complete these security tests:
 | Tailwind CSS | [tailwindcss.com/docs](https://tailwindcss.com/docs) | Styling |
 | Radix UI | [radix-ui.com](https://www.radix-ui.com) | Accessible primitives |
 | Judge.me | [judge.me/help](https://judge.me/help) | Reviews integration |
-| Resend | [resend.com/docs](https://resend.com/docs) | Email API |
-| React Email | [react.email](https://react.email) | Email templates |
+| Klaviyo | [developers.klaviyo.com](https://developers.klaviyo.com) | Email & marketing platform |
 
 ### Glossary
 

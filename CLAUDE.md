@@ -1,0 +1,528 @@
+# Recovery Token Store - Claude Code Reference
+
+## Project Overview
+
+Recovery Token Store is a premium Shopify Hydrogen storefront selling physical recovery tokens that celebrate sobriety milestones. The design prioritizes world-class aesthetics, performance, and emotional resonance.
+
+**Tech Stack:** Hydrogen 2025.x | React Router v7 | TypeScript | Tailwind v4 | Radix UI | Shopify Storefront API
+
+---
+
+## Project Structure
+
+```
+recovery-token-store/
+├── app/
+│   ├── components/
+│   │   ├── ui/                    # Reusable UI primitives
+│   │   ├── product/               # Product components
+│   │   ├── cart/                  # Cart components
+│   │   ├── account/               # Account components
+│   │   └── layout/                # Layout components
+│   ├── lib/                       # Utilities and helpers
+│   ├── routes/                    # Page routes
+│   ├── graphql/                   # GraphQL queries/mutations
+│   └── styles/
+│       ├── tailwind.css           # Design tokens
+│       ├── app.css               # Additional styles
+│       └── reset.css             # Base reset
+├── .cursor/
+│   ├── skills/                   # AI skill documentation
+│   └── rules/                    # AI enforcement rules
+├── prd.md                        # Product requirements
+├── DESIGN-SYSTEM.md             # Design patterns
+└── server.ts                     # Server entry
+```
+
+---
+
+## Code Conventions
+
+| Element | Convention | Example |
+|---------|------------|---------|
+| Components | PascalCase | `ProductCard.tsx`, `CartDrawer.tsx` |
+| Functions | camelCase | `loadCriticalData`, `formatPrice` |
+| Files (routes) | kebab-case | `($locale)._index.tsx` |
+| Constants | SCREAMING_SNAKE | `FEATURED_COLLECTION_QUERY` |
+| CSS Classes | Design tokens | `text-primary`, `bg-surface` |
+| GraphQL | SCREAMING_SNAKE | `PRODUCT_QUERY`, `CART_FRAGMENT` |
+
+**Import Organization:**
+```typescript
+// 1. React/React Router
+import {Suspense} from 'react';
+import {useLoaderData, Link} from 'react-router';
+
+// 2. Third-party packages
+import type {Route} from './+types/_index';
+
+// 3. Internal components
+import {Button} from '~/components/ui/Button';
+import {ProductItem} from '~/components/product/ProductItem';
+
+// 4. Utilities and types
+import {formatPrice} from '~/lib/utils';
+import type {Product} from 'storefrontapi.generated';
+```
+
+---
+
+## Skills Reference
+
+### When to Use Each Skill
+
+**Always read the appropriate skill BEFORE implementing features:**
+
+| Task | Skill Path | Priority |
+|------|------------|----------|
+| **Any UI/Styling Work** | `.cursor/skills/design-system/SKILL.md` | CRITICAL |
+| Product pages, collections | `.cursor/skills/shopify-storefront-api/SKILL.md` | CRITICAL |
+| Authentication, accounts | `.cursor/skills/shopify-customer-account-api/SKILL.md` | CRITICAL |
+| Routes, loaders, actions | `.cursor/skills/react-router-patterns/SKILL.md` | CRITICAL |
+| Form handling | `.cursor/skills/form-validation/SKILL.md` | HIGH |
+| Cart operations | `.cursor/skills/cart-management/SKILL.md` | HIGH |
+| Engraving, customization | `.cursor/skills/product-personalization/SKILL.md` | HIGH |
+| GraphQL patterns | `.cursor/skills/graphql-queries/SKILL.md` | HIGH |
+| UI components | `.cursor/skills/ui-components/SKILL.md` | HIGH |
+| Animations | `.cursor/skills/framer-motion/SKILL.md` | HIGH |
+| Meta tags, Schema.org | `.cursor/skills/seo-structured-data/SKILL.md` | MEDIUM |
+| Klaviyo, newsletters | `.cursor/skills/email-integration/SKILL.md` | MEDIUM |
+| Judge.me reviews | `.cursor/skills/reviews-integration/SKILL.md` | MEDIUM |
+
+### Complete Skills List
+
+All 13 skills have both SKILL.md (patterns) and REFERENCE.md (best practices):
+
+**Foundation Skills:**
+- `design-system` - Colors, typography, spacing, layout
+- `framer-motion` - Animations, motion, micro-interactions
+
+**Core Skills:**
+- `shopify-storefront-api` - Product/collection data fetching
+- `shopify-customer-account-api` - Authentication, accounts
+- `form-validation` - Zod schemas, validation
+- `react-router-patterns` - Routes, loaders, actions
+
+**Commerce Skills:**
+- `cart-management` - Cart operations
+- `product-personalization` - Line item properties, engraving
+- `graphql-queries` - Query structure, fragments
+
+**Enhancement Skills:**
+- `seo-structured-data` - Meta tags, Schema.org
+- `ui-components` - UI primitives, Radix UI
+- `email-integration` - Klaviyo email & marketing
+- `reviews-integration` - Judge.me API
+
+**Skills Index:** `.cursor/skills/INDEX.md`
+
+### Active Rules
+
+| Rule | File | When Applied |
+|------|------|--------------|
+| **Design System** | `.cursor/rules/design-system.mdc` | All UI work |
+| **React Router** | `.cursor/rules/hydrogen-react-router.mdc` | All routing |
+
+---
+
+## Design System (CRITICAL)
+
+**Before ANY UI work, read:** `.cursor/skills/design-system/SKILL.md` + `.cursor/skills/design-system/REFERENCE.md`
+
+### Typography
+
+```tsx
+// Headings (always use font-display)
+<h1 className="font-display text-hero text-white">Hero</h1>
+<h2 className="font-display text-section text-primary">Section</h2>
+<h3 className="font-display text-subsection text-primary">Subsection</h3>
+
+// Body text
+<p className="text-body-lg text-secondary">Large body</p>
+<p className="text-body text-secondary">Standard body</p>
+```
+
+### Colors
+
+```tsx
+// Text
+text-primary       // #1A202C - Deep Navy
+text-secondary     // #4A5568 - Slate
+text-accent        // #B8764F - Bronze
+text-white         // White
+
+// Backgrounds
+bg-primary         // Dark navy
+bg-surface         // Light gray
+bg-accent          // Bronze
+bg-white           // White
+```
+
+### Spacing (8px grid)
+
+```tsx
+p-xs   // 4px
+p-sm   // 8px
+p-md   // 16px
+p-lg   // 24px
+p-xl   // 32px
+p-2xl  // 48px
+p-3xl  // 64px
+```
+
+### Required Patterns
+
+**Eyebrow Text (before section headers):**
+```tsx
+<span className="inline-block text-accent text-caption uppercase tracking-[0.25em] font-semibold mb-4">
+  Category
+</span>
+```
+
+**Buttons on Dark Backgrounds:**
+```tsx
+<Button variant="primary" className="!bg-accent !text-white">Primary</Button>
+<Button variant="secondary" className="!border-white/30 !text-white">Secondary</Button>
+```
+
+**Image Glow Effect:**
+```tsx
+<div className="relative">
+  <div className="absolute inset-0 bg-accent/20 blur-3xl rounded-full scale-75" />
+  <img src={image} className="relative drop-shadow-2xl" />
+</div>
+```
+
+---
+
+## React Router Patterns
+
+**NEVER use `@remix-run/*` imports. ALWAYS use `react-router`.**
+
+### Correct Imports
+
+```tsx
+// CORRECT
+import {useLoaderData, Link, Form, useActionData} from 'react-router';
+import type {Route} from './+types/_index';
+
+// WRONG - Never use
+import {...} from '@remix-run/react';
+import {...} from 'react-router-dom';
+```
+
+### Route Pattern
+
+```tsx
+// app/routes/($locale)._index.tsx
+import {useLoaderData} from 'react-router';
+import type {Route} from './+types/_index';
+
+export async function loader(args: Route.LoaderArgs) {
+  const criticalData = await loadCriticalData(args);
+  const deferredData = loadDeferredData(args);
+  return {...criticalData, ...deferredData};
+}
+
+export default function Page() {
+  const data = useLoaderData<typeof loader>();
+  return <div>...</div>;
+}
+```
+
+---
+
+## GraphQL Patterns
+
+**Read:** `.cursor/skills/graphql-queries/SKILL.md` + `.cursor/skills/graphql-queries/REFERENCE.md`
+
+### Query Structure
+
+```typescript
+const PRODUCT_QUERY = `#graphql
+  fragment ProductFragment on Product {
+    id
+    title
+    handle
+    featuredImage {
+      url
+      altText
+    }
+    priceRange {
+      minVariantPrice {
+        amount
+        currencyCode
+      }
+    }
+  }
+  query Product($handle: String!) {
+    product(handle: $handle) {
+      ...ProductFragment
+    }
+  }
+` as const;
+```
+
+### Using Storefront API
+
+```typescript
+const {product} = await context.storefront.query(PRODUCT_QUERY, {
+  variables: {handle},
+  cache: CacheLong(),
+});
+```
+
+---
+
+## Component Patterns
+
+### Button Component
+
+```tsx
+import {Button} from '~/components/ui/Button';
+
+// Variants
+<Button variant="primary">Primary</Button>
+<Button variant="secondary">Secondary</Button>
+<Button variant="tertiary">Tertiary</Button>
+<Button variant="destructive">Delete</Button>
+
+// Sizes (md/lg meet 44px touch target)
+<Button size="sm">Small</Button>
+<Button size="md">Medium</Button>
+<Button size="lg">Large</Button>
+```
+
+### Card Component
+
+```tsx
+import {Card} from '~/components/ui/Card';
+
+<Card hover>
+  <Card.Image src={image} alt={title} aspectRatio="4/5" />
+  <Card.Content>
+    <Card.Title>{title}</Card.Title>
+    <Card.Price>{price}</Card.Price>
+  </Card.Content>
+</Card>
+```
+
+---
+
+## Cart Management
+
+**Read:** `.cursor/skills/cart-management/SKILL.md` + `.cursor/skills/cart-management/REFERENCE.md`
+
+```tsx
+import {CartForm} from '@shopify/hydrogen';
+
+// Add to cart
+<CartForm
+  route="/cart"
+  action={CartForm.ACTIONS.LinesAdd}
+  inputs={{lines: [{merchandiseId: variantId, quantity: 1}]}}
+>
+  <Button type="submit">Add to Cart</Button>
+</CartForm>
+```
+
+---
+
+## Form Validation
+
+**Read:** `.cursor/skills/form-validation/SKILL.md` + `.cursor/skills/form-validation/REFERENCE.md`
+
+```typescript
+import {z} from 'zod';
+
+const ContactSchema = z.object({
+  name: z.string().min(2, 'Name required'),
+  email: z.string().email('Valid email required'),
+  message: z.string().min(10, 'Message too short'),
+});
+```
+
+---
+
+## Framer Motion Animations
+
+**Read:** `.cursor/skills/framer-motion/SKILL.md` (patterns) + `.cursor/skills/framer-motion/REFERENCE.md` (API reference)
+
+### Animation Components
+
+```tsx
+import {
+  FadeUp,
+  SlideIn,
+  ScaleIn,
+  StaggerContainer,
+  StaggerItem,
+  HeroContent,
+  HeroItem,
+  HoverScale,
+  HoverLift,
+  motion,
+} from '~/components/ui/Animations';
+```
+
+### Common Patterns
+
+**Scroll Reveal:**
+```tsx
+<FadeUp>
+  <h2>Section Title</h2>
+</FadeUp>
+```
+
+**Staggered Lists:**
+```tsx
+<StaggerContainer staggerDelay={0.1}>
+  {items.map((item) => (
+    <StaggerItem key={item.id}>
+      <Card>{item.content}</Card>
+    </StaggerItem>
+  ))}
+</StaggerContainer>
+```
+
+**Hero Animations:**
+```tsx
+<HeroContent>
+  <HeroItem><span className="eyebrow">Eyebrow</span></HeroItem>
+  <HeroItem><h1>Headline</h1></HeroItem>
+  <HeroItem><Button>CTA</Button></HeroItem>
+</HeroContent>
+```
+
+**Hover Effects:**
+```tsx
+<HoverLift lift={-6}>
+  <Card>Lifts on hover</Card>
+</HoverLift>
+
+<motion.button whileHover={{scale: 1.02}} whileTap={{scale: 0.98}}>
+  Animated Button
+</motion.button>
+```
+
+**Important:** All animations automatically respect `prefers-reduced-motion`.
+
+---
+
+## Environment Variables
+
+| Variable | Description | Required |
+|----------|-------------|----------|
+| `PUBLIC_STOREFRONT_API_TOKEN` | Storefront API token | Yes |
+| `PUBLIC_STORE_DOMAIN` | Store domain | Yes |
+| `SESSION_SECRET` | Session encryption | Yes |
+| `KLAVIYO_PRIVATE_API_KEY` | Klaviyo API key | Yes |
+| `KLAVIYO_NEWSLETTER_LIST_ID` | Newsletter list ID | Yes |
+| `JUDGEME_PUBLIC_TOKEN` | Reviews token | Yes |
+
+---
+
+## Common Commands
+
+```bash
+# Development
+npm run dev              # Start dev server
+npm run build            # Build for production
+npm run typecheck        # Type checking
+npm run lint             # ESLint
+
+# GraphQL
+npm run codegen          # Generate types
+```
+
+---
+
+## Checklists
+
+### File Creation Checklist
+
+- [ ] Read appropriate skill documentation first
+- [ ] Follow naming conventions (PascalCase components, kebab-case routes)
+- [ ] Use design system tokens (no arbitrary colors/sizes)
+- [ ] Include proper TypeScript types
+- [ ] Add error boundaries where needed
+- [ ] Ensure accessibility (ARIA labels, focus states)
+
+### Code Review Checklist
+
+- [ ] Design tokens used (no arbitrary values)
+- [ ] Eyebrow text on section headers
+- [ ] Buttons styled correctly on dark backgrounds
+- [ ] Focus states on all interactive elements
+- [ ] Touch targets minimum 44px
+- [ ] Responsive at all breakpoints
+- [ ] React Router imports (not Remix)
+- [ ] Proper error handling
+
+### UI Checklist
+
+- [ ] Colors: Use design tokens only
+- [ ] Typography: Use scale classes only
+- [ ] Spacing: Use 8px system only
+- [ ] Images: Have aspect ratios set
+- [ ] Animations: Use Framer Motion components from `~/components/ui/Animations`
+- [ ] Animations: Respect reduced motion (handled automatically by components)
+- [ ] Contrast: WCAG AA minimum
+- [ ] **Suspense content: Verify Tailwind classes apply** (see below)
+
+### Tailwind in Suspense/Await Boundaries (CRITICAL)
+
+Tailwind classes may NOT apply correctly in components rendered inside `<Suspense>` or `<Await>` boundaries. **Always visually verify** centered text and layouts.
+
+**Symptoms:**
+- Text breaking on every word (one word per line)
+- Text left-aligned when `text-center` is applied
+- `mx-auto` or `max-w-*` not working
+
+**Solution:** Use inline styles for reliable rendering:
+
+```tsx
+// Instead of Tailwind classes that may not work:
+<div style={{textAlign: 'center', padding: '3rem 1rem'}}>
+  <h3 style={{fontSize: '1.875rem', fontWeight: 'bold', color: '#1A202C'}}>
+    Heading
+  </h3>
+  <p style={{
+    fontSize: '1.125rem',
+    color: '#4A5568',
+    maxWidth: '32rem',
+    marginLeft: 'auto',
+    marginRight: 'auto'
+  }}>
+    Centered text
+  </p>
+</div>
+```
+
+See `.cursor/skills/design-system/SKILL.md` for full token values.
+
+---
+
+## Quick Reference Links
+
+| Resource | Location |
+|----------|----------|
+| PRD | `prd.md` |
+| Design System | `DESIGN-SYSTEM.md` |
+| Skills Index | `.cursor/skills/INDEX.md` |
+| Animations | `app/components/ui/Animations.tsx` |
+| Tailwind Config | `app/styles/tailwind.css` |
+| Type Definitions | `storefrontapi.generated.d.ts` |
+
+---
+
+## Summary
+
+1. **Read skills before implementing** - Always check relevant SKILL.md + REFERENCE.md documentation
+2. **Use design tokens** - No arbitrary colors, sizes, or spacing
+3. **Follow React Router patterns** - Never use Remix imports
+4. **Include eyebrow text** - Every section header needs one
+5. **Add animations** - Use Framer Motion components from `~/components/ui/Animations`
+6. **Ensure accessibility** - Focus states, touch targets, ARIA labels, reduced motion
+7. **Be responsive** - Test at mobile, tablet, desktop
+8. **Verify Suspense content** - Tailwind may not work in `<Suspense>`/`<Await>` boundaries; use inline styles if needed

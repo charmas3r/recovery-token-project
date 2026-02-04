@@ -6,7 +6,7 @@
  */
 
 import {Image} from '@shopify/hydrogen';
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import type {ProductVariantFragment} from 'storefrontapi.generated';
 
 interface ProductGalleryProps {
@@ -21,13 +21,25 @@ interface ProductGalleryProps {
 }
 
 export function ProductGallery({images, selectedImage}: ProductGalleryProps) {
-  // Use selected variant image or first image
-  const initialIndex = selectedImage 
-    ? images.findIndex(img => img.id === selectedImage.id) 
-    : 0;
-  const [activeIndex, setActiveIndex] = useState(Math.max(0, initialIndex));
-  
-  const activeImage = images[activeIndex] || images[0];
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  // Reset to first image (or selected variant image) when images array changes
+  // This happens when switching color variants
+  useEffect(() => {
+    if (selectedImage) {
+      const newIndex = images.findIndex(img => img.id === selectedImage.id);
+      if (newIndex >= 0) {
+        setActiveIndex(newIndex);
+        return;
+      }
+    }
+    // Reset to first image when images array changes
+    setActiveIndex(0);
+  }, [selectedImage?.id, images]);
+
+  // Ensure activeIndex is within bounds (for edge cases)
+  const safeIndex = Math.min(Math.max(0, activeIndex), Math.max(0, images.length - 1));
+  const activeImage = images[safeIndex] || images[0];
   
   if (!images.length) {
     return (

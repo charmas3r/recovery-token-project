@@ -264,6 +264,99 @@ async function fetchReviewsSummary(context: Route.LoaderArgs['context'], handle:
   }
 }
 
+/**
+ * Normalize a string for comparison (lowercase, replace spaces with hyphens)
+ */
+function normalizeForComparison(str: string): string {
+  return str.toLowerCase().trim().replace(/\s+/g, '-');
+}
+
+/**
+ * Check if an altText contains a matching option tag
+ * Supports formats like: "color:bronze", "Color:Bronze", "color:full-spectrum", "color:full spectrum"
+ */
+function altTextMatchesOption(altText: string, optionName: string, optionValue: string): boolean {
+  const normalizedAltText = altText.toLowerCase();
+  const normalizedOptionName = normalizeForComparison(optionName);
+  const normalizedOptionValue = normalizeForComparison(optionValue);
+  const optionValueLower = optionValue.toLowerCase().trim();
+
+  // Build regex pattern: optionName:optionValue (with flexible spacing and separators)
+  // Matches: "color:bronze", "color: bronze", "color:full-spectrum", "color:full spectrum"
+  const patterns = [
+    // Match with hyphenated value: "color:full-spectrum"
+    new RegExp(`${normalizedOptionName}\\s*:\\s*${normalizedOptionValue}(?:\\s|,|$)`, 'i'),
+    // Match with spaces in value: "color:full spectrum"
+    new RegExp(`${normalizedOptionName}\\s*:\\s*${optionValueLower}(?:\\s|,|$)`, 'i'),
+  ];
+
+  return patterns.some(pattern => pattern.test(normalizedAltText));
+}
+
+/**
+ * Get images for the selected variant based on variant options
+ * Groups images by:
+ * 1. Direct variant image assignment
+ * 2. AltText tags (e.g., "color:bronze", "size:large", "customization:years-only")
+ *
+ * AltText format: "optionName:optionValue" (case-insensitive, spaces or hyphens)
+ * Examples: "color:bronze", "Color:Full Spectrum", "color:full-spectrum"
+ */
+function getVariantImages(
+  allImages: Array<{id?: string; url: string; altText?: string | null; width?: number; height?: number}>,
+  variants: Array<{
+    image?: {id: string} | null;
+    selectedOptions: Array<{name: string; value: string}>;
+  }>,
+  selectedVariant: {selectedOptions: Array<{name: string; value: string}>} | null
+) {
+  if (!variants || variants.length === 0 || !selectedVariant || !selectedVariant.selectedOptions.length) {
+    return allImages;
+  }
+
+  // Build a set of image IDs directly assigned to variants with matching options
+  const matchingImageIds = new Set<string>();
+
+  // Check each variant to see if it matches the selected variant's options
+  for (const variant of variants) {
+    // Check if this variant matches all selected options
+    const allOptionsMatch = selectedVariant.selectedOptions.every(selectedOpt => {
+      const variantOpt = variant.selectedOptions.find(
+        vo => normalizeForComparison(vo.name) === normalizeForComparison(selectedOpt.name)
+      );
+      return variantOpt && normalizeForComparison(variantOpt.value) === normalizeForComparison(selectedOpt.value);
+    });
+
+    if (allOptionsMatch && variant.image?.id) {
+      matchingImageIds.add(variant.image.id);
+    }
+  }
+
+  // Filter images by:
+  // 1. Direct variant assignment (image ID matches)
+  // 2. AltText tags matching ANY of the selected variant's options
+  const filteredImages = allImages.filter(img => {
+    // Check if image is directly assigned to a matching variant
+    if (img.id && matchingImageIds.has(img.id)) {
+      return true;
+    }
+
+    // Check altText for option tags
+    if (img.altText) {
+      // Image matches if its altText contains ANY of the selected variant's option tags
+      // This allows tagging images with just "color:bronze" without needing all options
+      return selectedVariant.selectedOptions.some(opt =>
+        altTextMatchesOption(img.altText!, opt.name, opt.value)
+      );
+    }
+
+    return false;
+  });
+
+  // If filtering results in empty array, return all images as fallback
+  return filteredImages.length > 0 ? filteredImages : allImages;
+}
+
 export default function Product() {
   const {product, reviewsSummary, hasJudgeme, relatedProducts, productReviews} = useLoaderData<typeof loader>();
 
@@ -282,7 +375,14 @@ export default function Product() {
     selectedOrFirstAvailableVariant: selectedVariant,
   });
 
-  const {title, descriptionHtml, description, vendor, images} = product;
+  const {title, descriptionHtml, description, vendor, images, variants} = product;
+
+  // Filter images to show only those for the selected variant's options
+  const variantImages = getVariantImages(
+    images?.nodes || [],
+    variants?.nodes || [],
+    selectedVariant
+  );
   const productId = extractProductId(product.id);
 
   // Build breadcrumb items
@@ -336,8 +436,8 @@ export default function Product() {
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-16">
             {/* Left Column - Gallery */}
             <div>
-              <ProductGallery 
-                images={images?.nodes || []}
+              <ProductGallery
+                images={variantImages}
                 selectedImage={selectedVariant?.image}
               />
             </div>
@@ -755,7 +855,7 @@ const PRODUCT_FRAGMENT = `#graphql
     description
     encodedVariantExistence
     encodedVariantAvailability
-    images(first: 10) {
+    images(first: 20) {
       nodes {
         id
         url
@@ -779,6 +879,11 @@ const PRODUCT_FRAGMENT = `#graphql
             }
           }
         }
+      }
+    }
+    variants(first: 50) {
+      nodes {
+        ...ProductVariant
       }
     }
     selectedOrFirstAvailableVariant(selectedOptions: $selectedOptions, ignoreUnknownOptions: true, caseInsensitiveMatch: true) {

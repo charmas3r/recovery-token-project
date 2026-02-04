@@ -88,33 +88,77 @@ export function HeaderMenu({
 
   if (viewport === 'mobile') {
     return (
-      <nav className="flex flex-col gap-4 p-6" role="navigation">
-        <NavLink
-          end
-          onClick={close}
-          prefetch="intent"
-          to="/"
-          className="text-base font-medium text-primary hover:text-accent transition-colors"
-        >
-          Home
-        </NavLink>
-        {(menu || FALLBACK_HEADER_MENU).items.map((item) => {
-          if (!item.url) return null;
-          const url = getUrl(item.url);
-          return (
+      <div className="flex flex-col h-full">
+        {/* Main Navigation */}
+        <nav className="flex-1 px-6 py-8" role="navigation">
+          <div className="space-y-1">
+            {(menu || FALLBACK_HEADER_MENU).items.map((item, index) => {
+              if (!item.url) return null;
+              const url = getUrl(item.url);
+              return (
+                <NavLink
+                  end
+                  key={item.id}
+                  onClick={close}
+                  prefetch="intent"
+                  to={url}
+                  className={({isActive}) =>
+                    `group flex items-center justify-between py-4 border-b border-black/5 transition-all duration-200 ${
+                      isActive
+                        ? 'text-accent'
+                        : 'text-primary hover:text-accent'
+                    }`
+                  }
+                  style={{animationDelay: `${index * 50}ms`}}
+                >
+                  {({isActive}) => (
+                    <>
+                      <span className={`font-display text-2xl tracking-tight ${isActive ? 'font-semibold' : 'font-medium'}`}>
+                        {item.title}
+                      </span>
+                      <svg
+                        className={`w-5 h-5 transition-transform duration-200 ${isActive ? 'text-accent' : 'text-secondary/40 group-hover:text-accent group-hover:translate-x-1'}`}
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                      </svg>
+                    </>
+                  )}
+                </NavLink>
+              );
+            })}
+          </div>
+        </nav>
+
+        {/* Bottom Actions */}
+        <div className="border-t border-black/10 px-6 py-6 bg-surface/50">
+          <div className="flex items-center gap-4">
             <NavLink
-              end
-              key={item.id}
+              to="/account"
               onClick={close}
-              prefetch="intent"
-              to={url}
-              className="text-base font-medium text-primary hover:text-accent transition-colors"
+              className="flex-1 flex items-center justify-center gap-2 py-3 px-4 bg-white border border-black/10 rounded-lg text-primary hover:border-accent hover:text-accent transition-colors"
             >
-              {item.title}
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+              </svg>
+              <span className="font-medium">Account</span>
             </NavLink>
-          );
-        })}
-      </nav>
+            <NavLink
+              to="/search"
+              onClick={close}
+              className="flex-1 flex items-center justify-center gap-2 py-3 px-4 bg-white border border-black/10 rounded-lg text-primary hover:border-accent hover:text-accent transition-colors"
+            >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+              </svg>
+              <span className="font-medium">Search</span>
+            </NavLink>
+          </div>
+        </div>
+      </div>
     );
   }
 

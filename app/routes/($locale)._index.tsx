@@ -210,18 +210,10 @@ function HeroSection({
               {/* Glow effect behind image */}
               <GlowPulse className="absolute inset-0 bg-accent/20 blur-3xl rounded-full scale-75" />
               
-              <motion.img
+              <img
                 src="https://cdn.shopify.com/s/files/1/0752/2733/2779/files/mandala-token-final.webp?v=1769842039"
                 alt="Recovery Token - Hand-crafted bronze milestone token"
                 className="relative w-full h-auto object-contain drop-shadow-2xl"
-                animate={{
-                  y: [-5, 5, -5],
-                }}
-                transition={{
-                  duration: 6,
-                  repeat: Infinity,
-                  ease: 'easeInOut',
-                }}
               />
             </div>
           </HeroImage>
@@ -348,7 +340,7 @@ function ProductShowcase() {
           
           {/* Center Product Image */}
           <ScaleIn className="lg:col-span-6 order-1 lg:order-2">
-            <div className="relative mx-auto max-w-md lg:max-w-full">
+            <div className="relative mx-auto w-full sm:max-w-md lg:max-w-full">
               {/* Subtle background circle */}
               <div className="absolute inset-4 bg-white rounded-full shadow-inner" />
               <motion.img

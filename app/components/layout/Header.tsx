@@ -130,6 +130,35 @@ export function HeaderMenu({
                 </NavLink>
               );
             })}
+            <NavLink
+              onClick={close}
+              prefetch="intent"
+              to="/resources/glossary"
+              className={({isActive}) =>
+                `group flex items-center justify-between py-4 border-b border-black/5 transition-all duration-200 ${
+                  isActive
+                    ? 'text-accent'
+                    : 'text-primary hover:text-accent'
+                }`
+              }
+            >
+              {({isActive}) => (
+                <>
+                  <span className={`font-display text-2xl tracking-tight ${isActive ? 'font-semibold' : 'font-medium'}`}>
+                    Resources
+                  </span>
+                  <svg
+                    className={`w-5 h-5 transition-transform duration-200 ${isActive ? 'text-accent' : 'text-secondary/40 group-hover:text-accent group-hover:translate-x-1'}`}
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                  </svg>
+                </>
+              )}
+            </NavLink>
           </div>
         </nav>
 
@@ -183,6 +212,17 @@ export function HeaderMenu({
           </NavLink>
         );
       })}
+      <NavLink
+        prefetch="intent"
+        to="/resources/glossary"
+        className={({isActive}) =>
+          `text-base font-medium transition-colors ${
+            isActive ? 'text-accent font-semibold' : 'text-primary hover:text-accent'
+          }`
+        }
+      >
+        Resources
+      </NavLink>
     </nav>
   );
 }

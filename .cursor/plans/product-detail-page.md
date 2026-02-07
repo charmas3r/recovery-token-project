@@ -111,7 +111,7 @@ Redesign the PDP to follow the established design system patterns with:
 </span>
 
 // Product title
-<h1 className="font-display text-page-title text-primary mb-4">
+<h1 className="font-display text-page-title text-primary">
   {product.title}
 </h1>
 

@@ -468,36 +468,49 @@ npm run codegen          # Generate types
 - [ ] Animations: Use Framer Motion components from `~/components/ui/Animations`
 - [ ] Animations: Respect reduced motion (handled automatically by components)
 - [ ] Contrast: WCAG AA minimum
-- [ ] **Suspense content: Verify Tailwind classes apply** (see below)
+- [ ] **Suspense/Motion content: Use inline styles for centered text in Suspense, Await, or FadeUp/motion wrappers** (see below)
 
-### Tailwind in Suspense/Await Boundaries (CRITICAL)
+### Tailwind in Suspense/Await/Motion Boundaries (CRITICAL)
 
-Tailwind classes may NOT apply correctly in components rendered inside `<Suspense>` or `<Await>` boundaries. **Always visually verify** centered text and layouts.
+Tailwind classes may NOT apply correctly in components rendered inside `<Suspense>`, `<Await>`, or **Framer Motion wrappers** (`FadeUp`, `FadeIn`, `ScaleIn`, `StaggerContainer`, etc.). **Always use inline styles for any text block that needs centering or controlled width.**
+
+**Affected contexts:**
+- `<Suspense>` / `<Await>` boundaries
+- `<FadeUp>`, `<FadeIn>`, `<ScaleIn>`, `<SlideIn>` animation wrappers
+- Any Framer Motion `motion.div` that wraps multi-line text content
 
 **Symptoms:**
 - Text breaking on every word (one word per line)
 - Text left-aligned when `text-center` is applied
 - `mx-auto` or `max-w-*` not working
+- Eyebrow text, headings, and descriptions misaligned
 
-**Solution:** Use inline styles for reliable rendering:
+**Rule: NEVER wrap page header text (eyebrow + h1/h2 + description paragraph) in `FadeUp` or other motion wrappers.** Use plain `<div>` with inline styles instead.
+
+**Solution:** Use inline styles for all centered/constrained text:
 
 ```tsx
-// Instead of Tailwind classes that may not work:
-<div style={{textAlign: 'center', padding: '3rem 1rem'}}>
-  <h3 style={{fontSize: '1.875rem', fontWeight: 'bold', color: '#1A202C'}}>
-    Heading
-  </h3>
-  <p style={{
-    fontSize: '1.125rem',
-    color: '#4A5568',
-    maxWidth: '32rem',
-    marginLeft: 'auto',
-    marginRight: 'auto'
-  }}>
-    Centered text
+// CORRECT — inline styles for page headers and centered text blocks:
+<div style={{textAlign: 'center', maxWidth: '42rem', marginLeft: 'auto', marginRight: 'auto'}}>
+  <span style={{display: 'inline-block', color: '#B8764F', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.25em', fontWeight: 600, marginBottom: '1rem'}}>
+    Eyebrow Text
+  </span>
+  <h1 style={{fontFamily: 'var(--font-display, serif)', fontSize: '3rem', fontWeight: 700, color: '#1A202C', lineHeight: 1.1, marginBottom: '1rem'}}>
+    Page Heading
+  </h1>
+  <p style={{fontSize: '1.125rem', lineHeight: 1.6, color: '#4A5568', maxWidth: '36rem', marginLeft: 'auto', marginRight: 'auto'}}>
+    Description paragraph that stays properly centered.
   </p>
 </div>
+
+// WRONG — Tailwind classes inside FadeUp will break:
+<FadeUp className="text-center max-w-2xl mx-auto">
+  <h1 className="font-display text-hero text-primary">Heading</h1>
+  <p className="text-body-lg text-secondary">This text will break one word per line!</p>
+</FadeUp>
 ```
+
+**When FadeUp IS safe:** Wrapping a single short element (a heading, a card, a button) is fine. The issue occurs with multi-line text content that needs centering or `max-width` constraints.
 
 See `.cursor/skills/design-system/SKILL.md` for full token values.
 
@@ -525,4 +538,4 @@ See `.cursor/skills/design-system/SKILL.md` for full token values.
 5. **Add animations** - Use Framer Motion components from `~/components/ui/Animations`
 6. **Ensure accessibility** - Focus states, touch targets, ARIA labels, reduced motion
 7. **Be responsive** - Test at mobile, tablet, desktop
-8. **Verify Suspense content** - Tailwind may not work in `<Suspense>`/`<Await>` boundaries; use inline styles if needed
+8. **Use inline styles for centered text** - Tailwind breaks inside `<Suspense>`, `<Await>`, and Framer Motion wrappers (`FadeUp`, etc.); always use inline styles for page headers, descriptions, and any centered/constrained text blocks

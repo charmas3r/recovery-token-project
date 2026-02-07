@@ -151,19 +151,19 @@ export default function GlossaryPage() {
 
           <ResourcesNav />
 
-          <FadeUp className="mt-10 max-w-2xl">
-            <span className="inline-block text-accent text-caption uppercase tracking-[0.25em] font-semibold mb-4">
+          <div style={{marginTop: '2.5rem', maxWidth: '42rem', marginLeft: 'auto', marginRight: 'auto', textAlign: 'center', width: '100%'}}>
+            <span style={{display: 'inline-block', color: '#B8764F', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.25em', fontWeight: 600, marginBottom: '1rem'}}>
               Knowledge Base
             </span>
-            <h1 className="font-display text-hero text-primary leading-tight mb-4">
+            <h1 style={{fontFamily: 'var(--font-display, serif)', fontSize: '3rem', fontWeight: 700, color: '#1A202C', lineHeight: 1.1, marginBottom: '1rem'}}>
               Recovery Glossary
             </h1>
-            <p className="text-body-lg text-secondary">
+            <p style={{fontSize: '1.125rem', lineHeight: 1.6, color: '#4A5568', maxWidth: '36rem', marginLeft: 'auto', marginRight: 'auto', width: '100%'}}>
               A comprehensive guide to the terms, traditions, and symbols of
               the recovery community. Whether you&apos;re new to recovery or
               supporting someone on their journey, this glossary is here to help.
             </p>
-          </FadeUp>
+          </div>
         </div>
       </section>
 
@@ -215,12 +215,12 @@ export default function GlossaryPage() {
             </div>
           ) : (
             /* Empty State */
-            <FadeUp className="text-center py-16">
-              <div className="text-5xl mb-4">🔍</div>
-              <h3 className="font-display text-xl font-bold text-primary mb-2">
+            <div style={{textAlign: 'center', paddingTop: '4rem', paddingBottom: '4rem'}}>
+              <div style={{fontSize: '3rem', marginBottom: '1rem'}}>🔍</div>
+              <h3 style={{fontFamily: 'var(--font-display, serif)', fontSize: '1.25rem', fontWeight: 700, color: '#1A202C', marginBottom: '0.5rem'}}>
                 No matching terms
               </h3>
-              <p className="text-body text-secondary max-w-md mx-auto">
+              <p style={{fontSize: '1rem', lineHeight: 1.6, color: '#4A5568', maxWidth: '28rem', marginLeft: 'auto', marginRight: 'auto'}}>
                 We couldn&apos;t find any terms matching your search. Try a
                 different keyword or clear your filters.
               </p>
@@ -234,38 +234,36 @@ export default function GlossaryPage() {
               >
                 Clear all filters
               </button>
-            </FadeUp>
+            </div>
           )}
         </div>
       </section>
 
       {/* Bottom CTA */}
       <section className="py-16 md:py-20 bg-surface">
-        <div className="container-standard text-center">
-          <FadeUp>
-            <span className="inline-block text-accent text-caption uppercase tracking-[0.25em] font-semibold mb-4">
-              Explore More
-            </span>
-            <h2 className="font-display text-section text-primary mb-4">
-              Continue Your Journey
-            </h2>
-            <p className="text-body-lg text-secondary max-w-xl mx-auto mb-8">
-              Discover how many milestones you&apos;ve achieved or find the
-              perfect token to celebrate your progress.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/resources/milestone-calculator">
-                <Button variant="primary" size="lg">
-                  Try the Milestone Calculator
-                </Button>
-              </Link>
-              <Link to="/collections">
-                <Button variant="secondary" size="lg">
-                  Shop Recovery Tokens
-                </Button>
-              </Link>
-            </div>
-          </FadeUp>
+        <div style={{maxWidth: '1280px', marginLeft: 'auto', marginRight: 'auto', paddingLeft: '1.5rem', paddingRight: '1.5rem', textAlign: 'center'}}>
+          <span style={{display: 'inline-block', color: '#B8764F', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.25em', fontWeight: 600, marginBottom: '1rem'}}>
+            Explore More
+          </span>
+          <h2 style={{fontFamily: 'var(--font-display, serif)', fontSize: '1.75rem', fontWeight: 700, color: '#1A202C', lineHeight: 1.3, marginBottom: '1rem'}}>
+            Continue Your Journey
+          </h2>
+          <p style={{fontSize: '1.125rem', lineHeight: 1.6, color: '#4A5568', maxWidth: '36rem', marginLeft: 'auto', marginRight: 'auto', marginBottom: '2rem'}}>
+            Discover how many milestones you&apos;ve achieved or find the
+            perfect token to celebrate your progress.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link to="/resources/milestone-calculator">
+              <Button variant="primary" size="lg">
+                Try the Milestone Calculator
+              </Button>
+            </Link>
+            <Link to="/collections">
+              <Button variant="secondary" size="lg">
+                Shop Recovery Tokens
+              </Button>
+            </Link>
+          </div>
         </div>
       </section>
     </div>

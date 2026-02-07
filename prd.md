@@ -65,6 +65,32 @@ Home
 │       ├── Bronze
 │       ├── Silver
 │       └── Gold
+├── Resources
+│   ├── All Articles (hub/index)
+│   ├── Recovery Milestones
+│   │   ├── Why Your 24-Hour Chip Matters More Than You Think
+│   │   ├── The 30-Day Milestone: Building Your Foundation
+│   │   ├── 90 Days Sober: What Changes and What Doesn't
+│   │   ├── 6 Months in Recovery: The Quiet Transformation
+│   │   └── One Year Sober: Celebrating the Journey
+│   ├── Inspiration Stories
+│   │   ├── Real Recovery Journeys (curated stories)
+│   │   ├── What My Token Means to Me
+│   │   └── Gifting Recovery: Stories from Loved Ones
+│   ├── Token Heritage
+│   │   ├── The History of Recovery Tokens & Challenge Coins
+│   │   ├── How Recovery Tokens Are Made: Materials & Craftsmanship
+│   │   ├── Symbolism in Token Design: Every Detail Has Meaning
+│   │   └── AA Chips vs. Recovery Tokens: Understanding the Tradition
+│   ├── Recovery Guides
+│   │   ├── How to Celebrate a Recovery Milestone
+│   │   ├── Supporting Someone in Recovery: A Practical Guide
+│   │   ├── The Science Behind Milestone Marking
+│   │   └── Building a Recovery Toolkit
+│   └── Gift Guides
+│       ├── Recovery Token Gift Guide: Choosing the Right Milestone
+│       ├── Meaningful Gifts for Someone in Recovery
+│       └── What to Engrave on a Recovery Token
 ├── About
 │   ├── Our Story
 │   ├── Why Tokens Matter
@@ -82,7 +108,7 @@ Home
 ```
 
 **Navigation Hierarchy**:
-1. **Primary Navigation** (Header): Shop, About, Reviews, Support, Account
+1. **Primary Navigation** (Header): Shop, Resources, About, Reviews, Support, Account
 2. **Secondary Navigation** (Footer): Policies, Newsletter, Social, Contact
 3. **Utility Navigation** (Header Right): Search, Cart, Account Menu
 4. **Contextual Navigation** (In-page): Breadcrumbs, Related Products, Quick Links
@@ -501,6 +527,19 @@ PDP Desktop:
 - ✅ Support hub (shipping/returns, customer service)
 - ✅ Legal pages (privacy, terms, refund policy)
 
+**Resources & Content Hub**:
+- ✅ Resources hub page with categorized article index
+- ✅ Recovery Milestone articles (one per milestone: 24 hours, 30 days, 90 days, 6 months, 1 year+)
+- ✅ Inspiration Stories section with curated recovery journeys and product backlinks
+- ✅ Token Heritage articles (history, craftsmanship, symbolism, tradition)
+- ✅ Recovery Guides (celebrating milestones, supporting someone in recovery, science of milestone marking)
+- ✅ Gift Guides with contextual product recommendations and store backlinks
+- ✅ Article-level Schema.org structured data (Article, BreadcrumbList)
+- ✅ Internal linking strategy: every article includes relevant product CTAs
+- ✅ Related articles component at bottom of each article
+- ✅ Social sharing meta tags (OpenGraph, Twitter Cards) per article
+- ✅ SEO-optimized URL structure (`/resources/[category]/[slug]`)
+
 **Email & Newsletter**:
 - ✅ Contact form submission emails via Klaviyo
 - ✅ Newsletter signup with double opt-in (Klaviyo Lists)
@@ -529,11 +568,11 @@ PDP Desktop:
 ### Out of Scope (Future Phases)
 
 **Deferred to Phase 2**:
-- ❌ Headless CMS integration (Sanity/Contentful)
-- ❌ Blog functionality
-- ❌ Recovery resources content section
+- ❌ Headless CMS integration (Sanity/Contentful) for editorial workflow
 - ❌ Advanced search with filters
 - ❌ Gift flow with milestone date capture
+- ❌ User-submitted recovery stories (community contributions)
+- ❌ Article comments/discussion
 
 **Deferred to Phase 3**:
 - ❌ International shipping / multi-currency
@@ -604,6 +643,26 @@ PDP Desktop:
 **US-12: Manage Saved Addresses**
 > As a frequent customer, I want to save multiple addresses, so that I can easily ship to different locations (home, work, friends).
 - *Example*: User adds new address in address book, sets it as default, uses it during next checkout
+
+**US-13: Read Recovery Milestone Articles**
+> As someone approaching a milestone, I want to read about what my milestone means and how others have experienced it, so that I feel informed and encouraged.
+- *Example*: User searches "90 days sober what to expect", lands on the 90-Day milestone article, reads about common experiences, and clicks a CTA to browse 90-day tokens
+
+**US-14: Find Inspiration from Recovery Stories**
+> As someone in recovery (or supporting someone), I want to read real stories about how tokens have helped people celebrate their journey, so that I feel connected and motivated to mark my own milestone.
+- *Example*: User reads "What My Token Means to Me" stories, feels inspired, clicks inline product link to browse tokens featured in the story
+
+**US-15: Learn About Token History & Craftsmanship**
+> As a potential buyer, I want to understand the history and significance of recovery tokens, so that I appreciate the value and tradition behind my purchase.
+- *Example*: User reads about the origins of AA challenge coins, learns about materials and symbolism, clicks through to browse tokens by material
+
+**US-16: Find the Right Gift for Someone in Recovery**
+> As a gift-giver unfamiliar with recovery culture, I want guidance on choosing the right token and engraving, so that my gift is meaningful and appropriate.
+- *Example*: User reads the gift guide, learns which milestone their loved one is celebrating, gets engraving ideas, and navigates directly to the recommended product
+
+**US-17: Discover Resources via Search Engine**
+> As someone searching for recovery information online, I want to find helpful, trustworthy content, so that I can learn about milestones and potentially discover meaningful tokens to celebrate them.
+- *Example*: User searches "what is a sobriety coin", finds the Token Heritage article, reads about the tradition, and explores the store
 
 ### Technical User Stories
 
@@ -681,6 +740,15 @@ recovery-token-store/
 │   │   │   ├── ReviewsWidget.tsx
 │   │   │   ├── RatingBadge.tsx
 │   │   │   └── ReviewsFallback.tsx
+│   │   ├── resources/
+│   │   │   ├── ArticleCard.tsx
+│   │   │   ├── ArticleContent.tsx
+│   │   │   ├── ArticleHero.tsx
+│   │   │   ├── CategoryNav.tsx
+│   │   │   ├── ProductCTABlock.tsx
+│   │   │   ├── RelatedArticles.tsx
+│   │   │   ├── ReadingProgress.tsx
+│   │   │   └── TableOfContents.tsx
 │   │   ├── ui/
 │   │   │   └── (Radix-based primitives)
 │   │   └── seo/
@@ -714,6 +782,10 @@ recovery-token-store/
 │   │   │   ├── addresses.tsx
 │   │   │   ├── orders._index.tsx (order history)
 │   │   │   └── orders.$orderId.tsx (order detail)
+│   │   ├── resources/
+│   │   │   ├── _index.tsx (hub page with category filters)
+│   │   │   ├── $category._index.tsx (category listing)
+│   │   │   └── $category.$slug.tsx (individual article)
 │   │   ├── support/
 │   │   │   ├── _index.tsx
 │   │   │   ├── faq.tsx
@@ -878,7 +950,9 @@ recovery-token-store/
 - `Review` (via Judge.me): itemReviewed, author, reviewRating, reviewBody
 - `Organization` (root): name, logo, contactPoint, sameAs
 - `BreadcrumbList` (all pages): navigation hierarchy
-- `FAQPage` (support): question/answer pairs
+- `FAQPage` (support + resource articles with Q&A): question/answer pairs
+- `Article` (resources): headline, author, datePublished, dateModified, image, publisher
+- `HowTo` (guide articles where applicable): step-by-step recovery celebration guides
 
 **Meta Tags**:
 - Per-route title, description, canonical URL
@@ -938,7 +1012,99 @@ recovery-token-store/
 - Rate limiting on authentication endpoints
 - Privacy-focused error messages
 
-### 8.8 Error Handling & Maintenance
+### 8.9 Resources & Content Hub
+
+**Purpose**: Establish topical authority in the recovery milestone space through valuable, SEO-optimized educational content that drives organic traffic, builds trust, and creates natural pathways to product discovery.
+
+**Content Categories**:
+
+**1. Recovery Milestones** (5 cornerstone articles):
+- One long-form article per major milestone (24 hours, 30 days, 90 days, 6 months, 1 year+)
+- Each article covers: what the milestone means, what to expect, common challenges, how to celebrate, why marking it matters
+- Internal links to corresponding milestone collection pages
+- Target keywords: "[timeframe] sober", "[timeframe] sobriety milestone", "[timeframe] clean"
+- Schema.org: `Article` with `about` referencing the milestone concept
+
+**2. Inspiration Stories**:
+- Curated recovery journey narratives (written by or with consent of real people)
+- "What My Token Means to Me" — personal stories centered on the physical token as a recovery artifact
+- "Gifting Recovery" — stories from sponsors, family members, and friends who gifted tokens
+- Each story includes contextual product backlinks (e.g., "Sarah chose our [Bronze 1-Year Token](/products/bronze-1-year-token) to mark her anniversary")
+- Photography or illustrations where possible
+- Target keywords: "recovery stories", "sobriety success stories", "sobriety gifts that matter"
+
+**3. Token Heritage**:
+- The History of Recovery Tokens & Challenge Coins (deep-dive origin story from military challenge coins to AA chips to modern tokens)
+- How Recovery Tokens Are Made: Materials & Craftsmanship (bronze casting, silver plating, design process)
+- Symbolism in Token Design: Every Detail Has Meaning (design elements, engravings, shapes)
+- AA Chips vs. Recovery Tokens: Understanding the Tradition (educational comparison, positioning)
+- Target keywords: "sobriety coin history", "AA chip meaning", "challenge coin tradition", "recovery medallion", "sobriety token vs chip"
+
+**4. Recovery Guides**:
+- How to Celebrate a Recovery Milestone (practical ideas, ceremony suggestions, gift ideas)
+- Supporting Someone in Recovery: A Practical Guide (for friends, family, sponsors)
+- The Science Behind Milestone Marking (psychology of tangible rewards, habit loops, positive reinforcement)
+- Building a Recovery Toolkit (holistic approach, where tokens fit in)
+- Target keywords: "how to celebrate sobriety", "gifts for someone in recovery", "recovery milestone ideas"
+
+**5. Gift Guides**:
+- Recovery Token Gift Guide: Choosing the Right Milestone (which token for which achievement)
+- Meaningful Gifts for Someone in Recovery (broader gift guide with tokens featured prominently)
+- What to Engrave on a Recovery Token (engraving inspiration, dos and don'ts, popular phrases)
+- Target keywords: "sobriety gift ideas", "recovery anniversary gift", "what to engrave on sobriety coin"
+
+**Article Page Template**:
+- Hero with article title, category badge, estimated read time, publish date
+- Author attribution (brand byline or contributor name)
+- Table of contents for long-form articles (auto-generated from H2s)
+- Body content with rich formatting (pull quotes, images, callout boxes)
+- **Product CTA blocks** (inline): contextual product recommendations within article flow
+- **Product CTA section** (bottom): "Explore Tokens for This Milestone" with product cards
+- Related articles grid (3 articles from same or adjacent categories)
+- Newsletter signup CTA with context-specific copy
+- Social sharing buttons (copy link, Twitter/X, Facebook)
+- Breadcrumbs: Home > Resources > [Category] > [Article Title]
+
+**Resources Hub Page** (`/resources`):
+- Hero with section introduction and search/filter
+- Category navigation (pills/tabs): All, Milestones, Stories, Token Heritage, Guides, Gift Guides
+- Featured/pinned article at top (editable)
+- Article grid with cards: thumbnail, category badge, title, excerpt, read time
+- Pagination or infinite scroll
+- Newsletter signup section
+
+**Internal Linking Strategy**:
+- Every milestone article links to corresponding collection page
+- Every inspiration story links to specific products mentioned
+- Gift guides link to product recommendations with variant deep links
+- Product detail pages link to related resource articles ("Learn more about the [milestone] journey")
+- Homepage features a "From Our Resources" section with 3 latest/featured articles
+- Footer includes Resources link in primary navigation
+
+**Content Freshness & Expansion**:
+- Launch with 15-18 articles across all categories
+- New article cadence: 2-4 per month post-launch
+- Seasonal content: National Recovery Month (September), New Year sobriety, holiday gift guides
+- Content updates: refresh milestone articles quarterly with new statistics/insights
+
+**Technical Implementation**:
+- Content stored as mock data (static TypeScript files) for Phase 1b; migrating to Sanity.io CMS in Phase 2
+- Markdown rendering with consistent typography (design system tokens)
+- Image optimization via Shopify CDN (same pipeline as product images)
+- Cache strategy: `max-age=3600, stale-while-revalidate=86400` (articles change infrequently)
+- Lazy-loaded product recommendation components within articles
+- Reading progress indicator for long-form articles
+
+**SEO Implementation**:
+- Schema.org `Article` markup on every article page
+- Schema.org `BreadcrumbList` for full navigation path
+- Schema.org `FAQPage` where articles include Q&A sections
+- Canonical URLs to prevent duplicate content
+- OpenGraph and Twitter Card meta tags with article-specific images
+- XML sitemap inclusion with `lastmod` dates
+- Internal linking score tracking (ensure every article has 3+ internal links)
+
+### 8.10 Error Handling & Maintenance
 
 **Error Boundaries**:
 - Root: Branded error page with support contact
@@ -1318,6 +1484,8 @@ The MVP is successful when:
 3. Reviews are visible and build trust
 4. Contact/newsletter forms function correctly
 5. Mobile experience is polished and accessible
+6. Resource articles are indexed by search engines and driving organic traffic
+7. Articles create measurable product discovery pathways (article → product page → cart)
 
 ### Measurable KPIs
 
@@ -1333,6 +1501,9 @@ The MVP is successful when:
 | **Contact Form Completion** | > 80% | Custom event tracking | Warning: < 60% |
 | **Newsletter Signup Rate** | > 1% of visitors | Klaviyo + GA4 | N/A |
 | **Review Widget Load Success** | > 99% | Error boundary tracking | Alert: < 95% |
+| **Organic Search Traffic (Resources)** | > 500 sessions/mo by month 3 | GA4 | Warning: < 200 |
+| **Article → Product Click-through** | > 5% of article visitors | Custom event tracking | Warning: < 2% |
+| **Resource Pages Indexed** | 100% within 30 days | Google Search Console | Alert: < 80% |
 
 **Telemetry Implementation**:
 - Hydrogen Analytics Provider for standard ecommerce events
@@ -1346,6 +1517,10 @@ The MVP is successful when:
   - `order_history_viewed` - User views order history
   - `reorder_clicked` - User initiates reorder from history
   - `address_added` - User adds new address
+  - `article_viewed` - User reads a resource article
+  - `article_product_click` - User clicks product CTA within article
+  - `article_category_filter` - User filters articles by category
+  - `article_share` - User shares an article
 - Consent-gated tracking (Shopify Customer Privacy API)
 - Real User Monitoring via GA4 or custom implementation
 
@@ -1376,6 +1551,19 @@ The MVP is successful when:
 - ✅ Protected routes redirect unauthenticated users to login
 - ✅ Session persists across navigation
 - ✅ Logout clears session appropriately
+
+**Resources & Content**:
+- ✅ Resources hub page displays categorized articles
+- ✅ Category filtering works correctly (Milestones, Stories, Token Heritage, Guides, Gift Guides)
+- ✅ Individual article pages render with full template (hero, TOC, body, product CTAs, related articles)
+- ✅ Product CTA blocks within articles link to correct products
+- ✅ Related articles display at bottom of each article
+- ✅ Article Schema.org structured data renders correctly
+- ✅ Breadcrumbs display full path on article pages
+- ✅ Reading progress indicator works on long-form articles
+- ✅ Social sharing meta tags are article-specific
+- ✅ Internal links from PDP to related articles function correctly
+- ✅ Homepage features latest/featured articles from resources
 
 **Technical**:
 - ✅ All pages render Schema.org structured data
@@ -1523,13 +1711,51 @@ The MVP is successful when:
 
 ---
 
+### Phase 1b: Resources & Content Hub
+
+**Goal**: Establish organic search presence and topical authority with a comprehensive resource section that drives traffic and creates natural product discovery pathways.
+
+**Timeline**: 3-4 weeks
+
+**Deliverables**:
+- ✅ Resources hub page with category navigation and article grid
+- ✅ Article page template (hero, body, table of contents, product CTAs, related articles)
+- ✅ Recovery Milestone articles (5 cornerstone articles, one per milestone)
+- ✅ Inspiration Stories section (3-4 curated stories with product backlinks)
+- ✅ Token Heritage articles (4 articles on history, craftsmanship, symbolism, tradition)
+- ✅ Recovery Guides (4 practical guide articles)
+- ✅ Gift Guides (3 articles with product recommendations)
+- ✅ Article components: ArticleCard, ProductCTABlock, RelatedArticles, ReadingProgress, TableOfContents
+- ✅ Schema.org Article + BreadcrumbList markup on all articles
+- ✅ Internal linking from articles to products and collections
+- ✅ Internal linking from PDP to related resource articles
+- ✅ Homepage "From Our Resources" featured articles section
+- ✅ Resources link in primary navigation
+- ✅ OpenGraph/Twitter Card meta tags per article
+- ✅ XML sitemap inclusion for all resource pages
+- ✅ Content stored as mock data initially (Sanity.io CMS integration in Phase 2)
+
+**Validation**:
+- Google Rich Results Test (Article schema on all resource pages)
+- SEO audit: unique titles, descriptions, canonical URLs, no duplicate content
+- Internal linking audit: every article has 3+ internal links, every product CTA resolves correctly
+- Mobile responsiveness for article layouts
+- Accessibility audit (reading progress, table of contents keyboard nav)
+- Lighthouse audit: Performance 90+, SEO 100
+- Page load performance: articles LCP < 2.5s
+
+**Total Phase 1a+1b Timeline**: 13.5-18.5 weeks
+
+---
+
 ### Future Phases (Not in Current Scope)
 
-**Phase 2: Personalization & Content Enhancement**
+**Phase 2: Content Management & Personalization**
+- Sanity.io CMS integration for resource content editorial workflow
 - Gift flow with milestone date capture
-- Headless CMS integration (Sanity/Contentful)
-- Blog functionality
-- Recovery resources section
+- Advanced search with filters
+- User-submitted recovery stories (community contributions)
+- Article comments/discussion
 - Enhanced About page with CMS content
 
 **Phase 3: Advanced Features**
@@ -1806,4 +2032,4 @@ Before launching, complete these security tests:
 ---
 
 *Document created: January 23, 2026*  
-*Last updated: January 30, 2026 (Added Design System & Visual Language - Section 3)*
+*Last updated: February 6, 2026 (Added Resources & Content Hub - Sections 3, 5, 6, 8.9, 13)*

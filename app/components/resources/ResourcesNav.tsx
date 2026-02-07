@@ -8,6 +8,7 @@ import {clsx} from 'clsx';
 const RESOURCE_LINKS = [
   {label: 'Glossary', href: '/resources/glossary'},
   {label: 'Milestone Calculator', href: '/resources/milestone-calculator'},
+  {label: 'Articles', href: '/resources/articles'},
 ];
 
 export function ResourcesNav() {
@@ -16,9 +17,7 @@ export function ResourcesNav() {
   return (
     <nav aria-label="Resources" className="flex flex-wrap gap-2">
       {RESOURCE_LINKS.map((link) => {
-        const isActive = location.pathname.endsWith(
-          link.href.split('/').pop()!,
-        );
+        const isActive = location.pathname.startsWith(link.href);
         return (
           <Link
             key={link.href}

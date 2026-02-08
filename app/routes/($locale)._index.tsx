@@ -190,7 +190,7 @@ function HeroSection({
                     </Button>
                   </motion.div>
                 </Link>
-                <Link to="/pages/about">
+                <Link to="/about">
                   <motion.button 
                     className="w-full sm:w-auto px-8 py-3 text-base font-semibold rounded-lg border-2 border-white/40 text-white bg-transparent hover:bg-white/10 hover:border-white/60 transition-all duration-200"
                     whileHover={{scale: 1.02}}

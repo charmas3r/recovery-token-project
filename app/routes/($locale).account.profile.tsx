@@ -104,14 +104,22 @@ export async function action({request, context}: Route.ActionArgs) {
 
     // Handle Recovery Journey Update (Metafields)
     if (section === 'recovery') {
+      // Fetch customer ID for ownerId
+      const {data: customerData} = await customerAccount.query(
+        CUSTOMER_METAFIELDS_QUERY,
+        {variables: {language: customerAccount.i18n.language}},
+      );
+      const customerId = customerData?.customer?.id;
+      if (!customerId) throw new Error('Could not determine customer ID');
+
       const sobrietyDate = form.get('sobriety_date')?.toString() || '';
       const recoveryProgram = form.get('recovery_program')?.toString() || '';
       const milestoneReminders = form.get('milestone_reminders') === 'on';
 
       const metafields = [
-        {key: 'sobriety_date', namespace: 'custom', value: sobrietyDate, type: 'single_line_text_field'},
-        {key: 'recovery_program', namespace: 'custom', value: recoveryProgram, type: 'single_line_text_field'},
-        {key: 'milestone_reminders', namespace: 'custom', value: milestoneReminders.toString(), type: 'boolean'},
+        {key: 'sobriety_date', namespace: 'custom', value: sobrietyDate, type: 'single_line_text_field', ownerId: customerId},
+        {key: 'recovery_program', namespace: 'custom', value: recoveryProgram, type: 'single_line_text_field', ownerId: customerId},
+        {key: 'milestone_reminders', namespace: 'custom', value: milestoneReminders.toString(), type: 'boolean', ownerId: customerId},
       ];
 
       const {data: mutationData, errors} = await customerAccount.mutate(

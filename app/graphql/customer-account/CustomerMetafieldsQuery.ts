@@ -2,6 +2,7 @@
 export const CUSTOMER_METAFIELDS_QUERY = `#graphql
   query CustomerMetafields($language: LanguageCode) @inContext(language: $language) {
     customer {
+      id
       metafields(identifiers: [
         {namespace: "custom", key: "recovery_circle"},
         {namespace: "custom", key: "sobriety_date"},

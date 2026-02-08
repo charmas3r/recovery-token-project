@@ -56,6 +56,9 @@ export async function action({request, context}: Route.ActionArgs) {
       {variables: {language: customerAccount.i18n.language}},
     );
 
+    const customerId = metafieldsData?.customer?.id;
+    if (!customerId) throw new Error('Could not determine customer ID');
+
     const metafields = metafieldsData?.customer?.metafields ?? [];
     const circleRaw = metafields?.find(
       (m: any) => m?.key === 'recovery_circle',
@@ -149,6 +152,7 @@ export async function action({request, context}: Route.ActionArgs) {
               namespace: 'custom',
               value: serializeRecoveryCircle(circle),
               type: 'json',
+              ownerId: customerId,
             },
           ],
           language: customerAccount.i18n.language,

@@ -176,7 +176,7 @@ function FooterContent({
               </li>
               <li>
                 <Link
-                  to="/pages/faq"
+                  to="/support/faq"
                   className="!text-white/70 text-[15px] hover:!text-accent transition-colors duration-200 inline-block"
                 >
                   FAQ
@@ -184,18 +184,10 @@ function FooterContent({
               </li>
               <li>
                 <Link
-                  to="/pages/shipping"
+                  to="/support/shipping-returns"
                   className="!text-white/70 text-[15px] hover:!text-accent transition-colors duration-200 inline-block"
                 >
-                  Shipping Info
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/pages/returns"
-                  className="!text-white/70 text-[15px] hover:!text-accent transition-colors duration-200 inline-block"
-                >
-                  Returns
+                  Shipping &amp; Returns
                 </Link>
               </li>
             </ul>

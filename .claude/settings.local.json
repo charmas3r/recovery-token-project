@@ -33,7 +33,11 @@
       "Bash(find:*)",
       "Bash(xargs:*)",
       "Bash(node -e:*)",
-      "Bash(git stash:*)"
+      "Bash(git stash:*)",
+      "Bash(git push:*)",
+      "Bash(kill:*)",
+      "mcp__playwright__browser_wait_for",
+      "mcp__playwright__browser_install"
     ]
   }
 }

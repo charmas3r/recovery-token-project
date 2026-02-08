@@ -213,6 +213,23 @@ export type CustomerMetafieldsSetMutation = {
   }>;
 };
 
+export type CustomerMetafieldsQueryVariables = CustomerAccountAPI.Exact<{
+  language?: CustomerAccountAPI.InputMaybe<CustomerAccountAPI.LanguageCode>;
+}>;
+
+export type CustomerMetafieldsQuery = {
+  customer: {
+    metafields: Array<
+      CustomerAccountAPI.Maybe<
+        Pick<
+          CustomerAccountAPI.Metafield,
+          'key' | 'namespace' | 'value' | 'type'
+        >
+      >
+    >;
+  };
+};
+
 export type OrderMoneyFragment = Pick<
   CustomerAccountAPI.MoneyV2,
   'amount' | 'currencyCode'
@@ -261,6 +278,7 @@ export type OrderLineItemFullFragment = Pick<
       'altText' | 'height' | 'url' | 'id' | 'width'
     >
   >;
+  customAttributes: Array<Pick<CustomerAccountAPI.Attribute, 'key' | 'value'>>;
 };
 
 export type OrderFragment = Pick<
@@ -334,6 +352,9 @@ export type OrderFragment = Pick<
             CustomerAccountAPI.Image,
             'altText' | 'height' | 'url' | 'id' | 'width'
           >
+        >;
+        customAttributes: Array<
+          Pick<CustomerAccountAPI.Attribute, 'key' | 'value'>
         >;
       }
     >;
@@ -420,6 +441,9 @@ export type OrderQuery = {
                 CustomerAccountAPI.Image,
                 'altText' | 'height' | 'url' | 'id' | 'width'
               >
+            >;
+            customAttributes: Array<
+              Pick<CustomerAccountAPI.Attribute, 'key' | 'value'>
             >;
           }
         >;
@@ -515,6 +539,56 @@ export type CustomerOrdersQuery = {
   };
 };
 
+export type GiftLineItemFragment = Pick<
+  CustomerAccountAPI.LineItem,
+  'id' | 'title' | 'quantity' | 'variantTitle'
+> & {
+  image?: CustomerAccountAPI.Maybe<
+    Pick<CustomerAccountAPI.Image, 'altText' | 'url' | 'width' | 'height'>
+  >;
+  price?: CustomerAccountAPI.Maybe<
+    Pick<CustomerAccountAPI.MoneyV2, 'amount' | 'currencyCode'>
+  >;
+  customAttributes: Array<Pick<CustomerAccountAPI.Attribute, 'key' | 'value'>>;
+};
+
+export type CustomerOrdersWithItemsQueryVariables = CustomerAccountAPI.Exact<{
+  language?: CustomerAccountAPI.InputMaybe<CustomerAccountAPI.LanguageCode>;
+  first: CustomerAccountAPI.Scalars['Int']['input'];
+}>;
+
+export type CustomerOrdersWithItemsQuery = {
+  customer: {
+    orders: {
+      nodes: Array<
+        Pick<CustomerAccountAPI.Order, 'id' | 'name' | 'processedAt'> & {
+          lineItems: {
+            nodes: Array<
+              Pick<
+                CustomerAccountAPI.LineItem,
+                'id' | 'title' | 'quantity' | 'variantTitle'
+              > & {
+                image?: CustomerAccountAPI.Maybe<
+                  Pick<
+                    CustomerAccountAPI.Image,
+                    'altText' | 'url' | 'width' | 'height'
+                  >
+                >;
+                price?: CustomerAccountAPI.Maybe<
+                  Pick<CustomerAccountAPI.MoneyV2, 'amount' | 'currencyCode'>
+                >;
+                customAttributes: Array<
+                  Pick<CustomerAccountAPI.Attribute, 'key' | 'value'>
+                >;
+              }
+            >;
+          };
+        }
+      >;
+    };
+  };
+};
+
 export type CustomerUpdateMutationVariables = CustomerAccountAPI.Exact<{
   customer: CustomerAccountAPI.CustomerUpdateInput;
   language?: CustomerAccountAPI.InputMaybe<CustomerAccountAPI.LanguageCode>;
@@ -546,13 +620,21 @@ interface GeneratedQueryTypes {
     return: CustomerDetailsQuery;
     variables: CustomerDetailsQueryVariables;
   };
-  '#graphql\n  fragment OrderMoney on MoneyV2 {\n    amount\n    currencyCode\n  }\n  fragment DiscountApplication on DiscountApplication {\n    value {\n      __typename\n      ... on MoneyV2 {\n        ...OrderMoney\n      }\n      ... on PricingPercentageValue {\n        percentage\n      }\n    }\n  }\n  fragment OrderLineItemFull on LineItem {\n    id\n    title\n    quantity\n    price {\n      ...OrderMoney\n    }\n    discountAllocations {\n      allocatedAmount {\n        ...OrderMoney\n      }\n      discountApplication {\n        ...DiscountApplication\n      }\n    }\n    totalDiscount {\n      ...OrderMoney\n    }\n    image {\n      altText\n      height\n      url\n      id\n      width\n    }\n    variantTitle\n  }\n  fragment Order on Order {\n    id\n    name\n    confirmationNumber\n    statusPageUrl\n    fulfillmentStatus\n    processedAt\n    fulfillments(first: 1) {\n      nodes {\n        status\n      }\n    }\n    totalTax {\n      ...OrderMoney\n    }\n    totalPrice {\n      ...OrderMoney\n    }\n    subtotal {\n      ...OrderMoney\n    }\n    shippingAddress {\n      name\n      formatted(withName: true)\n      formattedArea\n    }\n    discountApplications(first: 100) {\n      nodes {\n        ...DiscountApplication\n      }\n    }\n    lineItems(first: 100) {\n      nodes {\n        ...OrderLineItemFull\n      }\n    }\n  }\n  query Order($orderId: ID!, $language: LanguageCode)\n    @inContext(language: $language) {\n    order(id: $orderId) {\n      ... on Order {\n        ...Order\n      }\n    }\n  }\n': {
+  '#graphql\n  query CustomerMetafields($language: LanguageCode) @inContext(language: $language) {\n    customer {\n      metafields(identifiers: [\n        {namespace: "custom", key: "recovery_circle"},\n        {namespace: "custom", key: "sobriety_date"},\n        {namespace: "custom", key: "recovery_program"},\n        {namespace: "custom", key: "milestone_reminders"}\n      ]) {\n        key\n        namespace\n        value\n        type\n      }\n    }\n  }\n': {
+    return: CustomerMetafieldsQuery;
+    variables: CustomerMetafieldsQueryVariables;
+  };
+  '#graphql\n  fragment OrderMoney on MoneyV2 {\n    amount\n    currencyCode\n  }\n  fragment DiscountApplication on DiscountApplication {\n    value {\n      __typename\n      ... on MoneyV2 {\n        ...OrderMoney\n      }\n      ... on PricingPercentageValue {\n        percentage\n      }\n    }\n  }\n  fragment OrderLineItemFull on LineItem {\n    id\n    title\n    quantity\n    price {\n      ...OrderMoney\n    }\n    discountAllocations {\n      allocatedAmount {\n        ...OrderMoney\n      }\n      discountApplication {\n        ...DiscountApplication\n      }\n    }\n    totalDiscount {\n      ...OrderMoney\n    }\n    image {\n      altText\n      height\n      url\n      id\n      width\n    }\n    variantTitle\n    customAttributes {\n      key\n      value\n    }\n  }\n  fragment Order on Order {\n    id\n    name\n    confirmationNumber\n    statusPageUrl\n    fulfillmentStatus\n    processedAt\n    fulfillments(first: 1) {\n      nodes {\n        status\n      }\n    }\n    totalTax {\n      ...OrderMoney\n    }\n    totalPrice {\n      ...OrderMoney\n    }\n    subtotal {\n      ...OrderMoney\n    }\n    shippingAddress {\n      name\n      formatted(withName: true)\n      formattedArea\n    }\n    discountApplications(first: 100) {\n      nodes {\n        ...DiscountApplication\n      }\n    }\n    lineItems(first: 100) {\n      nodes {\n        ...OrderLineItemFull\n      }\n    }\n  }\n  query Order($orderId: ID!, $language: LanguageCode)\n    @inContext(language: $language) {\n    order(id: $orderId) {\n      ... on Order {\n        ...Order\n      }\n    }\n  }\n': {
     return: OrderQuery;
     variables: OrderQueryVariables;
   };
   '#graphql\n  #graphql\n  fragment CustomerOrders on Customer {\n    orders(\n      sortKey: PROCESSED_AT,\n      reverse: true,\n      first: $first,\n      last: $last,\n      before: $startCursor,\n      after: $endCursor,\n      query: $query\n    ) {\n      nodes {\n        ...OrderItem\n      }\n      pageInfo {\n        hasPreviousPage\n        hasNextPage\n        endCursor\n        startCursor\n      }\n    }\n  }\n  #graphql\n  fragment OrderItem on Order {\n    totalPrice {\n      amount\n      currencyCode\n    }\n    financialStatus\n    fulfillmentStatus\n    fulfillments(first: 1) {\n      nodes {\n        status\n      }\n    }\n    id\n    number\n    confirmationNumber\n    processedAt\n  }\n\n\n  query CustomerOrders(\n    $endCursor: String\n    $first: Int\n    $last: Int\n    $startCursor: String\n    $query: String\n    $language: LanguageCode\n  ) @inContext(language: $language) {\n    customer {\n      ...CustomerOrders\n    }\n  }\n': {
     return: CustomerOrdersQuery;
     variables: CustomerOrdersQueryVariables;
+  };
+  '#graphql\n  fragment OrderMoney on MoneyV2 {\n    amount\n    currencyCode\n  }\n  fragment GiftLineItem on LineItem {\n    id\n    title\n    quantity\n    image {\n      altText\n      url\n      width\n      height\n    }\n    price {\n      ...OrderMoney\n    }\n    variantTitle\n    customAttributes {\n      key\n      value\n    }\n  }\n  query CustomerOrdersWithItems($language: LanguageCode, $first: Int!) @inContext(language: $language) {\n    customer {\n      orders(first: $first, sortKey: PROCESSED_AT, reverse: true) {\n        nodes {\n          id\n          name\n          processedAt\n          lineItems(first: 50) {\n            nodes {\n              ...GiftLineItem\n            }\n          }\n        }\n      }\n    }\n  }\n': {
+    return: CustomerOrdersWithItemsQuery;
+    variables: CustomerOrdersWithItemsQueryVariables;
   };
 }
 

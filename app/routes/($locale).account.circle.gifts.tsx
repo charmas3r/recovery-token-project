@@ -2,6 +2,7 @@ import {useLoaderData, Link} from 'react-router';
 import type {Route} from './+types/account.circle.gifts';
 import {AccountLayout} from '~/components/account/AccountLayout';
 import {CUSTOMER_METAFIELDS_QUERY} from '~/graphql/customer-account/CustomerMetafieldsQuery';
+import {CUSTOMER_ORDERS_WITH_ITEMS_QUERY} from '~/graphql/customer-account/CustomerOrdersWithItemsQuery';
 import {
   parseRecoveryCircle,
   getRelationshipLabel,
@@ -17,46 +18,6 @@ import {useState} from 'react';
 export const meta: Route.MetaFunction = () => {
   return [{title: 'Gift History'}];
 };
-
-// GraphQL query for orders with customAttributes
-const CUSTOMER_ORDERS_QUERY = `#graphql
-  fragment OrderMoney on MoneyV2 {
-    amount
-    currencyCode
-  }
-  query CustomerOrders($language: LanguageCode, $first: Int!) @inContext(language: $language) {
-    customer {
-      orders(first: $first, sortKey: PROCESSED_AT, reverse: true) {
-        nodes {
-          id
-          name
-          processedAt
-          lineItems(first: 50) {
-            nodes {
-              id
-              title
-              quantity
-              image {
-                altText
-                url
-                width
-                height
-              }
-              price {
-                ...OrderMoney
-              }
-              variantTitle
-              customAttributes {
-                key
-                value
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-` as const;
 
 interface GiftLineItem {
   title: string;
@@ -86,7 +47,7 @@ export async function loader({context}: Route.LoaderArgs) {
       customerAccount.query(CUSTOMER_METAFIELDS_QUERY, {
         variables: {language: customerAccount.i18n.language},
       }),
-      customerAccount.query(CUSTOMER_ORDERS_QUERY, {
+      customerAccount.query(CUSTOMER_ORDERS_WITH_ITEMS_QUERY, {
         variables: {language: customerAccount.i18n.language, first: 50},
       }),
     ]);

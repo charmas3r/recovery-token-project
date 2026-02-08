@@ -23,6 +23,7 @@
     "@radix-ui/react-form": "^0.1.8",
     "@radix-ui/react-label": "^2.1.8",
     "@radix-ui/react-select": "^2.2.6",
+    "@sanity/client": "^7.14.1",
     "@shopify/hydrogen": "2025.7.3",
     "clsx": "^2.1.1",
     "framer-motion": "^12.29.2",
@@ -71,6 +72,7 @@
     "globals": "^15.14.0",
     "graphql-config": "^5.0.3",
     "prettier": "^3.4.2",
+    "tsx": "^4.21.0",
     "typescript": "^5.9.2",
     "vite": "^6.2.4",
     "vite-tsconfig-paths": "^4.3.1"

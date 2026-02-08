@@ -5,7 +5,16 @@
  * These types are used by rendering components and the Sanity adapter.
  */
 
-export type ArticleCategory = 'Token Heritage' | 'Recovery Guides';
+export type ArticleCategory =
+  | 'Token Heritage'
+  | 'Recovery Guides'
+  | 'Design Spotlight';
+
+export const ARTICLE_CATEGORIES: ArticleCategory[] = [
+  'Token Heritage',
+  'Recovery Guides',
+  'Design Spotlight',
+];
 
 export type InlineContent = string | {type: 'link'; text: string; href: string};
 
@@ -21,7 +30,8 @@ export type ContentBlock =
       description: string;
       buttonText: string;
       buttonHref: string;
-    };
+    }
+  | {type: 'image'; src: string; alt: string; caption?: string};
 
 export interface Article {
   id: string;

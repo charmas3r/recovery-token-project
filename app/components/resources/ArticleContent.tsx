@@ -154,6 +154,23 @@ export function ArticleContent({blocks}: ArticleContentProps) {
               />
             );
 
+          case 'image':
+            return (
+              <figure key={index} className="my-8">
+                <img
+                  src={block.src}
+                  alt={block.alt}
+                  loading="lazy"
+                  className="w-full rounded-xl shadow-sm"
+                />
+                {block.caption && (
+                  <figcaption className="mt-3 text-center text-body-sm text-secondary/70 italic">
+                    {block.caption}
+                  </figcaption>
+                )}
+              </figure>
+            );
+
           default:
             return null;
         }

@@ -6,6 +6,7 @@ import quoteBlock from './objects/quoteBlock';
 import listBlock from './objects/listBlock';
 import calloutBlock from './objects/calloutBlock';
 import productCTABlock from './objects/productCTABlock';
+import imageBlock from './objects/imageBlock';
 
 export const schemaTypes = [
   // Document types
@@ -18,4 +19,5 @@ export const schemaTypes = [
   listBlock,
   calloutBlock,
   productCTABlock,
+  imageBlock,
 ];

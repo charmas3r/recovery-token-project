@@ -52,7 +52,11 @@ const ARTICLE_FIELDS = `
     heading,
     description,
     buttonText,
-    buttonHref
+    buttonHref,
+    // imageBlock
+    "imageUrl": image.asset->url,
+    altText,
+    caption
   },
   "relatedSlugs": relatedArticles[]->slug.current
 `;
@@ -118,6 +122,10 @@ interface SanityContentBlock {
   description?: string;
   buttonText?: string;
   buttonHref?: string;
+  // imageBlock
+  imageUrl?: string;
+  altText?: string;
+  caption?: string;
 }
 
 interface SanityArticle {
@@ -234,6 +242,14 @@ function adaptContentBlock(block: SanityContentBlock): ContentBlock {
         description: block.description || '',
         buttonText: block.buttonText || '',
         buttonHref: block.buttonHref || '',
+      };
+
+    case 'imageBlock':
+      return {
+        type: 'image',
+        src: block.imageUrl || '',
+        alt: block.altText || '',
+        ...(block.caption ? {caption: block.caption} : {}),
       };
 
     default:

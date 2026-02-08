@@ -8,7 +8,7 @@
 import {useState, useMemo} from 'react';
 import {useLoaderData, Link} from 'react-router';
 import type {MetaFunction} from 'react-router';
-import {FileText, BookOpen, Calculator, Search, ArrowRight} from 'lucide-react';
+import {FileText, BookOpen, Calculator, Search, ArrowRight, Palette} from 'lucide-react';
 import {Breadcrumbs} from '~/components/ui/Breadcrumbs';
 import {JsonLd} from '~/components/seo/JsonLd';
 import {ResourcesNav} from '~/components/resources/ResourcesNav';
@@ -71,6 +71,12 @@ export default function ResourcesHubPage() {
 
   // Featured articles: most recent 4
   const featuredArticles = (articles as Article[]).slice(-4).reverse();
+
+  // Design Spotlight articles
+  const designArticles = (articles as Article[]).filter(
+    (a) => a.category === 'Design Spotlight',
+  );
+  const designArticleCount = designArticles.length;
 
   // Search results
   const searchResults = useMemo<SearchResult[]>(() => {
@@ -162,6 +168,15 @@ export default function ResourcesHubPage() {
       href: '/resources/milestone-calculator',
       stat: 'Interactive Tool',
       color: '#4A5568',
+    },
+    {
+      title: 'Design Spotlights',
+      description:
+        'Deep dives into individual token designs — their history, meaning, and craftsmanship.',
+      icon: Palette,
+      href: '/resources/articles?category=Design+Spotlight',
+      stat: `${designArticleCount} Spotlights`,
+      color: '#805AD5',
     },
   ];
 
@@ -358,7 +373,7 @@ export default function ResourcesHubPage() {
           </FadeUp>
 
           <StaggerContainer
-            className="grid md:grid-cols-3 gap-6"
+            className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6"
             staggerDelay={0.1}
           >
             {CATEGORY_CARDS.map((card) => (
@@ -456,6 +471,68 @@ export default function ResourcesHubPage() {
           </div>
         </div>
       </section>
+
+      {/* Design Spotlights */}
+      {designArticles.length > 0 && (
+        <section className="py-12 md:py-16">
+          <div className="container-standard">
+            <FadeUp>
+              <div
+                style={{
+                  textAlign: 'center',
+                  marginBottom: '2.5rem',
+                }}
+              >
+                <span
+                  style={{
+                    display: 'inline-block',
+                    color: '#805AD5',
+                    fontSize: '0.75rem',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.25em',
+                    fontWeight: 600,
+                    marginBottom: '0.75rem',
+                  }}
+                >
+                  Design Spotlights
+                </span>
+                <h2
+                  style={{
+                    fontFamily: 'var(--font-display, serif)',
+                    fontSize: '1.75rem',
+                    fontWeight: 700,
+                    color: '#1A202C',
+                    lineHeight: 1.3,
+                  }}
+                >
+                  Inside Our Token Designs
+                </h2>
+              </div>
+            </FadeUp>
+
+            <StaggerContainer
+              className="grid md:grid-cols-3 gap-6"
+              staggerDelay={0.1}
+            >
+              {designArticles.slice(0, 3).map((article) => (
+                <StaggerItem key={article.id}>
+                  <ArticleCard article={article} />
+                </StaggerItem>
+              ))}
+            </StaggerContainer>
+
+            {designArticles.length > 3 && (
+              <div className="text-center mt-8">
+                <Link to="/resources/articles?category=Design+Spotlight">
+                  <Button variant="secondary" size="lg">
+                    View All Design Spotlights
+                  </Button>
+                </Link>
+              </div>
+            )}
+          </div>
+        </section>
+      )}
 
       {/* Bottom CTA */}
       <section className="py-16 md:py-20">

@@ -133,7 +133,7 @@ export function HeaderMenu({
             <NavLink
               onClick={close}
               prefetch="intent"
-              to="/resources/glossary"
+              to="/resources"
               className={({isActive}) =>
                 `group flex items-center justify-between py-4 border-b border-black/5 transition-all duration-200 ${
                   isActive
@@ -214,7 +214,7 @@ export function HeaderMenu({
       })}
       <NavLink
         prefetch="intent"
-        to="/resources/glossary"
+        to="/resources"
         className={({isActive}) =>
           `text-base font-medium transition-colors ${
             isActive ? 'text-accent font-semibold' : 'text-primary hover:text-accent'

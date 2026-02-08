@@ -30,7 +30,7 @@ export function ArticleHero({article}: ArticleHeroProps) {
       <div className="container-standard">
         <Breadcrumbs
           items={[
-            {label: 'Resources', href: '/resources/glossary'},
+            {label: 'Resources', href: '/resources'},
             {label: 'Articles', href: '/resources/articles'},
             {label: article.title},
           ]}

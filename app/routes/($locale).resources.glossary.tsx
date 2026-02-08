@@ -143,7 +143,7 @@ export default function GlossaryPage() {
         <div className="container-standard">
           <Breadcrumbs
             items={[
-              {label: 'Resources', href: '/resources/glossary'},
+              {label: 'Resources', href: '/resources'},
               {label: 'Glossary'},
             ]}
             className="mb-6"

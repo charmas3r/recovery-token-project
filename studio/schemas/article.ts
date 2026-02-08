@@ -26,6 +26,7 @@ export default defineType({
         list: [
           {title: 'Token Heritage', value: 'Token Heritage'},
           {title: 'Recovery Guides', value: 'Recovery Guides'},
+          {title: 'Design Spotlight', value: 'Design Spotlight'},
         ],
       },
       validation: (Rule) => Rule.required(),
@@ -85,6 +86,7 @@ export default defineType({
         defineArrayMember({type: 'listBlock'}),
         defineArrayMember({type: 'calloutBlock'}),
         defineArrayMember({type: 'productCTABlock'}),
+        defineArrayMember({type: 'imageBlock'}),
       ],
     }),
     defineField({

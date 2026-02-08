@@ -1,14 +1,14 @@
 /**
  * Token Heritage Articles - Static Data
  *
- * 4 articles establishing topical authority for recovery token search queries.
+ * 8 articles across 2 categories: Token Heritage (4) and Recovery Guides (4).
  * Structured content blocks for controllable rendering and future CMS migration.
  * Ready for Sanity.io integration in Phase 2.
  */
 
 // --- Types ---
 
-export type ArticleCategory = 'Token Heritage';
+export type ArticleCategory = 'Token Heritage' | 'Recovery Guides';
 
 export type InlineContent = string | {type: 'link'; text: string; href: string};
 
@@ -913,6 +913,1099 @@ export const ARTICLES: Article[] = [
           'Our color tokens follow the traditional milestone color system, available in premium die-struck metal for a lasting keepsake.',
         buttonText: 'Shop Color Tokens',
         buttonHref: '/collections/color-tokens',
+      },
+    ],
+  },
+
+  // ─────────────────────────────────────────────────────────────
+  // RECOVERY GUIDES (Articles 5–8)
+  // ─────────────────────────────────────────────────────────────
+
+  // Article 5: How to Celebrate a Recovery Milestone
+  {
+    id: 'how-to-celebrate-recovery-milestone',
+    slug: 'how-to-celebrate-recovery-milestone',
+    title: 'How to Celebrate a Recovery Milestone',
+    category: 'Recovery Guides',
+    excerpt:
+      'Recovery milestones are earned, not given. Explore meaningful ways to celebrate sobriety anniversaries — from personal rituals and group ceremonies to tangible keepsakes that anchor your progress.',
+    readTime: 7,
+    publishedAt: '2025-04-25',
+    updatedAt: '2025-04-25',
+    metaTitle: 'How to Celebrate a Recovery Milestone | Recovery Token Store',
+    metaDescription:
+      'Discover meaningful ways to celebrate sobriety milestones. From personal rituals to group ceremonies, learn how to honor every step of your recovery journey.',
+    keywords: [
+      'how to celebrate sobriety',
+      'recovery milestone celebration',
+      'sobriety anniversary ideas',
+      'celebrating recovery',
+      'sobriety milestones',
+      'recovery celebration ideas',
+    ],
+    relatedSlugs: [
+      'aa-chips-vs-recovery-tokens',
+      'symbolism-in-token-design',
+      'history-of-recovery-tokens',
+    ],
+    content: [
+      // Opening
+      {
+        type: 'paragraph',
+        content: [
+          'Every day in ',
+          {type: 'link', text: 'recovery', href: '/resources/glossary#term-recovery'},
+          ' is an achievement — but some days carry extra weight. Whether it\'s 24 hours, 30 days, or 20 years, a ',
+          {type: 'link', text: 'sobriety milestone', href: '/resources/glossary#term-anniversary'},
+          ' represents something profound: proof that you showed up, did the work, and chose a different path. These milestones aren\'t given — they\'re earned.',
+        ],
+      },
+      {
+        type: 'paragraph',
+        content: [
+          'Yet many people in recovery don\'t know how to celebrate these moments. The culture of shame around addiction can make it feel strange to acknowledge what you\'ve accomplished. This guide is here to change that. Your milestones deserve celebration — and knowing how to mark them can strengthen your recovery for years to come.',
+        ],
+      },
+
+      // H2: Why Celebrating Matters
+      {
+        type: 'heading',
+        level: 2,
+        text: 'Why Celebrating Matters',
+        id: 'why-celebrating-matters',
+      },
+      {
+        type: 'paragraph',
+        content: [
+          'Addiction thrives in shame. Recovery thrives in recognition. Behavioral psychology shows that positive reinforcement — acknowledging and rewarding progress — is one of the strongest predictors of sustained behavior change. When you celebrate a milestone, you\'re not just having a good time; you\'re actively reinforcing the neural pathways that support your ',
+          {type: 'link', text: 'sobriety', href: '/resources/glossary#term-sobriety'},
+          '.',
+        ],
+      },
+      {
+        type: 'paragraph',
+        content: [
+          'Celebration also counters the isolation that addiction creates. It invites your community into your story. It tells the people around you: this is real, this matters, and I\'m proud of the work I\'ve done.',
+        ],
+      },
+      {
+        type: 'callout',
+        title: 'The Science Is Clear',
+        text: 'Research on habit formation consistently shows that celebrating small wins — not just the big milestones — dramatically increases the likelihood of long-term success. Every celebration trains your brain to associate recovery with reward.',
+        variant: 'info',
+      },
+
+      // H2: Ideas for Every Milestone
+      {
+        type: 'heading',
+        level: 2,
+        text: 'Ideas for Every Milestone',
+        id: 'ideas-for-every-milestone',
+      },
+      {
+        type: 'paragraph',
+        content: [
+          'Not every milestone calls for the same celebration. What matters at 30 days is different from what matters at 5 years. Here are ideas organized by stage:',
+        ],
+      },
+      {
+        type: 'heading',
+        level: 3,
+        text: 'Early Recovery (24 Hours to 90 Days)',
+        id: 'early-recovery',
+      },
+      {
+        type: 'list',
+        style: 'unordered',
+        items: [
+          'Share at a meeting and accept your chip with pride',
+          'Write a letter to yourself about why you chose recovery',
+          'Treat yourself to a favorite meal or experience (sober, of course)',
+          'Call your sponsor and acknowledge the moment together',
+          'Start a recovery journal — your first entry is today\'s milestone',
+        ],
+      },
+      {
+        type: 'heading',
+        level: 3,
+        text: 'Mid Recovery (6 Months to 2 Years)',
+        id: 'mid-recovery',
+      },
+      {
+        type: 'list',
+        style: 'unordered',
+        items: [
+          'Host a small gathering with sober friends or family',
+          'Plan a meaningful outing — a hike, a concert, a day trip',
+          'Commission a custom recovery token with your sobriety date engraved',
+          'Write a gratitude list of everything recovery has given you',
+          'Volunteer at a meeting or recovery center to give back',
+        ],
+      },
+      {
+        type: 'heading',
+        level: 3,
+        text: 'Long-Term Recovery (3+ Years)',
+        id: 'long-term-recovery',
+      },
+      {
+        type: 'list',
+        style: 'unordered',
+        items: [
+          'Renew personal commitments — revisit your step work or set new goals',
+          'Mentor a newcomer and share what the milestone means to you',
+          'Plan a trip or experience you\'ve been saving for',
+          'Upgrade to a premium token that reflects the weight of your achievement',
+          'Write or record your story for others who need to hear it',
+        ],
+      },
+
+      // H2: Ceremony and Ritual
+      {
+        type: 'heading',
+        level: 2,
+        text: 'Ceremony and Ritual',
+        id: 'ceremony-and-ritual',
+      },
+      {
+        type: 'paragraph',
+        content: [
+          'There\'s a reason ',
+          {type: 'link', text: 'meetings', href: '/resources/glossary#term-meeting'},
+          ' have chip ceremonies. Ritual creates a container for emotion. It says: this moment is different from ordinary time. Whether you\'re in a room of 200 people or sitting quietly alone, ceremony turns a date on the calendar into a lived experience.',
+        ],
+      },
+      {
+        type: 'paragraph',
+        content: [
+          'Chip ceremonies in AA and NA are one of the most powerful rituals in recovery. When the room applauds as you walk up to collect your chip, you feel it physically. That\'s not an accident — it\'s the community bearing witness to your transformation.',
+        ],
+      },
+      {
+        type: 'paragraph',
+        content: [
+          'But ceremony doesn\'t have to be public. Some people light a candle on their ',
+          {type: 'link', text: 'sobriety date', href: '/resources/glossary#term-sobriety-date'},
+          ' each year. Others read a passage from their daily reader, or take a moment of silence. The form doesn\'t matter as much as the intention: pausing to recognize what this day means.',
+        ],
+      },
+
+      // H2: Celebrating with Others
+      {
+        type: 'heading',
+        level: 2,
+        text: 'Celebrating with Others',
+        id: 'celebrating-with-others',
+      },
+      {
+        type: 'paragraph',
+        content: [
+          'Recovery happens in community, and milestones are often best celebrated in community too. But navigating celebrations with family, friends, and loved ones can be complicated — especially if your circle doesn\'t fully understand recovery.',
+        ],
+      },
+      {
+        type: 'list',
+        style: 'unordered',
+        items: [
+          'Be direct about what you need: "This is important to me, and I\'d love you to be part of it"',
+          'Choose sober-friendly venues and activities — no need to test yourself',
+          'Invite your recovery friends alongside family; the two worlds can coexist',
+          'If your family doesn\'t understand, don\'t force it. Celebrate with the people who get it',
+          'Let your sponsor or home group know about your milestone — they want to celebrate you',
+        ],
+      },
+      {
+        type: 'callout',
+        title: 'For Supporters',
+        text: 'If someone you love is celebrating a recovery milestone, the best gift is presence. Show up. Say "I\'m proud of you." Don\'t ask about the past — celebrate the present.',
+        variant: 'tip',
+      },
+
+      // H2: Celebrating Alone
+      {
+        type: 'heading',
+        level: 2,
+        text: 'Celebrating Alone',
+        id: 'celebrating-alone',
+      },
+      {
+        type: 'paragraph',
+        content: [
+          'Not everyone has a visible support system, and that\'s okay. Many people in recovery — especially those in their first year — celebrate milestones privately. Solo celebration isn\'t lesser; it\'s just different.',
+        ],
+      },
+      {
+        type: 'list',
+        style: 'unordered',
+        items: [
+          'Write yourself a letter of acknowledgment — be specific about what you\'re proud of',
+          'Take yourself to a place that brings you peace: a park, a café, a trail',
+          'Treat yourself to something meaningful (not expensive — meaningful)',
+          'Post in an online recovery community if you want witnesses without physical presence',
+          'Hold your recovery token and take one minute of silence. You earned this.',
+        ],
+      },
+
+      // H2: Making It Tangible
+      {
+        type: 'heading',
+        level: 2,
+        text: 'Making It Tangible',
+        id: 'making-it-tangible',
+      },
+      {
+        type: 'paragraph',
+        content: [
+          'There\'s a reason ',
+          {type: 'link', text: 'recovery tokens', href: '/resources/glossary#term-recovery-token'},
+          ' have endured for nearly a century. Physical objects anchor abstract achievements in reality. You can\'t hold "365 days sober" in your hand — but you can hold a ',
+          {type: 'link', text: 'medallion', href: '/resources/glossary#term-medallion'},
+          ' that represents it.',
+        ],
+      },
+      {
+        type: 'paragraph',
+        content: [
+          'Tangible keepsakes serve as portable reminders. A token in your pocket is a touchstone — literally. When a craving hits, when doubt creeps in, when someone asks "why don\'t you just have one?" — you can reach into your pocket and remember.',
+        ],
+      },
+      {
+        type: 'paragraph',
+        content: [
+          'Journals, framed certificates, photos from celebrations, a ',
+          {type: 'link', text: 'pocket piece', href: '/resources/glossary#term-pocket-piece'},
+          ' — these things transform an invisible achievement into something you can see, touch, and carry. They make your recovery real in a way that memory alone cannot.',
+        ],
+      },
+
+      // ProductCTA 1
+      {
+        type: 'productCTA',
+        heading: 'Mark Your Milestone',
+        description:
+          'Our handcrafted recovery tokens are designed to honor the weight of your achievement. Premium materials, meaningful design, built to carry daily.',
+        buttonText: 'Browse All Collections',
+        buttonHref: '/collections',
+      },
+
+      // ProductCTA 2
+      {
+        type: 'productCTA',
+        heading: 'The Classic Bronze Token',
+        description:
+          'Die-struck bronze with lasting detail — the most popular choice for marking sobriety milestones that matter.',
+        buttonText: 'Shop Bronze Tokens',
+        buttonHref: '/collections/bronze-tokens',
+      },
+    ],
+  },
+
+  // Article 6: Supporting Someone in Recovery: A Practical Guide
+  {
+    id: 'supporting-someone-in-recovery',
+    slug: 'supporting-someone-in-recovery',
+    title: 'Supporting Someone in Recovery: A Practical Guide',
+    category: 'Recovery Guides',
+    excerpt:
+      'Want to support someone in recovery but not sure how? This practical guide covers what to say, what to avoid, how to respect boundaries, and when to celebrate their milestones.',
+    readTime: 8,
+    publishedAt: '2025-05-01',
+    updatedAt: '2025-05-01',
+    metaTitle: 'Supporting Someone in Recovery: A Practical Guide | Recovery Token Store',
+    metaDescription:
+      'Learn how to support a loved one in recovery. Practical advice on what to say, respecting boundaries, celebrating milestones, and taking care of yourself.',
+    keywords: [
+      'supporting someone in recovery',
+      'how to help someone in recovery',
+      'recovery support',
+      'family recovery support',
+      'sobriety support',
+      'loved one in recovery',
+    ],
+    relatedSlugs: [
+      'aa-chips-vs-recovery-tokens',
+      'how-to-celebrate-recovery-milestone',
+      'symbolism-in-token-design',
+    ],
+    content: [
+      // Opening
+      {
+        type: 'paragraph',
+        content: [
+          'Someone you care about is in ',
+          {type: 'link', text: 'recovery', href: '/resources/glossary#term-recovery'},
+          ', and you want to help. Maybe it\'s your partner, your parent, your child, your best friend, or a coworker. You want to say the right thing, do the right thing — but you\'re terrified of getting it wrong.',
+        ],
+      },
+      {
+        type: 'paragraph',
+        content: [
+          'That fear? It\'s actually a good sign. It means you care enough to be thoughtful. This guide will give you practical, specific tools for showing up — without overstepping, enabling, or making it about you.',
+        ],
+      },
+
+      // H2: Understanding Recovery
+      {
+        type: 'heading',
+        level: 2,
+        text: 'Understanding Recovery',
+        id: 'understanding-recovery',
+      },
+      {
+        type: 'paragraph',
+        content: [
+          'If you haven\'t been through addiction yourself, recovery can look confusing from the outside. Here\'s what\'s important to know:',
+        ],
+      },
+      {
+        type: 'paragraph',
+        content: [
+          {type: 'link', text: 'Recovery', href: '/resources/glossary#term-recovery'},
+          ' is not a single event — it\'s a daily practice. There\'s no finish line. Your loved one doesn\'t "graduate" from recovery. They wake up every day and choose it again. Some days that\'s easy. Some days it\'s the hardest thing they\'ve ever done.',
+        ],
+      },
+      {
+        type: 'paragraph',
+        content: [
+          'Recovery often involves meetings (like AA or NA), working with a ',
+          {type: 'link', text: 'sponsor', href: '/resources/glossary#term-sponsor'},
+          ', step work, therapy, and building new daily habits. It reshapes every aspect of life — relationships, routines, identity, even how someone spends a Saturday night.',
+        ],
+      },
+      {
+        type: 'callout',
+        title: 'Key Insight',
+        text: 'Recovery is not about willpower. Addiction is a complex condition involving brain chemistry, trauma, environment, and genetics. When someone is in recovery, they\'re not just "choosing to stop" — they\'re rewiring their brain and rebuilding their life.',
+        variant: 'info',
+      },
+
+      // H2: What to Say (and What Not to Say)
+      {
+        type: 'heading',
+        level: 2,
+        text: 'What to Say (and What Not to Say)',
+        id: 'what-to-say-and-what-not-to-say',
+      },
+      {
+        type: 'paragraph',
+        content: [
+          'Words matter enormously in recovery. Here are specific examples:',
+        ],
+      },
+      {
+        type: 'heading',
+        level: 3,
+        text: 'Helpful Things to Say',
+        id: 'helpful-things-to-say',
+      },
+      {
+        type: 'list',
+        style: 'unordered',
+        items: [
+          '"I\'m proud of you" — simple, direct, powerful',
+          '"I\'m here if you need anything" — and mean it',
+          '"I don\'t fully understand, but I want to" — honesty builds trust',
+          '"What can I do to support you right now?" — let them lead',
+          '"Your [30 days / 1 year / etc.] is a big deal" — acknowledge milestones',
+        ],
+      },
+      {
+        type: 'heading',
+        level: 3,
+        text: 'Things to Avoid Saying',
+        id: 'things-to-avoid-saying',
+      },
+      {
+        type: 'list',
+        style: 'unordered',
+        items: [
+          '"You can have just one, right?" — never test their sobriety',
+          '"You don\'t seem like an addict" — minimizes their experience',
+          '"I could never give up drinking" — centers you, not them',
+          '"Are you sure you need to go to all those meetings?" — don\'t question their program',
+          '"But you seem fine now" — recovery isn\'t about seeming fine',
+        ],
+      },
+
+      // H2: Practical Ways to Show Support
+      {
+        type: 'heading',
+        level: 2,
+        text: 'Practical Ways to Show Support',
+        id: 'practical-ways-to-show-support',
+      },
+      {
+        type: 'paragraph',
+        content: [
+          'Support isn\'t just words — it\'s actions. Here\'s what tangible support looks like:',
+        ],
+      },
+      {
+        type: 'list',
+        style: 'unordered',
+        items: [
+          'Attend an open meeting if they invite you — it shows you care about their world',
+          'Stop offering them drinks or keeping alcohol front-and-center at gatherings',
+          'Respect their schedule — recovery often involves regular meetings, therapy, and self-care time',
+          'Celebrate their milestones. Remember their sobriety date the way you remember a birthday',
+          'Be patient with the process. Recovery changes people, and the person you knew might evolve',
+          'Don\'t gossip about their recovery — it\'s their story to tell, not yours',
+        ],
+      },
+      {
+        type: 'callout',
+        title: 'The Power of Showing Up',
+        text: 'One of the most meaningful things you can do is simply be present. You don\'t need to fix anything, say anything perfect, or understand everything. Just be there. Consistency over time is the greatest gift.',
+        variant: 'tip',
+      },
+
+      // H2: Setting Your Own Boundaries
+      {
+        type: 'heading',
+        level: 2,
+        text: 'Setting Your Own Boundaries',
+        id: 'setting-your-own-boundaries',
+      },
+      {
+        type: 'paragraph',
+        content: [
+          'Supporting someone in recovery doesn\'t mean sacrificing yourself. In fact, the best support comes from people who have healthy boundaries.',
+        ],
+      },
+      {
+        type: 'list',
+        style: 'unordered',
+        items: [
+          'You are not their therapist, sponsor, or higher power — you\'re their loved one',
+          'It\'s okay to say "I love you, and I can\'t do that for you"',
+          'Watch for codependency patterns — are you managing their recovery more than your own life?',
+          'Consider Al-Anon, Nar-Anon, or therapy for yourself. Recovery affects the whole family',
+          'You can\'t want their recovery more than they do. That\'s a recipe for resentment',
+        ],
+      },
+      {
+        type: 'paragraph',
+        content: [
+          'Taking care of yourself isn\'t selfish — it\'s necessary. You can\'t pour from an empty cup, and supporting someone through recovery is a long journey.',
+        ],
+      },
+
+      // H2: Milestone Moments
+      {
+        type: 'heading',
+        level: 2,
+        text: 'Milestone Moments',
+        id: 'milestone-moments',
+      },
+      {
+        type: 'paragraph',
+        content: [
+          {type: 'link', text: 'Milestones', href: '/resources/glossary#term-anniversary'},
+          ' in recovery are significant. They represent real, earned progress. Here\'s how to honor them without overstepping:',
+        ],
+      },
+      {
+        type: 'list',
+        style: 'unordered',
+        items: [
+          'Ask them how they want to celebrate — don\'t assume',
+          'A handwritten note or card can be more meaningful than a party',
+          'Consider a meaningful gift: a custom recovery token with their date, a journal, a book',
+          'Don\'t make it about the addiction — celebrate the person they\'re becoming',
+          'If they don\'t want to make a big deal of it, respect that. A quiet "I see you" goes far',
+        ],
+      },
+      {
+        type: 'paragraph',
+        content: [
+          'A ',
+          {type: 'link', text: 'recovery token', href: '/resources/glossary#term-recovery-token'},
+          ' is one of the most thoughtful gifts for a milestone. It says: I recognize what this took, and I wanted you to have something that lasts.',
+        ],
+      },
+
+      // H2: When Things Get Hard
+      {
+        type: 'heading',
+        level: 2,
+        text: 'When Things Get Hard',
+        id: 'when-things-get-hard',
+      },
+      {
+        type: 'paragraph',
+        content: [
+          {type: 'link', text: 'Relapse', href: '/resources/glossary#term-relapse'},
+          ' is a possibility in recovery — not a certainty, but a possibility. If it happens, here\'s how to respond:',
+        ],
+      },
+      {
+        type: 'list',
+        style: 'unordered',
+        items: [
+          'Don\'t panic. Relapse doesn\'t erase their progress or mean recovery is over',
+          'Don\'t shame them. They already feel it. What they need is compassion, not a lecture',
+          'Ask: "What do you need right now?" and follow their lead',
+          'Encourage them to reach out to their sponsor, therapist, or support network',
+          'Remind them that recovery is still possible — many people relapse and come back stronger',
+          'Take care of yourself. Their relapse will affect you, and that\'s okay to acknowledge',
+        ],
+      },
+      {
+        type: 'callout',
+        title: 'Remember',
+        text: 'Relapse is not a moral failure. It\'s often a part of the recovery process. What matters most is what happens next. Your response can help determine whether they get back up or stay down.',
+        variant: 'info',
+      },
+
+      // ProductCTA 1
+      {
+        type: 'productCTA',
+        heading: 'A Gift That Says Everything',
+        description:
+          'Custom-engraved recovery tokens make a deeply personal milestone gift. Add their sobriety date, a meaningful message, or a symbol that speaks to their journey.',
+        buttonText: 'Shop Custom Tokens',
+        buttonHref: '/collections/custom-tokens',
+      },
+
+      // ProductCTA 2
+      {
+        type: 'productCTA',
+        heading: 'Find the Perfect Token',
+        description:
+          'Browse our full collection of handcrafted recovery tokens — from classic bronze to premium custom designs, there\'s one for every milestone.',
+        buttonText: 'Browse All Collections',
+        buttonHref: '/collections',
+      },
+    ],
+  },
+
+  // Article 7: The Science Behind Milestone Marking
+  {
+    id: 'science-behind-milestone-marking',
+    slug: 'science-behind-milestone-marking',
+    title: 'The Science Behind Milestone Marking',
+    category: 'Recovery Guides',
+    excerpt:
+      'Why do physical tokens work? The answer is rooted in neuroscience, behavioral psychology, and centuries of ritual practice. Explore the science behind why tangible milestones strengthen recovery.',
+    readTime: 8,
+    publishedAt: '2025-05-05',
+    updatedAt: '2025-05-05',
+    metaTitle: 'The Science Behind Milestone Marking | Recovery Token Store',
+    metaDescription:
+      'Discover the neuroscience and psychology behind why physical recovery tokens work. Learn how tangible milestones reinforce sobriety and support long-term recovery.',
+    keywords: [
+      'psychology of sobriety milestones',
+      'science of recovery tokens',
+      'why recovery tokens work',
+      'milestone psychology',
+      'behavioral reinforcement recovery',
+      'neuroscience of sobriety',
+    ],
+    relatedSlugs: [
+      'how-to-celebrate-recovery-milestone',
+      'history-of-recovery-tokens',
+      'how-recovery-tokens-are-made',
+    ],
+    content: [
+      // Opening
+      {
+        type: 'paragraph',
+        content: [
+          'For nearly a century, people in ',
+          {type: 'link', text: 'recovery', href: '/resources/glossary#term-recovery'},
+          ' have carried small physical tokens to mark their milestones. ',
+          {type: 'link', text: 'Sobriety coins', href: '/resources/glossary#term-sobriety-coin'},
+          ', ',
+          {type: 'link', text: 'medallions', href: '/resources/glossary#term-medallion'},
+          ', chips — they come in many forms, but the practice endures. Why?',
+        ],
+      },
+      {
+        type: 'paragraph',
+        content: [
+          'It\'s not just tradition. It\'s science. The effectiveness of physical milestone markers is supported by research in neuroscience, behavioral psychology, identity theory, and anthropology. Understanding why these tokens work doesn\'t diminish their power — it amplifies it.',
+        ],
+      },
+
+      // H2: The Psychology of Tangible Rewards
+      {
+        type: 'heading',
+        level: 2,
+        text: 'The Psychology of Tangible Rewards',
+        id: 'the-psychology-of-tangible-rewards',
+      },
+      {
+        type: 'paragraph',
+        content: [
+          'B.F. Skinner\'s research on operant conditioning established a foundational principle: behaviors followed by positive outcomes are more likely to be repeated. This is the basis of positive reinforcement, and it\'s exactly what happens when someone receives a ',
+          {type: 'link', text: 'recovery token', href: '/resources/glossary#term-recovery-token'},
+          ' for reaching a milestone.',
+        ],
+      },
+      {
+        type: 'paragraph',
+        content: [
+          'The token acts as a tangible reward — something the brain can associate with the effort of staying sober. Unlike abstract praise ("good job"), a physical object creates a concrete, sensory connection to the achievement. You can see it, touch it, feel its weight. That sensory richness makes the reward signal stronger.',
+        ],
+      },
+      {
+        type: 'paragraph',
+        content: [
+          'This is particularly important in recovery because addiction hijacks the brain\'s natural reward system. Substances flood the brain with dopamine, creating intense associations between the substance and pleasure. Recovery tokens help create new, positive associations — linking sobriety with reward rather than deprivation.',
+        ],
+      },
+
+      // H2: How the Brain Recovers
+      {
+        type: 'heading',
+        level: 2,
+        text: 'How the Brain Recovers',
+        id: 'how-the-brain-recovers',
+      },
+      {
+        type: 'paragraph',
+        content: [
+          'One of the most hopeful discoveries in neuroscience is neuroplasticity — the brain\'s ability to rewire itself. The same brain that was changed by addiction can be changed by recovery.',
+        ],
+      },
+      {
+        type: 'paragraph',
+        content: [
+          'The dopamine system, heavily impacted by substance use, begins to normalize over time in ',
+          {type: 'link', text: 'sobriety', href: '/resources/glossary#term-sobriety'},
+          '. The prefrontal cortex — responsible for decision-making, impulse control, and long-term planning — gradually regains function. This process is real but slow, often taking 12–18 months of sustained sobriety for significant recovery.',
+        ],
+      },
+      {
+        type: 'paragraph',
+        content: [
+          'Milestone markers support this process by creating positive "checkpoints" for the brain. Each time a milestone is acknowledged with a physical token, the brain registers a reward event. Over time, these events help build new neural pathways that associate sobriety with positive outcomes.',
+        ],
+      },
+      {
+        type: 'callout',
+        title: 'Brain Healing Timeline',
+        text: 'Research shows that many cognitive functions begin improving within weeks of sobriety. But the most significant neurological recovery — particularly in the prefrontal cortex and dopamine system — occurs between 6 and 18 months. Every milestone you mark is literally a checkpoint in your brain\'s healing process.',
+        variant: 'info',
+      },
+
+      // H2: Identity and Object Association
+      {
+        type: 'heading',
+        level: 2,
+        text: 'Identity and Object Association',
+        id: 'identity-and-object-association',
+      },
+      {
+        type: 'paragraph',
+        content: [
+          'Neuroscientist Antonio Damasio\'s somatic marker hypothesis explains how physical objects become linked to emotions and identity. When you carry a recovery token daily, it becomes a "somatic marker" — a physical trigger for the emotions, values, and identity associated with your recovery.',
+        ],
+      },
+      {
+        type: 'paragraph',
+        content: [
+          'This connects to self-concept theory in psychology. Recovery requires a fundamental identity shift: from "person who uses" to "person in recovery." This shift is abstract and fragile, especially in early ',
+          {type: 'link', text: 'clean time', href: '/resources/glossary#term-clean-time'},
+          '. A physical token makes the new identity concrete. It\'s proof you can see and hold.',
+        ],
+      },
+      {
+        type: 'paragraph',
+        content: [
+          'Every time you reach into your pocket and feel your token, you\'re reinforcing: "I am a person in recovery. I have [X] days. I earned this." That physical act of touching the token anchors the identity in the body, not just the mind.',
+        ],
+      },
+
+      // H2: The Power of Ritual
+      {
+        type: 'heading',
+        level: 2,
+        text: 'The Power of Ritual',
+        id: 'the-power-of-ritual',
+      },
+      {
+        type: 'paragraph',
+        content: [
+          'Anthropologists have studied ritual across every human culture and found a consistent pattern: rituals work. They reduce anxiety, increase group cohesion, and create a sense of meaning and belonging.',
+        ],
+      },
+      {
+        type: 'paragraph',
+        content: [
+          'The chip ceremony in AA — where someone walks to the front of a ',
+          {type: 'link', text: 'meeting', href: '/resources/glossary#term-meeting'},
+          ', receives their chip, and is applauded by the group — is a perfect example of effective ritual. It combines public recognition, community witnessing, and physical object exchange into a single powerful moment.',
+        ],
+      },
+      {
+        type: 'paragraph',
+        content: [
+          'These ceremonies activate what psychologists call "collective effervescence" — the heightened emotion people feel in group rituals. This emotional energy gets encoded into the object. The chip itself becomes charged with the memory of that moment, the applause, the hugs, the feeling of belonging to something larger than yourself.',
+        ],
+      },
+      {
+        type: 'quote',
+        text: 'Ritual is not about magic. It\'s about attention. It says: this moment matters enough to mark.',
+        attribution: 'Cultural anthropology principle',
+      },
+
+      // H2: Breaking Goals into Milestones
+      {
+        type: 'heading',
+        level: 2,
+        text: 'Breaking Goals into Milestones',
+        id: 'breaking-goals-into-milestones',
+      },
+      {
+        type: 'paragraph',
+        content: [
+          'Goal-setting theory, developed by Edwin Locke and Gary Latham, has consistently shown that incremental goals with clear markers dramatically increase success rates compared to vague, distant goals.',
+        ],
+      },
+      {
+        type: 'paragraph',
+        content: [
+          '"Stay sober forever" is paralyzing. "',
+          {type: 'link', text: 'One day at a time', href: '/resources/glossary#term-one-day-at-a-time'},
+          '" is manageable. And each milestone — 24 hours, 30 days, 90 days, 6 months, 1 year — creates a concrete checkpoint that makes the infinite feel achievable.',
+        ],
+      },
+      {
+        type: 'paragraph',
+        content: [
+          'Each milestone also creates what researchers call a "fresh start effect" — the feeling of beginning a new chapter. After reaching 90 days, you\'re not just continuing the same journey; psychologically, you\'re beginning the next phase. The milestone marker makes this transition tangible.',
+        ],
+      },
+
+      // H2: Why Physical Beats Digital
+      {
+        type: 'heading',
+        level: 2,
+        text: 'Why Physical Beats Digital',
+        id: 'why-physical-beats-digital',
+      },
+      {
+        type: 'paragraph',
+        content: [
+          'In a world of apps, notifications, and digital counters, why do physical tokens still matter? The answer lies in embodied cognition — the science of how physical interaction shapes thought.',
+        ],
+      },
+      {
+        type: 'paragraph',
+        content: [
+          'Research shows that physical objects engage more neural pathways than digital ones. When you hold a ',
+          {type: 'link', text: 'pocket piece', href: '/resources/glossary#term-pocket-piece'},
+          ', your brain processes the weight, texture, temperature, and shape — all creating richer memory encoding than looking at a screen.',
+        ],
+      },
+      {
+        type: 'paragraph',
+        content: [
+          'There\'s also what we might call the "pocket check" effect. Many people in recovery develop the habit of touching their token throughout the day — in their pocket, on their desk, in moments of stress. Each touch is a micro-reinforcement. A sobriety app can\'t be felt in your pocket at 2 AM when a craving hits. A bronze token can.',
+        ],
+      },
+      {
+        type: 'callout',
+        title: 'The Weight Matters',
+        text: 'There\'s a reason premium tokens are made from bronze, not plastic. The weight of the object communicates the weight of the achievement. When something feels substantial in your hand, your brain registers it as significant. Material matters.',
+        variant: 'tip',
+      },
+
+      // ProductCTA 1
+      {
+        type: 'productCTA',
+        heading: 'Science-Backed, Handcrafted',
+        description:
+          'Our recovery tokens are designed with purpose — premium weight, meaningful symbols, and lasting materials that your brain and body recognize as significant.',
+        buttonText: 'Browse All Collections',
+        buttonHref: '/collections',
+      },
+
+      // ProductCTA 2
+      {
+        type: 'productCTA',
+        heading: 'Feel the Difference',
+        description:
+          'Die-struck bronze tokens with real weight and lasting detail. Designed to carry daily, built to last a lifetime of recovery.',
+        buttonText: 'Shop Bronze Tokens',
+        buttonHref: '/collections/bronze-tokens',
+      },
+    ],
+  },
+
+  // Article 8: Building a Recovery Toolkit
+  {
+    id: 'building-a-recovery-toolkit',
+    slug: 'building-a-recovery-toolkit',
+    title: 'Building a Recovery Toolkit',
+    category: 'Recovery Guides',
+    excerpt:
+      'Recovery is more than not using — it\'s building a new life with new tools. From daily practices and support networks to physical anchors and coping strategies, here\'s how to assemble a toolkit that grows with you.',
+    readTime: 7,
+    publishedAt: '2025-05-10',
+    updatedAt: '2025-05-10',
+    metaTitle: 'Building a Recovery Toolkit | Recovery Token Store',
+    metaDescription:
+      'Build a comprehensive recovery toolkit with daily practices, support networks, physical anchors, coping strategies, and an emergency plan. Practical guide for every stage of recovery.',
+    keywords: [
+      'recovery toolkit',
+      'sobriety tools',
+      'recovery practices',
+      'coping skills recovery',
+      'recovery support network',
+      'sobriety strategies',
+    ],
+    relatedSlugs: [
+      'science-behind-milestone-marking',
+      'how-to-celebrate-recovery-milestone',
+      'symbolism-in-token-design',
+    ],
+    content: [
+      // Opening
+      {
+        type: 'paragraph',
+        content: [
+          {type: 'link', text: 'Recovery', href: '/resources/glossary#term-recovery'},
+          ' is more than the absence of substances. It\'s the presence of something new — new habits, new relationships, new ways of handling the moments that used to send you reaching for a drink or a drug. Building that new life takes tools.',
+        ],
+      },
+      {
+        type: 'paragraph',
+        content: [
+          'A recovery toolkit isn\'t a one-time purchase. It\'s a living collection of practices, people, objects, and strategies that you assemble and refine over time. What works in your first 30 days may look different at 5 years — and that\'s the point. This guide will help you build a toolkit that grows with you.',
+        ],
+      },
+
+      // H2: Your Daily Practices
+      {
+        type: 'heading',
+        level: 2,
+        text: 'Your Daily Practices',
+        id: 'your-daily-practices',
+      },
+      {
+        type: 'paragraph',
+        content: [
+          'Recovery lives in the daily routine. The structure you build into each day is your first line of defense against the chaos that addiction thrives in.',
+        ],
+      },
+      {
+        type: 'list',
+        style: 'unordered',
+        items: [
+          'Morning check-in — Before the day hits, take 5 minutes. How are you feeling? What do you need today? Journal it, pray it, or just sit with it',
+          'Meditation or mindfulness — Even 5 minutes of stillness trains your brain to observe cravings without acting on them',
+          'Daily reading — Recovery literature, daily readers, or any text that grounds you in your values',
+          'Journaling — Writing externalizes what\'s inside. It\'s free therapy, and it creates a record of your growth',
+          'Evening reflection — How did today go? What are you grateful for? What would you do differently?',
+        ],
+      },
+      {
+        type: 'callout',
+        title: 'Start Small',
+        text: 'You don\'t need to do all of these on day one. Pick one daily practice and commit to it for a week. Then add another. Recovery is built one habit at a time, just like sobriety is built one day at a time.',
+        variant: 'tip',
+      },
+
+      // H2: Your Support Network
+      {
+        type: 'heading',
+        level: 2,
+        text: 'Your Support Network',
+        id: 'your-support-network',
+      },
+      {
+        type: 'paragraph',
+        content: [
+          'Addiction isolates. Recovery connects. The people in your life are among the most powerful tools you have.',
+        ],
+      },
+      {
+        type: 'list',
+        style: 'unordered',
+        items: [
+          'A sponsor — Someone who has walked the path before you and can guide you through the steps. Your sponsor is your first call when things get hard',
+          'A home group — A regular meeting where people know your name, your story, and your face. Your home group is your recovery family',
+          'Sober friends — People who prove that fun, connection, and depth exist without substances',
+          'A therapist or counselor — Professional support for trauma, mental health, and the emotional work that recovery surfaces',
+          'Online communities — For those without local access, or as a supplement. Recovery forums, Discord servers, and social media communities can bridge the gap',
+        ],
+      },
+      {
+        type: 'paragraph',
+        content: [
+          'Your ',
+          {type: 'link', text: 'sponsor', href: '/resources/glossary#term-sponsor'},
+          ', your ',
+          {type: 'link', text: 'home group', href: '/resources/glossary#term-home-group'},
+          ', the ',
+          {type: 'link', text: 'fellowship', href: '/resources/glossary#term-fellowship'},
+          ' — these aren\'t optional extras. They\'re the foundation your recovery stands on.',
+        ],
+      },
+
+      // H2: Your Physical Anchors
+      {
+        type: 'heading',
+        level: 2,
+        text: 'Your Physical Anchors',
+        id: 'your-physical-anchors',
+      },
+      {
+        type: 'paragraph',
+        content: [
+          'Recovery is abstract. It happens inside — in your thoughts, your choices, your neural pathways. Physical anchors make it concrete. They give you something to hold when the invisible work feels overwhelming.',
+        ],
+      },
+      {
+        type: 'list',
+        style: 'unordered',
+        items: [
+          'Recovery tokens — A daily carry that represents your milestone. The weight in your pocket is a constant reminder of what you\'ve built',
+          'Your journal — Not just a practice, but an object. The filled pages are physical evidence of your journey',
+          'Recovery literature — Books that have shaped your understanding. Dog-eared, highlighted, carried in your bag',
+          'Daily readers — A small book with a passage for each day. Many people read theirs every morning like ritual',
+          'Photos or keepsakes — Anything that connects you to why you chose recovery. A photo of your kids, a letter from your sponsor, your first chip',
+        ],
+      },
+      {
+        type: 'paragraph',
+        content: [
+          'A ',
+          {type: 'link', text: 'recovery token', href: '/resources/glossary#term-recovery-token'},
+          ' or ',
+          {type: 'link', text: 'pocket piece', href: '/resources/glossary#term-pocket-piece'},
+          ' is the quintessential physical anchor. It\'s small enough to carry everywhere, meaningful enough to ground you in a crisis, and durable enough to last your entire recovery.',
+        ],
+      },
+
+      // H2: Your Coping Strategies
+      {
+        type: 'heading',
+        level: 2,
+        text: 'Your Coping Strategies',
+        id: 'your-coping-strategies',
+      },
+      {
+        type: 'paragraph',
+        content: [
+          {type: 'link', text: 'Triggers', href: '/resources/glossary#term-triggers'},
+          ' are inevitable. What matters is how you respond. ',
+          {type: 'link', text: 'Coping skills', href: '/resources/glossary#term-coping-skills'},
+          ' are the tools that stand between a trigger and a relapse.',
+        ],
+      },
+      {
+        type: 'paragraph',
+        content: [
+          'HALT is one of the most useful frameworks in recovery. Before reacting to a craving or emotional spiral, check: Am I Hungry? Angry? Lonely? Tired? Often, the craving isn\'t about the substance — it\'s about an unmet basic need.',
+        ],
+      },
+      {
+        type: 'list',
+        style: 'unordered',
+        items: [
+          'Identify your triggers — Make a list. People, places, emotions, times of day. Know your battlefield',
+          'Practice grounding techniques — The 5-4-3-2-1 method (five things you see, four you touch, three you hear, two you smell, one you taste) pulls you out of craving and into the present',
+          'Move your body — Walk, run, stretch, swim. Physical movement interrupts the craving cycle and releases natural endorphins',
+          'Call before you drink/use — Your sponsor, a sober friend, a hotline. Cravings lose power when spoken out loud',
+          'Play the tape forward — When romanticizing substance use, play the full movie: the morning after, the shame, the consequences. Not just the first drink, but the tenth',
+        ],
+      },
+
+      // H2: Your Emergency Plan
+      {
+        type: 'heading',
+        level: 2,
+        text: 'Your Emergency Plan',
+        id: 'your-emergency-plan',
+      },
+      {
+        type: 'paragraph',
+        content: [
+          'Even with the best daily practices and strongest support network, there will be moments of crisis. Having an emergency plan means you don\'t have to think clearly when thinking clearly is hardest.',
+        ],
+      },
+      {
+        type: 'list',
+        style: 'ordered',
+        items: [
+          'Reach for your token — Feel it in your hand. Remember what it represents. Breathe.',
+          'Call your sponsor — If they don\'t answer, call the next person on your list',
+          'Call a sober friend or someone from your home group',
+          'Go to a meeting — Use a meeting finder app. There\'s almost always one happening within the hour',
+          'If you\'re in immediate danger, call SAMHSA\'s National Helpline: 1-800-662-4357 (free, confidential, 24/7)',
+          'Remove yourself from the triggering situation. Leave the party, the bar, the room. Your sobriety is more important than politeness',
+        ],
+      },
+      {
+        type: 'callout',
+        title: 'Write It Down',
+        text: 'Write your emergency plan on an index card and keep it with your recovery token. When a crisis hits, you won\'t be able to think straight — but you can read a card. Phone numbers, steps to take, a reminder of why you chose this path.',
+        variant: 'tip',
+      },
+
+      // H2: Growing Your Toolkit Over Time
+      {
+        type: 'heading',
+        level: 2,
+        text: 'Growing Your Toolkit Over Time',
+        id: 'growing-your-toolkit-over-time',
+      },
+      {
+        type: 'paragraph',
+        content: [
+          'Your toolkit in early recovery will look different from your toolkit at 5 or 10 years — and it should. As you grow, your needs change.',
+        ],
+      },
+      {
+        type: 'paragraph',
+        content: [
+          'In early recovery, your toolkit is survival-focused: meetings, sponsor, basic routines, an emergency plan. You\'re learning to walk again. The tools are practical and immediate.',
+        ],
+      },
+      {
+        type: 'paragraph',
+        content: [
+          'In mid recovery, you start adding depth: therapy for underlying issues, deeper step work, new hobbies and interests, service to others. Your toolkit expands because your capacity expands.',
+        ],
+      },
+      {
+        type: 'paragraph',
+        content: [
+          'In long-term recovery, the toolkit becomes about growth and meaning: mentoring ',
+          {type: 'link', text: 'newcomers', href: '/resources/glossary#term-newcomer'},
+          ', pursuing goals that addiction made impossible, deepening spiritual practice, giving back to the community that saved your life.',
+        ],
+      },
+      {
+        type: 'paragraph',
+        content: [
+          'At every stage, physical anchors remain. Your ',
+          {type: 'link', text: 'one day at a time', href: '/resources/glossary#term-one-day-at-a-time'},
+          ' token from early recovery sits next to your 10-year medallion. The collection grows. The toolkit grows. And so do you.',
+        ],
+      },
+
+      // ProductCTA 1
+      {
+        type: 'productCTA',
+        heading: 'Add to Your Toolkit',
+        description:
+          'Custom-engraved recovery tokens are more than keepsakes — they\'re daily-carry tools for grounding, motivation, and identity. Add your date, your message, your symbol.',
+        buttonText: 'Shop Custom Tokens',
+        buttonHref: '/collections/custom-tokens',
+      },
+
+      // ProductCTA 2
+      {
+        type: 'productCTA',
+        heading: 'Start Your Collection',
+        description:
+          'From your first chip to your annual milestone token — browse our full range of handcrafted recovery tokens designed to grow with your journey.',
+        buttonText: 'Browse All Collections',
+        buttonHref: '/collections',
       },
     ],
   },

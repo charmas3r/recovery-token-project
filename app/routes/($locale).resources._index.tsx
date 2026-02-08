@@ -21,8 +21,9 @@ import {
   StaggerItem,
 } from '~/components/ui/Animations';
 import {inputStyles} from '~/components/ui/Input';
-import {getAllArticles, type Article} from '~/data/articles';
-import {GLOSSARY_TERMS, type GlossaryTerm} from '~/data/glossary-terms';
+import {getAllArticles, getAllGlossaryTerms} from '~/lib/sanity.queries';
+import type {Article} from '~/data/articles';
+import type {GlossaryTerm} from '~/data/glossary-terms';
 
 export const meta: MetaFunction = () => {
   return [
@@ -47,8 +48,10 @@ export const meta: MetaFunction = () => {
 };
 
 export async function loader() {
-  const articles = getAllArticles();
-  const glossaryTerms = GLOSSARY_TERMS;
+  const [articles, glossaryTerms] = await Promise.all([
+    getAllArticles(),
+    getAllGlossaryTerms(),
+  ]);
   return {
     articles,
     articleCount: articles.length,

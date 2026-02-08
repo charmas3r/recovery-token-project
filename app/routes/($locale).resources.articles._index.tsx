@@ -17,7 +17,8 @@ import {
   StaggerContainer,
   StaggerItem,
 } from '~/components/ui/Animations';
-import {getAllArticles, type Article} from '~/data/articles';
+import {getAllArticles} from '~/lib/sanity.queries';
+import type {Article} from '~/data/articles';
 
 export const meta: MetaFunction = () => {
   return [
@@ -36,7 +37,7 @@ export const meta: MetaFunction = () => {
 
 export async function loader() {
   return {
-    articles: getAllArticles(),
+    articles: await getAllArticles(),
   };
 }
 

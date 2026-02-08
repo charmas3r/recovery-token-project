@@ -19,8 +19,8 @@ import {
   getArticleBySlug,
   getRelatedArticles,
   getHeadings,
-  type Article,
-} from '~/data/articles';
+} from '~/lib/sanity.queries';
+import type {Article} from '~/data/articles';
 
 export const meta: MetaFunction<typeof loader> = ({data}) => {
   if (!data?.article) {
@@ -49,11 +49,11 @@ export async function loader({params}: Route.LoaderArgs) {
   if (!slug) {
     throw new Response('Not Found', {status: 404});
   }
-  const article = getArticleBySlug(slug);
+  const article = await getArticleBySlug(slug);
   if (!article) {
     throw new Response('Not Found', {status: 404});
   }
-  const related = getRelatedArticles(article);
+  const related = await getRelatedArticles(article);
   const headings = getHeadings(article);
   return {article, related, headings};
 }

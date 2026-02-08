@@ -22,8 +22,8 @@ import {
   StaggerContainer,
   StaggerItem,
 } from '~/components/ui/Animations';
+import {getAllGlossaryTerms} from '~/lib/sanity.queries';
 import {
-  GLOSSARY_TERMS,
   GLOSSARY_CATEGORIES,
   type GlossaryCategory,
   type GlossaryTerm,
@@ -42,7 +42,7 @@ export const meta: MetaFunction = () => {
 
 export async function loader() {
   return {
-    terms: GLOSSARY_TERMS,
+    terms: await getAllGlossaryTerms(),
     categories: GLOSSARY_CATEGORIES,
   };
 }

@@ -21,6 +21,7 @@ interface EngravingConfirmModalProps {
   engravingData: EngravingData;
   productTitle: string;
   variantTitle?: string;
+  recipientName?: string;
   onConfirm: () => void;
   isSubmitting?: boolean;
 }
@@ -31,6 +32,7 @@ export function EngravingConfirmModal({
   engravingData,
   productTitle,
   variantTitle,
+  recipientName,
   onConfirm,
   isSubmitting = false,
 }: EngravingConfirmModalProps) {
@@ -119,6 +121,11 @@ export function EngravingConfirmModal({
               <p className="font-semibold text-primary">{productTitle}</p>
               {variantTitle && variantTitle !== 'Default Title' && (
                 <p className="text-body-sm text-secondary">{variantTitle}</p>
+              )}
+              {recipientName && (
+                <p className="text-body-sm text-green-700 font-medium mt-1">
+                  🎁 Gift for {recipientName}
+                </p>
               )}
             </div>
 

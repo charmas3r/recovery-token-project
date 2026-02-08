@@ -1,10 +1,13 @@
 import type {CustomerFragment} from 'customer-accountapi.generated';
 import type {CustomerUpdateInput} from '@shopify/hydrogen/customer-account-api-types';
 import {CUSTOMER_UPDATE_MUTATION} from '~/graphql/customer-account/CustomerUpdateMutation';
+import {CUSTOMER_METAFIELDS_QUERY} from '~/graphql/customer-account/CustomerMetafieldsQuery';
+import {CUSTOMER_METAFIELDS_SET_MUTATION} from '~/graphql/customer-account/CustomerMetafieldsMutation';
 import {
   data,
   Form,
   useActionData,
+  useLoaderData,
   useNavigation,
   useOutletContext,
 } from 'react-router';
@@ -26,8 +29,31 @@ export const meta: Route.MetaFunction = () => {
 };
 
 export async function loader({context}: Route.LoaderArgs) {
-  context.customerAccount.handleAuthStatus();
-  return {};
+  const {customerAccount} = context;
+  customerAccount.handleAuthStatus();
+
+  try {
+    const {data: metafieldsData} = await customerAccount.query(
+      CUSTOMER_METAFIELDS_QUERY,
+      {variables: {language: customerAccount.i18n.language}},
+    );
+
+    const metafields = metafieldsData?.customer?.metafields ?? [];
+    const sobrietyDate = metafields?.find(
+      (m: any) => m?.key === 'sobriety_date',
+    )?.value ?? '';
+    const recoveryProgram = metafields?.find(
+      (m: any) => m?.key === 'recovery_program',
+    )?.value ?? '';
+    const milestoneReminders = metafields?.find(
+      (m: any) => m?.key === 'milestone_reminders',
+    )?.value === 'true';
+
+    return {sobrietyDate, recoveryProgram, milestoneReminders};
+  } catch (error) {
+    console.error('Failed to fetch recovery metafields:', error);
+    return {sobrietyDate: '', recoveryProgram: '', milestoneReminders: false};
+  }
 }
 
 export async function action({request, context}: Route.ActionArgs) {
@@ -77,12 +103,31 @@ export async function action({request, context}: Route.ActionArgs) {
     }
 
     // Handle Recovery Journey Update (Metafields)
-    // Note: Metafields write support in Customer Account API requires Shopify setup
     if (section === 'recovery') {
-      // For now, return success - metafields will need Admin API or Shopify Function
+      const sobrietyDate = form.get('sobriety_date')?.toString() || '';
+      const recoveryProgram = form.get('recovery_program')?.toString() || '';
+      const milestoneReminders = form.get('milestone_reminders') === 'on';
+
+      const metafields = [
+        {key: 'sobriety_date', namespace: 'custom', value: sobrietyDate, type: 'single_line_text_field'},
+        {key: 'recovery_program', namespace: 'custom', value: recoveryProgram, type: 'single_line_text_field'},
+        {key: 'milestone_reminders', namespace: 'custom', value: milestoneReminders.toString(), type: 'boolean'},
+      ];
+
+      const {data: mutationData, errors} = await customerAccount.mutate(
+        CUSTOMER_METAFIELDS_SET_MUTATION,
+        {variables: {metafields, language: customerAccount.i18n.language}},
+      );
+
+      if (errors?.length || mutationData?.metafieldsSet?.userErrors?.length) {
+        throw new Error(
+          mutationData?.metafieldsSet?.userErrors?.[0]?.message || errors?.[0]?.message || 'Failed to save recovery journey',
+        );
+      }
+
       return data({
         success: true,
-        message: 'Recovery journey preferences saved (coming soon)',
+        message: 'Recovery journey preferences saved successfully',
         section: 'recovery',
       });
     }
@@ -104,6 +149,7 @@ export default function AccountProfile() {
   const account = useOutletContext<{customer: CustomerFragment}>();
   const {state} = useNavigation();
   const action = useActionData<typeof action>();
+  const loaderData = useLoaderData<typeof loader>();
   const customer = account?.customer;
   
   // Calculate profile completion
@@ -167,8 +213,11 @@ export default function AccountProfile() {
         <PersonalInformationSection customer={customer} isSubmitting={state !== 'idle'} />
         
         {/* Recovery Journey */}
-        <RecoveryJourneySection 
+        <RecoveryJourneySection
           isSubmitting={state !== 'idle'}
+          sobrietyDate={loaderData?.sobrietyDate ?? ''}
+          recoveryProgram={loaderData?.recoveryProgram ?? ''}
+          milestoneReminders={loaderData?.milestoneReminders ?? false}
         />
         
         {/* Account Summary */}
@@ -289,93 +338,69 @@ function PersonalInformationSection({
 
 function RecoveryJourneySection({
   isSubmitting,
+  sobrietyDate,
+  recoveryProgram,
+  milestoneReminders,
 }: {
   isSubmitting: boolean;
+  sobrietyDate: string;
+  recoveryProgram: string;
+  milestoneReminders: boolean;
 }) {
   return (
     <div className="bg-gradient-to-br from-accent/5 to-white rounded-xl border border-accent/20 p-6">
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center">
-            <Calendar className="w-5 h-5 text-accent" />
-          </div>
+      <div className="flex items-center gap-3 mb-6">
+        <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center">
+          <Calendar className="w-5 h-5 text-accent" />
+        </div>
+        <div>
+          <h2 className="font-display text-xl font-bold text-primary">Recovery Journey</h2>
+          <p className="text-body-sm text-secondary">Track your milestones and celebrate your progress</p>
+        </div>
+      </div>
+
+      <Form method="PUT">
+        <input type="hidden" name="section" value="recovery" />
+        <div className="space-y-5">
           <div>
-            <h2 className="font-display text-xl font-bold text-primary">Recovery Journey</h2>
-            <p className="text-body-sm text-secondary">Track your milestones and celebrate your progress</p>
+            <label htmlFor="sobriety_date" className="block text-body font-medium text-primary mb-2">
+              Sobriety Start Date
+            </label>
+            <Input id="sobriety_date" name="sobriety_date" type="date" className="w-full" max={new Date().toISOString().split('T')[0]} defaultValue={sobrietyDate} />
+            <p className="text-caption text-secondary mt-2">This will help us calculate your milestones and recommend the right tokens</p>
+          </div>
+
+          <div>
+            <label htmlFor="recovery_program" className="block text-body font-medium text-primary mb-2">Recovery Program</label>
+            <select id="recovery_program" name="recovery_program" className="w-full h-12 px-4 rounded-lg bg-surface/50 text-body text-primary focus:outline-none focus:bg-white focus:ring-2 focus:ring-accent/20 focus:shadow-sm transition-all duration-200" defaultValue={recoveryProgram}>
+              <option value="">Select a program</option>
+              <option value="AA">Alcoholics Anonymous (AA)</option>
+              <option value="NA">Narcotics Anonymous (NA)</option>
+              <option value="SMART">SMART Recovery</option>
+              <option value="Celebrate Recovery">Celebrate Recovery</option>
+              <option value="Refuge Recovery">Refuge Recovery</option>
+              <option value="Other">Other</option>
+              <option value="None">Prefer not to say</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="flex items-start gap-3">
+              <input type="checkbox" name="milestone_reminders" defaultChecked={milestoneReminders} className="mt-1 w-5 h-5 rounded border-black/20 text-accent focus:ring-accent" />
+              <div className="flex-1">
+                <span className="text-body font-medium text-primary">Enable Milestone Reminders</span>
+                <p className="text-caption text-secondary mt-1">Get notified when you're approaching important sobriety milestones (30, 60, 90 days, etc.)</p>
+              </div>
+            </label>
           </div>
         </div>
-        <span className="px-3 py-1 rounded-full bg-accent/10 text-accent text-caption font-medium">
-          Coming Soon
-        </span>
-      </div>
 
-      <div className="space-y-5 opacity-60 pointer-events-none">
-        <div>
-          <label htmlFor="sobriety_date" className="block text-body font-medium text-primary mb-2">
-            Sobriety Start Date
-          </label>
-          <Input
-            id="sobriety_date"
-            name="sobriety_date"
-            type="date"
-            className="w-full"
-            max={new Date().toISOString().split('T')[0]}
-            disabled
-          />
-          <p className="text-caption text-secondary mt-2">
-            This will help us calculate your milestones and recommend the right tokens
-          </p>
+        <div className="mt-6 pt-6 border-t border-accent/20">
+          <Button type="submit" variant="primary" size="lg" disabled={isSubmitting} className="w-full sm:w-auto">
+            {isSubmitting ? 'Saving...' : 'Save Recovery Journey'}
+          </Button>
         </div>
-
-        <div>
-          <label htmlFor="recovery_program" className="block text-body font-medium text-primary mb-2">
-            Recovery Program
-          </label>
-          <select
-            id="recovery_program"
-            name="recovery_program"
-            className="w-full h-12 px-4 rounded-lg bg-surface/50 text-body text-primary focus:outline-none focus:bg-white focus:ring-2 focus:ring-accent/20 focus:shadow-sm transition-all duration-200"
-            disabled
-          >
-            <option value="">Select a program</option>
-            <option value="AA">Alcoholics Anonymous (AA)</option>
-            <option value="NA">Narcotics Anonymous (NA)</option>
-            <option value="SMART">SMART Recovery</option>
-            <option value="Celebrate Recovery">Celebrate Recovery</option>
-            <option value="Refuge Recovery">Refuge Recovery</option>
-            <option value="Other">Other</option>
-            <option value="None">Prefer not to say</option>
-          </select>
-        </div>
-
-        <div>
-          <label className="flex items-start gap-3">
-            <input
-              type="checkbox"
-              name="milestone_reminders"
-              defaultChecked={false}
-              className="mt-1 w-5 h-5 rounded border-black/20 text-accent focus:ring-accent"
-              disabled
-            />
-            <div className="flex-1">
-              <span className="text-body font-medium text-primary">
-                Enable Milestone Reminders
-              </span>
-              <p className="text-caption text-secondary mt-1">
-                Get notified when you're approaching important sobriety milestones (30, 60, 90 days, etc.)
-              </p>
-            </div>
-          </label>
-        </div>
-      </div>
-
-      <div className="mt-6 pt-6 border-t border-accent/20">
-        <div className="p-4 bg-accent/5 rounded-lg border border-accent/10">
-          <p className="text-body-sm text-secondary">
-            <span className="font-semibold text-accent">✨ Coming Soon!</span> Recovery journey tracking will be available in a future update. This feature will help you track milestones and get personalized recommendations.
-          </p>
-        </div>
-      </div>
+      </Form>
     </div>
   );
 }

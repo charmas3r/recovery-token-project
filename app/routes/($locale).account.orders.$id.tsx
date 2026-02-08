@@ -8,7 +8,7 @@ import type {
 import {CUSTOMER_ORDER_QUERY} from '~/graphql/customer-account/CustomerOrderQuery';
 import {AccountLayout} from '~/components/account/AccountLayout';
 import {Button} from '~/components/ui/Button';
-import {ArrowLeft, ExternalLink, Package, MapPin, CreditCard} from 'lucide-react';
+import {ArrowLeft, ExternalLink, Package, MapPin, CreditCard, Gift, Type} from 'lucide-react';
 
 export const meta: Route.MetaFunction = ({data}) => {
   return [{title: `Order ${data?.order?.name}`}];
@@ -202,6 +202,11 @@ export default function OrderRoute() {
 }
 
 function OrderLineItem({lineItem}: {lineItem: OrderLineItemFullFragment}) {
+  // Extract custom attributes
+  const customAttributes = (lineItem as any).customAttributes ?? [];
+  const recipientAttr = customAttributes.find((a: any) => a.key === 'Recipient');
+  const engravingPreviewAttr = customAttributes.find((a: any) => a.key === 'Engraving Preview');
+
   return (
     <div className="flex gap-5 bg-white rounded-xl p-5 border border-black/5">
       {lineItem.image && (
@@ -220,6 +225,22 @@ function OrderLineItem({lineItem}: {lineItem: OrderLineItemFullFragment}) {
           <p className="text-body text-secondary mb-2">{lineItem.variantTitle}</p>
         )}
         <p className="text-body text-secondary">Qty: {lineItem.quantity}</p>
+
+        {/* Recipient Badge */}
+        {recipientAttr && (
+          <div className="inline-flex items-center gap-1.5 mt-2 px-3 py-1.5 bg-green-50 text-green-700 rounded-full text-xs font-semibold">
+            <Gift className="w-3.5 h-3.5" />
+            Gift for {recipientAttr.value}
+          </div>
+        )}
+
+        {/* Engraving Badge */}
+        {engravingPreviewAttr && (
+          <div className="inline-flex items-center gap-1.5 mt-2 ml-2 px-3 py-1.5 bg-accent/10 text-accent rounded-full text-xs font-semibold">
+            <Type className="w-3.5 h-3.5" />
+            Engraved: "{engravingPreviewAttr.value}"
+          </div>
+        )}
       </div>
       <div className="text-right flex-shrink-0">
         <p className="font-display text-lg font-bold text-primary">

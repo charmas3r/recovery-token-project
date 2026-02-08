@@ -21,6 +21,8 @@ import {JsonLd} from '~/components/seo/JsonLd';
 import {getJudgeMeClient} from '~/lib/judgeme.server';
 import {extractProductId} from '~/lib/judgeme';
 import type {RelatedProductsQuery} from 'storefrontapi.generated';
+import {CUSTOMER_METAFIELDS_QUERY} from '~/graphql/customer-account/CustomerMetafieldsQuery';
+import {parseRecoveryCircle} from '~/lib/recoveryCircle';
 
 export const meta: Route.MetaFunction = ({data}) => {
   const product = data?.product;
@@ -147,7 +149,38 @@ function loadDeferredData({context, params}: Route.LoaderArgs) {
       })
     : Promise.resolve(null);
 
-  return {hasJudgeme, relatedProducts, productReviews};
+  // Fetch recovery circle for logged-in users (deferred, non-blocking)
+  const recoveryCircleData = fetchRecoveryCircle(context).catch(() => null);
+
+  return {hasJudgeme, relatedProducts, productReviews, recoveryCircleData};
+}
+
+/**
+ * Fetch recovery circle for logged-in users
+ * Non-blocking - errors are caught in loadDeferredData
+ */
+async function fetchRecoveryCircle(context: Route.LoaderArgs['context']) {
+  const {customerAccount} = context;
+
+  try {
+    const isLoggedIn = await customerAccount.isLoggedIn();
+    if (!isLoggedIn) {
+      return {circle: [], isLoggedIn: false};
+    }
+
+    const {data: metafieldsData} = await customerAccount.query(
+      CUSTOMER_METAFIELDS_QUERY,
+      {variables: {language: customerAccount.i18n.language}},
+    );
+
+    const metafields = metafieldsData?.customer?.metafields ?? [];
+    const circleRaw = metafields?.find((m: any) => m?.key === 'recovery_circle')?.value ?? '[]';
+    const circle = parseRecoveryCircle(circleRaw);
+
+    return {circle, isLoggedIn: true};
+  } catch {
+    return {circle: [], isLoggedIn: false};
+  }
 }
 
 /**
@@ -358,7 +391,7 @@ function getVariantImages(
 }
 
 export default function Product() {
-  const {product, reviewsSummary, hasJudgeme, relatedProducts, productReviews} = useLoaderData<typeof loader>();
+  const {product, reviewsSummary, hasJudgeme, relatedProducts, productReviews, recoveryCircleData} = useLoaderData<typeof loader>();
 
   // Optimistically selects a variant with given available variant information
   const selectedVariant = useOptimisticVariant(
@@ -467,11 +500,27 @@ export default function Product() {
               />
 
               {/* Variant Selector & Add to Cart */}
-              <ProductForm
-                productOptions={productOptions}
-                selectedVariant={selectedVariant}
-                productTitle={title}
-              />
+              <Suspense
+                fallback={
+                  <ProductForm
+                    productOptions={productOptions}
+                    selectedVariant={selectedVariant}
+                    productTitle={title}
+                  />
+                }
+              >
+                <Await resolve={recoveryCircleData}>
+                  {(resolvedCircleData) => (
+                    <ProductForm
+                      productOptions={productOptions}
+                      selectedVariant={selectedVariant}
+                      productTitle={title}
+                      recoveryCircle={resolvedCircleData?.circle ?? []}
+                      isLoggedIn={resolvedCircleData?.isLoggedIn ?? false}
+                    />
+                  )}
+                </Await>
+              </Suspense>
 
               {/* Trust Badges */}
               <TrustBadges className="pt-4 border-t border-black/5" />

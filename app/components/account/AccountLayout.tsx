@@ -32,6 +32,7 @@ export function AccountLayout({children, heading, subheading}: AccountLayoutProp
               <div className="flex gap-2 min-w-max">
                 <MobileNavLink to="/account" end>Dashboard</MobileNavLink>
                 <MobileNavLink to="/account/orders">Orders</MobileNavLink>
+                <MobileNavLink to="/account/circle">Circle</MobileNavLink>
                 <MobileNavLink to="/account/profile">Profile</MobileNavLink>
                 <MobileNavLink to="/account/addresses">Addresses</MobileNavLink>
               </div>

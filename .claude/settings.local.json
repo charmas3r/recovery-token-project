@@ -1,0 +1,39 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls:*)",
+      "Bash(npm run typecheck:*)",
+      "Bash(npx tsc:*)",
+      "Bash(timeout 30 npm run dev:*)",
+      "Bash(npm run build:*)",
+      "Bash(xargs basename:*)",
+      "WebSearch",
+      "WebFetch(domain:developers.klaviyo.com)",
+      "Bash(timeout 20 npm run dev:*)",
+      "Bash(npm run dev:*)",
+      "Bash(curl:*)",
+      "Bash(git add:*)",
+      "Bash(git restore:*)",
+      "Bash(git commit:*)",
+      "Bash(git push)",
+      "Bash(pkill:*)",
+      "Bash(lsof:*)",
+      "Bash(claude mcp add playwright npx '@playwright/mcp@latest')",
+      "mcp__playwright__browser_navigate",
+      "mcp__playwright__browser_take_screenshot",
+      "mcp__playwright__browser_evaluate",
+      "mcp__playwright__browser_close",
+      "mcp__playwright__browser_click",
+      "mcp__playwright__browser_press_key",
+      "mcp__playwright__browser_snapshot",
+      "mcp__playwright__browser_type",
+      "mcp__playwright__browser_run_code",
+      "mcp__playwright__browser_resize",
+      "Bash(git status:*)",
+      "Bash(find:*)",
+      "Bash(xargs:*)",
+      "Bash(node -e:*)",
+      "Bash(git stash:*)"
+    ]
+  }
+}

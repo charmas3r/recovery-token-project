@@ -6,7 +6,7 @@ import {Link} from 'react-router';
 import {ProductPrice} from '~/components/product/ProductPrice';
 import {useAside} from '~/components/layout/Aside';
 import type {CartApiQueryFragment} from 'storefrontapi.generated';
-import {Type} from 'lucide-react';
+import {Type, Gift} from 'lucide-react';
 
 type CartLine = OptimisticCartLine<CartApiQueryFragment>;
 
@@ -28,6 +28,8 @@ export function CartLineItem({
 
   // Find engraving attribute (public, without underscore prefix)
   const engravingAttr = attributes?.find((attr) => attr.key === 'Engraving');
+  // Find recipient attribute
+  const recipientAttr = attributes?.find((attr) => attr.key === 'Recipient');
 
   return (
     <li key={id} className="cart-line">
@@ -66,6 +68,21 @@ export function CartLineItem({
             </li>
           ))}
         </ul>
+
+        {/* Recipient Display */}
+        {recipientAttr && (
+          <div className="mt-2 p-2 bg-green-50 rounded-md border border-green-200">
+            <div className="flex items-center gap-1.5 text-green-700">
+              <Gift className="w-3.5 h-3.5" />
+              <span className="text-xs font-semibold uppercase tracking-wide">
+                Gift
+              </span>
+            </div>
+            <p className="text-sm text-primary font-medium mt-1">
+              For {recipientAttr.value}
+            </p>
+          </div>
+        )}
 
         {/* Engraving Display */}
         {engravingAttr && (

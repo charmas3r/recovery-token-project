@@ -25,15 +25,21 @@ import {
   formatEngravingPreview,
 } from './EngravingForm';
 import {EngravingConfirmModal} from './EngravingConfirmModal';
+import {RecipientSelector, type RecipientSelection} from './RecipientSelector';
+import type {RecoveryCircleMember} from '~/lib/recoveryCircle';
 
 export function ProductForm({
   productOptions,
   selectedVariant,
   productTitle,
+  recoveryCircle = [],
+  isLoggedIn = false,
 }: {
   productOptions: MappedProductOptions[];
   selectedVariant: ProductFragment['selectedOrFirstAvailableVariant'];
   productTitle: string;
+  recoveryCircle?: RecoveryCircleMember[];
+  isLoggedIn?: boolean;
 }) {
   const navigate = useNavigate();
   const {open} = useAside();
@@ -42,6 +48,9 @@ export function ProductForm({
   // Engraving state
   const [engravingData, setEngravingData] = useState<EngravingData>(EMPTY_ENGRAVING_DATA);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+
+  // Recipient state
+  const [recipientSelection, setRecipientSelection] = useState<RecipientSelection>({type: 'self'});
 
   const isSubmitting = fetcher.state !== 'idle';
   const variantTitle = selectedVariant?.title;
@@ -110,6 +119,23 @@ export function ProductForm({
       });
     }
 
+    // Add recipient attributes
+    if (recipientSelection.type === 'circle') {
+      attributes.push({
+        key: 'Recipient',
+        value: recipientSelection.member.name,
+      });
+      attributes.push({
+        key: '_Recipient Circle ID',
+        value: recipientSelection.member.id,
+      });
+    } else if (recipientSelection.type === 'other' && recipientSelection.name.trim()) {
+      attributes.push({
+        key: 'Recipient',
+        value: recipientSelection.name.trim(),
+      });
+    }
+
     const lines = [
       {
         merchandiseId: selectedVariant.id,
@@ -133,9 +159,10 @@ export function ProductForm({
     setShowConfirmModal(false);
     open('cart');
 
-    // Reset engraving form after successful add
+    // Reset engraving form and recipient after successful add
     setEngravingData(EMPTY_ENGRAVING_DATA);
-  }, [selectedVariant, engravingData, variantTitle, fetcher, open]);
+    setRecipientSelection({type: 'self'});
+  }, [selectedVariant, engravingData, variantTitle, recipientSelection, fetcher, open]);
 
   // Handle modal confirmation
   const handleConfirmEngraving = useCallback(() => {
@@ -222,6 +249,14 @@ export function ProductForm({
         );
       })}
 
+      {/* Recipient Selector */}
+      <RecipientSelector
+        circle={recoveryCircle}
+        selectedRecipient={recipientSelection}
+        onChange={setRecipientSelection}
+        isLoggedIn={isLoggedIn}
+      />
+
       {/* Engraving Form */}
       <EngravingForm
         value={engravingData}
@@ -261,6 +296,13 @@ export function ProductForm({
         engravingData={engravingData}
         productTitle={productTitle}
         variantTitle={selectedVariant?.title}
+        recipientName={
+          recipientSelection.type === 'circle'
+            ? recipientSelection.member.name
+            : recipientSelection.type === 'other'
+              ? recipientSelection.name
+              : undefined
+        }
         onConfirm={handleConfirmEngraving}
         isSubmitting={isSubmitting}
       />

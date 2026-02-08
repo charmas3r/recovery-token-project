@@ -1,16 +1,37 @@
-import {Link, useOutletContext} from 'react-router';
+import {Link, useLoaderData, useOutletContext} from 'react-router';
+import type {Route} from './+types/account._index';
 import type {CustomerFragment} from 'customer-accountapi.generated';
 import {AccountLayout} from '~/components/account/AccountLayout';
-import {Package, MapPin, User, ChevronRight, ShoppingBag, CheckCircle} from 'lucide-react';
+import {CUSTOMER_METAFIELDS_QUERY} from '~/graphql/customer-account/CustomerMetafieldsQuery';
+import {calculateDaysSober, getNextMilestone} from '~/lib/recoveryCircle';
+import {Package, MapPin, User, ChevronRight, ShoppingBag, CheckCircle, Award} from 'lucide-react';
 
 export const meta = () => {
   return [{title: 'My Account'}];
 };
 
+export async function loader({context}: Route.LoaderArgs) {
+  const {customerAccount} = context;
+  customerAccount.handleAuthStatus();
+  try {
+    const {data: metafieldsData} = await customerAccount.query(
+      CUSTOMER_METAFIELDS_QUERY,
+      {variables: {language: customerAccount.i18n.language}},
+    );
+    const metafields = metafieldsData?.customer?.metafields ?? [];
+    const sobrietyDate = metafields?.find((m: any) => m?.key === 'sobriety_date')?.value ?? '';
+    return {sobrietyDate};
+  } catch {
+    return {sobrietyDate: ''};
+  }
+}
+
 export default function AccountDashboard() {
   const {customer} = useOutletContext<{customer: CustomerFragment}>();
-  
+  const {sobrietyDate} = useLoaderData<typeof loader>();
   const firstName = customer.firstName || 'there';
+  const daysSober = sobrietyDate ? calculateDaysSober(sobrietyDate) : null;
+  const nextMilestone = sobrietyDate ? getNextMilestone(sobrietyDate) : null;
 
   return (
     <AccountLayout 
@@ -19,32 +40,18 @@ export default function AccountDashboard() {
     >
       {/* Quick Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-10">
-        <QuickStatCard
-          icon={<MapPin className="w-5 h-5" />}
-          label="Saved Addresses"
-          value={customer.addresses?.nodes?.length?.toString() || '0'}
-        />
-        <QuickStatCard
-          icon={<User className="w-5 h-5" />}
-          label="Account Status"
-          value="Active"
-          valueColor="text-green-600"
-        />
-        <QuickStatCard
-          icon={<ShoppingBag className="w-5 h-5" />}
-          label="Orders"
-          value="View All"
-          isLink
-          to="/account/orders"
-        />
-        <QuickStatCard
-          icon={<CheckCircle className="w-5 h-5" />}
-          label="Profile"
-          value={customer.firstName && customer.lastName ? 'Complete' : 'Update'}
-          valueColor={customer.firstName && customer.lastName ? 'text-green-600' : 'text-accent'}
-          isLink
-          to="/account/profile"
-        />
+        {daysSober !== null ? (
+          <QuickStatCard icon={<Award className="w-5 h-5" />} label="Days Sober" value={daysSober.toLocaleString()} valueColor="text-accent" />
+        ) : (
+          <QuickStatCard icon={<Award className="w-5 h-5" />} label="Recovery Journey" value="Set Up" valueColor="text-accent" isLink to="/account/profile" />
+        )}
+        {nextMilestone ? (
+          <QuickStatCard icon={<CheckCircle className="w-5 h-5" />} label={`Next: ${nextMilestone.label}`} value={`${nextMilestone.daysUntil}d`} valueColor="text-green-600" />
+        ) : (
+          <QuickStatCard icon={<User className="w-5 h-5" />} label="Account Status" value="Active" valueColor="text-green-600" />
+        )}
+        <QuickStatCard icon={<ShoppingBag className="w-5 h-5" />} label="Orders" value="View All" isLink to="/account/orders" />
+        <QuickStatCard icon={<MapPin className="w-5 h-5" />} label="Saved Addresses" value={customer.addresses?.nodes?.length?.toString() || '0'} />
       </div>
       
       {/* Quick Actions */}

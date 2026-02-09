@@ -66,33 +66,43 @@ export async function action({request, context}: Route.ActionArgs) {
 
     let circle = parseRecoveryCircle(circleRaw);
 
-    if (formAction === 'add') {
+    if (formAction === 'add' || formAction === 'gift-add') {
       const name = form.get('name')?.toString() ?? '';
       const cleanDate = form.get('cleanDate')?.toString() ?? '';
       const relationship = form.get('relationship')?.toString() ?? '';
       const recoveryProgram = form.get('recoveryProgram')?.toString() || undefined;
 
-      // Validate
-      const result = recoveryCircleMemberSchema.safeParse({
-        name,
-        cleanDate,
-        relationship,
-        recoveryProgram,
-      });
+      if (formAction === 'gift-add') {
+        // Relaxed validation: only name required (from gift flow)
+        if (name.trim().length < 2) {
+          return data(
+            {error: 'Name must be at least 2 characters', success: false, message: null as string | null},
+            {status: 400},
+          );
+        }
+      } else {
+        // Full validation for standard add
+        const result = recoveryCircleMemberSchema.safeParse({
+          name,
+          cleanDate,
+          relationship,
+          recoveryProgram,
+        });
 
-      if (!result.success) {
-        const firstError = result.error.issues[0];
-        return data(
-          {error: firstError.message, success: false, message: null as string | null},
-          {status: 400},
-        );
+        if (!result.success) {
+          const firstError = result.error.issues[0];
+          return data(
+            {error: firstError.message, success: false, message: null as string | null},
+            {status: 400},
+          );
+        }
       }
 
       const newMember: RecoveryCircleMember = {
         id: generateMemberId(),
         name,
-        cleanDate,
-        relationship,
+        cleanDate: cleanDate || '',
+        relationship: relationship || '',
         recoveryProgram,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
@@ -169,7 +179,7 @@ export async function action({request, context}: Route.ActionArgs) {
     }
 
     const actionMessage =
-      formAction === 'add'
+      formAction === 'add' || formAction === 'gift-add'
         ? 'Member added to your circle'
         : formAction === 'edit'
           ? 'Member updated successfully'

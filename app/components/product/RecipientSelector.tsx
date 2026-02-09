@@ -4,7 +4,7 @@
  * Allows users to designate who a token is being purchased for:
  * - For Myself (default)
  * - For Someone in My Circle (logged-in with circle members)
- * - For Someone Else (name input)
+ * - For Someone Else (name input, with opt-in to add to Recovery Circle)
  */
 
 import {useState} from 'react';
@@ -12,20 +12,28 @@ import {clsx} from 'clsx';
 import {Input} from '~/components/ui/Input';
 import {
   calculateDaysSober,
+  RELATIONSHIP_OPTIONS,
   type RecoveryCircleMember,
 } from '~/lib/recoveryCircle';
-import {Gift, Users, UserPlus, ChevronDown, ChevronUp} from 'lucide-react';
+import {Gift, Users, UserPlus, ChevronDown, ChevronUp, Heart} from 'lucide-react';
 
 export type RecipientSelection =
   | {type: 'self'}
   | {type: 'circle'; member: RecoveryCircleMember}
   | {type: 'other'; name: string};
 
+export interface CircleAddData {
+  name: string;
+  relationship?: string;
+  cleanDate?: string;
+}
+
 interface RecipientSelectorProps {
   circle: RecoveryCircleMember[];
   selectedRecipient: RecipientSelection;
   onChange: (selection: RecipientSelection) => void;
   isLoggedIn: boolean;
+  onCircleAddChange?: (data: CircleAddData | null) => void;
 }
 
 export function RecipientSelector({
@@ -33,12 +41,40 @@ export function RecipientSelector({
   selectedRecipient,
   onChange,
   isLoggedIn,
+  onCircleAddChange,
 }: RecipientSelectorProps) {
   const [isExpanded, setIsExpanded] = useState(
     selectedRecipient.type !== 'self',
   );
+  const [addToCircle, setAddToCircle] = useState(false);
+  const [circleRelationship, setCircleRelationship] = useState('');
+  const [circleCleanDate, setCircleCleanDate] = useState('');
 
   const hasCircleMembers = isLoggedIn && circle.length > 0;
+
+  // Notify parent when circle add data changes
+  const handleAddToCircleToggle = (checked: boolean) => {
+    setAddToCircle(checked);
+    if (checked && selectedRecipient.type === 'other' && selectedRecipient.name.trim()) {
+      onCircleAddChange?.({
+        name: selectedRecipient.name.trim(),
+        relationship: circleRelationship || undefined,
+        cleanDate: circleCleanDate || undefined,
+      });
+    } else {
+      onCircleAddChange?.(null);
+    }
+  };
+
+  const handleCircleFieldChange = (relationship: string, cleanDate: string, recipientName: string) => {
+    if (addToCircle && recipientName.trim()) {
+      onCircleAddChange?.({
+        name: recipientName.trim(),
+        relationship: relationship || undefined,
+        cleanDate: cleanDate || undefined,
+      });
+    }
+  };
 
   return (
     <div className="border border-black/5 rounded-xl overflow-hidden">
@@ -128,21 +164,94 @@ export function RecipientSelector({
           <div>
             <RecipientOption
               selected={selectedRecipient.type === 'other'}
-              onClick={() => onChange({type: 'other', name: ''})}
+              onClick={() => {
+                onChange({type: 'other', name: ''});
+                setAddToCircle(false);
+                onCircleAddChange?.(null);
+              }}
               icon={<UserPlus className="w-4 h-4" />}
               label="For Someone Else"
               description="Enter their name"
             />
 
             {selectedRecipient.type === 'other' && (
-              <div className="mt-2 ml-8">
+              <div className="mt-2 ml-8 space-y-3">
                 <Input
                   placeholder="Recipient's name"
                   value={selectedRecipient.name}
-                  onChange={(e) =>
-                    onChange({type: 'other', name: e.target.value})
-                  }
+                  onChange={(e) => {
+                    onChange({type: 'other', name: e.target.value});
+                    handleCircleFieldChange(circleRelationship, circleCleanDate, e.target.value);
+                  }}
                 />
+
+                {/* Add to Recovery Circle opt-in (logged-in users only) */}
+                {isLoggedIn && selectedRecipient.name.trim().length >= 2 && (
+                  <div className="rounded-lg border border-accent/20 bg-accent/5 p-3 space-y-3">
+                    <label className="flex items-start gap-3 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={addToCircle}
+                        onChange={(e) => handleAddToCircleToggle(e.target.checked)}
+                        className="mt-0.5 w-4 h-4 rounded border-black/20 text-accent focus:ring-accent/30 accent-[#B8764F]"
+                      />
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2">
+                          <span className="text-body font-medium text-primary">
+                            Add to my Recovery Circle
+                          </span>
+                          <Heart className="w-4 h-4 text-accent" />
+                        </div>
+                        <p className="text-caption text-secondary mt-1 leading-relaxed">
+                          Your Recovery Circle helps you track milestones for people you care
+                          about — see their journey, gift history, and upcoming celebrations.
+                          Only a nickname is needed. No personal identification data is stored.
+                        </p>
+                      </div>
+                    </label>
+
+                    {/* Expanded circle fields */}
+                    {addToCircle && (
+                      <div className="ml-7 space-y-3">
+                        <div>
+                          <label className="block text-caption font-medium text-secondary mb-1">
+                            Relationship (optional)
+                          </label>
+                          <select
+                            value={circleRelationship}
+                            onChange={(e) => {
+                              setCircleRelationship(e.target.value);
+                              handleCircleFieldChange(e.target.value, circleCleanDate, selectedRecipient.name);
+                            }}
+                            className="w-full h-10 px-3 rounded-lg bg-white text-body text-primary border border-black/10 focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent/30 transition-all duration-200"
+                          >
+                            <option value="">Select relationship...</option>
+                            {RELATIONSHIP_OPTIONS.map((opt) => (
+                              <option key={opt.value} value={opt.value}>
+                                {opt.label}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                        <div>
+                          <label className="block text-caption font-medium text-secondary mb-1">
+                            Clean/Sobriety Date (optional)
+                          </label>
+                          <input
+                            type="date"
+                            value={circleCleanDate}
+                            max={new Date().toISOString().split('T')[0]}
+                            onChange={(e) => {
+                              setCircleCleanDate(e.target.value);
+                              handleCircleFieldChange(circleRelationship, e.target.value, selectedRecipient.name);
+                            }}
+                            className="w-full h-10 px-3 rounded-lg bg-white text-body text-primary border border-black/10 focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent/30 transition-all duration-200"
+                          />
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
             )}
           </div>

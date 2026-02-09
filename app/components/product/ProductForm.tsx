@@ -25,7 +25,7 @@ import {
   formatEngravingPreview,
 } from './EngravingForm';
 import {EngravingConfirmModal} from './EngravingConfirmModal';
-import {RecipientSelector, type RecipientSelection} from './RecipientSelector';
+import {RecipientSelector, type RecipientSelection, type CircleAddData} from './RecipientSelector';
 import type {RecoveryCircleMember} from '~/lib/recoveryCircle';
 
 export function ProductForm({
@@ -44,6 +44,7 @@ export function ProductForm({
   const navigate = useNavigate();
   const {open} = useAside();
   const fetcher = useFetcher();
+  const circleFetcher = useFetcher();
 
   // Engraving state
   const [engravingData, setEngravingData] = useState<EngravingData>(EMPTY_ENGRAVING_DATA);
@@ -51,6 +52,9 @@ export function ProductForm({
 
   // Recipient state
   const [recipientSelection, setRecipientSelection] = useState<RecipientSelection>({type: 'self'});
+
+  // Circle add state (from gift flow opt-in)
+  const [circleAddData, setCircleAddData] = useState<CircleAddData | null>(null);
 
   const isSubmitting = fetcher.state !== 'idle';
   const variantTitle = selectedVariant?.title;
@@ -155,14 +159,32 @@ export function ProductForm({
       {method: 'POST', action: '/cart'},
     );
 
+    // Fire-and-forget: add recipient to Recovery Circle if opted in
+    if (circleAddData && circleAddData.name.trim().length >= 2) {
+      const circleFormData = new FormData();
+      circleFormData.set('formAction', 'gift-add');
+      circleFormData.set('name', circleAddData.name);
+      if (circleAddData.relationship) {
+        circleFormData.set('relationship', circleAddData.relationship);
+      }
+      if (circleAddData.cleanDate) {
+        circleFormData.set('cleanDate', circleAddData.cleanDate);
+      }
+      circleFetcher.submit(circleFormData, {
+        method: 'POST',
+        action: '/account/circle',
+      });
+    }
+
     // Close modal and open cart
     setShowConfirmModal(false);
     open('cart');
 
-    // Reset engraving form and recipient after successful add
+    // Reset engraving form, recipient, and circle data after successful add
     setEngravingData(EMPTY_ENGRAVING_DATA);
     setRecipientSelection({type: 'self'});
-  }, [selectedVariant, engravingData, variantTitle, recipientSelection, fetcher, open]);
+    setCircleAddData(null);
+  }, [selectedVariant, engravingData, variantTitle, recipientSelection, circleAddData, fetcher, circleFetcher, open]);
 
   // Handle modal confirmation
   const handleConfirmEngraving = useCallback(() => {
@@ -255,6 +277,7 @@ export function ProductForm({
         selectedRecipient={recipientSelection}
         onChange={setRecipientSelection}
         isLoggedIn={isLoggedIn}
+        onCircleAddChange={setCircleAddData}
       />
 
       {/* Engraving Form */}

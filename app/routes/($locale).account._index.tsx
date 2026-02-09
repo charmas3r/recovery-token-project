@@ -111,14 +111,14 @@ function RecoveryCircleSection({circle}: {circle: RecoveryCircleMember[]}) {
             Your Recovery Circle
           </h2>
         </div>
-        <div className="rounded-xl border border-black/5 bg-surface/50 p-6 lg:p-8 text-center">
+        <div className="rounded-xl border border-black/5 bg-surface/50 p-6 lg:p-8" style={{textAlign: 'center'}}>
           <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-accent/10 text-accent mb-4">
             <Heart className="w-7 h-7" />
           </div>
           <h3 className="font-display text-lg font-bold text-primary mb-2">
             Track milestones for the people you care about
           </h3>
-          <p className="text-body text-secondary max-w-md mx-auto mb-6 leading-relaxed">
+          <p style={{maxWidth: '28rem', marginLeft: 'auto', marginRight: 'auto', marginBottom: '1.5rem', fontSize: '1rem', lineHeight: 1.6, color: '#4A5568'}}>
             Your Recovery Circle lets you track recovery milestones for the people
             you care about. Use nicknames — no personal data is stored.
           </p>

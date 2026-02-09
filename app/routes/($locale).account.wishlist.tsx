@@ -146,15 +146,17 @@ export async function action({request, context}: Route.ActionArgs) {
     );
 
     if (errors?.length || mutationData?.metafieldsSet?.userErrors?.length) {
-      throw new Error(
+      const errMsg =
         mutationData?.metafieldsSet?.userErrors?.[0]?.message ||
-          errors?.[0]?.message ||
-          'Failed to update wishlist',
-      );
+        errors?.[0]?.message ||
+        'Failed to update wishlist';
+      console.error('Wishlist mutation error:', errMsg, {errors, userErrors: mutationData?.metafieldsSet?.userErrors});
+      throw new Error(errMsg);
     }
 
     return data({success: true, error: null});
   } catch (error: any) {
+    console.error('Wishlist action error:', error);
     return data(
       {success: false, error: error.message || 'Something went wrong'},
       {status: 400},

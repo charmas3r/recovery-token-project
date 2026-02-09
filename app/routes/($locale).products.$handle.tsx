@@ -1,6 +1,6 @@
-import {Await, useLoaderData} from 'react-router';
+import {Await, useLoaderData, useFetcher} from 'react-router';
 import type {Route} from './+types/products.$handle';
-import {Suspense} from 'react';
+import {Suspense, useState} from 'react';
 import {
   getSelectedProductOptions,
   Analytics,
@@ -23,6 +23,8 @@ import {extractProductId} from '~/lib/judgeme';
 import type {RelatedProductsQuery} from 'storefrontapi.generated';
 import {CUSTOMER_METAFIELDS_QUERY} from '~/graphql/customer-account/CustomerMetafieldsQuery';
 import {parseRecoveryCircle} from '~/lib/recoveryCircle';
+import {parseWishlist, isInWishlist as checkIsInWishlist} from '~/lib/wishlist';
+import {Heart} from 'lucide-react';
 
 export const meta: Route.MetaFunction = ({data}) => {
   const product = data?.product;
@@ -149,23 +151,23 @@ function loadDeferredData({context, params}: Route.LoaderArgs) {
       })
     : Promise.resolve(null);
 
-  // Fetch recovery circle for logged-in users (deferred, non-blocking)
-  const recoveryCircleData = fetchRecoveryCircle(context).catch(() => null);
+  // Fetch account data for logged-in users (deferred, non-blocking)
+  const recoveryCircleData = fetchAccountData(context, params.handle ?? '').catch(() => null);
 
   return {hasJudgeme, relatedProducts, productReviews, recoveryCircleData};
 }
 
 /**
- * Fetch recovery circle for logged-in users
+ * Fetch account data for logged-in users (recovery circle + wishlist)
  * Non-blocking - errors are caught in loadDeferredData
  */
-async function fetchRecoveryCircle(context: Route.LoaderArgs['context']) {
+async function fetchAccountData(context: Route.LoaderArgs['context'], productHandle: string) {
   const {customerAccount} = context;
 
   try {
     const isLoggedIn = await customerAccount.isLoggedIn();
     if (!isLoggedIn) {
-      return {circle: [], isLoggedIn: false};
+      return {circle: [], isLoggedIn: false, isWishlisted: false};
     }
 
     const {data: metafieldsData} = await customerAccount.query(
@@ -177,9 +179,13 @@ async function fetchRecoveryCircle(context: Route.LoaderArgs['context']) {
     const circleRaw = metafields?.find((m: any) => m?.key === 'recovery_circle')?.value ?? '[]';
     const circle = parseRecoveryCircle(circleRaw);
 
-    return {circle, isLoggedIn: true};
+    const wishlistRaw = metafields?.find((m: any) => m?.key === 'wishlist')?.value ?? null;
+    const wishlist = parseWishlist(wishlistRaw);
+    const isWishlisted = checkIsInWishlist(wishlist, productHandle);
+
+    return {circle, isLoggedIn: true, isWishlisted};
   } catch {
-    return {circle: [], isLoggedIn: false};
+    return {circle: [], isLoggedIn: false, isWishlisted: false};
   }
 }
 
@@ -493,11 +499,25 @@ export default function Product() {
                 reviewCount={reviewsSummary?.reviewCount ?? 0}
               />
 
-              {/* Price */}
-              <ProductPrice
-                price={selectedVariant?.price}
-                compareAtPrice={selectedVariant?.compareAtPrice}
-              />
+              {/* Price + Wishlist */}
+              <div className="flex items-center justify-between">
+                <ProductPrice
+                  price={selectedVariant?.price}
+                  compareAtPrice={selectedVariant?.compareAtPrice}
+                />
+                <Suspense fallback={null}>
+                  <Await resolve={recoveryCircleData}>
+                    {(resolvedData) =>
+                      resolvedData?.isLoggedIn ? (
+                        <WishlistButton
+                          productHandle={product.handle}
+                          isWishlisted={resolvedData.isWishlisted}
+                        />
+                      ) : null
+                    }
+                  </Await>
+                </Suspense>
+              </div>
 
               {/* Variant Selector & Add to Cart */}
               <Suspense
@@ -595,6 +615,55 @@ export default function Product() {
         }}
       />
     </>
+  );
+}
+
+/**
+ * WishlistButton - Heart toggle for saving products
+ */
+function WishlistButton({
+  productHandle,
+  isWishlisted,
+}: {
+  productHandle: string;
+  isWishlisted: boolean;
+}) {
+  const fetcher = useFetcher();
+  const [optimisticState, setOptimisticState] = useState(isWishlisted);
+
+  // Determine display state: use optimistic state, but sync when fetcher completes
+  const isSaved =
+    fetcher.state === 'idle' ? isWishlisted : optimisticState;
+
+  const handleClick = () => {
+    const nextState = !isSaved;
+    setOptimisticState(nextState);
+    fetcher.submit(
+      {
+        formAction: nextState ? 'add' : 'remove',
+        productHandle,
+      },
+      {method: 'POST', action: '/account/wishlist'},
+    );
+  };
+
+  return (
+    <button
+      type="button"
+      onClick={handleClick}
+      className={`p-2 rounded-full transition-all duration-200 ${
+        isSaved
+          ? 'text-accent hover:text-accent/80'
+          : 'text-secondary hover:text-accent'
+      }`}
+      aria-label={isSaved ? 'Remove from wishlist' : 'Save to wishlist'}
+    >
+      <Heart
+        className="w-6 h-6"
+        fill={isSaved ? 'currentColor' : 'none'}
+        strokeWidth={isSaved ? 0 : 2}
+      />
+    </button>
   );
 }
 

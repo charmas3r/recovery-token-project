@@ -218,7 +218,7 @@ export type CustomerMetafieldsQueryVariables = CustomerAccountAPI.Exact<{
 }>;
 
 export type CustomerMetafieldsQuery = {
-  customer: {
+  customer: Pick<CustomerAccountAPI.Customer, 'id'> & {
     metafields: Array<
       CustomerAccountAPI.Maybe<
         Pick<
@@ -620,7 +620,7 @@ interface GeneratedQueryTypes {
     return: CustomerDetailsQuery;
     variables: CustomerDetailsQueryVariables;
   };
-  '#graphql\n  query CustomerMetafields($language: LanguageCode) @inContext(language: $language) {\n    customer {\n      metafields(identifiers: [\n        {namespace: "custom", key: "recovery_circle"},\n        {namespace: "custom", key: "sobriety_date"},\n        {namespace: "custom", key: "recovery_program"},\n        {namespace: "custom", key: "milestone_reminders"}\n      ]) {\n        key\n        namespace\n        value\n        type\n      }\n    }\n  }\n': {
+  '#graphql\n  query CustomerMetafields($language: LanguageCode) @inContext(language: $language) {\n    customer {\n      id\n      metafields(identifiers: [\n        {namespace: "custom", key: "recovery_circle"},\n        {namespace: "custom", key: "sobriety_date"},\n        {namespace: "custom", key: "recovery_program"},\n        {namespace: "custom", key: "milestone_reminders"},\n        {namespace: "custom", key: "wishlist"}\n      ]) {\n        key\n        namespace\n        value\n        type\n      }\n    }\n  }\n': {
     return: CustomerMetafieldsQuery;
     variables: CustomerMetafieldsQueryVariables;
   };

@@ -6,12 +6,13 @@
  */
 
 import {NavLink, Form} from 'react-router';
-import {Package, User, MapPin, LogOut, LayoutDashboard, Users} from 'lucide-react';
+import {Package, User, MapPin, LogOut, LayoutDashboard, Users, Heart} from 'lucide-react';
 
 const navItems = [
   {to: '/account', label: 'Dashboard', icon: LayoutDashboard, end: true},
   {to: '/account/orders', label: 'Orders', icon: Package},
   {to: '/account/circle', label: 'Recovery Circle', icon: Users},
+  {to: '/account/wishlist', label: 'Wishlist', icon: Heart},
   {to: '/account/profile', label: 'Profile', icon: User},
   {to: '/account/addresses', label: 'Addresses', icon: MapPin},
 ];

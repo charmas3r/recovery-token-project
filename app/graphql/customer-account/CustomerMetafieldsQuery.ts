@@ -7,7 +7,8 @@ export const CUSTOMER_METAFIELDS_QUERY = `#graphql
         {namespace: "custom", key: "recovery_circle"},
         {namespace: "custom", key: "sobriety_date"},
         {namespace: "custom", key: "recovery_program"},
-        {namespace: "custom", key: "milestone_reminders"}
+        {namespace: "custom", key: "milestone_reminders"},
+        {namespace: "custom", key: "wishlist"}
       ]) {
         key
         namespace

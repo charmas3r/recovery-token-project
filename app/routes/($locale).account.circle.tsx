@@ -276,14 +276,14 @@ export default function RecoveryCirclePage() {
       ) : (
         /* Empty State */
         !showAddForm && (
-          <div className="text-center py-16">
+          <div style={{textAlign: 'center'}} className="py-16">
             <div className="w-20 h-20 rounded-full bg-accent/10 flex items-center justify-center mx-auto mb-6">
               <Heart className="w-10 h-10 text-accent" />
             </div>
             <h3 className="font-display text-2xl font-bold text-primary mb-3">
               Start Your Recovery Circle
             </h3>
-            <p className="text-body-lg text-secondary max-w-md mx-auto mb-8">
+            <p style={{maxWidth: '28rem', marginLeft: 'auto', marginRight: 'auto', marginBottom: '2rem', fontSize: '1.125rem', lineHeight: 1.6, color: '#4A5568'}}>
               Add friends and family members you're supporting in their recovery
               journey. Track their milestones and easily send them tokens as
               gifts.

@@ -93,15 +93,32 @@ export function createJudgeMeClient(config: JudgeMeConfig) {
       const params = new URLSearchParams({
         shop_domain: config.shopDomain,
         api_token: config.publicToken,
-        product_id: productId,
+        external_id: productId,
       });
 
-      const data = await request<any>(`/widgets/product_review?${params}`);
-      
+      // Widget endpoint returns JSON with an HTML widget string
+      // Parse rating data from the data attributes in the HTML
+      const response = await fetch(
+        `${baseUrl}/widgets/product_review?${params}`,
+        {headers: {'Content-Type': 'application/json'}},
+      );
+      const text = await response.text();
+
+      if (!response.ok) {
+        throw new Error(`Judge.me API error (${response.status}): ${text}`);
+      }
+
+      // Response is JSON: { product_external_id, widget: "<html string>" }
+      const json = JSON.parse(text);
+      const widget = json.widget || '';
+
+      // Extract data attributes from the widget HTML
+      const ratingMatch = widget.match(/data-average-rating='([^']+)'/);
+      const countMatch = widget.match(/data-number-of-reviews='([^']+)'/);
+
       return {
-        rating: data.rating || 0,
-        reviewCount: data.reviewCount || 0,
-        recommendation: data.recommendation,
+        rating: ratingMatch ? parseFloat(ratingMatch[1]) : 0,
+        reviewCount: countMatch ? parseInt(countMatch[1], 10) : 0,
       };
     },
 
@@ -129,7 +146,7 @@ export function createJudgeMeClient(config: JudgeMeConfig) {
      * Create a review (requires private token)
      * Use for custom review submission forms
      */
-    async createReview(review: {
+    async createReview(data: {
       product_id: string;
       email: string;
       name: string;
@@ -143,10 +160,17 @@ export function createJudgeMeClient(config: JudgeMeConfig) {
 
       return request<JudgeMeReview>('/reviews', {
         method: 'POST',
-        headers: {
-          Authorization: `Bearer ${config.privateToken}`,
-        },
-        body: JSON.stringify({review}),
+        body: JSON.stringify({
+          shop_domain: config.shopDomain,
+          api_token: config.privateToken,
+          platform: 'shopify',
+          id: Number(data.product_id),
+          name: data.name,
+          email: data.email,
+          rating: data.rating,
+          title: data.title,
+          body: data.body,
+        }),
       });
     },
   };

@@ -1,6 +1,6 @@
-import {Await, useLoaderData, useFetcher} from 'react-router';
+import {Await, useLoaderData, useFetcher, useSearchParams} from 'react-router';
 import type {Route} from './+types/products.$handle';
-import {Suspense, useState} from 'react';
+import {Suspense, useState, useEffect} from 'react';
 import {
   getSelectedProductOptions,
   Analytics,
@@ -24,7 +24,8 @@ import type {RelatedProductsQuery} from 'storefrontapi.generated';
 import {CUSTOMER_METAFIELDS_QUERY} from '~/graphql/customer-account/CustomerMetafieldsQuery';
 import {parseRecoveryCircle} from '~/lib/recoveryCircle';
 import {parseWishlist, isInWishlist as checkIsInWishlist} from '~/lib/wishlist';
-import {Heart} from 'lucide-react';
+import {Heart, PenLine} from 'lucide-react';
+import {WriteReviewModal} from '~/components/reviews/WriteReviewModal';
 
 export const meta: Route.MetaFunction = ({data}) => {
   const product = data?.product;
@@ -196,7 +197,8 @@ async function fetchProductReviews(context: Route.LoaderArgs['context'], handle:
   const {storefront, env} = context;
   const shopDomain = env.PUBLIC_JUDGEME_SHOP_DOMAIN || env.PUBLIC_STORE_DOMAIN;
 
-  if (!env.JUDGEME_PUBLIC_TOKEN || !shopDomain) {
+  // GET /reviews requires the private token (public token lacks permissions)
+  if (!env.JUDGEME_PRIVATE_TOKEN || !shopDomain) {
     return null;
   }
 
@@ -217,13 +219,15 @@ async function fetchProductReviews(context: Route.LoaderArgs['context'], handle:
       return null;
     }
 
-    const productId = extractProductId(product.id);
+    const externalId = Number(extractProductId(product.id));
 
+    // Fetch all reviews for the shop, then filter by product external ID.
+    // The GET /reviews endpoint only filters by Judge.me internal product_id,
+    // not Shopify external_id, so we filter client-side.
     const params = new URLSearchParams({
       shop_domain: shopDomain,
-      api_token: env.JUDGEME_PUBLIC_TOKEN,
-      external_id: productId,
-      per_page: '10',
+      api_token: env.JUDGEME_PRIVATE_TOKEN,
+      per_page: '50',
       page: '1',
     });
 
@@ -237,22 +241,46 @@ async function fetchProductReviews(context: Route.LoaderArgs['context'], handle:
 
     const data = (await response.json()) as {
       reviews?: Array<{
-        id: string;
+        id: number;
         title: string;
         body: string;
         rating: number;
         created_at: string;
+        product_external_id: number;
+        published: boolean;
+        hidden: boolean;
+        curated: string;
         reviewer: {
           name: string;
-          verified: boolean;
+          verified?: string;
         };
       }>;
-      total?: number;
     };
 
+    // Filter to only published reviews for this specific product
+    const productReviews = (data.reviews || [])
+      .filter(
+        (r) =>
+          r.product_external_id === externalId &&
+          r.published &&
+          !r.hidden &&
+          r.curated !== 'spam',
+      )
+      .map((r) => ({
+        id: String(r.id),
+        title: r.title,
+        body: r.body,
+        rating: r.rating,
+        created_at: r.created_at,
+        reviewer: {
+          name: r.reviewer.name,
+          verified: r.reviewer.verified === 'buyer' || r.reviewer.verified === 'confirmed-buyer',
+        },
+      }));
+
     return {
-      reviews: data.reviews || [],
-      total: data.total || 0,
+      reviews: productReviews,
+      total: productReviews.length,
     };
   } catch (error) {
     console.error('Judge.me API error:', error);
@@ -414,6 +442,17 @@ export default function Product() {
     selectedOrFirstAvailableVariant: selectedVariant,
   });
 
+  // Review modal state
+  const [searchParams] = useSearchParams();
+  const [reviewModalOpen, setReviewModalOpen] = useState(false);
+
+  // Auto-open review modal when ?writeReview=true is in URL
+  useEffect(() => {
+    if (searchParams.get('writeReview') === 'true') {
+      setReviewModalOpen(true);
+    }
+  }, [searchParams]);
+
   const {title, descriptionHtml, description, vendor, images, variants} = product;
 
   // Filter images to show only those for the selected variant's options
@@ -567,15 +606,28 @@ export default function Product() {
             <span className="inline-block text-accent text-caption uppercase tracking-[0.25em] font-semibold mb-4">
               Testimonials
             </span>
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-primary">
+            <h2 className="font-display text-3xl md:text-4xl font-bold text-primary mb-4">
               Customer Reviews
             </h2>
+            <button
+              type="button"
+              onClick={() => setReviewModalOpen(true)}
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold text-accent border border-accent/30 hover:bg-accent hover:text-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
+            >
+              <PenLine className="w-4 h-4" />
+              Write a Review
+            </button>
           </div>
           <Suspense fallback={<ProductReviewsSkeleton />}>
             <Await resolve={productReviews}>
               {(resolvedReviews) => {
                 if (!resolvedReviews || resolvedReviews.reviews.length === 0) {
-                  return <ProductEmptyReviewsState productTitle={title} />;
+                  return (
+                    <ProductEmptyReviewsState
+                      productTitle={title}
+                      onWriteReview={() => setReviewModalOpen(true)}
+                    />
+                  );
                 }
                 return <ProductReviewsGrid reviews={resolvedReviews.reviews} />;
               }}
@@ -597,6 +649,15 @@ export default function Product() {
           }
         </Await>
       </Suspense>
+
+      {/* Write Review Modal */}
+      <WriteReviewModal
+        open={reviewModalOpen}
+        onOpenChange={setReviewModalOpen}
+        productId={productId}
+        productHandle={product.handle}
+        productTitle={title}
+      />
 
       {/* Analytics */}
       <Analytics.ProductView
@@ -719,7 +780,7 @@ function ProductReviewsSkeleton() {
 /**
  * Empty Reviews State - Beautiful placeholder when no reviews exist
  */
-function ProductEmptyReviewsState({productTitle}: {productTitle: string}) {
+function ProductEmptyReviewsState({productTitle, onWriteReview}: {productTitle: string; onWriteReview?: () => void}) {
   return (
     <div style={{padding: '3rem 1rem', textAlign: 'center', width: '100%'}}>
       {/* Stars Card */}
@@ -804,6 +865,33 @@ function ProductEmptyReviewsState({productTitle}: {productTitle: string}) {
           Community support
         </span>
       </div>
+
+      {/* Write the First Review CTA */}
+      {onWriteReview && (
+        <button
+          type="button"
+          onClick={onWriteReview}
+          style={{
+            marginTop: '2rem',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '0.5rem',
+            padding: '0.75rem 1.75rem',
+            backgroundColor: '#B8764F',
+            color: 'white',
+            borderRadius: '9999px',
+            fontSize: '0.9375rem',
+            fontWeight: 600,
+            border: 'none',
+            cursor: 'pointer',
+            transition: 'background-color 0.2s',
+          }}
+          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#a0683f')}
+          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#B8764F')}
+        >
+          Write the First Review
+        </button>
+      )}
     </div>
   );
 }

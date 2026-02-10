@@ -8,7 +8,18 @@ import type {
 import {CUSTOMER_ORDER_QUERY} from '~/graphql/customer-account/CustomerOrderQuery';
 import {AccountLayout} from '~/components/account/AccountLayout';
 import {Button} from '~/components/ui/Button';
-import {ArrowLeft, ExternalLink, Package, MapPin, CreditCard, Gift, Type} from 'lucide-react';
+import {ArrowLeft, ExternalLink, Package, MapPin, CreditCard, Gift, Type, Star} from 'lucide-react';
+
+/**
+ * Convert a product title to a URL handle
+ * e.g. "Bronze Recovery Token" → "bronze-recovery-token"
+ */
+function titleToHandle(title: string): string {
+  return title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
+}
 
 export const meta: Route.MetaFunction = ({data}) => {
   return [{title: `Order ${data?.order?.name}`}];
@@ -114,6 +125,21 @@ export default function OrderRoute() {
             <ExternalLink className="w-4 h-4 ml-2" />
           </Button>
         </a>
+      </div>
+
+      {/* Review Prompt Banner */}
+      <div className="bg-accent/5 border border-accent/20 rounded-xl p-5 mb-8 flex flex-wrap items-center gap-4">
+        <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center flex-shrink-0">
+          <Star className="w-5 h-5 text-accent" />
+        </div>
+        <div className="flex-1 min-w-0">
+          <p className="font-display font-bold text-primary text-sm">
+            Enjoying your tokens?
+          </p>
+          <p className="text-body-sm text-secondary">
+            Share your experience and help others on their recovery journey.
+          </p>
+        </div>
       </div>
 
       {/* Line Items */}
@@ -241,6 +267,17 @@ function OrderLineItem({lineItem}: {lineItem: OrderLineItemFullFragment}) {
             Engraved: "{engravingPreviewAttr.value}"
           </div>
         )}
+
+        {/* Write a Review Link */}
+        <div className="mt-3">
+          <Link
+            to={`/products/${titleToHandle(lineItem.title)}?writeReview=true`}
+            className="inline-flex items-center gap-1.5 text-xs font-semibold text-accent hover:text-accent/80 transition-colors"
+          >
+            <Star className="w-3.5 h-3.5" />
+            Write a Review
+          </Link>
+        </div>
       </div>
       <div className="text-right flex-shrink-0">
         <p className="font-display text-lg font-bold text-primary">

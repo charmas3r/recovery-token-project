@@ -229,6 +229,43 @@ export const giftMessageSchema = z.object({
 export type GiftMessageData = z.infer<typeof giftMessageSchema>;
 
 // ============================================================================
+// PRODUCT REVIEWS
+// ============================================================================
+
+export const QUALITY_OPTIONS = [
+  'Exceptional',
+  'As Expected',
+  'Below Average',
+] as const;
+
+export const reviewFormSchema = z.object({
+  productId: z.string().min(1, 'Product ID is required'),
+  productHandle: z.string().min(1, 'Product handle is required'),
+  rating: z
+    .number()
+    .int()
+    .min(1, 'Please select a rating')
+    .max(5, 'Rating must be 5 or less'),
+  title: z
+    .string()
+    .min(2, 'Headline must be at least 2 characters')
+    .max(150, 'Headline must be less than 150 characters'),
+  body: z
+    .string()
+    .min(10, 'Review must be at least 10 characters')
+    .max(5000, 'Review must be less than 5000 characters'),
+  quality: z.enum(QUALITY_OPTIONS).optional().or(z.literal('')),
+  name: z
+    .string()
+    .min(2, 'Name must be at least 2 characters')
+    .max(100, 'Name must be less than 100 characters'),
+  email: z.string().email('Please enter a valid email address'),
+  honeypot: z.string().max(0).optional(),
+});
+
+export type ReviewFormData = z.infer<typeof reviewFormSchema>;
+
+// ============================================================================
 // HELPER UTILITIES
 // ============================================================================
 

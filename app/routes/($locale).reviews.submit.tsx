@@ -2,12 +2,18 @@
  * Review Submission Action
  *
  * Handles product review submissions via Judge.me API.
+ * Supports optional photo uploads via Shopify staged uploads.
  * Used by WriteReviewModal via useFetcher.
  */
 
 import type {Route} from './+types/reviews.submit';
-import {reviewFormSchema, formatZodErrors} from '~/lib/validation';
+import {
+  reviewFormSchema,
+  formatZodErrors,
+  validateReviewPhotos,
+} from '~/lib/validation';
 import {getJudgeMeClient} from '~/lib/judgeme.server';
+import {uploadImagesToShopify} from '~/lib/shopify-uploads.server';
 
 interface ActionData {
   success?: boolean;
@@ -38,10 +44,24 @@ export async function action({
     return {success: true};
   }
 
-  // Validate
+  // Validate form fields
   const result = reviewFormSchema.safeParse(data);
   if (!result.success) {
     return {fieldErrors: formatZodErrors(result.error)};
+  }
+
+  // Extract and validate photo files
+  const photoEntries = formData.getAll('photos');
+  const photos = photoEntries.filter(
+    (entry: FormDataEntryValue): entry is File =>
+      entry instanceof File && entry.size > 0,
+  );
+
+  if (photos.length > 0) {
+    const photoError = validateReviewPhotos(photos);
+    if (photoError) {
+      return {fieldErrors: {photos: photoError}};
+    }
   }
 
   // Build the review body, optionally appending quality answer
@@ -51,6 +71,20 @@ export async function action({
   }
 
   try {
+    // Upload photos to Shopify if present
+    let pictureUrls: string[] | undefined;
+    if (photos.length > 0) {
+      try {
+        pictureUrls = await uploadImagesToShopify(photos, context.env);
+      } catch (uploadError) {
+        console.error('Photo upload error:', uploadError);
+        return {
+          error:
+            'Could not upload your photos. Please try again or submit without photos.',
+        };
+      }
+    }
+
     const judgeme = getJudgeMeClient(context.env);
     await judgeme.createReview({
       product_id: result.data.productId,
@@ -59,6 +93,7 @@ export async function action({
       rating: result.data.rating,
       title: result.data.title,
       body: reviewBody,
+      picture_urls: pictureUrls,
     });
 
     return {success: true};

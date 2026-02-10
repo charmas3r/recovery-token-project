@@ -153,24 +153,31 @@ export function createJudgeMeClient(config: JudgeMeConfig) {
       rating: number;
       title: string;
       body: string;
+      picture_urls?: string[];
     }): Promise<JudgeMeReview> {
       if (!config.privateToken) {
         throw new Error('Private token required for creating reviews');
       }
 
+      const payload: Record<string, unknown> = {
+        shop_domain: config.shopDomain,
+        api_token: config.privateToken,
+        platform: 'shopify',
+        id: Number(data.product_id),
+        name: data.name,
+        email: data.email,
+        rating: data.rating,
+        title: data.title,
+        body: data.body,
+      };
+
+      if (data.picture_urls?.length) {
+        payload.picture_urls = data.picture_urls;
+      }
+
       return request<JudgeMeReview>('/reviews', {
         method: 'POST',
-        body: JSON.stringify({
-          shop_domain: config.shopDomain,
-          api_token: config.privateToken,
-          platform: 'shopify',
-          id: Number(data.product_id),
-          name: data.name,
-          email: data.email,
-          rating: data.rating,
-          title: data.title,
-          body: data.body,
-        }),
+        body: JSON.stringify(payload),
       });
     },
   };

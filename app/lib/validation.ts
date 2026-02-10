@@ -265,6 +265,36 @@ export const reviewFormSchema = z.object({
 
 export type ReviewFormData = z.infer<typeof reviewFormSchema>;
 
+// Review photo upload constraints
+export const REVIEW_PHOTO_MAX_COUNT = 3;
+export const REVIEW_PHOTO_MAX_SIZE = 5 * 1024 * 1024; // 5MB
+export const REVIEW_PHOTO_ACCEPTED_TYPES = [
+  'image/jpeg',
+  'image/png',
+  'image/webp',
+];
+
+/**
+ * Validate review photo files (server-side).
+ * Returns an error message string, or null if valid.
+ */
+export function validateReviewPhotos(files: File[]): string | null {
+  if (files.length > REVIEW_PHOTO_MAX_COUNT) {
+    return `You can upload a maximum of ${REVIEW_PHOTO_MAX_COUNT} photos`;
+  }
+
+  for (const file of files) {
+    if (!REVIEW_PHOTO_ACCEPTED_TYPES.includes(file.type)) {
+      return `"${file.name}" is not a supported image type. Use JPEG, PNG, or WebP.`;
+    }
+    if (file.size > REVIEW_PHOTO_MAX_SIZE) {
+      return `"${file.name}" exceeds the 5 MB size limit`;
+    }
+  }
+
+  return null;
+}
+
 // ============================================================================
 // HELPER UTILITIES
 // ============================================================================

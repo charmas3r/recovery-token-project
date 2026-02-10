@@ -25,6 +25,7 @@ export default async function handleRequest(
       'https://images.unsplash.com',
       'http://localhost:*',
       'data:',
+      'blob:',
     ],
   });
 

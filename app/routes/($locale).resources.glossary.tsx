@@ -152,7 +152,7 @@ export default function GlossaryPage() {
           <ResourcesNav />
 
           <div style={{marginTop: '2.5rem', maxWidth: '42rem', marginLeft: 'auto', marginRight: 'auto', textAlign: 'center', width: '100%'}}>
-            <span style={{display: 'inline-block', color: '#B8764F', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.25em', fontWeight: 600, marginBottom: '1rem'}}>
+            <span style={{display: 'inline-block', color: '#FFFF93', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.25em', fontWeight: 600, marginBottom: '1rem'}}>
               Knowledge Base
             </span>
             <h1 style={{fontFamily: 'var(--font-display, serif)', fontSize: '3rem', fontWeight: 700, color: '#1A202C', lineHeight: 1.1, marginBottom: '1rem'}}>
@@ -242,7 +242,7 @@ export default function GlossaryPage() {
       {/* Bottom CTA */}
       <section className="py-16 md:py-20 bg-surface">
         <div style={{maxWidth: '1280px', marginLeft: 'auto', marginRight: 'auto', paddingLeft: '1.5rem', paddingRight: '1.5rem', textAlign: 'center'}}>
-          <span style={{display: 'inline-block', color: '#B8764F', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.25em', fontWeight: 600, marginBottom: '1rem'}}>
+          <span style={{display: 'inline-block', color: '#FFFF93', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.25em', fontWeight: 600, marginBottom: '1rem'}}>
             Explore More
           </span>
           <h2 style={{fontFamily: 'var(--font-display, serif)', fontSize: '1.75rem', fontWeight: 700, color: '#1A202C', lineHeight: 1.3, marginBottom: '1rem'}}>

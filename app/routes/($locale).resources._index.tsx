@@ -145,7 +145,7 @@ export default function ResourcesHubPage() {
       icon: FileText,
       href: '/resources/articles',
       stat: `${articleCount} Articles`,
-      color: '#B8764F',
+      color: '#FFFF93',
     },
     {
       title: 'Recovery Glossary',
@@ -200,7 +200,7 @@ export default function ResourcesHubPage() {
             <span
               style={{
                 display: 'inline-block',
-                color: '#B8764F',
+                color: '#FFFF93',
                 fontSize: '0.75rem',
                 textTransform: 'uppercase',
                 letterSpacing: '0.25em',
@@ -343,7 +343,7 @@ export default function ResourcesHubPage() {
             <span
               style={{
                 display: 'inline-block',
-                color: '#B8764F',
+                color: '#FFFF93',
                 fontSize: '0.75rem',
                 textTransform: 'uppercase',
                 letterSpacing: '0.25em',
@@ -419,7 +419,7 @@ export default function ResourcesHubPage() {
             <span
               style={{
                 display: 'inline-block',
-                color: '#B8764F',
+                color: '#FFFF93',
                 fontSize: '0.75rem',
                 textTransform: 'uppercase',
                 letterSpacing: '0.25em',
@@ -534,7 +534,7 @@ export default function ResourcesHubPage() {
           <span
             style={{
               display: 'inline-block',
-              color: '#B8764F',
+              color: '#FFFF93',
               fontSize: '0.75rem',
               textTransform: 'uppercase',
               letterSpacing: '0.25em',

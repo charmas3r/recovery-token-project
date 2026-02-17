@@ -196,7 +196,7 @@ export default function ReviewsPage() {
             <span
               style={{
                 display: 'inline-block',
-                color: '#B8764F',
+                color: '#FFFF93',
                 fontSize: '0.75rem',
                 textTransform: 'uppercase',
                 letterSpacing: '0.25em',
@@ -340,7 +340,7 @@ export default function ReviewsPage() {
                                 style={{
                                   width: `${percentage}%`,
                                   height: '100%',
-                                  backgroundColor: '#B8764F',
+                                  backgroundColor: '#FFFF93',
                                   borderRadius: '9999px',
                                   transition: 'width 0.5s ease-out',
                                 }}
@@ -453,7 +453,7 @@ export default function ReviewsPage() {
           <span
             style={{
               display: 'inline-block',
-              color: '#B8764F',
+              color: '#FFFF93',
               fontSize: '0.75rem',
               textTransform: 'uppercase',
               letterSpacing: '0.25em',

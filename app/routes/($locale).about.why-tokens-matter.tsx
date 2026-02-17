@@ -39,7 +39,7 @@ const IMPACT_CARDS = [
     description:
       'Physical tokens transform abstract time into something you can hold, carry, and see — making progress feel concrete and undeniable.',
     icon: Sparkles,
-    color: '#B8764F',
+    color: '#FFFF93',
   },
   {
     title: 'Grounding Anchor',
@@ -118,7 +118,7 @@ export default function WhyTokensMatterPage() {
             <span
               style={{
                 display: 'inline-block',
-                color: '#B8764F',
+                color: '#FFFF93',
                 fontSize: '0.75rem',
                 textTransform: 'uppercase',
                 letterSpacing: '0.25em',
@@ -171,7 +171,7 @@ export default function WhyTokensMatterPage() {
             <span
               style={{
                 display: 'inline-block',
-                color: '#B8764F',
+                color: '#FFFF93',
                 fontSize: '0.75rem',
                 textTransform: 'uppercase',
                 letterSpacing: '0.25em',
@@ -253,7 +253,7 @@ export default function WhyTokensMatterPage() {
             <span
               style={{
                 display: 'inline-block',
-                color: '#B8764F',
+                color: '#FFFF93',
                 fontSize: '0.75rem',
                 textTransform: 'uppercase',
                 letterSpacing: '0.25em',
@@ -332,7 +332,7 @@ export default function WhyTokensMatterPage() {
             <span
               style={{
                 display: 'inline-block',
-                color: '#B8764F',
+                color: '#FFFF93',
                 fontSize: '0.75rem',
                 textTransform: 'uppercase',
                 letterSpacing: '0.25em',
@@ -408,7 +408,7 @@ export default function WhyTokensMatterPage() {
             <span
               style={{
                 display: 'inline-block',
-                color: '#B8764F',
+                color: '#FFFF93',
                 fontSize: '0.75rem',
                 textTransform: 'uppercase',
                 letterSpacing: '0.25em',
@@ -436,9 +436,9 @@ export default function WhyTokensMatterPage() {
                 <div key={item} className="flex items-start gap-3">
                   <div
                     className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"
-                    style={{backgroundColor: '#B8764F15'}}
+                    style={{backgroundColor: '#FFFF9315'}}
                   >
-                    <Check className="w-3.5 h-3.5" style={{color: '#B8764F'}} />
+                    <Check className="w-3.5 h-3.5" style={{color: '#FFFF93'}} />
                   </div>
                   <p
                     style={{
@@ -471,7 +471,7 @@ export default function WhyTokensMatterPage() {
           <span
             style={{
               display: 'inline-block',
-              color: '#B8764F',
+              color: '#FFFF93',
               fontSize: '0.75rem',
               textTransform: 'uppercase',
               letterSpacing: '0.25em',

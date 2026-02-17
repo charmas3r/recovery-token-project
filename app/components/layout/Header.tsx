@@ -111,192 +111,13 @@ export function HeaderMenu({
 
   if (viewport === 'mobile') {
     return (
-      <div className="flex flex-col h-full">
-        {/* Main Navigation */}
-        <nav className="flex-1 px-6 py-8" role="navigation">
-          <div className="space-y-1">
-            {(menu || FALLBACK_HEADER_MENU).items.filter((item) => item.url && item.title !== 'Contact' && item.title !== 'About').map((item, index) => {
-              const url = getUrl(item.url!);
-              return (
-                <NavLink
-                  end
-                  key={item.id}
-                  onClick={close}
-                  prefetch="intent"
-                  to={url}
-                  className={({isActive}) =>
-                    `group flex items-center justify-between py-4 border-b border-white/[0.08] transition-all duration-200 ${
-                      isActive
-                        ? 'text-white font-semibold'
-                        : 'text-white/60 hover:text-white'
-                    }`
-                  }
-                  style={{animationDelay: `${index * 50}ms`}}
-                >
-                  {({isActive}) => (
-                    <>
-                      <span className={`font-display text-2xl tracking-tight ${isActive ? 'font-semibold' : 'font-medium'}`}>
-                        {TITLE_REWRITES[item.title] || item.title}
-                      </span>
-                      <svg
-                        className={`w-5 h-5 transition-transform duration-200 ${isActive ? 'text-white' : 'text-white/30 group-hover:text-white group-hover:translate-x-1'}`}
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        strokeWidth={2}
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                      </svg>
-                    </>
-                  )}
-                </NavLink>
-              );
-            })}
-            <NavLink
-              onClick={close}
-              prefetch="intent"
-              to="/resources"
-              className={({isActive}) =>
-                `group flex items-center justify-between py-4 border-b border-white/[0.08] transition-all duration-200 ${
-                  isActive
-                    ? 'text-white font-semibold'
-                    : 'text-white/60 hover:text-white'
-                }`
-              }
-            >
-              {({isActive}) => (
-                <>
-                  <span className={`font-display text-2xl tracking-tight ${isActive ? 'font-semibold' : 'font-medium'}`}>
-                    Resources
-                  </span>
-                  <svg
-                    className={`w-5 h-5 transition-transform duration-200 ${isActive ? 'text-white' : 'text-white/30 group-hover:text-white group-hover:translate-x-1'}`}
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                  </svg>
-                </>
-              )}
-            </NavLink>
-            <NavLink
-              onClick={close}
-              prefetch="intent"
-              to="/about"
-              className={({isActive}) =>
-                `group flex items-center justify-between py-4 border-b border-white/[0.08] transition-all duration-200 ${
-                  isActive
-                    ? 'text-white font-semibold'
-                    : 'text-white/60 hover:text-white'
-                }`
-              }
-            >
-              {({isActive}) => (
-                <>
-                  <span className={`font-display text-2xl tracking-tight ${isActive ? 'font-semibold' : 'font-medium'}`}>
-                    About
-                  </span>
-                  <svg
-                    className={`w-5 h-5 transition-transform duration-200 ${isActive ? 'text-white' : 'text-white/30 group-hover:text-white group-hover:translate-x-1'}`}
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                  </svg>
-                </>
-              )}
-            </NavLink>
-            <NavLink
-              onClick={close}
-              prefetch="intent"
-              to="/reviews"
-              className={({isActive}) =>
-                `group flex items-center justify-between py-4 border-b border-white/[0.08] transition-all duration-200 ${
-                  isActive
-                    ? 'text-white font-semibold'
-                    : 'text-white/60 hover:text-white'
-                }`
-              }
-            >
-              {({isActive}) => (
-                <>
-                  <span className={`font-display text-2xl tracking-tight ${isActive ? 'font-semibold' : 'font-medium'}`}>
-                    Reviews
-                  </span>
-                  <svg
-                    className={`w-5 h-5 transition-transform duration-200 ${isActive ? 'text-white' : 'text-white/30 group-hover:text-white group-hover:translate-x-1'}`}
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                  </svg>
-                </>
-              )}
-            </NavLink>
-            <NavLink
-              onClick={close}
-              prefetch="intent"
-              to="/support"
-              className={({isActive}) =>
-                `group flex items-center justify-between py-4 border-b border-white/[0.08] transition-all duration-200 ${
-                  isActive
-                    ? 'text-white font-semibold'
-                    : 'text-white/60 hover:text-white'
-                }`
-              }
-            >
-              {({isActive}) => (
-                <>
-                  <span className={`font-display text-2xl tracking-tight ${isActive ? 'font-semibold' : 'font-medium'}`}>
-                    Support
-                  </span>
-                  <svg
-                    className={`w-5 h-5 transition-transform duration-200 ${isActive ? 'text-white' : 'text-white/30 group-hover:text-white group-hover:translate-x-1'}`}
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                  </svg>
-                </>
-              )}
-            </NavLink>
-          </div>
-        </nav>
-
-        {/* Bottom Actions */}
-        <div className="border-t border-white/[0.08] px-6 py-6 bg-white/[0.03]">
-          <div className="flex items-center gap-4">
-            <NavLink
-              to="/account"
-              onClick={close}
-              className="flex-1 flex items-center justify-center gap-2 py-3 px-4 bg-white/[0.05] border border-white/[0.08] rounded-lg text-white/70 hover:border-white/[0.15] hover:text-white transition-colors"
-            >
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
-              </svg>
-              <span className="font-medium">Account</span>
-            </NavLink>
-            <NavLink
-              to="/search"
-              onClick={close}
-              className="flex-1 flex items-center justify-center gap-2 py-3 px-4 bg-white/[0.05] border border-white/[0.08] rounded-lg text-white/70 hover:border-white/[0.15] hover:text-white transition-colors"
-            >
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
-              </svg>
-              <span className="font-medium">Search</span>
-            </NavLink>
-          </div>
-        </div>
-      </div>
+      <MobileNav
+        menu={menu}
+        fallbackMenu={FALLBACK_HEADER_MENU}
+        getUrl={getUrl}
+        titleRewrites={TITLE_REWRITES}
+        close={close}
+      />
     );
   }
 
@@ -377,6 +198,274 @@ function ChevronDownIcon({className}: {className?: string}) {
     >
       <path d="M1 1l4 4 4-4" />
     </svg>
+  );
+}
+
+function MobileSearchInput({navFont, close}: {navFont: string; close: () => void}) {
+  const navigate = useNavigate();
+  const [query, setQuery] = useState('');
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const trimmed = query.trim();
+    if (!trimmed) return;
+    close();
+    navigate(`/search?q=${encodeURIComponent(trimmed)}`);
+  };
+
+  return (
+    <form onSubmit={handleSubmit} style={{marginTop: '12px', position: 'relative'}}>
+      <svg
+        width="18"
+        height="18"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="rgba(255,255,255,0.35)"
+        strokeWidth="2"
+        style={{position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none'}}
+      >
+        <circle cx="11" cy="11" r="8" />
+        <path d="m21 21-4.35-4.35" />
+      </svg>
+      <input
+        type="search"
+        name="q"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        placeholder="Search..."
+        autoComplete="off"
+        style={{
+          width: '100%',
+          padding: '12px 16px 12px 42px',
+          background: 'rgba(255,255,255,0.06)',
+          border: '1px solid rgba(255,255,255,0.1)',
+          borderRadius: '10px',
+          color: '#fff',
+          fontFamily: navFont,
+          fontSize: '0.875rem',
+          fontWeight: 400,
+          outline: 'none',
+        }}
+      />
+    </form>
+  );
+}
+
+function MobileNav({
+  menu,
+  fallbackMenu,
+  getUrl,
+  titleRewrites,
+  close,
+}: {
+  menu: HeaderProps['header']['menu'];
+  fallbackMenu: typeof FALLBACK_HEADER_MENU;
+  getUrl: (url: string) => string;
+  titleRewrites: Record<string, string>;
+  close: () => void;
+}) {
+  const [subMenu, setSubMenu] = useState<string | null>(null);
+
+  // Build mobile nav items from CMS + hardcoded
+  const HIDDEN_MOBILE = new Set(['Contact', 'About', 'Home']);
+  const cmsItems = (menu || fallbackMenu).items
+    .filter((item) => item.url && !HIDDEN_MOBILE.has(item.title))
+    .map((item) => ({
+      title: titleRewrites[item.title] || item.title,
+      url: getUrl(item.url!),
+      children: NAV_CHILDREN[titleRewrites[item.title] || item.title],
+    }));
+
+  const mobileItems: NavItem[] = [
+    ...cmsItems,
+    {title: 'About', url: '/about', children: NAV_CHILDREN['About']},
+    {title: 'Resources', url: '/resources', children: NAV_CHILDREN['Resources']},
+    {title: 'Reviews', url: '/reviews'},
+    {title: 'Support', url: '/support', children: NAV_CHILDREN['Support']},
+  ];
+
+  const activeParent = subMenu
+    ? mobileItems.find((item) => item.title === subMenu)
+    : null;
+
+  const navFont = "'Inter', 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif";
+
+  return (
+    <div style={{display: 'flex', flexDirection: 'column', height: '100%', overflow: 'hidden'}}>
+      {/* Sliding container */}
+      <div
+        style={{
+          display: 'flex',
+          width: '200%',
+          flex: 1,
+          transition: 'transform 300ms cubic-bezier(0.32, 0.72, 0, 1)',
+          transform: subMenu ? 'translateX(-50%)' : 'translateX(0)',
+          minHeight: 0,
+        }}
+      >
+        {/* Main menu panel */}
+        <div style={{width: '50%', display: 'flex', flexDirection: 'column', minHeight: 0}}>
+          {/* Top Actions (Account / Search) */}
+          <div style={{padding: '16px 24px 8px', flexShrink: 0}}>
+            <NavLink
+              to="/account"
+              onClick={close}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px',
+                padding: '14px 20px',
+                background: 'rgba(255,255,255,0.08)',
+                borderRadius: '12px',
+                color: '#fff',
+                textDecoration: 'none',
+                fontFamily: navFont,
+                fontSize: '0.9375rem',
+                fontWeight: 500,
+              }}
+            >
+              Account
+            </NavLink>
+            <MobileSearchInput navFont={navFont} close={close} />
+          </div>
+
+          {/* Nav items */}
+          <nav role="navigation" style={{flex: 1, overflowY: 'auto', padding: '0 24px'}}>
+            {mobileItems.map((item) => {
+              const hasChildren = item.children && item.children.length > 0;
+              if (hasChildren) {
+                return (
+                  <button
+                    key={item.title}
+                    onClick={() => setSubMenu(item.title)}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      width: '100%',
+                      padding: '18px 0',
+                      background: 'none',
+                      border: 'none',
+                      borderBottom: '1px solid rgba(255,255,255,0.1)',
+                      cursor: 'pointer',
+                      color: 'rgba(255,255,255,0.7)',
+                      fontFamily: navFont,
+                      fontSize: '0.9375rem',
+                      fontWeight: 500,
+                      textAlign: 'left',
+                    }}
+                  >
+                    {item.title}
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.35)" strokeWidth="1.5">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M12 5l7 7-7 7" />
+                    </svg>
+                  </button>
+                );
+              }
+              return (
+                <NavLink
+                  key={item.title}
+                  prefetch="intent"
+                  to={item.url}
+                  onClick={close}
+                  style={{
+                    display: 'block',
+                    padding: '18px 0',
+                    borderBottom: '1px solid rgba(255,255,255,0.1)',
+                    color: 'rgba(255,255,255,0.7)',
+                    textDecoration: 'none',
+                    fontFamily: navFont,
+                    fontSize: '0.9375rem',
+                    fontWeight: 500,
+                  }}
+                >
+                  {item.title}
+                </NavLink>
+              );
+            })}
+          </nav>
+        </div>
+
+        {/* Sub-menu panel */}
+        <div style={{width: '50%', display: 'flex', flexDirection: 'column', minHeight: 0}}>
+          {activeParent && (
+            <>
+              {/* Back button */}
+              <div style={{padding: '16px 24px 0'}}>
+                <button
+                  onClick={() => setSubMenu(null)}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    background: 'none',
+                    border: 'none',
+                    color: 'rgba(255,255,255,0.45)',
+                    cursor: 'pointer',
+                    padding: '8px 0',
+                    fontFamily: navFont,
+                    fontSize: '0.8125rem',
+                    fontWeight: 500,
+                  }}
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 12H5M12 19l-7-7 7-7" />
+                  </svg>
+                  Back
+                </button>
+              </div>
+
+              <nav role="navigation" style={{flex: 1, overflowY: 'auto', padding: '8px 24px 0'}}>
+                {/* Parent overview link */}
+                <NavLink
+                  prefetch="intent"
+                  to={activeParent.url}
+                  onClick={close}
+                  style={{
+                    display: 'block',
+                    padding: '18px 0',
+                    borderBottom: '1px solid rgba(255,255,255,0.1)',
+                    color: '#fff',
+                    textDecoration: 'none',
+                    fontFamily: navFont,
+                    fontSize: '1.125rem',
+                    fontWeight: 600,
+                  }}
+                >
+                  {activeParent.title}
+                </NavLink>
+
+                {/* Children */}
+                {activeParent.children!.map((child) => (
+                  <NavLink
+                    key={child.url}
+                    prefetch="intent"
+                    to={child.url}
+                    onClick={close}
+                    style={{
+                      display: 'block',
+                      padding: '16px 0',
+                      borderBottom: '1px solid rgba(255,255,255,0.1)',
+                      textDecoration: 'none',
+                    }}
+                  >
+                    <span style={{display: 'block', color: 'rgba(255,255,255,0.7)', fontFamily: navFont, fontSize: '0.9375rem', fontWeight: 500}}>
+                      {child.title}
+                    </span>
+                    {child.description && (
+                      <span style={{display: 'block', color: 'rgba(255,255,255,0.3)', fontFamily: navFont, fontSize: '0.8125rem', marginTop: '3px'}}>
+                        {child.description}
+                      </span>
+                    )}
+                  </NavLink>
+                ))}
+              </nav>
+            </>
+          )}
+        </div>
+      </div>
+    </div>
   );
 }
 

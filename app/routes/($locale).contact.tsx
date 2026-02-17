@@ -139,7 +139,7 @@ export default function ContactPage() {
     <div style={{padding: '4rem 1rem', maxWidth: '56rem', margin: '0 auto'}}>
       {/* Header - using inline styles to ensure proper rendering */}
       <div style={{textAlign: 'center', marginBottom: '3rem'}}>
-        <span style={{display: 'inline-block', color: '#B8764F', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.25em', fontWeight: 600, marginBottom: '1rem'}}>
+        <span style={{display: 'inline-block', color: '#FFFF93', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.25em', fontWeight: 600, marginBottom: '1rem'}}>
           Get in Touch
         </span>
         <h1 style={{fontFamily: 'var(--font-display)', fontSize: 'clamp(2.5rem, 5vw, 3.5rem)', fontWeight: 700, color: '#1A202C', marginBottom: '1rem', lineHeight: 1.1}}>
@@ -297,7 +297,7 @@ export default function ContactPage() {
             </p>
             <a
               href="mailto:support@recoverytokenstore.com"
-              style={{fontSize: '1.125rem', color: '#B8764F', fontWeight: 500}}
+              style={{fontSize: '1.125rem', color: '#FFFF93', fontWeight: 500}}
               className="hover:underline"
             >
               support@recoverytokenstore.com

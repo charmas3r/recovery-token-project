@@ -193,7 +193,7 @@ export function RecipientSelector({
                         type="checkbox"
                         checked={addToCircle}
                         onChange={(e) => handleAddToCircleToggle(e.target.checked)}
-                        className="mt-0.5 w-4 h-4 rounded border-black/20 text-accent focus:ring-accent/30 accent-[#B8764F]"
+                        className="mt-0.5 w-4 h-4 rounded border-black/20 text-accent focus:ring-accent/30 accent-[#FFFF93]"
                       />
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2">

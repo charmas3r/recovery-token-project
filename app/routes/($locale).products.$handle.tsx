@@ -847,19 +847,19 @@ function ProductEmptyReviewsState({productTitle, onWriteReview}: {productTitle: 
       {/* Feature badges */}
       <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '1.5rem', fontSize: '0.875rem', color: '#4A5568'}}>
         <span style={{display: 'inline-flex', alignItems: 'center', gap: '0.5rem'}}>
-          <svg viewBox="0 0 24 24" style={{width: '1.25rem', height: '1.25rem', color: '#B8764F'}} fill="none" stroke="currentColor" strokeWidth="2">
+          <svg viewBox="0 0 24 24" style={{width: '1.25rem', height: '1.25rem', color: '#FFFF93'}} fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M9 12l2 2 4-4" /><circle cx="12" cy="12" r="10" />
           </svg>
           Verified buyers
         </span>
         <span style={{display: 'inline-flex', alignItems: 'center', gap: '0.5rem'}}>
-          <svg viewBox="0 0 24 24" style={{width: '1.25rem', height: '1.25rem', color: '#B8764F'}} fill="none" stroke="currentColor" strokeWidth="2">
+          <svg viewBox="0 0 24 24" style={{width: '1.25rem', height: '1.25rem', color: '#FFFF93'}} fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
           </svg>
           Authentic stories
         </span>
         <span style={{display: 'inline-flex', alignItems: 'center', gap: '0.5rem'}}>
-          <svg viewBox="0 0 24 24" style={{width: '1.25rem', height: '1.25rem', color: '#B8764F'}} fill="none" stroke="currentColor" strokeWidth="2">
+          <svg viewBox="0 0 24 24" style={{width: '1.25rem', height: '1.25rem', color: '#FFFF93'}} fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
           </svg>
           Community support
@@ -877,7 +877,7 @@ function ProductEmptyReviewsState({productTitle, onWriteReview}: {productTitle: 
             alignItems: 'center',
             gap: '0.5rem',
             padding: '0.75rem 1.75rem',
-            backgroundColor: '#B8764F',
+            backgroundColor: '#FFFF93',
             color: 'white',
             borderRadius: '9999px',
             fontSize: '0.9375rem',
@@ -887,7 +887,7 @@ function ProductEmptyReviewsState({productTitle, onWriteReview}: {productTitle: 
             transition: 'background-color 0.2s',
           }}
           onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#a0683f')}
-          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#B8764F')}
+          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#FFFF93')}
         >
           Write the First Review
         </button>

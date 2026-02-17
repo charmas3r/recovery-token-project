@@ -115,7 +115,7 @@ export default function ShippingReturnsPage() {
             <span
               style={{
                 display: 'inline-block',
-                color: '#B8764F',
+                color: '#FFFF93',
                 fontSize: '0.75rem',
                 textTransform: 'uppercase',
                 letterSpacing: '0.25em',
@@ -178,7 +178,7 @@ export default function ShippingReturnsPage() {
             <span
               style={{
                 display: 'inline-block',
-                color: '#B8764F',
+                color: '#FFFF93',
                 fontSize: '0.75rem',
                 textTransform: 'uppercase',
                 letterSpacing: '0.25em',
@@ -219,11 +219,11 @@ export default function ShippingReturnsPage() {
                 <div key={method.id} className="bg-white rounded-2xl p-6 shadow-sm border border-black/5 h-full">
                   <div
                     className="w-12 h-12 rounded-xl flex items-center justify-center mb-4"
-                    style={{backgroundColor: '#B8764F15'}}
+                    style={{backgroundColor: '#FFFF9315'}}
                   >
                     <IconComponent
                       className="w-6 h-6"
-                      style={{color: '#B8764F'}}
+                      style={{color: '#FFFF93'}}
                     />
                   </div>
                   <h3 className="font-display text-lg font-bold text-primary mb-1">
@@ -252,9 +252,9 @@ export default function ShippingReturnsPage() {
             <div className="flex items-start gap-3 mb-4">
               <div
                 className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
-                style={{backgroundColor: '#B8764F15'}}
+                style={{backgroundColor: '#FFFF9315'}}
               >
-                <Clock className="w-5 h-5" style={{color: '#B8764F'}} />
+                <Clock className="w-5 h-5" style={{color: '#FFFF93'}} />
               </div>
               <div>
                 <PolicySectionBlock section={PROCESSING_INFO} />
@@ -287,7 +287,7 @@ export default function ShippingReturnsPage() {
             <span
               style={{
                 display: 'inline-block',
-                color: '#B8764F',
+                color: '#FFFF93',
                 fontSize: '0.75rem',
                 textTransform: 'uppercase',
                 letterSpacing: '0.25em',
@@ -334,7 +334,7 @@ export default function ShippingReturnsPage() {
           <span
             style={{
               display: 'inline-block',
-              color: '#B8764F',
+              color: '#FFFF93',
               fontSize: '0.75rem',
               textTransform: 'uppercase',
               letterSpacing: '0.25em',

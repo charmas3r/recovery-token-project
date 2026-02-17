@@ -41,7 +41,7 @@ const SUPPORT_CARDS = [
     icon: HelpCircle,
     href: '/support/faq',
     stat: '18+ Answers',
-    color: '#B8764F',
+    color: '#FFFF93',
   },
   {
     title: 'Shipping & Returns',
@@ -103,7 +103,7 @@ export default function SupportHubPage() {
             <span
               style={{
                 display: 'inline-block',
-                color: '#B8764F',
+                color: '#FFFF93',
                 fontSize: '0.75rem',
                 textTransform: 'uppercase',
                 letterSpacing: '0.25em',
@@ -206,7 +206,7 @@ export default function SupportHubPage() {
           <span
             style={{
               display: 'inline-block',
-              color: '#B8764F',
+              color: '#FFFF93',
               fontSize: '0.75rem',
               textTransform: 'uppercase',
               letterSpacing: '0.25em',

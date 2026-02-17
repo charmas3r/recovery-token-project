@@ -86,7 +86,7 @@ export default function TestimonialsPage() {
             <span
               style={{
                 display: 'inline-block',
-                color: '#B8764F',
+                color: '#FFFF93',
                 fontSize: '0.75rem',
                 textTransform: 'uppercase',
                 letterSpacing: '0.25em',
@@ -146,7 +146,7 @@ export default function TestimonialsPage() {
                 <div className="mb-4">
                   <Quote
                     className="w-8 h-8"
-                    style={{color: '#B8764F', opacity: 0.3}}
+                    style={{color: '#FFFF93', opacity: 0.3}}
                   />
                 </div>
 
@@ -188,8 +188,8 @@ export default function TestimonialsPage() {
                   <span
                     style={{
                       display: 'inline-block',
-                      backgroundColor: '#B8764F15',
-                      color: '#B8764F',
+                      backgroundColor: '#FFFF9315',
+                      color: '#FFFF93',
                       fontSize: '0.75rem',
                       fontWeight: 600,
                       padding: '0.25rem 0.75rem',
@@ -222,7 +222,7 @@ export default function TestimonialsPage() {
           <span
             style={{
               display: 'inline-block',
-              color: '#B8764F',
+              color: '#FFFF93',
               fontSize: '0.75rem',
               textTransform: 'uppercase',
               letterSpacing: '0.25em',

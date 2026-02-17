@@ -45,7 +45,7 @@
   /* Color System — Dark Minimalist Theme */
   --color-primary: #000000;            /* Pure black - page background */
   --color-secondary: #888888;          /* Muted gray - body text */
-  --color-accent: #C4956A;             /* Warm gold - CTAs, links, badges */
+  --color-accent: #FFFF93;             /* Bright yellow - CTAs, links, badges */
   --color-surface: #0A0A0A;            /* Near-black - card backgrounds */
   --color-surface-dark: #111111;       /* Elevated surface */
   --color-border: rgba(255, 255, 255, 0.08);  /* Subtle section/card borders */

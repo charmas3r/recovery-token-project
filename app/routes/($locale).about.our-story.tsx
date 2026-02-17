@@ -39,7 +39,7 @@ const VALUES = [
     description:
       'Every token is designed with intention and manufactured to the highest standards. We believe the quality of the object should match the magnitude of the achievement it represents.',
     icon: Gem,
-    color: '#B8764F',
+    color: '#FFFF93',
   },
   {
     title: 'Empathy',
@@ -118,7 +118,7 @@ export default function OurStoryPage() {
             <span
               style={{
                 display: 'inline-block',
-                color: '#B8764F',
+                color: '#FFFF93',
                 fontSize: '0.75rem',
                 textTransform: 'uppercase',
                 letterSpacing: '0.25em',
@@ -171,7 +171,7 @@ export default function OurStoryPage() {
           >
             <div
               style={{
-                borderLeft: '4px solid #B8764F',
+                borderLeft: '4px solid #FFFF93',
                 paddingLeft: '2rem',
                 paddingTop: '1rem',
                 paddingBottom: '1rem',
@@ -210,7 +210,7 @@ export default function OurStoryPage() {
             <span
               style={{
                 display: 'inline-block',
-                color: '#B8764F',
+                color: '#FFFF93',
                 fontSize: '0.75rem',
                 textTransform: 'uppercase',
                 letterSpacing: '0.25em',
@@ -286,7 +286,7 @@ export default function OurStoryPage() {
             <span
               style={{
                 display: 'inline-block',
-                color: '#B8764F',
+                color: '#FFFF93',
                 fontSize: '0.75rem',
                 textTransform: 'uppercase',
                 letterSpacing: '0.25em',
@@ -367,7 +367,7 @@ export default function OurStoryPage() {
             <span
               style={{
                 display: 'inline-block',
-                color: '#B8764F',
+                color: '#FFFF93',
                 fontSize: '0.75rem',
                 textTransform: 'uppercase',
                 letterSpacing: '0.25em',
@@ -395,9 +395,9 @@ export default function OurStoryPage() {
                 <div key={item} className="flex items-start gap-3">
                   <div
                     className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"
-                    style={{backgroundColor: '#B8764F15'}}
+                    style={{backgroundColor: '#FFFF9315'}}
                   >
-                    <Check className="w-3.5 h-3.5" style={{color: '#B8764F'}} />
+                    <Check className="w-3.5 h-3.5" style={{color: '#FFFF93'}} />
                   </div>
                   <p
                     style={{
@@ -430,7 +430,7 @@ export default function OurStoryPage() {
           <span
             style={{
               display: 'inline-block',
-              color: '#B8764F',
+              color: '#FFFF93',
               fontSize: '0.75rem',
               textTransform: 'uppercase',
               letterSpacing: '0.25em',

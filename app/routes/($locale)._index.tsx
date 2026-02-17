@@ -197,7 +197,7 @@ function HeroSection({
                 <span
                   className="block"
                   style={{
-                    background: 'linear-gradient(135deg, #C4956A 0%, #E8C9A0 40%, #FFFFFF 100%)',
+                    background: 'linear-gradient(90deg, #7C3AED 0%, #C026D3 50%, #FF2D92 100%)',
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
                     backgroundClip: 'text',
@@ -211,7 +211,7 @@ function HeroSection({
             {/* Subheading */}
             <HeroItem>
               <p className="text-lg lg:text-xl text-white/60 leading-relaxed lg:max-w-[32rem]">
-                Celebrate recovery journeys with hand-crafted bronze tokens.
+                Celebrate recovery journeys with hand-crafted tokens in every color.
                 Each piece tells a story of strength, hope, and transformation.
               </p>
             </HeroItem>
@@ -303,7 +303,8 @@ function TrustBar() {
               <StaggerItem key={feature.title}>
                 <HoverLift className="flex items-center gap-4">
                   <motion.div
-                    className="flex-shrink-0 w-14 h-14 rounded-full bg-white/[0.05] flex items-center justify-center text-accent"
+                    className="flex-shrink-0 w-14 h-14 rounded-full bg-white/[0.05] flex items-center justify-center"
+                    style={{color: '#FFFF93'}}
                     whileHover={{scale: 1.1, rotate: 5}}
                     transition={{duration: 0.2}}
                   >
@@ -328,7 +329,7 @@ function TrustBar() {
 }
 
 /**
- * Product Showcase - Featured product with feature highlights
+ * Product Showcase - Featured token with side feature cards
  */
 function ProductShowcase() {
   return (
@@ -336,83 +337,87 @@ function ProductShowcase() {
       <div className="container-standard">
         <SectionCard className="px-6 py-16 md:px-12 md:py-20">
           {/* Section Header */}
-          <FadeUp className="mb-16">
-            <div className="text-center">
-              <span className="inline-block text-accent text-caption uppercase tracking-[0.25em] font-semibold mb-4">
-                Featured Token
-              </span>
-            </div>
-            <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight mb-6 text-center">
+          <div style={{textAlign: 'center', maxWidth: '42rem', marginLeft: 'auto', marginRight: 'auto', marginBottom: '4rem'}}>
+            <span
+              style={{
+                display: 'inline-block',
+                color: '#FFFF93',
+                fontSize: '0.75rem',
+                textTransform: 'uppercase' as const,
+                letterSpacing: '0.25em',
+                fontWeight: 600,
+                marginBottom: '1rem',
+              }}
+            >
+              Featured Token
+            </span>
+            <h2
+              className="font-display"
+              style={{fontSize: 'clamp(1.875rem, 4vw, 3rem)', fontWeight: 700, color: '#fff', lineHeight: 1.1, marginBottom: '1.5rem'}}
+            >
               The Sunflower Token
             </h2>
-            <div className="max-w-[42rem] mx-auto">
-              <p className="text-body-lg text-white/60 text-center">
-                A symbol of hope and new beginnings. Each sunflower token is hand-cast in
-                solid bronze, featuring intricate details that capture the flower's natural beauty.
-              </p>
-            </div>
-          </FadeUp>
+            <p style={{fontSize: '1.125rem', lineHeight: 1.6, color: 'rgba(255,255,255,0.5)', maxWidth: '36rem', marginLeft: 'auto', marginRight: 'auto'}}>
+              A symbol of hope and new beginnings. Each sunflower token is hand-cast in
+              solid bronze, featuring intricate details that capture the flower's natural beauty.
+            </p>
+          </div>
 
-          {/* Product + Features Layout */}
-          <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+          {/* Product Display */}
+          <div className="grid lg:grid-cols-[1fr_auto_1fr] gap-8 lg:gap-12 items-center">
             {/* Left Features */}
-            <StaggerContainer className="lg:col-span-3 space-y-6 order-2 lg:order-1" staggerDelay={0.15}>
-              <StaggerItem>
-                <FeatureCard
-                  icon={<DiamondIcon />}
-                  title="Solid Bronze"
-                  description="Hand-cast from premium bronze alloy with an antique finish that develops unique patina over time."
-                  align="right"
-                />
-              </StaggerItem>
-              <StaggerItem>
-                <FeatureCard
-                  icon={<ShieldCheckIcon />}
-                  title="Built to Last"
-                  description="Designed to withstand daily handling while maintaining its beauty for years to come."
-                  align="right"
-                />
-              </StaggerItem>
-            </StaggerContainer>
+            <div className="hidden lg:flex flex-col gap-4">
+              <FeatureCard
+                icon={<DiamondIcon />}
+                title="Solid Bronze"
+                description="Each token is hand-cast in premium bronze for lasting quality."
+                align="right"
+              />
+              <FeatureCard
+                icon={<ShieldCheckIcon />}
+                title="Intricate Detail"
+                description="Every petal and detail is carefully crafted to perfection."
+                align="right"
+              />
+            </div>
 
-            {/* Center Product Image */}
-            <ScaleIn className="lg:col-span-6 order-1 lg:order-2">
-              <div className="relative mx-auto w-full sm:max-w-md lg:max-w-full">
-                {/* Subtle background circle */}
-                <div className="absolute inset-4 bg-white/[0.03] rounded-full" />
-                <motion.img
-                  src="https://cdn.shopify.com/s/files/1/0752/2733/2779/files/sunflower-token-final-webp.webp?v=1769842039"
-                  alt="Sunflower Recovery Token"
-                  className="relative w-full h-auto object-contain"
-                  whileHover={{scale: 1.02, rotate: 2}}
-                  transition={{duration: 0.4}}
-                />
+            {/* Center Token */}
+            <ScaleIn>
+              <div className="relative flex justify-center">
+                <div className="relative w-full max-w-[22rem] md:max-w-[26rem]">
+                  {/* Warm glow */}
+                  <div
+                    className="absolute top-8 left-1/2 -translate-x-1/2 w-[28rem] h-[28rem] rounded-full pointer-events-none"
+                    style={{background: 'radial-gradient(circle, rgba(255,255,147,0.15) 0%, rgba(255,255,147,0.05) 40%, transparent 70%)'}}
+                  />
+                  <motion.img
+                    src="https://cdn.shopify.com/s/files/1/0752/2733/2779/files/sunflower-token-final-webp.webp?v=1769842039"
+                    alt="Sunflower Recovery Token"
+                    className="relative w-full h-auto object-contain drop-shadow-2xl"
+                    whileHover={{scale: 1.03, rotate: 2}}
+                    transition={{duration: 0.5}}
+                  />
+                </div>
               </div>
             </ScaleIn>
 
             {/* Right Features */}
-            <StaggerContainer className="lg:col-span-3 space-y-6 order-3" staggerDelay={0.15}>
-              <StaggerItem>
-                <FeatureCard
-                  icon={<HeartIcon />}
-                  title="Meaningful Gift"
-                  description="A tangible symbol of support that shows someone you believe in their journey."
-                  align="left"
-                />
-              </StaggerItem>
-              <StaggerItem>
-                <FeatureCard
-                  icon={<SparklesIcon />}
-                  title="Custom Options"
-                  description="Personalize with names, dates, or special messages to make it uniquely theirs."
-                  align="left"
-                />
-              </StaggerItem>
-            </StaggerContainer>
+            <div className="hidden lg:flex flex-col gap-4">
+              <FeatureCard
+                icon={<HeartIcon />}
+                title="Symbol of Hope"
+                description="The sunflower represents new beginnings and growth."
+              />
+              <FeatureCard
+                icon={<SparklesIcon />}
+                title="Gift Ready"
+                description="Arrives in a premium gift box, perfect for gifting."
+              />
+            </div>
           </div>
 
           {/* CTA */}
-          <FadeUp delay={0.3} className="text-center mt-12">
+          <div className="flex justify-center mt-12">
             <Link to="/products/sunflower-token">
               <motion.div
                 whileHover={{scale: 1.02}}
@@ -425,7 +430,7 @@ function ProductShowcase() {
                 </Button>
               </motion.div>
             </Link>
-          </FadeUp>
+          </div>
         </SectionCard>
       </div>
     </section>
@@ -521,11 +526,11 @@ function FeaturedProducts({
                 <div className="absolute inset-0 bg-gradient-to-br from-[#0A0A0A] via-[#111111] to-[#0A0A0A]">
                   {/* Decorative token silhouette */}
                   <motion.div
-                    className="absolute top-1/2 right-8 lg:right-16 -translate-y-1/2 w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 rounded-full bg-gradient-to-br from-[#B8764F] to-[#8B5A3C] opacity-30 blur-sm"
+                    className="absolute top-1/2 right-8 lg:right-16 -translate-y-1/2 w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 rounded-full bg-gradient-to-br from-[#FFFF93] to-[#CCCC60] opacity-30 blur-sm"
                     animate={{scale: [1, 1.05, 1]}}
                     transition={{duration: 4, repeat: Infinity}}
                   />
-                  <div className="absolute top-1/2 right-10 lg:right-20 -translate-y-1/2 w-28 h-28 md:w-36 md:h-36 lg:w-44 lg:h-44 rounded-full border-4 border-[#B8764F]/40" />
+                  <div className="absolute top-1/2 right-10 lg:right-20 -translate-y-1/2 w-28 h-28 md:w-36 md:h-36 lg:w-44 lg:h-44 rounded-full border-4 border-[#FFFF93]/40" />
                 </div>
 
                 {/* Overlay gradient */}
@@ -535,7 +540,7 @@ function FeaturedProducts({
                 <div className="relative h-full flex flex-col justify-center p-6 md:p-8 lg:p-10">
                   <div className="flex items-center gap-2 mb-2">
                     <BronzeIcon />
-                    <span className="text-[#B8764F] text-caption uppercase tracking-[0.2em] font-semibold">
+                    <span className="text-[#FFFF93] text-caption uppercase tracking-[0.2em] font-semibold">
                       Classic Collection
                     </span>
                   </div>
@@ -546,7 +551,7 @@ function FeaturedProducts({
                     Timeless, hand-cast bronze with an antique patina that deepens over time.
                   </p>
                   <motion.span
-                    className="inline-flex items-center gap-2 text-[#B8764F] font-semibold"
+                    className="inline-flex items-center gap-2 text-[#FFFF93] font-semibold"
                     whileHover={{x: 5}}
                     transition={{duration: 0.2}}
                   >
@@ -691,7 +696,7 @@ function FeaturedProducts({
  */
 function BronzeIcon() {
   return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#B8764F]">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#FFFF93]">
       <circle cx="12" cy="12" r="10" />
       <path d="M12 6v6l4 2" />
     </svg>

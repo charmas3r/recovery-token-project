@@ -12,7 +12,7 @@ import {Breadcrumbs} from '~/components/ui/Breadcrumbs';
 import {JsonLd} from '~/components/seo/JsonLd';
 import {Accordion, AccordionItem} from '~/components/ui/Accordion';
 import {Button} from '~/components/ui/Button';
-import {FadeUp} from '~/components/ui/Animations';
+
 import {FAQ_ITEMS, FAQ_CATEGORIES, type FAQCategory} from '~/data/faq';
 
 export const meta: MetaFunction = () => {
@@ -147,12 +147,12 @@ export default function FAQPage() {
             <h1
               style={{
                 fontFamily: 'var(--font-display, serif)',
-                fontSize: '3rem',
                 fontWeight: 700,
                 color: '#1A202C',
                 lineHeight: 1.1,
                 marginBottom: '1rem',
               }}
+              className="text-[2rem] md:text-[3rem]"
             >
               We Have Answers
             </h1>
@@ -210,24 +210,22 @@ export default function FAQPage() {
       <section className="py-12 md:py-16" ref={contentRef}>
         <div className="container-standard" style={{maxWidth: '48rem'}}>
           {displayCategories.map((category) => (
-            <FadeUp key={category}>
-              <div className="mb-10 last:mb-0">
-                <h2 className="font-display text-xl font-bold text-primary mb-4">
-                  {category}
-                </h2>
-                <Accordion type="single">
-                  {groupedFaqs[category].map((item) => (
-                    <AccordionItem
-                      key={item.id}
-                      id={item.id}
-                      trigger={item.question}
-                    >
-                      {item.answer}
-                    </AccordionItem>
-                  ))}
-                </Accordion>
-              </div>
-            </FadeUp>
+            <div key={category} className="mb-10 last:mb-0">
+              <h2 className="font-display text-xl font-bold text-primary mb-4">
+                {category}
+              </h2>
+              <Accordion type="single">
+                {groupedFaqs[category].map((item) => (
+                  <AccordionItem
+                    key={item.id}
+                    id={item.id}
+                    trigger={item.question}
+                  >
+                    {item.answer}
+                  </AccordionItem>
+                ))}
+              </Accordion>
+            </div>
           ))}
         </div>
       </section>

@@ -10,7 +10,7 @@ import {Truck, Package, Clock, Globe, Check, ArrowRight} from 'lucide-react';
 import {Breadcrumbs} from '~/components/ui/Breadcrumbs';
 import {JsonLd} from '~/components/seo/JsonLd';
 import {Button} from '~/components/ui/Button';
-import {FadeUp} from '~/components/ui/Animations';
+
 import {
   SHIPPING_METHODS,
   FREE_SHIPPING_THRESHOLD,
@@ -128,12 +128,12 @@ export default function ShippingReturnsPage() {
             <h1
               style={{
                 fontFamily: 'var(--font-display, serif)',
-                fontSize: '3rem',
                 fontWeight: 700,
                 color: '#1A202C',
                 lineHeight: 1.1,
                 marginBottom: '1rem',
               }}
+              className="text-[2rem] md:text-[3rem]"
             >
               Delivery &amp; Return Policies
             </h1>
@@ -169,46 +169,44 @@ export default function ShippingReturnsPage() {
       {/* Shipping Methods */}
       <section className="py-12 md:py-16">
         <div className="container-standard" style={{maxWidth: '56rem'}}>
-          <FadeUp>
-            <div
+          <div
+            style={{
+              textAlign: 'center',
+              marginBottom: '2.5rem',
+            }}
+          >
+            <span
               style={{
-                textAlign: 'center',
-                marginBottom: '2.5rem',
+                display: 'inline-block',
+                color: '#B8764F',
+                fontSize: '0.75rem',
+                textTransform: 'uppercase',
+                letterSpacing: '0.25em',
+                fontWeight: 600,
+                marginBottom: '0.75rem',
               }}
             >
-              <span
-                style={{
-                  display: 'inline-block',
-                  color: '#B8764F',
-                  fontSize: '0.75rem',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.25em',
-                  fontWeight: 600,
-                  marginBottom: '0.75rem',
-                }}
-              >
-                Shipping Options
-              </span>
-              <h2
-                style={{
-                  fontFamily: 'var(--font-display, serif)',
-                  fontSize: '1.75rem',
-                  fontWeight: 700,
-                  color: '#1A202C',
-                  lineHeight: 1.3,
-                }}
-              >
-                Choose Your Delivery Speed
-              </h2>
-            </div>
-          </FadeUp>
+              Shipping Options
+            </span>
+            <h2
+              style={{
+                fontFamily: 'var(--font-display, serif)',
+                fontSize: '1.75rem',
+                fontWeight: 700,
+                color: '#1A202C',
+                lineHeight: 1.3,
+              }}
+            >
+              Choose Your Delivery Speed
+            </h2>
+          </div>
 
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(3, 1fr)',
               gap: '1.5rem',
             }}
+            className="grid-cols-1 md:grid-cols-3"
           >
             {SHIPPING_METHODS.map((method) => {
               const IconComponent =
@@ -250,33 +248,29 @@ export default function ShippingReturnsPage() {
       {/* Processing & International */}
       <section className="py-12 md:py-16 bg-surface">
         <div className="container-standard" style={{maxWidth: '48rem'}}>
-          <div style={{display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '3rem'}}>
-            <FadeUp>
-              <div className="flex items-start gap-3 mb-4">
-                <div
-                  className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
-                  style={{backgroundColor: '#B8764F15'}}
-                >
-                  <Clock className="w-5 h-5" style={{color: '#B8764F'}} />
-                </div>
-                <div>
-                  <PolicySectionBlock section={PROCESSING_INFO} />
-                </div>
+          <div style={{display: 'grid', gap: '3rem'}} className="grid-cols-1 md:grid-cols-2">
+            <div className="flex items-start gap-3 mb-4">
+              <div
+                className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
+                style={{backgroundColor: '#B8764F15'}}
+              >
+                <Clock className="w-5 h-5" style={{color: '#B8764F'}} />
               </div>
-            </FadeUp>
-            <FadeUp>
-              <div className="flex items-start gap-3 mb-4">
-                <div
-                  className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
-                  style={{backgroundColor: '#2D6A4F15'}}
-                >
-                  <Globe className="w-5 h-5" style={{color: '#2D6A4F'}} />
-                </div>
-                <div>
-                  <PolicySectionBlock section={INTERNATIONAL_SHIPPING} />
-                </div>
+              <div>
+                <PolicySectionBlock section={PROCESSING_INFO} />
               </div>
-            </FadeUp>
+            </div>
+            <div className="flex items-start gap-3 mb-4">
+              <div
+                className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
+                style={{backgroundColor: '#2D6A4F15'}}
+              >
+                <Globe className="w-5 h-5" style={{color: '#2D6A4F'}} />
+              </div>
+              <div>
+                <PolicySectionBlock section={INTERNATIONAL_SHIPPING} />
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -284,53 +278,43 @@ export default function ShippingReturnsPage() {
       {/* Returns Section */}
       <section className="py-12 md:py-16">
         <div className="container-standard" style={{maxWidth: '48rem'}}>
-          <FadeUp>
-            <div
+          <div
+            style={{
+              textAlign: 'center',
+              marginBottom: '2.5rem',
+            }}
+          >
+            <span
               style={{
-                textAlign: 'center',
-                marginBottom: '2.5rem',
+                display: 'inline-block',
+                color: '#B8764F',
+                fontSize: '0.75rem',
+                textTransform: 'uppercase',
+                letterSpacing: '0.25em',
+                fontWeight: 600,
+                marginBottom: '0.75rem',
               }}
             >
-              <span
-                style={{
-                  display: 'inline-block',
-                  color: '#B8764F',
-                  fontSize: '0.75rem',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.25em',
-                  fontWeight: 600,
-                  marginBottom: '0.75rem',
-                }}
-              >
-                Hassle-Free Returns
-              </span>
-              <h2
-                style={{
-                  fontFamily: 'var(--font-display, serif)',
-                  fontSize: '1.75rem',
-                  fontWeight: 700,
-                  color: '#1A202C',
-                  lineHeight: 1.3,
-                }}
-              >
-                Our Return &amp; Exchange Policy
-              </h2>
-            </div>
-          </FadeUp>
+              Hassle-Free Returns
+            </span>
+            <h2
+              style={{
+                fontFamily: 'var(--font-display, serif)',
+                fontSize: '1.75rem',
+                fontWeight: 700,
+                color: '#1A202C',
+                lineHeight: 1.3,
+              }}
+            >
+              Our Return &amp; Exchange Policy
+            </h2>
+          </div>
 
           <div className="space-y-2">
-            <FadeUp>
-              <PolicySectionBlock section={RETURN_POLICY} />
-            </FadeUp>
-            <FadeUp>
-              <PolicySectionBlock section={REFUND_INFO} />
-            </FadeUp>
-            <FadeUp>
-              <PolicySectionBlock section={EXCHANGE_INFO} />
-            </FadeUp>
-            <FadeUp>
-              <PolicySectionBlock section={DAMAGED_ITEMS} />
-            </FadeUp>
+            <PolicySectionBlock section={RETURN_POLICY} />
+            <PolicySectionBlock section={REFUND_INFO} />
+            <PolicySectionBlock section={EXCHANGE_INFO} />
+            <PolicySectionBlock section={DAMAGED_ITEMS} />
           </div>
         </div>
       </section>

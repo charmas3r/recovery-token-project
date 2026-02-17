@@ -116,12 +116,12 @@ export default function SupportHubPage() {
             <h1
               style={{
                 fontFamily: 'var(--font-display, serif)',
-                fontSize: '3rem',
                 fontWeight: 700,
                 color: '#1A202C',
                 lineHeight: 1.1,
                 marginBottom: '1rem',
               }}
+              className="text-[2rem] md:text-[3rem]"
             >
               How Can We Help?
             </h1>
@@ -148,12 +148,12 @@ export default function SupportHubPage() {
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(3, 1fr)',
               gap: '1.5rem',
               maxWidth: '56rem',
               marginLeft: 'auto',
               marginRight: 'auto',
             }}
+            className="grid-cols-1 md:grid-cols-3"
           >
             {SUPPORT_CARDS.map((card) => (
               <Link

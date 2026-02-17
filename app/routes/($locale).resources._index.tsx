@@ -15,11 +15,7 @@ import {ResourcesNav} from '~/components/resources/ResourcesNav';
 import {ArticleCard} from '~/components/resources/ArticleCard';
 import {Button} from '~/components/ui/Button';
 import {Badge} from '~/components/ui/Badge';
-import {
-  FadeUp,
-  StaggerContainer,
-  StaggerItem,
-} from '~/components/ui/Animations';
+
 import {inputStyles} from '~/components/ui/Input';
 import {getAllArticles, getAllGlossaryTerms} from '~/lib/sanity.queries';
 import type {Article} from '~/data/articles';
@@ -217,12 +213,12 @@ export default function ResourcesHubPage() {
             <h1
               style={{
                 fontFamily: 'var(--font-display, serif)',
-                fontSize: '3rem',
                 fontWeight: 700,
                 color: '#1A202C',
                 lineHeight: 1.1,
                 marginBottom: '1rem',
               }}
+              className="text-[2rem] md:text-[3rem]"
             >
               Learn, Explore & Celebrate
             </h1>
@@ -246,7 +242,7 @@ export default function ResourcesHubPage() {
       {/* Search Section */}
       <section className="py-8 md:py-10 border-b border-black/5">
         <div className="container-standard">
-          <div className="max-w-2xl mx-auto">
+          <div style={{maxWidth: '42rem', marginLeft: 'auto', marginRight: 'auto'}}>
             <div className="relative">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-secondary/50" />
               <input
@@ -338,129 +334,122 @@ export default function ResourcesHubPage() {
       {/* Category Cards */}
       <section className="py-12 md:py-16">
         <div className="container-standard">
-          <FadeUp>
-            <div
+          <div
+            style={{
+              textAlign: 'center',
+              marginBottom: '2.5rem',
+            }}
+          >
+            <span
               style={{
-                textAlign: 'center',
-                marginBottom: '2.5rem',
+                display: 'inline-block',
+                color: '#B8764F',
+                fontSize: '0.75rem',
+                textTransform: 'uppercase',
+                letterSpacing: '0.25em',
+                fontWeight: 600,
+                marginBottom: '0.75rem',
               }}
             >
-              <span
-                style={{
-                  display: 'inline-block',
-                  color: '#B8764F',
-                  fontSize: '0.75rem',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.25em',
-                  fontWeight: 600,
-                  marginBottom: '0.75rem',
-                }}
-              >
-                Browse by Category
-              </span>
-              <h2
-                style={{
-                  fontFamily: 'var(--font-display, serif)',
-                  fontSize: '1.75rem',
-                  fontWeight: 700,
-                  color: '#1A202C',
-                  lineHeight: 1.3,
-                }}
-              >
-                Explore Our Resources
-              </h2>
-            </div>
-          </FadeUp>
+              Browse by Category
+            </span>
+            <h2
+              style={{
+                fontFamily: 'var(--font-display, serif)',
+                fontSize: '1.75rem',
+                fontWeight: 700,
+                color: '#1A202C',
+                lineHeight: 1.3,
+              }}
+            >
+              Explore Our Resources
+            </h2>
+          </div>
 
-          <StaggerContainer
-            className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6"
-            staggerDelay={0.1}
+          <div
+            style={{display: 'grid', gap: '1.5rem'}}
+            className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
           >
             {CATEGORY_CARDS.map((card) => (
-              <StaggerItem key={card.title}>
-                <Link
-                  to={card.href}
-                  className="block bg-white rounded-2xl p-6 shadow-sm border border-black/5 transition-all duration-200 hover:shadow-lg hover:-translate-y-1 group h-full"
-                >
-                  <div className="flex items-center gap-3 mb-4">
-                    <div
-                      className="w-10 h-10 rounded-xl flex items-center justify-center"
-                      style={{backgroundColor: `${card.color}15`}}
-                    >
-                      <card.icon
-                        className="w-5 h-5"
-                        style={{color: card.color}}
-                      />
-                    </div>
-                    <Badge variant="new">{card.stat}</Badge>
+              <Link
+                key={card.title}
+                to={card.href}
+                className="block bg-white rounded-2xl p-6 shadow-sm border border-black/5 transition-all duration-200 hover:shadow-lg hover:-translate-y-1 group h-full"
+              >
+                <div className="flex items-center gap-3 mb-4">
+                  <div
+                    className="w-10 h-10 rounded-xl flex items-center justify-center"
+                    style={{backgroundColor: `${card.color}15`}}
+                  >
+                    <card.icon
+                      className="w-5 h-5"
+                      style={{color: card.color}}
+                    />
                   </div>
+                  <Badge variant="new">{card.stat}</Badge>
+                </div>
 
-                  <h3 className="font-display text-lg font-bold text-primary mb-2 group-hover:text-accent transition-colors">
-                    {card.title}
-                  </h3>
+                <h3 className="font-display text-lg font-bold text-primary mb-2 group-hover:text-accent transition-colors">
+                  {card.title}
+                </h3>
 
-                  <p className="text-body text-secondary leading-relaxed mb-4">
-                    {card.description}
-                  </p>
+                <p className="text-body text-secondary leading-relaxed mb-4">
+                  {card.description}
+                </p>
 
-                  <span className="inline-flex items-center gap-1.5 text-body-sm font-medium text-accent group-hover:text-accent/80 transition-colors">
-                    Explore
-                    <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
-                  </span>
-                </Link>
-              </StaggerItem>
+                <span className="inline-flex items-center gap-1.5 text-body-sm font-medium text-accent group-hover:text-accent/80 transition-colors">
+                  Explore
+                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+                </span>
+              </Link>
             ))}
-          </StaggerContainer>
+          </div>
         </div>
       </section>
 
       {/* Featured Articles */}
       <section className="py-12 md:py-16 bg-surface">
         <div className="container-standard">
-          <FadeUp>
-            <div
+          <div
+            style={{
+              textAlign: 'center',
+              marginBottom: '2.5rem',
+            }}
+          >
+            <span
               style={{
-                textAlign: 'center',
-                marginBottom: '2.5rem',
+                display: 'inline-block',
+                color: '#B8764F',
+                fontSize: '0.75rem',
+                textTransform: 'uppercase',
+                letterSpacing: '0.25em',
+                fontWeight: 600,
+                marginBottom: '0.75rem',
               }}
             >
-              <span
-                style={{
-                  display: 'inline-block',
-                  color: '#B8764F',
-                  fontSize: '0.75rem',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.25em',
-                  fontWeight: 600,
-                  marginBottom: '0.75rem',
-                }}
-              >
-                Latest Articles
-              </span>
-              <h2
-                style={{
-                  fontFamily: 'var(--font-display, serif)',
-                  fontSize: '1.75rem',
-                  fontWeight: 700,
-                  color: '#1A202C',
-                  lineHeight: 1.3,
-                }}
-              >
-                Featured Reading
-              </h2>
-            </div>
-          </FadeUp>
+              Latest Articles
+            </span>
+            <h2
+              style={{
+                fontFamily: 'var(--font-display, serif)',
+                fontSize: '1.75rem',
+                fontWeight: 700,
+                color: '#1A202C',
+                lineHeight: 1.3,
+              }}
+            >
+              Featured Reading
+            </h2>
+          </div>
 
-          <StaggerContainer
-            className="grid md:grid-cols-2 gap-6"
-            staggerDelay={0.1}
+          <div
+            style={{display: 'grid', gap: '1.5rem'}}
+            className="grid-cols-1 md:grid-cols-2"
           >
             {featuredArticles.map((article) => (
-              <StaggerItem key={(article as Article).id}>
-                <ArticleCard article={article as Article} />
-              </StaggerItem>
+              <ArticleCard key={(article as Article).id} article={article as Article} />
             ))}
-          </StaggerContainer>
+          </div>
 
           <div className="text-center mt-8">
             <Link to="/resources/articles">
@@ -476,50 +465,46 @@ export default function ResourcesHubPage() {
       {designArticles.length > 0 && (
         <section className="py-12 md:py-16">
           <div className="container-standard">
-            <FadeUp>
-              <div
+            <div
+              style={{
+                textAlign: 'center',
+                marginBottom: '2.5rem',
+              }}
+            >
+              <span
                 style={{
-                  textAlign: 'center',
-                  marginBottom: '2.5rem',
+                  display: 'inline-block',
+                  color: '#805AD5',
+                  fontSize: '0.75rem',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.25em',
+                  fontWeight: 600,
+                  marginBottom: '0.75rem',
                 }}
               >
-                <span
-                  style={{
-                    display: 'inline-block',
-                    color: '#805AD5',
-                    fontSize: '0.75rem',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.25em',
-                    fontWeight: 600,
-                    marginBottom: '0.75rem',
-                  }}
-                >
-                  Design Spotlights
-                </span>
-                <h2
-                  style={{
-                    fontFamily: 'var(--font-display, serif)',
-                    fontSize: '1.75rem',
-                    fontWeight: 700,
-                    color: '#1A202C',
-                    lineHeight: 1.3,
-                  }}
-                >
-                  Inside Our Token Designs
-                </h2>
-              </div>
-            </FadeUp>
+                Design Spotlights
+              </span>
+              <h2
+                style={{
+                  fontFamily: 'var(--font-display, serif)',
+                  fontSize: '1.75rem',
+                  fontWeight: 700,
+                  color: '#1A202C',
+                  lineHeight: 1.3,
+                }}
+              >
+                Inside Our Token Designs
+              </h2>
+            </div>
 
-            <StaggerContainer
-              className="grid md:grid-cols-3 gap-6"
-              staggerDelay={0.1}
+            <div
+              style={{display: 'grid', gap: '1.5rem'}}
+              className="grid-cols-1 md:grid-cols-3"
             >
               {designArticles.slice(0, 3).map((article) => (
-                <StaggerItem key={article.id}>
-                  <ArticleCard article={article} />
-                </StaggerItem>
+                <ArticleCard key={article.id} article={article} />
               ))}
-            </StaggerContainer>
+            </div>
 
             {designArticles.length > 3 && (
               <div className="text-center mt-8">

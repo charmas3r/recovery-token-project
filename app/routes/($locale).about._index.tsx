@@ -116,12 +116,12 @@ export default function AboutHubPage() {
             <h1
               style={{
                 fontFamily: 'var(--font-display, serif)',
-                fontSize: '3rem',
                 fontWeight: 700,
                 color: '#1A202C',
                 lineHeight: 1.1,
                 marginBottom: '1rem',
               }}
+              className="text-[2rem] md:text-[3rem]"
             >
               Our Mission & Story
             </h1>
@@ -149,12 +149,12 @@ export default function AboutHubPage() {
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(3, 1fr)',
               gap: '1.5rem',
               maxWidth: '56rem',
               marginLeft: 'auto',
               marginRight: 'auto',
             }}
+            className="grid-cols-1 md:grid-cols-3"
           >
             {ABOUT_CARDS.map((card) => (
               <Link

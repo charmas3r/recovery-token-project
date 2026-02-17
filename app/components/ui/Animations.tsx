@@ -553,7 +553,7 @@ export function GlowPulse({
     <motion.div
       className={className}
       animate={{
-        opacity: [0.2, 0.4, 0.2],
+        opacity: [0.1, 0.2, 0.1],
         scale: [0.75, 0.85, 0.75],
       }}
       transition={{

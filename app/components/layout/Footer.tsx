@@ -63,18 +63,9 @@ function FooterContent({
   };
 
   return (
-    <footer className="bg-primary text-white relative overflow-hidden">
-      {/* Background pattern */}
-      <div className="absolute inset-0 opacity-5">
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-          }}
-        />
-      </div>
+    <footer className="bg-black text-white border-t border-white/[0.06]">
 
-      <div className="container-standard relative z-10 pt-16 md:pt-20 pb-8">
+      <div className="container-standard pt-16 md:pt-20 pb-8">
         {/* Main footer content */}
         <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-10 mb-12" staggerDelay={0.1}>
           {/* Brand column - spans 4 cols on large screens */}
@@ -93,7 +84,7 @@ function FooterContent({
                 href="https://facebook.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-white/10 hover:bg-accent transition-colors duration-200 flex items-center justify-center"
+                className="w-10 h-10 rounded-full bg-white/[0.05] border border-white/[0.08] hover:border-white/[0.15] transition-colors duration-200 flex items-center justify-center"
                 aria-label="Facebook"
               >
                 <FacebookIcon />
@@ -102,7 +93,7 @@ function FooterContent({
                 href="https://instagram.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-white/10 hover:bg-accent transition-colors duration-200 flex items-center justify-center"
+                className="w-10 h-10 rounded-full bg-white/[0.05] border border-white/[0.08] hover:border-white/[0.15] transition-colors duration-200 flex items-center justify-center"
                 aria-label="Instagram"
               >
                 <InstagramIcon />
@@ -111,7 +102,7 @@ function FooterContent({
                 href="https://twitter.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-white/10 hover:bg-accent transition-colors duration-200 flex items-center justify-center"
+                className="w-10 h-10 rounded-full bg-white/[0.05] border border-white/[0.08] hover:border-white/[0.15] transition-colors duration-200 flex items-center justify-center"
                 aria-label="Twitter"
               >
                 <TwitterIcon />
@@ -209,12 +200,12 @@ function FooterContent({
                 placeholder="Enter your email"
                 required
                 disabled={isSubmitting}
-                className="w-full h-12 px-4 pr-32 rounded-lg bg-white/10 text-white placeholder:text-white/50 focus:outline-none focus:bg-white/15 focus:ring-2 focus:ring-accent/40 transition-all duration-200 disabled:opacity-50"
+                className="w-full h-12 px-4 pr-32 rounded-lg bg-white/[0.05] border border-white/[0.08] text-white placeholder:text-white/40 focus:outline-none focus:border-white/[0.15] focus:ring-2 focus:ring-accent/30 transition-all duration-200 disabled:opacity-50"
               />
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="absolute right-1.5 top-1/2 -translate-y-1/2 px-5 py-2 bg-accent text-white text-sm font-semibold rounded-md hover:bg-accent/90 transition-colors duration-200 disabled:opacity-50"
+                className="absolute right-1.5 top-1/2 -translate-y-1/2 px-5 py-2 bg-white text-black text-sm font-semibold rounded-md hover:bg-white/90 transition-colors duration-200 disabled:opacity-50"
               >
                 {isSubmitting ? 'Subscribing...' : isSuccess ? 'Subscribed!' : 'Subscribe'}
               </button>
@@ -229,7 +220,7 @@ function FooterContent({
         </StaggerContainer>
 
         {/* Footer bottom */}
-        <div className="border-t border-white/20 pt-8">
+        <div className="border-t border-white/[0.06] pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-6">
             {/* Copyright */}
             <p className="!text-white/60 text-sm">

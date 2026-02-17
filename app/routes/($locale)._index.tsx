@@ -23,6 +23,32 @@ import {
   motion,
 } from '~/components/ui/Animations';
 
+/**
+ * Resend-style dark section card — subtle near-black card with
+ * faint border and a soft top-edge gradient shine.
+ */
+function SectionCard({
+  children,
+  className = '',
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <div
+      className={`relative rounded-[20px] border border-white/[0.08] overflow-hidden ${className}`}
+      style={{background: 'linear-gradient(180deg, #111 0%, #0A0A0A 40%, #080808 100%)'}}
+    >
+      {/* Top-edge gradient shine */}
+      <div
+        className="pointer-events-none absolute inset-x-0 top-0 h-px"
+        style={{background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.12) 50%, transparent 100%)'}}
+      />
+      {children}
+    </div>
+  );
+}
+
 export const meta: Route.MetaFunction = () => {
   return [{title: 'Recovery Token Store | Meaningful Milestone Tokens'}];
 };
@@ -72,7 +98,7 @@ async function fetchStoreReviews(env: {
   JUDGEME_PUBLIC_TOKEN?: string;
 }) {
   const shopDomain = env.PUBLIC_JUDGEME_SHOP_DOMAIN || env.PUBLIC_STORE_DOMAIN;
-  
+
   if (!env.JUDGEME_PUBLIC_TOKEN || !shopDomain) {
     return null;
   }
@@ -106,7 +132,7 @@ async function fetchStoreReviews(env: {
     }>;
     total?: number;
   };
-  
+
   return {
     reviews: data.reviews || [],
     total: data.total || 0,
@@ -141,37 +167,55 @@ function HeroSection({
   collection: FeaturedCollectionFragment;
 }) {
   return (
-    <section className="relative bg-primary overflow-hidden">
-      {/* Background gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary to-surface-dark opacity-95" />
-
+    <section className="relative bg-black overflow-hidden -mt-24">
+      {/* Background lighting effect — soft top glow like Resend */}
+      <div
+        className="pointer-events-none absolute inset-0 z-0"
+        style={{
+          background: 'radial-gradient(ellipse 70% 40% at 50% 0%, rgba(180,180,180,0.15) 0%, rgba(80,80,80,0.06) 30%, transparent 70%)',
+        }}
+      />
       <div className="container-wide relative z-10">
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center min-h-[60vh] py-12 lg:py-8">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center min-h-[60vh] pt-32 pb-12 lg:pt-28 lg:pb-8">
           {/* Left Column - Content */}
           <HeroContent className="order-2 lg:order-1 text-center lg:text-left w-full">
-            {/* Eyebrow */}
-            <HeroItem>
-              <span className="inline-block text-accent text-caption uppercase tracking-[0.25em] font-semibold mb-6">
-                Hand-Crafted Bronze Tokens
-              </span>
-            </HeroItem>
-            
+
             {/* Main Heading */}
             <HeroItem>
-              <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl xl:text-[4.5rem] font-bold text-white leading-[1.05] tracking-tight mb-6">
-                Honor Every
-                <span className="block text-accent">Milestone</span>
+              <h1
+                className="text-white mb-6"
+                style={{
+                  fontFamily: "'Charter', 'Georgia', 'Times New Roman', serif",
+                  fontSize: 'clamp(48px, 5vw, 64px)',
+                  fontWeight: 400,
+                  lineHeight: 1.1,
+                  letterSpacing: '-0.64px',
+                  fontFeatureSettings: '"ss01", "ss04", "ss11"',
+                }}
+              >
+                Honor Every{' '}
+                <span
+                  className="block"
+                  style={{
+                    background: 'linear-gradient(135deg, #C4956A 0%, #E8C9A0 40%, #FFFFFF 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text',
+                  }}
+                >
+                  Milestone
+                </span>
               </h1>
             </HeroItem>
-            
+
             {/* Subheading */}
             <HeroItem>
-              <p className="text-lg lg:text-xl text-white/80 leading-relaxed lg:max-w-[32rem]">
-                Celebrate recovery journeys with hand-crafted bronze tokens. 
+              <p className="text-lg lg:text-xl text-white/60 leading-relaxed lg:max-w-[32rem]">
+                Celebrate recovery journeys with hand-crafted bronze tokens.
                 Each piece tells a story of strength, hope, and transformation.
               </p>
             </HeroItem>
-            
+
             {/* CTA Buttons */}
             <HeroItem>
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mt-10">
@@ -181,53 +225,43 @@ function HeroSection({
                     whileTap={{scale: 0.98}}
                     transition={{duration: 0.2}}
                   >
-                    <Button 
-                      variant="primary" 
+                    <Button
+                      variant="primary"
                       size="lg"
-                      className="w-full sm:w-auto !bg-accent !text-white !border-accent hover:!bg-accent/90 !px-10"
+                      className="w-full sm:w-auto !px-10"
                     >
                       Shop Collection
                     </Button>
                   </motion.div>
                 </Link>
                 <Link to="/about">
-                  <motion.button 
-                    className="w-full sm:w-auto px-8 py-3 text-base font-semibold rounded-lg border-2 border-white/40 text-white bg-transparent hover:bg-white/10 hover:border-white/60 transition-all duration-200"
-                    whileHover={{scale: 1.02}}
-                    whileTap={{scale: 0.98}}
-                    transition={{duration: 0.2}}
-                  >
-                    Our Story
-                  </motion.button>
+                    <Button
+                      variant="secondary"
+                      size="lg"
+                      className="w-full sm:w-auto"
+                      as="span"
+                    >
+                      Our Story
+                    </Button>
                 </Link>
               </div>
             </HeroItem>
           </HeroContent>
-          
+
           {/* Right Column - Hero Image */}
           <HeroImage className="order-1 lg:order-2 relative flex items-center justify-center w-full">
             <div className="relative w-full max-w-[24rem] sm:max-w-[28rem] lg:max-w-[32rem]">
               {/* Glow effect behind image */}
-              <GlowPulse className="absolute inset-0 bg-accent/20 blur-3xl rounded-full scale-75" />
-              
+              <GlowPulse className="absolute inset-0 bg-accent/10 blur-[80px] rounded-full scale-75" />
+
               <img
                 src="https://cdn.shopify.com/s/files/1/0752/2733/2779/files/mandala-token-final.webp?v=1769842039"
                 alt="Recovery Token - Hand-crafted bronze milestone token"
-                className="relative w-full h-auto object-contain drop-shadow-2xl"
+                className="relative w-full h-auto object-contain"
               />
             </div>
           </HeroImage>
         </div>
-      </div>
-
-      {/* Decorative bottom wave */}
-      <div className="absolute bottom-0 left-0 right-0">
-        <svg viewBox="0 0 1440 120" fill="none" className="w-full h-auto">
-          <path
-            d="M0 120L60 110C120 100 240 80 360 70C480 60 600 60 720 65C840 70 960 80 1080 85C1200 90 1320 90 1380 90L1440 90V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z"
-            fill="#F7FAFC"
-          />
-        </svg>
       </div>
     </section>
   );
@@ -261,31 +295,33 @@ function TrustBar() {
   ];
 
   return (
-    <section className="bg-surface py-10 md:py-12 border-b border-black/5">
+    <section className="bg-black py-10 md:py-12">
       <div className="container-standard">
-        <StaggerContainer className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-10" staggerDelay={0.08}>
-          {features.map((feature) => (
-            <StaggerItem key={feature.title}>
-              <HoverLift className="flex items-center gap-4">
-                <motion.div 
-                  className="flex-shrink-0 w-14 h-14 rounded-full bg-accent/10 flex items-center justify-center text-accent"
-                  whileHover={{scale: 1.1, rotate: 5}}
-                  transition={{duration: 0.2}}
-                >
-                  {feature.icon}
-                </motion.div>
-                <div>
-                  <h3 className="font-display text-base font-bold text-primary">
-                    {feature.title}
-                  </h3>
-                  <p className="text-sm text-secondary">
-                    {feature.description}
-                  </p>
-                </div>
-              </HoverLift>
-            </StaggerItem>
-          ))}
-        </StaggerContainer>
+        <SectionCard className="px-8 py-8 md:px-12 md:py-10">
+          <StaggerContainer className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-10" staggerDelay={0.08}>
+            {features.map((feature) => (
+              <StaggerItem key={feature.title}>
+                <HoverLift className="flex items-center gap-4">
+                  <motion.div
+                    className="flex-shrink-0 w-14 h-14 rounded-full bg-white/[0.05] flex items-center justify-center text-accent"
+                    whileHover={{scale: 1.1, rotate: 5}}
+                    transition={{duration: 0.2}}
+                  >
+                    {feature.icon}
+                  </motion.div>
+                  <div>
+                    <h3 className="font-display text-base font-bold text-white">
+                      {feature.title}
+                    </h3>
+                    <p className="text-sm text-white/50">
+                      {feature.description}
+                    </p>
+                  </div>
+                </HoverLift>
+              </StaggerItem>
+            ))}
+          </StaggerContainer>
+        </SectionCard>
       </div>
     </section>
   );
@@ -296,99 +332,101 @@ function TrustBar() {
  */
 function ProductShowcase() {
   return (
-    <section className="py-20 md:py-28 bg-surface">
+    <section className="py-20 md:py-28 bg-black">
       <div className="container-standard">
-        {/* Section Header */}
-        <FadeUp className="mb-16">
-          <div className="text-center">
-            <span className="inline-block text-accent text-caption uppercase tracking-[0.25em] font-semibold mb-4">
-              Featured Token
-            </span>
-          </div>
-          <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-primary leading-tight mb-6 text-center">
-            The Sunflower Token
-          </h2>
-          <div className="max-w-[42rem] mx-auto">
-            <p className="text-body-lg text-secondary text-center">
-              A symbol of hope and new beginnings. Each sunflower token is hand-cast in 
-              solid bronze, featuring intricate details that capture the flower's natural beauty.
-            </p>
-          </div>
-        </FadeUp>
-        
-        {/* Product + Features Layout */}
-        <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-          {/* Left Features */}
-          <StaggerContainer className="lg:col-span-3 space-y-6 order-2 lg:order-1" staggerDelay={0.15}>
-            <StaggerItem>
-              <FeatureCard
-                icon={<DiamondIcon />}
-                title="Solid Bronze"
-                description="Hand-cast from premium bronze alloy with an antique finish that develops unique patina over time."
-                align="right"
-              />
-            </StaggerItem>
-            <StaggerItem>
-              <FeatureCard
-                icon={<ShieldCheckIcon />}
-                title="Built to Last"
-                description="Designed to withstand daily handling while maintaining its beauty for years to come."
-                align="right"
-              />
-            </StaggerItem>
-          </StaggerContainer>
-          
-          {/* Center Product Image */}
-          <ScaleIn className="lg:col-span-6 order-1 lg:order-2">
-            <div className="relative mx-auto w-full sm:max-w-md lg:max-w-full">
-              {/* Subtle background circle */}
-              <div className="absolute inset-4 bg-white rounded-full shadow-inner" />
-              <motion.img
-                src="https://cdn.shopify.com/s/files/1/0752/2733/2779/files/sunflower-token-final-webp.webp?v=1769842039"
-                alt="Sunflower Recovery Token"
-                className="relative w-full h-auto object-contain"
-                whileHover={{scale: 1.02, rotate: 2}}
-                transition={{duration: 0.4}}
-              />
+        <SectionCard className="px-6 py-16 md:px-12 md:py-20">
+          {/* Section Header */}
+          <FadeUp className="mb-16">
+            <div className="text-center">
+              <span className="inline-block text-accent text-caption uppercase tracking-[0.25em] font-semibold mb-4">
+                Featured Token
+              </span>
             </div>
-          </ScaleIn>
-          
-          {/* Right Features */}
-          <StaggerContainer className="lg:col-span-3 space-y-6 order-3" staggerDelay={0.15}>
-            <StaggerItem>
-              <FeatureCard
-                icon={<HeartIcon />}
-                title="Meaningful Gift"
-                description="A tangible symbol of support that shows someone you believe in their journey."
-                align="left"
-              />
-            </StaggerItem>
-            <StaggerItem>
-              <FeatureCard
-                icon={<SparklesIcon />}
-                title="Custom Options"
-                description="Personalize with names, dates, or special messages to make it uniquely theirs."
-                align="left"
-              />
-            </StaggerItem>
-          </StaggerContainer>
-        </div>
+            <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight mb-6 text-center">
+              The Sunflower Token
+            </h2>
+            <div className="max-w-[42rem] mx-auto">
+              <p className="text-body-lg text-white/60 text-center">
+                A symbol of hope and new beginnings. Each sunflower token is hand-cast in
+                solid bronze, featuring intricate details that capture the flower's natural beauty.
+              </p>
+            </div>
+          </FadeUp>
 
-        {/* CTA */}
-        <FadeUp delay={0.3} className="text-center mt-12">
-          <Link to="/products/sunflower-token">
-            <motion.div
-              whileHover={{scale: 1.02}}
-              whileTap={{scale: 0.98}}
-              transition={{duration: 0.2}}
-              className="inline-block"
-            >
-              <Button variant="primary" size="lg">
-                View Token Details
-              </Button>
-            </motion.div>
-          </Link>
-        </FadeUp>
+          {/* Product + Features Layout */}
+          <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            {/* Left Features */}
+            <StaggerContainer className="lg:col-span-3 space-y-6 order-2 lg:order-1" staggerDelay={0.15}>
+              <StaggerItem>
+                <FeatureCard
+                  icon={<DiamondIcon />}
+                  title="Solid Bronze"
+                  description="Hand-cast from premium bronze alloy with an antique finish that develops unique patina over time."
+                  align="right"
+                />
+              </StaggerItem>
+              <StaggerItem>
+                <FeatureCard
+                  icon={<ShieldCheckIcon />}
+                  title="Built to Last"
+                  description="Designed to withstand daily handling while maintaining its beauty for years to come."
+                  align="right"
+                />
+              </StaggerItem>
+            </StaggerContainer>
+
+            {/* Center Product Image */}
+            <ScaleIn className="lg:col-span-6 order-1 lg:order-2">
+              <div className="relative mx-auto w-full sm:max-w-md lg:max-w-full">
+                {/* Subtle background circle */}
+                <div className="absolute inset-4 bg-white/[0.03] rounded-full" />
+                <motion.img
+                  src="https://cdn.shopify.com/s/files/1/0752/2733/2779/files/sunflower-token-final-webp.webp?v=1769842039"
+                  alt="Sunflower Recovery Token"
+                  className="relative w-full h-auto object-contain"
+                  whileHover={{scale: 1.02, rotate: 2}}
+                  transition={{duration: 0.4}}
+                />
+              </div>
+            </ScaleIn>
+
+            {/* Right Features */}
+            <StaggerContainer className="lg:col-span-3 space-y-6 order-3" staggerDelay={0.15}>
+              <StaggerItem>
+                <FeatureCard
+                  icon={<HeartIcon />}
+                  title="Meaningful Gift"
+                  description="A tangible symbol of support that shows someone you believe in their journey."
+                  align="left"
+                />
+              </StaggerItem>
+              <StaggerItem>
+                <FeatureCard
+                  icon={<SparklesIcon />}
+                  title="Custom Options"
+                  description="Personalize with names, dates, or special messages to make it uniquely theirs."
+                  align="left"
+                />
+              </StaggerItem>
+            </StaggerContainer>
+          </div>
+
+          {/* CTA */}
+          <FadeUp delay={0.3} className="text-center mt-12">
+            <Link to="/products/sunflower-token">
+              <motion.div
+                whileHover={{scale: 1.02}}
+                whileTap={{scale: 0.98}}
+                transition={{duration: 0.2}}
+                className="inline-block"
+              >
+                <Button variant="primary" size="lg">
+                  View Token Details
+                </Button>
+              </motion.div>
+            </Link>
+          </FadeUp>
+        </SectionCard>
       </div>
     </section>
   );
@@ -410,30 +448,30 @@ function FeatureCard({
 }) {
   return (
     <HoverLift lift={-6}>
-      <motion.div 
-        className={`bg-white rounded-xl p-6 shadow-sm border border-black/5 ${
+      <motion.div
+        className={`bg-white/[0.03] rounded-xl p-6 border border-white/[0.08] ${
           align === 'right' ? 'lg:text-right' : 'lg:text-left'
         }`}
         whileHover={{
-          boxShadow: '0 10px 30px -10px rgba(0,0,0,0.1)',
+          borderColor: 'rgba(255,255,255,0.15)',
         }}
         transition={{duration: 0.3}}
       >
         <div className={`flex items-center gap-3 mb-3 ${
           align === 'right' ? 'lg:flex-row-reverse' : ''
         }`}>
-          <motion.div 
-            className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center text-accent flex-shrink-0"
+          <motion.div
+            className="w-10 h-10 rounded-lg bg-white/[0.05] flex items-center justify-center text-accent flex-shrink-0"
             whileHover={{scale: 1.1, rotate: 5}}
             transition={{duration: 0.2}}
           >
             {icon}
           </motion.div>
-          <h3 className="font-display text-base font-bold text-primary">
+          <h3 className="font-display text-base font-bold text-white">
             {title}
           </h3>
         </div>
-        <p className="text-body-sm text-secondary leading-relaxed">
+        <p className="text-body-sm text-white/50 leading-relaxed">
           {description}
         </p>
       </motion.div>
@@ -450,7 +488,7 @@ function FeaturedProducts({
   products: Promise<RecommendedProductsQuery | null>;
 }) {
   return (
-    <section className="py-20 md:py-28 bg-white">
+    <section className="py-20 md:py-28 bg-black border-t border-white/[0.06]">
       <div className="container-standard">
         {/* Section Header */}
         <FadeUp className="mb-12 md:mb-16">
@@ -459,12 +497,12 @@ function FeaturedProducts({
               Shop Tokens
             </span>
           </div>
-          <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-primary leading-tight mb-4 text-center">
+          <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight mb-4 text-center">
             Find Your Perfect Token
           </h2>
           <div className="max-w-[36rem] mx-auto">
-            <p className="text-body-lg text-secondary text-center">
-              Choose from our hand-crafted collection, available in classic bronze 
+            <p className="text-body-lg text-white/60 text-center">
+              Choose from our hand-crafted collection, available in classic bronze
               or vibrant color-printed finishes.
             </p>
           </div>
@@ -475,24 +513,24 @@ function FeaturedProducts({
           {/* Bronze Tokens Card */}
           <StaggerItem>
             <HoverScale scale={1.02}>
-              <Link 
-                to="/collections/bronze-tokens" 
-                className="group relative rounded-2xl overflow-hidden aspect-[16/9] md:aspect-[4/3] lg:aspect-[16/9] block"
+              <Link
+                to="/collections/bronze-tokens"
+                className="group relative rounded-2xl overflow-hidden aspect-[16/9] md:aspect-[4/3] lg:aspect-[16/9] block border border-white/[0.08]"
               >
                 {/* Background image placeholder - replace with actual collection image */}
-                <div className="absolute inset-0 bg-gradient-to-br from-[#1A202C] via-[#2D3748] to-[#1A202C]">
+                <div className="absolute inset-0 bg-gradient-to-br from-[#0A0A0A] via-[#111111] to-[#0A0A0A]">
                   {/* Decorative token silhouette */}
-                  <motion.div 
+                  <motion.div
                     className="absolute top-1/2 right-8 lg:right-16 -translate-y-1/2 w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 rounded-full bg-gradient-to-br from-[#B8764F] to-[#8B5A3C] opacity-30 blur-sm"
                     animate={{scale: [1, 1.05, 1]}}
                     transition={{duration: 4, repeat: Infinity}}
                   />
                   <div className="absolute top-1/2 right-10 lg:right-20 -translate-y-1/2 w-28 h-28 md:w-36 md:h-36 lg:w-44 lg:h-44 rounded-full border-4 border-[#B8764F]/40" />
                 </div>
-                
+
                 {/* Overlay gradient */}
                 <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent" />
-                
+
                 {/* Content */}
                 <div className="relative h-full flex flex-col justify-center p-6 md:p-8 lg:p-10">
                   <div className="flex items-center gap-2 mb-2">
@@ -507,7 +545,7 @@ function FeaturedProducts({
                   <p className="text-white/70 text-body-sm md:text-body max-w-[20rem] mb-4">
                     Timeless, hand-cast bronze with an antique patina that deepens over time.
                   </p>
-                  <motion.span 
+                  <motion.span
                     className="inline-flex items-center gap-2 text-[#B8764F] font-semibold"
                     whileHover={{x: 5}}
                     transition={{duration: 0.2}}
@@ -516,9 +554,9 @@ function FeaturedProducts({
                     <ArrowRightIcon />
                   </motion.span>
                 </div>
-                
+
                 {/* Hover effect */}
-                <div className="absolute inset-0 bg-[#B8764F]/0 group-hover:bg-[#B8764F]/10 transition-colors duration-300" />
+                <div className="absolute inset-0 bg-white/0 group-hover:bg-white/[0.03] transition-colors duration-300" />
               </Link>
             </HoverScale>
           </StaggerItem>
@@ -526,40 +564,40 @@ function FeaturedProducts({
           {/* Color Printed Tokens Card */}
           <StaggerItem>
             <HoverScale scale={1.02}>
-              <Link 
-                to="/collections/color-tokens" 
-                className="group relative rounded-2xl overflow-hidden aspect-[16/9] md:aspect-[4/3] lg:aspect-[16/9] block"
+              <Link
+                to="/collections/color-tokens"
+                className="group relative rounded-2xl overflow-hidden aspect-[16/9] md:aspect-[4/3] lg:aspect-[16/9] block border border-white/[0.08]"
               >
                 {/* Colorful background */}
                 <div className="absolute inset-0 bg-gradient-to-br from-[#667eea] via-[#764ba2] to-[#f093fb]">
                   {/* Decorative elements */}
-                  <motion.div 
+                  <motion.div
                     className="absolute top-1/2 right-8 lg:right-16 -translate-y-1/2 w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 rounded-full bg-white/20 blur-sm"
                     animate={{scale: [1, 1.05, 1]}}
                     transition={{duration: 4, repeat: Infinity, delay: 0.5}}
                   />
                   <div className="absolute top-1/2 right-10 lg:right-20 -translate-y-1/2 w-28 h-28 md:w-36 md:h-36 lg:w-44 lg:h-44 rounded-full border-4 border-white/30" />
                   {/* Floating color dots */}
-                  <motion.div 
+                  <motion.div
                     className="absolute top-6 right-20 w-4 h-4 rounded-full bg-yellow-300/60"
                     animate={{y: [-5, 5, -5]}}
                     transition={{duration: 3, repeat: Infinity}}
                   />
-                  <motion.div 
+                  <motion.div
                     className="absolute bottom-8 right-32 w-3 h-3 rounded-full bg-cyan-300/60"
                     animate={{y: [5, -5, 5]}}
                     transition={{duration: 3.5, repeat: Infinity}}
                   />
-                  <motion.div 
+                  <motion.div
                     className="absolute top-1/3 right-8 w-2 h-2 rounded-full bg-pink-300/80"
                     animate={{y: [-3, 3, -3]}}
                     transition={{duration: 2.5, repeat: Infinity}}
                   />
                 </div>
-                
+
                 {/* Overlay gradient */}
                 <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent" />
-                
+
                 {/* Content */}
                 <div className="relative h-full flex flex-col justify-center p-6 md:p-8 lg:p-10">
                   <div className="flex items-center gap-2 mb-2">
@@ -574,7 +612,7 @@ function FeaturedProducts({
                   <p className="text-white/70 text-body-sm md:text-body max-w-[20rem] mb-4">
                     Bold, vibrant designs with full-color artwork that makes a statement.
                   </p>
-                  <motion.span 
+                  <motion.span
                     className="inline-flex items-center gap-2 text-pink-200 font-semibold"
                     whileHover={{x: 5}}
                     transition={{duration: 0.2}}
@@ -583,7 +621,7 @@ function FeaturedProducts({
                     <ArrowRightIcon />
                   </motion.span>
                 </div>
-                
+
                 {/* Hover effect */}
                 <div className="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-colors duration-300" />
               </Link>
@@ -594,10 +632,10 @@ function FeaturedProducts({
         {/* Featured Products Header */}
         <FadeUp className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8">
           <div>
-            <h3 className="font-display text-xl md:text-2xl font-bold text-primary">
+            <h3 className="font-display text-xl md:text-2xl font-bold text-white">
               Popular Tokens
             </h3>
-            <p className="text-secondary text-body-sm mt-1">
+            <p className="text-white/50 text-body-sm mt-1">
               Our most loved designs, hand-picked for you
             </p>
           </div>
@@ -612,7 +650,7 @@ function FeaturedProducts({
             </motion.div>
           </Link>
         </FadeUp>
-        
+
         {/* Products Grid */}
         <Suspense fallback={<ProductsGridSkeleton />}>
           <Await resolve={products}>
@@ -687,19 +725,13 @@ function ArrowRightIcon() {
  */
 function BrandStory() {
   return (
-    <section className="py-20 md:py-28 bg-primary text-white relative overflow-hidden">
-      {/* Background pattern */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-        }} />
-      </div>
-      
-      <div className="container-standard relative z-10">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+    <section className="py-20 md:py-28 bg-black text-white">
+      <div className="container-standard">
+        <SectionCard className="px-6 py-16 md:px-12 md:py-20">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           {/* Image */}
           <SlideIn direction="left" className="relative">
-            <div className="relative rounded-2xl overflow-hidden shadow-2xl">
+            <div className="relative rounded-2xl overflow-hidden border border-white/[0.08]">
               <motion.img
                 src="https://cdn.shopify.com/s/files/1/0752/2733/2779/files/recovery-rise-up-final.webp?v=1769872854"
                 alt="Recovery journey"
@@ -710,16 +742,16 @@ function BrandStory() {
               {/* Gradient overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-primary/50 to-transparent" />
             </div>
-            
+
             {/* Floating stat card */}
-            <motion.div 
-              className="absolute -bottom-6 -right-6 md:right-8 bg-white rounded-xl p-6 shadow-xl max-w-[200px]"
+            <motion.div
+              className="absolute -bottom-6 -right-6 md:right-8 bg-[#111] border border-white/[0.1] rounded-xl p-6 max-w-[200px]"
               initial={{opacity: 0, y: 30, scale: 0.9}}
               whileInView={{opacity: 1, y: 0, scale: 1}}
               viewport={{once: true}}
               transition={{delay: 0.4, duration: 0.5}}
             >
-              <motion.div 
+              <motion.div
                 className="text-4xl font-display font-bold text-accent mb-1"
                 initial={{opacity: 0}}
                 whileInView={{opacity: 1}}
@@ -728,10 +760,10 @@ function BrandStory() {
               >
                 10K+
               </motion.div>
-              <p className="text-sm text-secondary">Milestones celebrated</p>
+              <p className="text-sm text-white/50">Milestones celebrated</p>
             </motion.div>
           </SlideIn>
-          
+
           {/* Content */}
           <SlideIn direction="right">
             <span className="inline-block text-accent text-caption uppercase tracking-[0.25em] font-semibold mb-4">
@@ -740,16 +772,16 @@ function BrandStory() {
             <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-6">
               Every Journey Deserves to Be Celebrated
             </h2>
-            <p className="text-lg text-white/80 leading-relaxed mb-6">
-              Recovery is one of the most courageous journeys a person can take. 
-              We believe every step forward—whether it's 24 hours or 25 years—deserves 
+            <p className="text-lg text-white/60 leading-relaxed mb-6">
+              Recovery is one of the most courageous journeys a person can take.
+              We believe every step forward—whether it's 24 hours or 25 years—deserves
               to be honored with something meaningful and lasting.
             </p>
-            <p className="text-lg text-white/80 leading-relaxed mb-8">
-              Our hand-crafted bronze tokens serve as tangible reminders of strength, 
+            <p className="text-lg text-white/60 leading-relaxed mb-8">
+              Our hand-crafted bronze tokens serve as tangible reminders of strength,
               hope, and the incredible resilience of the human spirit.
             </p>
-            
+
             <StaggerContainer className="flex flex-wrap gap-8 mt-10" staggerDelay={0.1}>
               <StaggerItem>
                 <div>
@@ -772,6 +804,7 @@ function BrandStory() {
             </StaggerContainer>
           </SlideIn>
         </div>
+        </SectionCard>
       </div>
     </section>
   );
@@ -824,67 +857,69 @@ function CustomerReviewsSection({
   ];
 
   return (
-    <section className="py-20 md:py-28 bg-surface">
+    <section className="py-20 md:py-28 bg-black">
       <div className="container-standard">
-        {/* Section Header */}
-        <FadeUp className="text-center mb-16">
-          <span className="inline-block text-accent text-caption uppercase tracking-[0.25em] font-semibold mb-4">
-            Testimonials
-          </span>
-          <h2 className="font-display text-3xl md:text-4xl font-bold text-primary leading-tight">
-            Stories That Inspire
-          </h2>
-        </FadeUp>
-        
-        {/* Testimonials Grid - Original hardcoded style */}
-        <StaggerContainer className="grid md:grid-cols-3 gap-8" staggerDelay={0.15}>
-          {testimonials.map((testimonial, index) => (
-            <StaggerItem key={index}>
-              <HoverLift lift={-8}>
-                <motion.div 
-                  className="bg-white rounded-2xl p-8 shadow-sm border border-black/5 relative h-full"
-                  whileHover={{
-                    boxShadow: '0 20px 40px -15px rgba(0,0,0,0.1)',
-                  }}
-                  transition={{duration: 0.3}}
-                >
-                  {/* Quote icon */}
-                  <motion.div 
-                    className="absolute -top-4 left-8 w-8 h-8 bg-accent rounded-full flex items-center justify-center"
-                    initial={{scale: 0, rotate: -180}}
-                    whileInView={{scale: 1, rotate: 0}}
-                    viewport={{once: true}}
-                    transition={{delay: 0.2 + index * 0.1, type: 'spring', stiffness: 200}}
+        <SectionCard className="px-6 py-16 md:px-12 md:py-20">
+          {/* Section Header */}
+          <FadeUp className="text-center mb-16">
+            <span className="inline-block text-accent text-caption uppercase tracking-[0.25em] font-semibold mb-4">
+              Testimonials
+            </span>
+            <h2 className="font-display text-3xl md:text-4xl font-bold text-white leading-tight">
+              Stories That Inspire
+            </h2>
+          </FadeUp>
+
+          {/* Testimonials Grid */}
+          <StaggerContainer className="grid md:grid-cols-3 gap-8" staggerDelay={0.15}>
+            {testimonials.map((testimonial, index) => (
+              <StaggerItem key={index}>
+                <HoverLift lift={-8}>
+                  <motion.div
+                    className="bg-white/[0.03] rounded-2xl p-8 border border-white/[0.06] relative h-full"
+                    whileHover={{
+                      borderColor: 'rgba(255,255,255,0.12)',
+                    }}
+                    transition={{duration: 0.3}}
                   >
-                    <QuoteIcon />
-                  </motion.div>
-                  
-                  <p className="text-body text-secondary leading-relaxed mb-6 pt-2">
-                    "{testimonial.quote}"
-                  </p>
-                  
-                  <div className="flex items-center gap-4">
-                    <motion.div 
-                      className="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-white font-display font-bold"
-                      whileHover={{scale: 1.1}}
-                      transition={{duration: 0.2}}
+                    {/* Quote icon */}
+                    <motion.div
+                      className="absolute -top-4 left-8 w-8 h-8 bg-white/[0.08] border border-white/[0.1] rounded-full flex items-center justify-center"
+                      initial={{scale: 0, rotate: -180}}
+                      whileInView={{scale: 1, rotate: 0}}
+                      viewport={{once: true}}
+                      transition={{delay: 0.2 + index * 0.1, type: 'spring', stiffness: 200}}
                     >
-                      {testimonial.avatar}
+                      <QuoteIcon />
                     </motion.div>
-                    <div>
-                      <div className="font-display font-bold text-primary">
-                        {testimonial.author}
-                      </div>
-                      <div className="text-caption text-accent">
-                        {testimonial.milestone}
+
+                    <p className="text-body text-white/60 leading-relaxed mb-6 pt-2">
+                      "{testimonial.quote}"
+                    </p>
+
+                    <div className="flex items-center gap-4">
+                      <motion.div
+                        className="w-12 h-12 rounded-full bg-white/[0.08] border border-white/[0.1] flex items-center justify-center text-white font-display font-bold"
+                        whileHover={{scale: 1.1}}
+                        transition={{duration: 0.2}}
+                      >
+                        {testimonial.avatar}
+                      </motion.div>
+                      <div>
+                        <div className="font-display font-bold text-white">
+                          {testimonial.author}
+                        </div>
+                        <div className="text-caption text-accent">
+                          {testimonial.milestone}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </motion.div>
-              </HoverLift>
-            </StaggerItem>
-          ))}
-        </StaggerContainer>
+                  </motion.div>
+                </HoverLift>
+              </StaggerItem>
+            ))}
+          </StaggerContainer>
+        </SectionCard>
       </div>
     </section>
   );
@@ -895,7 +930,7 @@ function CustomerReviewsSection({
  */
 function AnimatedStarWidget() {
   return (
-    <motion.div 
+    <motion.div
       className="inline-block relative mb-10"
       initial={{scale: 0.8, opacity: 0}}
       animate={{scale: 1, opacity: 1}}
@@ -932,8 +967,8 @@ function AnimatedStarWidget() {
  */
 function StarIcon({className = ''}: {className?: string}) {
   return (
-    <svg 
-      viewBox="0 0 24 24" 
+    <svg
+      viewBox="0 0 24 24"
       className={className}
       fill="currentColor"
       stroke="currentColor"
@@ -965,16 +1000,16 @@ function FinalCTA({
   collection: FeaturedCollectionFragment;
 }) {
   return (
-    <section className="py-20 md:py-24 bg-white">
+    <section className="py-20 md:py-24 bg-black">
       <div className="container-standard">
         <ScaleIn>
-          <div className="bg-gradient-to-br from-primary to-surface-dark rounded-3xl p-10 md:p-16 text-center relative overflow-hidden">
+          <SectionCard className="p-10 md:p-16 text-center relative">
             {/* Background decoration */}
-            <motion.div 
-              className="absolute top-0 right-0 w-64 h-64 bg-accent/10 rounded-full blur-3xl"
+            <motion.div
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-accent/[0.04] rounded-full blur-[100px]"
               animate={{
                 scale: [1, 1.2, 1],
-                opacity: [0.1, 0.2, 0.1],
+                opacity: [0.04, 0.08, 0.04],
               }}
               transition={{
                 duration: 6,
@@ -982,25 +1017,13 @@ function FinalCTA({
                 ease: 'easeInOut',
               }}
             />
-            <motion.div 
-              className="absolute bottom-0 left-0 w-48 h-48 bg-accent/10 rounded-full blur-3xl"
-              animate={{
-                scale: [1.2, 1, 1.2],
-                opacity: [0.15, 0.1, 0.15],
-              }}
-              transition={{
-                duration: 5,
-                repeat: Infinity,
-                ease: 'easeInOut',
-              }}
-            />
-            
+
             <FadeUp className="relative z-10 max-w-[42rem] mx-auto px-4">
               <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight mb-6">
                 Ready to Celebrate Your Milestone?
               </h2>
-              <p className="text-lg text-white/80">
-                Every journey is worth celebrating. Find the perfect token to honor 
+              <p className="text-lg text-white/50">
+                Every journey is worth celebrating. Find the perfect token to honor
                 your progress or gift to someone special.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center mt-10">
@@ -1010,28 +1033,28 @@ function FinalCTA({
                     whileTap={{scale: 0.98}}
                     transition={{duration: 0.2}}
                   >
-                    <Button 
-                      variant="primary" 
+                    <Button
+                      variant="primary"
                       size="lg"
-                      className="w-full sm:w-auto !bg-accent !text-white !border-accent hover:!bg-accent/90 !px-12"
+                      className="w-full sm:w-auto !px-12"
                     >
                       Shop Now
                     </Button>
                   </motion.div>
                 </Link>
                 <Link to="/contact">
-                  <motion.button 
-                    className="w-full sm:w-auto px-8 py-3 text-base font-semibold rounded-lg border-2 border-white/40 text-white bg-transparent hover:bg-white/10 hover:border-white/60 transition-all duration-200"
-                    whileHover={{scale: 1.05}}
-                    whileTap={{scale: 0.98}}
-                    transition={{duration: 0.2}}
+                  <Button
+                    variant="secondary"
+                    size="lg"
+                    className="w-full sm:w-auto"
+                    as="span"
                   >
                     Contact Us
-                  </motion.button>
+                  </Button>
                 </Link>
               </div>
             </FadeUp>
-          </div>
+          </SectionCard>
         </ScaleIn>
       </div>
     </section>
@@ -1045,17 +1068,17 @@ function ProductsGridSkeleton() {
   return (
     <div className="products-grid">
       {Array.from({length: 4}).map((_, i) => (
-        <motion.div 
-          key={i} 
+        <motion.div
+          key={i}
           className="animate-pulse"
           initial={{opacity: 0}}
           animate={{opacity: 1}}
           transition={{delay: i * 0.1}}
         >
-          <div className="aspect-[4/5] bg-surface rounded-lg" />
+          <div className="aspect-[4/5] bg-white/[0.05] rounded-lg" />
           <div className="p-4 space-y-3">
-            <div className="h-5 bg-surface rounded w-3/4" />
-            <div className="h-5 bg-surface rounded w-1/3" />
+            <div className="h-5 bg-white/[0.05] rounded w-3/4" />
+            <div className="h-5 bg-white/[0.05] rounded w-1/3" />
           </div>
         </motion.div>
       ))}

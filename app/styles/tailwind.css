@@ -42,12 +42,15 @@
   --font-size-caption: 0.75rem;        /* 12px */
   --font-size-caption--line-height: 1.4;
   
-  /* Color System */
-  --color-primary: #1A202C;            /* Deep Navy - headings, primary text */
-  --color-secondary: #4A5568;          /* Slate - body text, secondary elements */
-  --color-accent: #B8764F;             /* Bronze/Copper - CTAs, links, badges */
-  --color-surface: #F7FAFC;            /* Cool Gray - backgrounds, cards */
-  --color-surface-dark: #2D3748;       /* Dark surface - footer, overlays */
+  /* Color System — Dark Minimalist Theme */
+  --color-primary: #000000;            /* Pure black - page background */
+  --color-secondary: #888888;          /* Muted gray - body text */
+  --color-accent: #C4956A;             /* Warm gold - CTAs, links, badges */
+  --color-surface: #0A0A0A;            /* Near-black - card backgrounds */
+  --color-surface-dark: #111111;       /* Elevated surface */
+  --color-border: rgba(255, 255, 255, 0.08);  /* Subtle section/card borders */
+  --color-border-hover: rgba(255, 255, 255, 0.15); /* Hover borders */
+  --color-text-muted: rgba(255, 255, 255, 0.4);    /* Very muted text */
   --color-success: #38A169;            /* Confirmation, in-stock */
   --color-warning: #DD6B20;            /* Important notices, low stock */
   --color-error: #E53E3E;              /* Error messages, required fields */
@@ -86,11 +89,11 @@
   --transition-base: 300ms ease;
   --transition-slow: 400ms ease-out;
   
-  /* Shadows */
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
-  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+  /* Shadows — Minimal on dark theme, use borders instead */
+  --shadow-sm: none;
+  --shadow-md: none;
+  --shadow-lg: none;
+  --shadow-xl: none;
   
   /* Legacy Variables (for backward compatibility) */
   --aside-width: 400px;
@@ -99,7 +102,7 @@
   --grid-item-width: 355px;
   --header-height: 64px;
   --color-dark: var(--color-primary);
-  --color-light: var(--color-white);
+  --color-light: #000000;
 }
 
 /**
@@ -122,7 +125,7 @@ body {
   font-size: var(--font-size-body);
   line-height: var(--font-size-body--line-height);
   color: var(--color-secondary);
-  background-color: var(--color-white);
+  background-color: var(--color-primary);
 }
 
 /* Typography Defaults */
@@ -291,7 +294,7 @@ img {
 /* Focus States - Design System Required */
 .focus-ring {
   outline: none;
-  box-shadow: 0 0 0 2px var(--color-white), 0 0 0 4px var(--color-accent);
+  box-shadow: 0 0 0 2px var(--color-black), 0 0 0 4px rgba(196, 149, 106, 0.5);
 }
 
 button:focus-visible,
@@ -300,7 +303,7 @@ input:focus-visible,
 select:focus-visible,
 textarea:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px var(--color-white), 0 0 0 4px var(--color-accent);
+  box-shadow: 0 0 0 2px var(--color-black), 0 0 0 4px rgba(196, 149, 106, 0.5);
 }
 
 /**
@@ -323,8 +326,8 @@ textarea:focus-visible {
 }
 
 aside {
-  background: var(--color-white);
-  box-shadow: var(--shadow-xl);
+  background: var(--color-black);
+  box-shadow: none;
   height: 100vh;
   width: min(var(--aside-width), 100vw);
   position: fixed;
@@ -335,7 +338,7 @@ aside {
 
 aside header {
   align-items: center;
-  border-bottom: 1px solid var(--color-primary);
+  border-bottom: 1px solid var(--color-border);
   display: flex;
   height: var(--header-height);
   justify-content: space-between;
@@ -345,7 +348,7 @@ aside header {
 aside header h3 {
   margin: 0;
   font-size: var(--font-size-subsection);
-  color: var(--color-primary);
+  color: var(--color-white);
 }
 
 aside header .close {
@@ -391,14 +394,14 @@ aside main {
 /* Header */
 .header {
   align-items: center;
-  background: var(--color-white);
+  background: #0A0A0A;
   display: flex;
   height: var(--header-height);
   padding: 0 var(--spacing-md);
   position: sticky;
   top: 0;
-  z-index: 1;
-  border-bottom: 1px solid var(--color-surface);
+  z-index: 40;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .header-menu-mobile-toggle {
@@ -418,14 +421,14 @@ aside main {
 
 .header-menu-item {
   cursor: pointer;
-  font-size: var(--font-size-body);
+  font-size: var(--font-size-body-sm);
   font-weight: 500;
-  color: var(--color-primary);
+  color: rgba(255, 255, 255, 0.85);
   transition: color var(--transition-fast);
 }
 
 .header-menu-item:hover {
-  color: var(--color-accent);
+  color: var(--color-white);
 }
 
 .header-ctas {
@@ -466,7 +469,7 @@ aside main {
 .cart-line {
   display: flex;
   padding: var(--spacing-md) 0;
-  border-bottom: 1px solid var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
 }
 
 .cart-line img {
@@ -476,8 +479,8 @@ aside main {
 }
 
 .cart-summary-aside {
-  background: var(--color-white);
-  border-top: 1px solid var(--color-primary);
+  background: var(--color-black);
+  border-top: 1px solid var(--color-border);
   bottom: 0;
   padding-top: var(--spacing-md);
   position: absolute;

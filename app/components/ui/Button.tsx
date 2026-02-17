@@ -37,36 +37,31 @@ export function Button<T extends ElementType = 'button'>({
   return (
     <Component
       className={clsx(
-        // Base styles - Elevated card appearance
+        // Base styles - Dark minimalist
         'inline-flex items-center justify-center',
-        'font-semibold rounded-lg',
+        'font-semibold rounded-xl',
         'transition-all duration-200',
         'disabled:opacity-40 disabled:cursor-not-allowed',
-        
-        // Elevated card shadow effect
-        'shadow-[0_2px_8px_rgba(0,0,0,0.08)]',
-        'hover:shadow-[0_4px_12px_rgba(0,0,0,0.12)]',
-        'active:shadow-[0_1px_4px_rgba(0,0,0,0.08)]',
-        
+
         // Focus state (design system required)
-        'focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2',
-        
-        // Variants (per design system)
+        'focus:outline-none focus:ring-2 focus:ring-white/30 focus:ring-offset-2 focus:ring-offset-black',
+
+        // Variants — Dark theme (Resend-inspired)
         {
-          // Primary - Accent background, white text, subtle border
-          'bg-accent text-white border border-accent/80 hover:bg-accent/90 hover:-translate-y-0.5 active:translate-y-0':
+          // Primary - Dark pill with subtle border glow
+          'bg-white/[0.1] text-white border border-white/[0.15] hover:bg-white/[0.15] hover:border-white/[0.25] active:bg-white/[0.08]':
             variant === 'primary',
-          
-          // Secondary - White background, subtle border, primary text
-          'bg-white text-primary border border-black/10 hover:border-black/20 hover:-translate-y-0.5 active:translate-y-0':
+
+          // Secondary - Plain text, no background, no border (matches body text)
+          'bg-transparent text-white/[0.45] border border-transparent hover:text-white/70':
             variant === 'secondary',
-          
-          // Tertiary - Transparent with subtle border on hover
-          'bg-transparent text-primary border border-transparent hover:border-black/10 hover:bg-white/50':
+
+          // Tertiary - Transparent, white/50 text
+          'bg-transparent text-white/50 border border-transparent hover:text-white/80':
             variant === 'tertiary',
-          
+
           // Destructive - Error color with subtle border
-          'bg-error text-white border border-error/80 hover:bg-error/90 hover:-translate-y-0.5 active:translate-y-0':
+          'bg-error text-white border border-error/80 hover:bg-error/90 active:bg-error/80':
             variant === 'destructive',
         },
         

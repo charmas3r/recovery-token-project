@@ -1,12 +1,13 @@
 import {Await, useLoaderData, Link} from 'react-router';
 import type {Route} from './+types/_index';
-import {Suspense} from 'react';
+import {Suspense, useState, useEffect, useCallback, useRef} from 'react';
 import type {
   FeaturedCollectionFragment,
   RecommendedProductsQuery,
 } from 'storefrontapi.generated';
 import {ProductItem} from '~/components/product/ProductItem';
 import {Button} from '~/components/ui/Button';
+import {AnimatePresence} from 'framer-motion';
 import {
   FadeUp,
   FadeIn,
@@ -148,7 +149,7 @@ export default function Homepage() {
   return (
     <div className="overflow-x-hidden">
       <HeroSection collection={data.featuredCollection} />
-      <TrustBar />
+      <PromoCarousel />
       <ProductShowcase />
       <FeaturedProducts products={data.recommendedProducts} />
       <BrandStory />
@@ -268,61 +269,215 @@ function HeroSection({
 }
 
 /**
- * Trust Bar - Social proof and key benefits
+ * Promo Carousel - Full-width animated promo banner that cycles through offers
  */
-function TrustBar() {
-  const features = [
-    {
-      icon: <ShippingIcon />,
-      title: 'Free Shipping',
-      description: 'On orders over $50',
+const PROMOS = [
+  {
+    icon: <ShippingIcon />,
+    headline: 'Free Shipping',
+    subtext: 'On every order over $50 — no code needed',
+    accent: '#FFFF93',
+    gradient: 'radial-gradient(ellipse at 50% 0%, rgba(255,255,147,0.12) 0%, transparent 70%)',
+  },
+  {
+    icon: <PercentIcon />,
+    headline: 'WELCOME15',
+    subtext: '15% off your first order — use code at checkout',
+    accent: '#93FFDB',
+    gradient: 'radial-gradient(ellipse at 50% 0%, rgba(147,255,219,0.12) 0%, transparent 70%)',
+  },
+  {
+    icon: <QualityIcon />,
+    headline: 'Premium Quality',
+    subtext: 'Hand-cast solid bronze — built to last a lifetime',
+    accent: '#B8764F',
+    gradient: 'radial-gradient(ellipse at 50% 0%, rgba(184,118,79,0.15) 0%, transparent 70%)',
+  },
+  {
+    icon: <GiftIcon />,
+    headline: 'Gift Wrapping',
+    subtext: 'Complimentary premium gift box with every token',
+    accent: '#FF93C9',
+    gradient: 'radial-gradient(ellipse at 50% 0%, rgba(255,147,201,0.12) 0%, transparent 70%)',
+  },
+];
+
+function PromoCarousel() {
+  const [current, setCurrent] = useState(0);
+  const [direction, setDirection] = useState(1);
+  const pausedRef = useRef(false);
+
+  const goTo = useCallback((index: number) => {
+    setDirection(index > current ? 1 : -1);
+    setCurrent(index);
+  }, [current]);
+
+  // Auto-advance with setInterval — uses a ref for pause so the timer never resets
+  useEffect(() => {
+    const timer = setInterval(() => {
+      if (pausedRef.current) return;
+      setDirection(1);
+      setCurrent((prev) => (prev + 1) % PROMOS.length);
+    }, 4500);
+    return () => clearInterval(timer);
+  }, []);
+
+  const promo = PROMOS[current];
+
+  const slideVariants = {
+    enter: (d: number) => ({
+      x: d > 0 ? 80 : -80,
+      opacity: 0,
+      scale: 0.95,
+      filter: 'blur(8px)',
+    }),
+    center: {
+      x: 0,
+      opacity: 1,
+      scale: 1,
+      filter: 'blur(0px)',
     },
-    {
-      icon: <QualityIcon />,
-      title: 'Premium Quality',
-      description: 'Hand-cast bronze',
-    },
-    {
-      icon: <SecureIcon />,
-      title: 'Secure Checkout',
-      description: '256-bit encryption',
-    },
-    {
-      icon: <SupportIcon />,
-      title: '5-Star Support',
-      description: 'We\'re here to help',
-    },
-  ];
+    exit: (d: number) => ({
+      x: d > 0 ? -80 : 80,
+      opacity: 0,
+      scale: 0.95,
+      filter: 'blur(8px)',
+    }),
+  };
 
   return (
-    <section className="bg-black py-10 md:py-12">
-      <div className="container-standard">
-        <SectionCard className="px-8 py-8 md:px-12 md:py-10">
-          <StaggerContainer className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-10" staggerDelay={0.08}>
-            {features.map((feature) => (
-              <StaggerItem key={feature.title}>
-                <HoverLift className="flex items-center gap-4">
-                  <motion.div
-                    className="flex-shrink-0 w-14 h-14 rounded-full bg-white/[0.05] flex items-center justify-center"
-                    style={{color: '#FFFF93'}}
-                    whileHover={{scale: 1.1, rotate: 5}}
-                    transition={{duration: 0.2}}
-                  >
-                    {feature.icon}
-                  </motion.div>
-                  <div>
-                    <h3 className="font-display text-base font-bold text-white">
-                      {feature.title}
-                    </h3>
-                    <p className="text-sm text-white/50">
-                      {feature.description}
-                    </p>
-                  </div>
-                </HoverLift>
-              </StaggerItem>
-            ))}
-          </StaggerContainer>
-        </SectionCard>
+    <section
+      className="relative bg-black overflow-hidden"
+      onMouseEnter={() => { pausedRef.current = true; }}
+      onMouseLeave={() => { pausedRef.current = false; }}
+    >
+      {/* Animated background glow that changes color per promo */}
+      <motion.div
+        className="absolute inset-0 pointer-events-none"
+        animate={{background: promo.gradient}}
+        transition={{duration: 0.8}}
+      />
+
+      {/* Subtle horizontal line accents */}
+      <div
+        className="absolute inset-x-0 top-0 h-px"
+        style={{background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.06) 50%, transparent 100%)'}}
+      />
+      <div
+        className="absolute inset-x-0 bottom-0 h-px"
+        style={{background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.06) 50%, transparent 100%)'}}
+      />
+
+      <div className="relative py-10 md:py-14">
+        <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', minHeight: '80px'}}>
+          <AnimatePresence mode="wait" custom={direction}>
+            <motion.div
+              key={current}
+              custom={direction}
+              variants={slideVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94]}}
+              style={{display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '0.75rem', width: '100%'}}
+            >
+              {/* Icon with glow ring */}
+              <motion.div
+                style={{position: 'relative'}}
+                animate={{scale: [1, 1.05, 1]}}
+                transition={{duration: 3, repeat: Infinity, ease: 'easeInOut'}}
+              >
+                <div
+                  style={{position: 'absolute', inset: 0, borderRadius: '9999px', filter: 'blur(16px)', opacity: 0.3, background: promo.accent}}
+                />
+                <div
+                  style={{
+                    position: 'relative',
+                    width: '3rem',
+                    height: '3rem',
+                    borderRadius: '9999px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '1px solid',
+                    color: promo.accent,
+                    borderColor: `${promo.accent}33`,
+                    background: `${promo.accent}0D`,
+                  }}
+                >
+                  {promo.icon}
+                </div>
+              </motion.div>
+
+              {/* Headline */}
+              <h3
+                style={{
+                  fontFamily: 'var(--font-display, serif)',
+                  fontWeight: 700,
+                  letterSpacing: '0.025em',
+                  fontSize: 'clamp(1.25rem, 3vw, 1.75rem)',
+                  color: promo.accent,
+                  textShadow: `0 0 30px ${promo.accent}40`,
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                {promo.headline}
+              </h3>
+
+              {/* Subtext */}
+              <p style={{color: 'rgba(255,255,255,0.5)', fontSize: '1rem', maxWidth: '28rem', lineHeight: 1.5, whiteSpace: 'normal', width: '100%'}}>
+                {promo.subtext}
+              </p>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        {/* Dot indicators */}
+        <div className="flex items-center justify-center gap-2 mt-6">
+          {PROMOS.map((_, i) => (
+            <motion.button
+              key={i}
+              onClick={() => goTo(i)}
+              className="relative"
+              aria-label={`Go to promo ${i + 1}`}
+            >
+              <motion.div
+                className="w-2 h-2 rounded-full"
+                animate={{
+                  background: i === current ? promo.accent : 'rgba(255,255,255,0.15)',
+                  scale: i === current ? 1.3 : 1,
+                }}
+                transition={{duration: 0.3}}
+              />
+              {/* Active dot glow */}
+              {i === current && (
+                <motion.div
+                  className="absolute inset-0 rounded-full blur-sm"
+                  style={{background: promo.accent}}
+                  layoutId="promoDotGlow"
+                  transition={{duration: 0.3}}
+                />
+              )}
+            </motion.button>
+          ))}
+        </div>
+
+        {/* Progress bar */}
+        <div className="mt-4 mx-auto" style={{maxWidth: '120px'}}>
+          <div className="h-[2px] rounded-full bg-white/[0.06] overflow-hidden">
+            <motion.div
+              className="h-full rounded-full"
+              style={{background: promo.accent}}
+              key={`progress-${current}`}
+              initial={{width: '0%'}}
+              animate={{width: '100%'}}
+              transition={{
+                duration: 4.5,
+                ease: 'linear',
+              }}
+            />
+          </div>
+        </div>
       </div>
     </section>
   );
@@ -1130,6 +1285,27 @@ function SupportIcon() {
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M3 18v-6a9 9 0 0 1 18 0v6" />
       <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z" />
+    </svg>
+  );
+}
+
+function PercentIcon() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="19" y1="5" x2="5" y2="19" />
+      <circle cx="6.5" cy="6.5" r="2.5" />
+      <circle cx="17.5" cy="17.5" r="2.5" />
+    </svg>
+  );
+}
+
+function GiftIcon() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="8" width="18" height="4" rx="1" />
+      <path d="M12 8v13" />
+      <path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7" />
+      <path d="M7.5 8a2.5 2.5 0 0 1 0-5A4.8 4.8 0 0 1 12 8a4.8 4.8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5" />
     </svg>
   );
 }

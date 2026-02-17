@@ -298,6 +298,39 @@ function adaptGlossaryTerm(doc: SanityGlossaryTerm): GlossaryTerm {
   };
 }
 
+// --- Announcement Bar ---
+
+const ANNOUNCEMENT_BAR_QUERY = `*[_type == "announcementBar"][0] {
+  enabled,
+  message,
+  linkText,
+  linkUrl,
+  backgroundColor,
+  textColor
+}`;
+
+export interface AnnouncementBarData {
+  enabled: boolean;
+  message: string;
+  linkText?: string;
+  linkUrl?: string;
+  backgroundColor?: string;
+  textColor?: string;
+}
+
+export async function getAnnouncementBar(): Promise<AnnouncementBarData | null> {
+  try {
+    const doc =
+      await sanityClient.fetch<AnnouncementBarData | null>(
+        ANNOUNCEMENT_BAR_QUERY,
+      );
+    return doc;
+  } catch (error) {
+    console.error('Failed to fetch announcement bar:', error);
+    return null;
+  }
+}
+
 // --- Public API ---
 
 export async function getArticleBySlug(

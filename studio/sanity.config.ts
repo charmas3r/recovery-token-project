@@ -3,13 +3,41 @@ import {structureTool} from 'sanity/structure';
 import {visionTool} from '@sanity/vision';
 import {schemaTypes} from './schemas';
 
+// Singleton document types that should not appear as lists
+const singletonTypes = new Set(['announcementBar']);
+
 export default defineConfig({
   name: 'recovery-token-store',
   title: 'Recovery Token Store',
   projectId: '7yuseyfn',
   dataset: 'production',
-  plugins: [structureTool(), visionTool()],
+  plugins: [
+    structureTool({
+      structure: (S) =>
+        S.list()
+          .title('Content')
+          .items([
+            // Singleton: Announcement Bar
+            S.listItem()
+              .title('Announcement Bar')
+              .id('announcementBar')
+              .child(
+                S.document()
+                  .schemaType('announcementBar')
+                  .documentId('announcementBar'),
+              ),
+            S.divider(),
+            // All other document types (excluding singletons)
+            ...S.documentTypeListItems().filter(
+              (listItem) => !singletonTypes.has(listItem.getId()!),
+            ),
+          ]),
+    }),
+    visionTool(),
+  ],
   schema: {
     types: schemaTypes,
+    templates: (templates) =>
+      templates.filter(({schemaType}) => !singletonTypes.has(schemaType)),
   },
 });

@@ -14,6 +14,7 @@ import {
   SearchFormPredictive,
 } from '~/components/layout/SearchFormPredictive';
 import {SearchResultsPredictive} from '~/components/layout/SearchResultsPredictive';
+import type {AnnouncementBarData} from '~/lib/sanity.queries';
 
 interface PageLayoutProps {
   cart: Promise<CartApiQueryFragment | null>;
@@ -21,6 +22,7 @@ interface PageLayoutProps {
   header: HeaderQuery;
   isLoggedIn: Promise<boolean>;
   publicStoreDomain: string;
+  announcement?: AnnouncementBarData | null;
   children?: React.ReactNode;
 }
 
@@ -31,6 +33,7 @@ export function PageLayout({
   header,
   isLoggedIn,
   publicStoreDomain,
+  announcement,
 }: PageLayoutProps) {
   return (
     <Aside.Provider>
@@ -38,7 +41,7 @@ export function PageLayout({
       <SearchAside />
       <MobileMenuAside header={header} publicStoreDomain={publicStoreDomain} />
       <div className="fixed top-0 left-0 right-0 z-50">
-        <AnnouncementBar />
+        <AnnouncementBar data={announcement} />
         {header && (
           <Header
             header={header}
@@ -61,13 +64,36 @@ export function PageLayout({
 
 /**
  * Announcement Bar Component
- * Displays promotional messages at the top of the page
+ * Displays promotional messages at the top of the page.
+ * Content is managed via Sanity CMS.
  */
-function AnnouncementBar() {
+function AnnouncementBar({data}: {data?: AnnouncementBarData | null}) {
+  if (!data || !data.enabled || !data.message) {
+    return null;
+  }
+
+  const style: React.CSSProperties = {};
+  if (data.backgroundColor) style.backgroundColor = data.backgroundColor;
+  if (data.textColor) style.color = data.textColor;
+
   return (
-    <div className="bg-primary text-white py-3 px-4 text-center">
+    <div
+      className="bg-primary text-white py-3 px-4 text-center"
+      style={style}
+    >
       <p className="text-sm font-medium tracking-wide">
-        Enjoy an exclusive 10% coupon for your first purchase.
+        {data.message}
+        {data.linkText && data.linkUrl && (
+          <>
+            {' '}
+            <Link
+              to={data.linkUrl}
+              className="underline underline-offset-2 hover:opacity-80"
+            >
+              {data.linkText}
+            </Link>
+          </>
+        )}
       </p>
     </div>
   );

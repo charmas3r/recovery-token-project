@@ -1,4 +1,5 @@
 import article from './article';
+import announcementBar from './announcementBar';
 import glossaryTerm from './glossaryTerm';
 import headingBlock from './objects/headingBlock';
 import paragraphBlock from './objects/paragraphBlock';
@@ -11,6 +12,7 @@ import imageBlock from './objects/imageBlock';
 export const schemaTypes = [
   // Document types
   article,
+  announcementBar,
   glossaryTerm,
   // Object types
   headingBlock,

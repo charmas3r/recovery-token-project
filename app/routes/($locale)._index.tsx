@@ -341,7 +341,7 @@ function ProductShowcase() {
             <span
               style={{
                 display: 'inline-block',
-                color: '#FFFF93',
+                color: '#B8764F',
                 fontSize: '0.75rem',
                 textTransform: 'uppercase' as const,
                 letterSpacing: '0.25em',
@@ -388,7 +388,7 @@ function ProductShowcase() {
                   {/* Warm glow */}
                   <div
                     className="absolute top-8 left-1/2 -translate-x-1/2 w-[28rem] h-[28rem] rounded-full pointer-events-none"
-                    style={{background: 'radial-gradient(circle, rgba(255,255,147,0.15) 0%, rgba(255,255,147,0.05) 40%, transparent 70%)'}}
+                    style={{background: 'radial-gradient(circle, rgba(184,118,79,0.15) 0%, rgba(184,118,79,0.05) 40%, transparent 70%)'}}
                   />
                   <motion.img
                     src="https://cdn.shopify.com/s/files/1/0752/2733/2779/files/sunflower-token-final-webp.webp?v=1769842039"
@@ -466,7 +466,8 @@ function FeatureCard({
           align === 'right' ? 'lg:flex-row-reverse' : ''
         }`}>
           <motion.div
-            className="w-10 h-10 rounded-lg bg-white/[0.05] flex items-center justify-center text-accent flex-shrink-0"
+            className="w-10 h-10 rounded-lg bg-white/[0.05] flex items-center justify-center flex-shrink-0"
+            style={{color: '#B8764F'}}
             whileHover={{scale: 1.1, rotate: 5}}
             transition={{duration: 0.2}}
           >

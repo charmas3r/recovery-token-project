@@ -18,7 +18,6 @@ import {
   HeroContent,
   HeroItem,
   HeroImage,
-  GlowPulse,
   HoverScale,
   HoverLift,
   motion,
@@ -249,17 +248,21 @@ function HeroSection({
             </HeroItem>
           </HeroContent>
 
-          {/* Right Column - Hero Image */}
+          {/* Right Column - Hero Video */}
           <HeroImage className="order-1 lg:order-2 relative flex items-center justify-center w-full">
-            <div className="relative w-full max-w-[24rem] sm:max-w-[28rem] lg:max-w-[32rem]">
-              {/* Glow effect behind image */}
-              <GlowPulse className="absolute inset-0 bg-accent/10 blur-[80px] rounded-full scale-75" />
-
-              <img
-                src="https://cdn.shopify.com/s/files/1/0752/2733/2779/files/mandala-token-final.webp?v=1769842039"
-                alt="Recovery Token - Hand-crafted bronze milestone token"
-                className="relative w-full h-auto object-contain"
-              />
+            <div className="relative w-full max-w-[24rem] sm:max-w-[28rem] lg:max-w-[32rem] rounded-2xl overflow-hidden shadow-2xl shadow-white/5">
+              <video
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="w-full h-auto object-cover aspect-[4/5]"
+              >
+                <source
+                  src="https://cdn.shopify.com/videos/c/o/v/6bc264ca226f46458ac8959dfaa7c8f0.mp4"
+                  type="video/mp4"
+                />
+              </video>
             </div>
           </HeroImage>
         </div>

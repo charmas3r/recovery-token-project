@@ -1,6 +1,6 @@
 import {Await, useLoaderData, Link} from 'react-router';
 import type {Route} from './+types/_index';
-import {Suspense, useState, useEffect, useCallback, useRef} from 'react';
+import {Suspense, useState, useEffect, useCallback, useRef, useMemo} from 'react';
 import type {
   FeaturedCollectionFragment,
   RecommendedProductsQuery,
@@ -46,6 +46,153 @@ function SectionCard({
       />
       {children}
     </div>
+  );
+}
+
+/**
+ * Scrambling word cycle — rotates through words with a character-scramble
+ * transition effect. Uses direct DOM manipulation via refs to avoid React
+ * re-render overhead and keep background-clip: text working reliably.
+ */
+const SCRAMBLE_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%&';
+
+const HERO_WORDS = [
+  {
+    word: 'Journey',
+    gradient: 'linear-gradient(90deg, #00C6FF 0%, #0072FF 100%)',
+  },
+  {
+    word: 'Recovery',
+    gradient: 'linear-gradient(90deg, #00F260 0%, #0575E6 100%)',
+  },
+  {
+    word: 'Milestone',
+    gradient: 'linear-gradient(90deg, #7C3AED 0%, #C026D3 50%, #FF2D92 100%)',
+  },
+] as const;
+
+function ScrambleHeading() {
+  const spanRef = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    const span = spanRef.current;
+    if (!span) return;
+
+    const prefersReducedMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)',
+    ).matches;
+
+    let timeout: ReturnType<typeof setTimeout>;
+    let frame: number;
+    // Start from Milestone (index 2) since that's what the server renders
+    let currentIndex = 2;
+    const holdDuration = 2000;
+    const scrambleDuration = 750;
+
+    function setWord(index: number) {
+      span.textContent = HERO_WORDS[index].word;
+      span.style.background = HERO_WORDS[index].gradient;
+      // Re-apply background-clip after changing background
+      span.style.webkitBackgroundClip = 'text';
+      span.style.backgroundClip = 'text';
+    }
+
+    if (prefersReducedMotion) {
+      const interval = setInterval(() => {
+        currentIndex = (currentIndex + 1) % HERO_WORDS.length;
+        setWord(currentIndex);
+      }, holdDuration + scrambleDuration);
+      return () => clearInterval(interval);
+    }
+
+    function scheduleNext() {
+      timeout = setTimeout(() => {
+        const nextIndex = (currentIndex + 1) % HERO_WORDS.length;
+        const targetWord = HERO_WORDS[nextIndex].word;
+        const currentWord = HERO_WORDS[currentIndex].word;
+        const maxLen = Math.max(currentWord.length, targetWord.length);
+        const startTime = performance.now();
+
+        function scramble(now: number) {
+          const elapsed = now - startTime;
+          const progress = Math.min(elapsed / scrambleDuration, 1);
+
+          if (progress < 1) {
+            const revealedCount = Math.floor(progress * targetWord.length);
+            let scrambled = '';
+            for (let i = 0; i < maxLen; i++) {
+              if (i < revealedCount) {
+                scrambled += targetWord[i];
+              } else if (i < targetWord.length) {
+                scrambled +=
+                  SCRAMBLE_CHARS[
+                    Math.floor(Math.random() * SCRAMBLE_CHARS.length)
+                  ];
+              } else if (
+                i <
+                maxLen -
+                  Math.floor(progress * (maxLen - targetWord.length))
+              ) {
+                scrambled +=
+                  SCRAMBLE_CHARS[
+                    Math.floor(Math.random() * SCRAMBLE_CHARS.length)
+                  ];
+              }
+            }
+            span.textContent = scrambled;
+            // Switch gradient partway through scramble
+            if (progress > 0.4) {
+              span.style.background = HERO_WORDS[nextIndex].gradient;
+              span.style.webkitBackgroundClip = 'text';
+              span.style.backgroundClip = 'text';
+            }
+            frame = requestAnimationFrame(scramble);
+          } else {
+            currentIndex = nextIndex;
+            setWord(nextIndex);
+            scheduleNext();
+          }
+        }
+
+        frame = requestAnimationFrame(scramble);
+      }, holdDuration);
+    }
+
+    scheduleNext();
+
+    return () => {
+      clearTimeout(timeout);
+      cancelAnimationFrame(frame);
+    };
+  }, []);
+
+  return (
+    <h1
+      className="text-white mb-6"
+      style={{
+        fontFamily: "'Charter', 'Georgia', 'Times New Roman', serif",
+        fontSize: 'clamp(48px, 5vw, 64px)',
+        fontWeight: 400,
+        lineHeight: 1.1,
+        letterSpacing: '-0.64px',
+        fontFeatureSettings: '"ss01", "ss04", "ss11"',
+      }}
+    >
+      Honor Every{' '}
+      <span
+        ref={spanRef}
+        className="block"
+        style={{
+          background:
+            'linear-gradient(90deg, #7C3AED 0%, #C026D3 50%, #FF2D92 100%)',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          backgroundClip: 'text',
+        }}
+      >
+        Milestone
+      </span>
+    </h1>
   );
 }
 
@@ -180,32 +327,9 @@ function HeroSection({
           {/* Left Column - Content */}
           <HeroContent className="order-2 lg:order-1 text-center lg:text-left w-full">
 
-            {/* Main Heading */}
+            {/* Main Heading — scrambling word cycle */}
             <HeroItem>
-              <h1
-                className="text-white mb-6"
-                style={{
-                  fontFamily: "'Charter', 'Georgia', 'Times New Roman', serif",
-                  fontSize: 'clamp(48px, 5vw, 64px)',
-                  fontWeight: 400,
-                  lineHeight: 1.1,
-                  letterSpacing: '-0.64px',
-                  fontFeatureSettings: '"ss01", "ss04", "ss11"',
-                }}
-              >
-                Honor Every{' '}
-                <span
-                  className="block"
-                  style={{
-                    background: 'linear-gradient(90deg, #7C3AED 0%, #C026D3 50%, #FF2D92 100%)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    backgroundClip: 'text',
-                  }}
-                >
-                  Milestone
-                </span>
-              </h1>
+              <ScrambleHeading />
             </HeroItem>
 
             {/* Subheading */}
@@ -673,74 +797,164 @@ function FeaturedProducts({
         </FadeUp>
 
         {/* Category Cards */}
-        <StaggerContainer className="grid md:grid-cols-2 gap-6 lg:gap-8 mb-16" staggerDelay={0.15}>
-          {/* Bronze Tokens Card */}
+        <StaggerContainer className="grid md:grid-cols-3 gap-6 lg:gap-8 mb-16" staggerDelay={0.15}>
+          {/* The 7 Deadly Sinz Card */}
           <StaggerItem>
             <HoverScale scale={1.02}>
               <Link
-                to="/collections/bronze-tokens"
-                className="group relative rounded-2xl overflow-hidden aspect-[16/9] md:aspect-[4/3] lg:aspect-[16/9] block border border-white/[0.08]"
+                to="/collections/the-7-deadly-sinz"
+                className="group relative rounded-2xl overflow-hidden aspect-[3/4] md:aspect-[3/4] block border border-white/[0.08]"
               >
-                {/* Background image placeholder - replace with actual collection image */}
-                <div className="absolute inset-0 bg-gradient-to-br from-[#0A0A0A] via-[#111111] to-[#0A0A0A]">
-                  {/* Decorative token silhouette */}
+                {/* Dark fiery background */}
+                <div className="absolute inset-0 bg-gradient-to-b from-[#1a0000] via-[#0A0A0A] to-[#0A0000]">
+                  {/* Ember glow */}
                   <motion.div
-                    className="absolute top-1/2 right-8 lg:right-16 -translate-y-1/2 w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 rounded-full bg-gradient-to-br from-[#FFFF93] to-[#CCCC60] opacity-30 blur-sm"
-                    animate={{scale: [1, 1.05, 1]}}
+                    className="absolute bottom-0 left-1/2 -translate-x-1/2 w-64 h-40 rounded-full opacity-40"
+                    style={{background: 'radial-gradient(ellipse, #8B0000 0%, #4A0000 40%, transparent 70%)'}}
+                    animate={{opacity: [0.3, 0.5, 0.3], scale: [1, 1.1, 1]}}
                     transition={{duration: 4, repeat: Infinity}}
                   />
-                  <div className="absolute top-1/2 right-10 lg:right-20 -translate-y-1/2 w-28 h-28 md:w-36 md:h-36 lg:w-44 lg:h-44 rounded-full border-4 border-[#FFFF93]/40" />
+                  {/* Floating embers */}
+                  <motion.div
+                    className="absolute bottom-16 left-1/4 w-1.5 h-1.5 rounded-full bg-red-500/80"
+                    animate={{y: [-20, -60], opacity: [0.8, 0], x: [0, 10]}}
+                    transition={{duration: 2.5, repeat: Infinity, repeatDelay: 1}}
+                  />
+                  <motion.div
+                    className="absolute bottom-20 right-1/3 w-1 h-1 rounded-full bg-orange-400/70"
+                    animate={{y: [-10, -50], opacity: [0.7, 0], x: [0, -8]}}
+                    transition={{duration: 2, repeat: Infinity, repeatDelay: 1.5, delay: 0.5}}
+                  />
+                  <motion.div
+                    className="absolute bottom-12 left-1/2 w-1 h-1 rounded-full bg-red-400/60"
+                    animate={{y: [-15, -55], opacity: [0.6, 0], x: [0, 5]}}
+                    transition={{duration: 3, repeat: Infinity, repeatDelay: 0.8, delay: 1}}
+                  />
                 </div>
 
-                {/* Overlay gradient */}
-                <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent" />
+                {/* Overlay gradient — strong bottom fade for text legibility */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/30" />
 
                 {/* Content */}
-                <div className="relative h-full flex flex-col justify-center p-6 md:p-8 lg:p-10">
+                <div className="relative h-full flex flex-col justify-end p-6 md:p-8">
                   <div className="flex items-center gap-2 mb-2">
-                    <BronzeIcon />
-                    <span className="text-[#FFFF93] text-caption uppercase tracking-[0.2em] font-semibold">
-                      Classic Collection
+                    <FlameIcon />
+                    <span className="text-red-400 text-caption uppercase tracking-[0.2em] font-semibold">
+                      Limited Edition
                     </span>
                   </div>
-                  <h3 className="font-display text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-2">
-                    Bronze Tokens
+                  <h3 className="font-display text-2xl md:text-2xl lg:text-3xl font-bold text-white mb-2">
+                    The 7 Deadly Sinz
                   </h3>
-                  <p className="text-white/70 text-body-sm md:text-body max-w-[20rem] mb-4">
-                    Timeless, hand-cast bronze with an antique patina that deepens over time.
+                  <p className="text-white/80 text-body-sm max-w-[20rem] mb-4">
+                    Dark, provocative designs that embrace the shadows. Bold tokens for bold souls.
                   </p>
                   <motion.span
-                    className="inline-flex items-center gap-2 text-[#FFFF93] font-semibold"
+                    className="inline-flex items-center gap-2 text-red-400 font-semibold"
                     whileHover={{x: 5}}
                     transition={{duration: 0.2}}
                   >
-                    Explore Bronze
+                    Explore Sinz
                     <ArrowRightIcon />
                   </motion.span>
                 </div>
 
                 {/* Hover effect */}
-                <div className="absolute inset-0 bg-white/0 group-hover:bg-white/[0.03] transition-colors duration-300" />
+                <div className="absolute inset-0 bg-red-900/0 group-hover:bg-red-900/[0.06] transition-colors duration-300" />
               </Link>
             </HoverScale>
           </StaggerItem>
 
-          {/* Color Printed Tokens Card */}
+          {/* Dia de los Muertos Card */}
+          <StaggerItem>
+            <HoverScale scale={1.02}>
+              <Link
+                to="/collections/dia-de-los-muertos"
+                className="group relative rounded-2xl overflow-hidden aspect-[3/4] md:aspect-[3/4] block border border-white/[0.08]"
+              >
+                {/* Festive gradient background */}
+                <div className="absolute inset-0 bg-gradient-to-b from-[#1a0a2e] via-[#0f0a1a] to-[#0A0A0A]">
+                  {/* Marigold glow */}
+                  <motion.div
+                    className="absolute top-8 right-8 w-32 h-32 rounded-full opacity-30"
+                    style={{background: 'radial-gradient(circle, #FF9800 0%, #E65100 40%, transparent 70%)'}}
+                    animate={{scale: [1, 1.15, 1], opacity: [0.25, 0.4, 0.25]}}
+                    transition={{duration: 5, repeat: Infinity}}
+                  />
+                  {/* Teal accent glow */}
+                  <motion.div
+                    className="absolute bottom-12 left-6 w-24 h-24 rounded-full opacity-20"
+                    style={{background: 'radial-gradient(circle, #00BCD4 0%, #006064 40%, transparent 70%)'}}
+                    animate={{scale: [1, 1.1, 1], opacity: [0.15, 0.25, 0.15]}}
+                    transition={{duration: 4, repeat: Infinity, delay: 1}}
+                  />
+                  {/* Floating marigold petals */}
+                  <motion.div
+                    className="absolute top-1/4 right-12 w-2 h-2 rounded-full bg-orange-400/60"
+                    animate={{y: [0, 15, 0], rotate: [0, 180, 360]}}
+                    transition={{duration: 4, repeat: Infinity}}
+                  />
+                  <motion.div
+                    className="absolute top-1/3 left-10 w-1.5 h-1.5 rounded-full bg-amber-300/50"
+                    animate={{y: [0, 12, 0], rotate: [0, -180, -360]}}
+                    transition={{duration: 3.5, repeat: Infinity, delay: 0.7}}
+                  />
+                  <motion.div
+                    className="absolute top-1/2 right-1/4 w-1.5 h-1.5 rounded-full bg-pink-400/40"
+                    animate={{y: [0, 10, 0], x: [0, -5, 0]}}
+                    transition={{duration: 3, repeat: Infinity, delay: 1.2}}
+                  />
+                </div>
+
+                {/* Overlay gradient — strong bottom fade for text legibility */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/20" />
+
+                {/* Content */}
+                <div className="relative h-full flex flex-col justify-end p-6 md:p-8">
+                  <div className="flex items-center gap-2 mb-2">
+                    <CalaveraIcon />
+                    <span className="text-amber-400 text-caption uppercase tracking-[0.2em] font-semibold">
+                      Cultural Collection
+                    </span>
+                  </div>
+                  <h3 className="font-display text-2xl md:text-2xl lg:text-3xl font-bold text-white mb-2">
+                    Dia de los Muertos
+                  </h3>
+                  <p className="text-white/80 text-body-sm max-w-[20rem] mb-4">
+                    Celebrate life and honor those who came before. Vibrant sugar skull artistry.
+                  </p>
+                  <motion.span
+                    className="inline-flex items-center gap-2 text-amber-400 font-semibold"
+                    whileHover={{x: 5}}
+                    transition={{duration: 0.2}}
+                  >
+                    Explore Collection
+                    <ArrowRightIcon />
+                  </motion.span>
+                </div>
+
+                {/* Hover effect */}
+                <div className="absolute inset-0 bg-amber-500/0 group-hover:bg-amber-500/[0.04] transition-colors duration-300" />
+              </Link>
+            </HoverScale>
+          </StaggerItem>
+
+          {/* Color Printed Tokens Card (Vibrant) */}
           <StaggerItem>
             <HoverScale scale={1.02}>
               <Link
                 to="/collections/color-tokens"
-                className="group relative rounded-2xl overflow-hidden aspect-[16/9] md:aspect-[4/3] lg:aspect-[16/9] block border border-white/[0.08]"
+                className="group relative rounded-2xl overflow-hidden aspect-[3/4] md:aspect-[3/4] block border border-white/[0.08]"
               >
                 {/* Colorful background */}
-                <div className="absolute inset-0 bg-gradient-to-br from-[#667eea] via-[#764ba2] to-[#f093fb]">
+                <div className="absolute inset-0 bg-gradient-to-b from-[#667eea] via-[#764ba2] to-[#2d1b4e]">
                   {/* Decorative elements */}
                   <motion.div
-                    className="absolute top-1/2 right-8 lg:right-16 -translate-y-1/2 w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 rounded-full bg-white/20 blur-sm"
+                    className="absolute top-1/3 right-8 w-32 h-32 rounded-full bg-white/15 blur-sm"
                     animate={{scale: [1, 1.05, 1]}}
                     transition={{duration: 4, repeat: Infinity, delay: 0.5}}
                   />
-                  <div className="absolute top-1/2 right-10 lg:right-20 -translate-y-1/2 w-28 h-28 md:w-36 md:h-36 lg:w-44 lg:h-44 rounded-full border-4 border-white/30" />
+                  <div className="absolute top-1/3 right-10 w-28 h-28 rounded-full border-4 border-white/20" />
                   {/* Floating color dots */}
                   <motion.div
                     className="absolute top-6 right-20 w-4 h-4 rounded-full bg-yellow-300/60"
@@ -748,32 +962,32 @@ function FeaturedProducts({
                     transition={{duration: 3, repeat: Infinity}}
                   />
                   <motion.div
-                    className="absolute bottom-8 right-32 w-3 h-3 rounded-full bg-cyan-300/60"
+                    className="absolute bottom-1/3 right-16 w-3 h-3 rounded-full bg-cyan-300/60"
                     animate={{y: [5, -5, 5]}}
                     transition={{duration: 3.5, repeat: Infinity}}
                   />
                   <motion.div
-                    className="absolute top-1/3 right-8 w-2 h-2 rounded-full bg-pink-300/80"
+                    className="absolute top-1/4 right-8 w-2 h-2 rounded-full bg-pink-300/80"
                     animate={{y: [-3, 3, -3]}}
                     transition={{duration: 2.5, repeat: Infinity}}
                   />
                 </div>
 
-                {/* Overlay gradient */}
-                <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent" />
+                {/* Overlay gradient — strong bottom fade for text legibility */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
 
                 {/* Content */}
-                <div className="relative h-full flex flex-col justify-center p-6 md:p-8 lg:p-10">
+                <div className="relative h-full flex flex-col justify-end p-6 md:p-8">
                   <div className="flex items-center gap-2 mb-2">
                     <ColorPaletteIcon />
                     <span className="text-pink-200 text-caption uppercase tracking-[0.2em] font-semibold">
                       Vibrant Collection
                     </span>
                   </div>
-                  <h3 className="font-display text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-2">
+                  <h3 className="font-display text-2xl md:text-2xl lg:text-3xl font-bold text-white mb-2">
                     Color Printed
                   </h3>
-                  <p className="text-white/70 text-body-sm md:text-body max-w-[20rem] mb-4">
+                  <p className="text-white/80 text-body-sm max-w-[20rem] mb-4">
                     Bold, vibrant designs with full-color artwork that makes a statement.
                   </p>
                   <motion.span
@@ -787,7 +1001,7 @@ function FeaturedProducts({
                 </div>
 
                 {/* Hover effect */}
-                <div className="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-colors duration-300" />
+                <div className="absolute inset-0 bg-white/0 group-hover:bg-white/[0.06] transition-colors duration-300" />
               </Link>
             </HoverScale>
           </StaggerItem>
@@ -827,6 +1041,7 @@ function FeaturedProducts({
                           <ProductItem
                             product={product}
                             loading="lazy"
+                            variant="dark"
                           />
                         </HoverLift>
                       </StaggerItem>
@@ -853,6 +1068,27 @@ function FeaturedProducts({
 /**
  * Category Card Icons
  */
+function FlameIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-red-400">
+      <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z" />
+    </svg>
+  );
+}
+
+function CalaveraIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-amber-400">
+      <circle cx="9" cy="10" r="1.5" fill="currentColor" />
+      <circle cx="15" cy="10" r="1.5" fill="currentColor" />
+      <path d="M12 2a8 8 0 0 0-8 8c0 2.5 1.2 4.7 3 6.2V20a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-3.8c1.8-1.5 3-3.7 3-6.2a8 8 0 0 0-8-8z" />
+      <path d="M10 17v-2" />
+      <path d="M14 17v-2" />
+      <path d="M12 17v-3" />
+    </svg>
+  );
+}
+
 function BronzeIcon() {
   return (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#FFFF93]">
@@ -916,7 +1152,8 @@ function BrandStory() {
               transition={{delay: 0.4, duration: 0.5}}
             >
               <motion.div
-                className="text-4xl font-display font-bold text-accent mb-1"
+                className="text-4xl font-display font-bold mb-1"
+                style={{color: '#0575E6'}}
                 initial={{opacity: 0}}
                 whileInView={{opacity: 1}}
                 viewport={{once: true}}
@@ -930,18 +1167,21 @@ function BrandStory() {
 
           {/* Content */}
           <SlideIn direction="right">
-            <span className="inline-block text-accent text-caption uppercase tracking-[0.25em] font-semibold mb-4">
+            <span
+              className="inline-block text-caption uppercase tracking-[0.25em] font-semibold mb-4"
+              style={{color: '#0575E6'}}
+            >
               Our Mission
             </span>
             <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-6">
               Every Journey Deserves to Be Celebrated
             </h2>
-            <p className="text-lg text-white/60 leading-relaxed mb-6">
+            <p style={{fontSize: '1.125rem', lineHeight: 1.6, color: 'rgba(255,255,255,0.5)', marginBottom: '1.5rem'}}>
               Recovery is one of the most courageous journeys a person can take.
               We believe every step forward—whether it's 24 hours or 25 years—deserves
               to be honored with something meaningful and lasting.
             </p>
-            <p className="text-lg text-white/60 leading-relaxed mb-8">
+            <p style={{fontSize: '1.125rem', lineHeight: 1.6, color: 'rgba(255,255,255,0.5)', marginBottom: '2rem'}}>
               Our hand-crafted bronze tokens serve as tangible reminders of strength,
               hope, and the incredible resilience of the human spirit.
             </p>
@@ -949,19 +1189,19 @@ function BrandStory() {
             <StaggerContainer className="flex flex-wrap gap-8 mt-10" staggerDelay={0.1}>
               <StaggerItem>
                 <div>
-                  <div className="text-3xl font-display font-bold text-accent">100%</div>
+                  <div className="text-3xl font-display font-bold" style={{color: '#0575E6'}}>100%</div>
                   <p className="text-sm text-white/60">Hand-crafted</p>
                 </div>
               </StaggerItem>
               <StaggerItem>
                 <div>
-                  <div className="text-3xl font-display font-bold text-accent">5★</div>
+                  <div className="text-3xl font-display font-bold" style={{color: '#0575E6'}}>5★</div>
                   <p className="text-sm text-white/60">Customer rating</p>
                 </div>
               </StaggerItem>
               <StaggerItem>
                 <div>
-                  <div className="text-3xl font-display font-bold text-accent">USA</div>
+                  <div className="text-3xl font-display font-bold" style={{color: '#0575E6'}}>USA</div>
                   <p className="text-sm text-white/60">Made with care</p>
                 </div>
               </StaggerItem>
@@ -993,97 +1233,153 @@ interface StoreReviewsData {
   total: number;
 }
 
+const TESTIMONIALS = [
+  {
+    quote: "This token means everything to me. I carry it every day as a reminder of how far I've come. It's more than jewelry — it's proof.",
+    author: "Michael R.",
+    milestone: "3 Years Sober",
+    avatar: "M",
+  },
+  {
+    quote: "I gave this to my son for his 1-year milestone. He teared up immediately. Worth every penny.",
+    author: "Sandra K.",
+    milestone: "Gift Giver",
+    avatar: "S",
+  },
+  {
+    quote: "The craftsmanship is incredible. You can feel the weight and quality the moment you hold it. This is a forever piece.",
+    author: "James T.",
+    milestone: "5 Years Sober",
+    avatar: "J",
+  },
+  {
+    quote: "I bought one for myself and ended up buying five more for friends in my group. Everyone deserves to feel this proud.",
+    author: "Danielle W.",
+    milestone: "2 Years Sober",
+    avatar: "D",
+  },
+  {
+    quote: "My sponsor gave me one of these at my 6-month mark. I've never taken it off my keychain since. It grounds me.",
+    author: "Chris P.",
+    milestone: "6 Months Sober",
+    avatar: "C",
+  },
+  {
+    quote: "Beautiful quality, fast shipping, and the packaging was so thoughtful. You can tell real people care about this product.",
+    author: "Angela M.",
+    milestone: "1 Year Sober",
+    avatar: "A",
+  },
+  {
+    quote: "I lost my first token and immediately ordered another. That's how much it means to me. Can't imagine my day without it.",
+    author: "Robert L.",
+    milestone: "10 Years Sober",
+    avatar: "R",
+  },
+  {
+    quote: "The Dia de los Muertos design is absolutely stunning. I get compliments every single time someone sees it.",
+    author: "Maria G.",
+    milestone: "4 Years Sober",
+    avatar: "M",
+  },
+  {
+    quote: "As a counselor, I buy these in bulk for my clients. Nothing motivates like a physical reminder of their strength.",
+    author: "Dr. Kevin H.",
+    milestone: "Recovery Counselor",
+    avatar: "K",
+  },
+  {
+    quote: "I was skeptical about buying online but wow — the photos don't do it justice. So much heavier and more detailed in person.",
+    author: "Tasha B.",
+    milestone: "18 Months Sober",
+    avatar: "T",
+  },
+];
+
 function CustomerReviewsSection({
   reviews,
 }: {
   reviews: Promise<StoreReviewsData | null>;
 }) {
-  // Hardcoded testimonials for the original style
-  const testimonials = [
-    {
-      quote: "This token means everything to me. I carry it every day as a reminder of how far I've come.",
-      author: "Michael R.",
-      milestone: "3 Years Sober",
-      avatar: "M",
-    },
-    {
-      quote: "I gave this to my son for his 1-year milestone. He teared up immediately. Worth every penny.",
-      author: "Sandra K.",
-      milestone: "Gift Giver",
-      avatar: "S",
-    },
-    {
-      quote: "The craftsmanship is incredible. You can feel the weight and quality the moment you hold it.",
-      author: "James T.",
-      milestone: "5 Years Sober",
-      avatar: "J",
-    },
-  ];
+  // Duplicate the list so the marquee loops seamlessly
+  const doubled = useMemo(() => [...TESTIMONIALS, ...TESTIMONIALS], []);
 
   return (
-    <section className="py-20 md:py-28 bg-black">
-      <div className="container-standard">
-        <SectionCard className="px-6 py-16 md:px-12 md:py-20">
-          {/* Section Header */}
-          <FadeUp className="text-center mb-16">
-            <span className="inline-block text-accent text-caption uppercase tracking-[0.25em] font-semibold mb-4">
-              Testimonials
-            </span>
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-white leading-tight">
-              Stories That Inspire
-            </h2>
-          </FadeUp>
+    <section className="py-20 md:py-28 bg-black overflow-hidden">
+      {/* Section Header */}
+      <div style={{textAlign: 'center', maxWidth: '42rem', marginLeft: 'auto', marginRight: 'auto', marginBottom: '3.5rem', padding: '0 1.5rem'}}>
+        <span
+          className="inline-block text-caption uppercase tracking-[0.25em] font-semibold mb-4"
+          style={{color: '#00F260'}}
+        >
+          Testimonials
+        </span>
+        <h2
+          className="font-display"
+          style={{fontSize: 'clamp(1.875rem, 4vw, 3rem)', fontWeight: 700, color: '#fff', lineHeight: 1.1, marginBottom: '1.5rem'}}
+        >
+          Stories That Inspire
+        </h2>
+        <p style={{fontSize: '1.125rem', lineHeight: 1.6, color: 'rgba(255,255,255,0.5)', maxWidth: '36rem', marginLeft: 'auto', marginRight: 'auto'}}>
+          Real stories from real people celebrating milestones that matter.
+          Every token carries a journey worth honoring.
+        </p>
+      </div>
 
-          {/* Testimonials Grid */}
-          <StaggerContainer className="grid md:grid-cols-3 gap-8" staggerDelay={0.15}>
-            {testimonials.map((testimonial, index) => (
-              <StaggerItem key={index}>
-                <HoverLift lift={-8}>
-                  <motion.div
-                    className="bg-white/[0.03] rounded-2xl p-8 border border-white/[0.06] relative h-full"
-                    whileHover={{
-                      borderColor: 'rgba(255,255,255,0.12)',
-                    }}
-                    transition={{duration: 0.3}}
+      {/* Marquee Carousel — full-width, no container */}
+      <div className="relative">
+        {/* Left fade */}
+        <div
+          className="absolute left-0 top-0 bottom-0 w-24 md:w-40 z-10 pointer-events-none"
+          style={{background: 'linear-gradient(to right, #000 0%, transparent 100%)'}}
+        />
+        {/* Right fade */}
+        <div
+          className="absolute right-0 top-0 bottom-0 w-24 md:w-40 z-10 pointer-events-none"
+          style={{background: 'linear-gradient(to left, #000 0%, transparent 100%)'}}
+        />
+
+        <motion.div
+          className="flex gap-6"
+          animate={{x: ['0%', '-50%']}}
+          transition={{
+            x: {duration: 60, repeat: Infinity, ease: 'linear'},
+          }}
+          style={{width: 'max-content'}}
+        >
+          {doubled.map((testimonial, index) => (
+            <div
+              key={index}
+              className="flex-shrink-0 w-[340px] md:w-[420px]"
+            >
+              <div
+                className="h-full rounded-2xl p-7 md:p-8 border border-white/[0.08] flex flex-col justify-between"
+                style={{background: 'linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)'}}
+              >
+                <p style={{fontSize: '0.9375rem', lineHeight: 1.7, color: 'rgba(255,255,255,0.6)', marginBottom: '1.5rem'}}>
+                  "{testimonial.quote}"
+                </p>
+
+                <div className="flex items-center gap-3">
+                  <div
+                    className="w-10 h-10 rounded-full flex items-center justify-center text-white font-display font-bold text-sm"
+                    style={{background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.1)'}}
                   >
-                    {/* Quote icon */}
-                    <motion.div
-                      className="absolute -top-4 left-8 w-8 h-8 bg-white/[0.08] border border-white/[0.1] rounded-full flex items-center justify-center"
-                      initial={{scale: 0, rotate: -180}}
-                      whileInView={{scale: 1, rotate: 0}}
-                      viewport={{once: true}}
-                      transition={{delay: 0.2 + index * 0.1, type: 'spring', stiffness: 200}}
-                    >
-                      <QuoteIcon />
-                    </motion.div>
-
-                    <p className="text-body text-white/60 leading-relaxed mb-6 pt-2">
-                      "{testimonial.quote}"
-                    </p>
-
-                    <div className="flex items-center gap-4">
-                      <motion.div
-                        className="w-12 h-12 rounded-full bg-white/[0.08] border border-white/[0.1] flex items-center justify-center text-white font-display font-bold"
-                        whileHover={{scale: 1.1}}
-                        transition={{duration: 0.2}}
-                      >
-                        {testimonial.avatar}
-                      </motion.div>
-                      <div>
-                        <div className="font-display font-bold text-white">
-                          {testimonial.author}
-                        </div>
-                        <div className="text-caption text-accent">
-                          {testimonial.milestone}
-                        </div>
-                      </div>
+                    {testimonial.avatar}
+                  </div>
+                  <div>
+                    <div className="font-display font-bold text-white text-sm">
+                      {testimonial.author}
                     </div>
-                  </motion.div>
-                </HoverLift>
-              </StaggerItem>
-            ))}
-          </StaggerContainer>
-        </SectionCard>
+                    <div className="text-xs" style={{color: '#00F260'}}>
+                      {testimonial.milestone}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </motion.div>
       </div>
     </section>
   );
@@ -1156,7 +1452,7 @@ function VerifiedIcon({className = ''}: {className?: string}) {
 }
 
 /**
- * Final CTA Section
+ * Final CTA Section — Resend-style minimal typography CTA
  */
 function FinalCTA({
   collection,
@@ -1164,62 +1460,61 @@ function FinalCTA({
   collection: FeaturedCollectionFragment;
 }) {
   return (
-    <section className="py-20 md:py-24 bg-black">
-      <div className="container-standard">
-        <ScaleIn>
-          <SectionCard className="p-10 md:p-16 text-center relative">
-            {/* Background decoration */}
-            <motion.div
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-accent/[0.04] rounded-full blur-[100px]"
-              animate={{
-                scale: [1, 1.2, 1],
-                opacity: [0.04, 0.08, 0.04],
-              }}
-              transition={{
-                duration: 6,
-                repeat: Infinity,
-                ease: 'easeInOut',
-              }}
-            />
+    <section className="bg-black">
+      <div
+        className="flex flex-col items-center justify-center text-center px-6"
+        style={{paddingTop: 'clamp(5rem, 10vw, 8rem)', paddingBottom: 'clamp(5rem, 10vw, 8rem)'}}
+      >
+        <FadeUp>
+          <h2
+            style={{
+              fontFamily: "'Charter', 'Georgia', 'Times New Roman', serif",
+              fontSize: 'clamp(2.5rem, 6vw, 5rem)',
+              fontWeight: 400,
+              lineHeight: 1.1,
+              letterSpacing: '-0.02em',
+              color: 'rgba(255, 255, 255, 0.45)',
+              maxWidth: '48rem',
+              marginBottom: '3.5rem',
+            }}
+          >
+            Your milestone deserves{' '}
+            <br className="hidden md:block" />
+            to be honored.
+          </h2>
+        </FadeUp>
 
-            <FadeUp className="relative z-10 max-w-[42rem] mx-auto px-4">
-              <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight mb-6">
-                Ready to Celebrate Your Milestone?
-              </h2>
-              <p className="text-lg text-white/50">
-                Every journey is worth celebrating. Find the perfect token to honor
-                your progress or gift to someone special.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center mt-10">
-                <Link to={collection ? `/collections/${collection.handle}` : '/collections'}>
-                  <motion.div
-                    whileHover={{scale: 1.05}}
-                    whileTap={{scale: 0.98}}
-                    transition={{duration: 0.2}}
-                  >
-                    <Button
-                      variant="primary"
-                      size="lg"
-                      className="w-full sm:w-auto !px-12"
-                    >
-                      Shop Now
-                    </Button>
-                  </motion.div>
-                </Link>
-                <Link to="/contact">
-                  <Button
-                    variant="secondary"
-                    size="lg"
-                    className="w-full sm:w-auto"
-                    as="span"
-                  >
-                    Contact Us
-                  </Button>
-                </Link>
-              </div>
-            </FadeUp>
-          </SectionCard>
-        </ScaleIn>
+        <FadeUp>
+          <div className="flex items-center gap-3">
+            <Link to={collection ? `/collections/${collection.handle}` : '/collections'}>
+              <motion.div
+                className="flex items-center gap-2 px-6 py-3 rounded-lg border border-white/[0.12] text-sm font-medium text-white/80"
+                style={{background: 'rgba(255,255,255,0.06)'}}
+                whileHover={{background: 'rgba(255,255,255,0.1)', color: '#fff'}}
+                whileTap={{scale: 0.97}}
+                transition={{duration: 0.15}}
+              >
+                Shop Now
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="opacity-50">
+                  <path d="M6 3l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </motion.div>
+            </Link>
+            <Link to="/contact">
+              <motion.div
+                className="flex items-center gap-2 px-6 py-3 text-sm font-medium"
+                style={{color: 'rgba(255,255,255,0.6)'}}
+                whileHover={{color: 'rgba(255,255,255,0.9)'}}
+                transition={{duration: 0.15}}
+              >
+                Contact Us
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="opacity-60">
+                  <path d="M6 3l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </motion.div>
+            </Link>
+          </div>
+        </FadeUp>
       </div>
     </section>
   );

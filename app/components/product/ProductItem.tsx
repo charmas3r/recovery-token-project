@@ -26,6 +26,8 @@ interface ProductItemProps {
   reviewCount?: number;
   /** Whether to show the rating display */
   showRating?: boolean;
+  /** Visual variant — "light" for default white cards, "dark" for sleek dark cards */
+  variant?: 'light' | 'dark';
 }
 
 export function ProductItem({
@@ -34,10 +36,12 @@ export function ProductItem({
   rating = 5,
   reviewCount,
   showRating = true,
+  variant = 'light',
 }: ProductItemProps) {
   const variantUrl = useVariantUrl(product.handle);
   const image = product.featuredImage;
-  
+  const isDark = variant === 'dark';
+
   return (
     <Link
       key={product.id}
@@ -45,10 +49,14 @@ export function ProductItem({
       to={variantUrl}
       className="group block focus:outline-none"
     >
-      <div className="bg-white rounded-xl overflow-hidden border border-black/5 shadow-[0_2px_12px_rgba(0,0,0,0.08)] transition-all duration-300 hover:shadow-[0_8px_24px_rgba(0,0,0,0.12)] hover:-translate-y-1">
+      <div className={
+        isDark
+          ? 'rounded-2xl overflow-hidden border border-white/[0.08] transition-all duration-300 hover:-translate-y-1'
+          : 'bg-white rounded-xl overflow-hidden border border-black/5 shadow-[0_2px_12px_rgba(0,0,0,0.08)] transition-all duration-300 hover:shadow-[0_8px_24px_rgba(0,0,0,0.12)] hover:-translate-y-1'
+      } style={isDark ? {background: 'linear-gradient(180deg, #111 0%, #0A0A0A 40%, #080808 100%)'} : undefined}>
         {/* Product Image - 4:5 aspect ratio (design system) */}
         {image && (
-          <div className="aspect-[4/5] bg-surface relative overflow-hidden">
+          <div className={`aspect-[4/5] relative overflow-hidden ${isDark ? 'bg-black/40' : 'bg-surface'}`}>
             <Image
               alt={image.altText || product.title}
               aspectRatio="4/5"
@@ -58,24 +66,24 @@ export function ProductItem({
               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
             />
             {/* Subtle overlay on hover */}
-            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-300" />
+            <div className={`absolute inset-0 transition-colors duration-300 ${isDark ? 'bg-white/0 group-hover:bg-white/[0.03]' : 'bg-black/0 group-hover:bg-black/5'}`} />
           </div>
         )}
-        
+
         {/* Product Content */}
         <div className="p-5">
           {/* Product Title - 2 lines max */}
-          <h3 className="text-base md:text-lg font-display font-bold text-primary uppercase tracking-tight line-clamp-2 mb-2 group-hover:text-accent transition-colors duration-200">
+          <h3 className={`text-base md:text-lg font-display font-bold uppercase tracking-tight line-clamp-2 mb-2 transition-colors duration-200 ${isDark ? 'text-white group-hover:text-white/80' : 'text-primary group-hover:text-accent'}`}>
             {product.title}
           </h3>
-          
+
           {/* Star Rating */}
           {showRating && (
-            <ProductRating rating={rating} reviewCount={reviewCount} />
+            <ProductRating rating={rating} reviewCount={reviewCount} dark={isDark} />
           )}
-          
-          {/* Product Price - Bold accent color */}
-          <p className="text-lg md:text-xl font-bold text-black">
+
+          {/* Product Price */}
+          <p className={`text-lg md:text-xl font-bold ${isDark ? 'text-white/90' : 'text-black'}`}>
             <Money data={product.priceRange.minVariantPrice} />
           </p>
         </div>
@@ -91,12 +99,14 @@ export function ProductItem({
 function ProductRating({
   rating,
   reviewCount,
+  dark = false,
 }: {
   rating: number;
   reviewCount?: number;
+  dark?: boolean;
 }) {
   const hasReviews = reviewCount !== undefined && reviewCount > 0;
-  
+
   return (
     <div className="flex items-center gap-2 mb-2">
       {/* Stars */}
@@ -104,7 +114,7 @@ function ProductRating({
         {Array.from({length: 5}).map((_, i) => {
           const isFilled = i < Math.floor(rating);
           const isPartial = i === Math.floor(rating) && rating % 1 !== 0;
-          
+
           return (
             <svg
               key={i}
@@ -114,6 +124,8 @@ function ProductRating({
                   ? 'text-yellow-400 fill-yellow-400'
                   : isPartial
                   ? 'text-yellow-400 fill-yellow-400/50'
+                  : dark
+                  ? 'text-white/20 fill-white/20'
                   : 'text-gray-300 fill-gray-300'
               }`}
             >
@@ -122,14 +134,14 @@ function ProductRating({
           );
         })}
       </div>
-      
+
       {/* Review count or "New" badge */}
       {hasReviews ? (
-        <span className="text-xs text-secondary">
+        <span className={`text-xs ${dark ? 'text-white/40' : 'text-secondary'}`}>
           ({reviewCount})
         </span>
       ) : (
-        <span className="text-xs font-medium text-accent">
+        <span className={`text-xs font-medium ${dark ? 'text-accent' : 'text-accent'}`}>
           New
         </span>
       )}

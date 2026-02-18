@@ -374,7 +374,7 @@ function HeroSection({
 
           {/* Right Column - Hero Video */}
           <HeroImage className="order-1 lg:order-2 relative flex items-center justify-center w-full">
-            <div className="relative w-full max-w-[18rem] sm:max-w-[22rem] lg:max-w-[32rem] rounded-2xl overflow-hidden shadow-2xl shadow-white/5">
+            <div className="relative w-full max-w-[24rem] sm:max-w-[28rem] lg:max-w-[32rem] rounded-2xl overflow-hidden shadow-2xl shadow-white/5">
               <video
                 autoPlay
                 loop

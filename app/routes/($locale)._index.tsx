@@ -323,7 +323,7 @@ function HeroSection({
         }}
       />
       <div className="container-wide relative z-10">
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center min-h-[60vh] pt-32 pb-12 lg:pt-28 lg:pb-8">
+        <div className="grid lg:grid-cols-2 gap-4 lg:gap-12 items-center min-h-[60vh] pt-24 pb-6 lg:pt-28 lg:pb-8">
           {/* Left Column - Content */}
           <HeroContent className="order-2 lg:order-1 text-center lg:text-left w-full">
 
@@ -374,13 +374,13 @@ function HeroSection({
 
           {/* Right Column - Hero Video */}
           <HeroImage className="order-1 lg:order-2 relative flex items-center justify-center w-full">
-            <div className="relative w-full max-w-[24rem] sm:max-w-[28rem] lg:max-w-[32rem] rounded-2xl overflow-hidden shadow-2xl shadow-white/5">
+            <div className="relative w-full max-w-[18rem] sm:max-w-[22rem] lg:max-w-[32rem] rounded-2xl overflow-hidden shadow-2xl shadow-white/5">
               <video
                 autoPlay
                 loop
                 muted
                 playsInline
-                className="w-full h-auto object-cover aspect-[4/5]"
+                className="w-full h-auto object-cover aspect-square lg:aspect-[4/5]"
               >
                 <source
                   src="https://cdn.shopify.com/videos/c/o/v/6bc264ca226f46458ac8959dfaa7c8f0.mp4"

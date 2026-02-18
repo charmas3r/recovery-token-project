@@ -27,10 +27,10 @@ export function CategoryPills({
         onClick={() => onSelect(null)}
         className={clsx(
           'inline-flex items-center px-4 py-2 rounded-full text-body-sm font-medium transition-all duration-200',
-          'focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2',
+          'focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-black',
           activeCategory === null
-            ? 'bg-primary text-white shadow-sm'
-            : 'bg-surface text-secondary hover:bg-surface/80 hover:text-primary',
+            ? 'bg-white/[0.15] text-white'
+            : 'bg-white/[0.05] text-white/50 hover:bg-white/[0.08] hover:text-white',
         )}
       >
         All
@@ -42,10 +42,10 @@ export function CategoryPills({
           onClick={() => onSelect(category)}
           className={clsx(
             'inline-flex items-center px-4 py-2 rounded-full text-body-sm font-medium transition-all duration-200',
-            'focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2',
+            'focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-black',
             activeCategory === category
-              ? 'bg-primary text-white shadow-sm'
-              : 'bg-surface text-secondary hover:bg-surface/80 hover:text-primary',
+              ? 'bg-white/[0.15] text-white'
+              : 'bg-white/[0.05] text-white/50 hover:bg-white/[0.08] hover:text-white',
           )}
         >
           {category}

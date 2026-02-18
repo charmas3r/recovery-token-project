@@ -231,10 +231,10 @@ export default function RecoveryCirclePage() {
       {circle.length > 0 && (
         <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
           <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2 text-body text-secondary">
+            <div className="flex items-center gap-2 text-body text-white/50">
               <Users className="w-5 h-5 text-accent" />
               <span>
-                <strong className="text-primary">{circle.length}</strong>{' '}
+                <strong className="text-white">{circle.length}</strong>{' '}
                 {circle.length === 1 ? 'person' : 'people'} in your circle
               </span>
             </div>
@@ -280,10 +280,10 @@ export default function RecoveryCirclePage() {
             <div className="w-20 h-20 rounded-full bg-accent/10 flex items-center justify-center mx-auto mb-6">
               <Heart className="w-10 h-10 text-accent" />
             </div>
-            <h3 className="font-display text-2xl font-bold text-primary mb-3">
+            <h3 className="font-display text-2xl font-bold text-white mb-3">
               Start Your Recovery Circle
             </h3>
-            <p style={{maxWidth: '28rem', marginLeft: 'auto', marginRight: 'auto', marginBottom: '2rem', fontSize: '1.125rem', lineHeight: 1.6, color: '#4A5568'}}>
+            <p style={{maxWidth: '28rem', marginLeft: 'auto', marginRight: 'auto', marginBottom: '2rem', fontSize: '1.125rem', lineHeight: 1.6, color: 'rgba(255,255,255,0.5)'}}>
               Add friends and family members you're supporting in their recovery
               journey. Track their milestones and easily send them tokens as
               gifts.

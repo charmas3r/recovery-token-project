@@ -198,17 +198,17 @@ export default function AccountProfile() {
       )}
 
       {/* Profile Completion */}
-      <div className="mb-8 p-6 bg-gradient-to-br from-accent/5 to-accent/10 rounded-xl border border-accent/20">
+      <div className="mb-8 p-6 bg-accent/5 rounded-xl border border-accent/20">
         <div className="flex items-center justify-between mb-3">
           <div>
-            <h3 className="font-display text-lg font-bold text-primary">Profile Completion</h3>
-            <p className="text-body-sm text-secondary mt-1">Complete your profile to get the most out of your account</p>
+            <h3 className="font-display text-lg font-bold text-white">Profile Completion</h3>
+            <p className="text-body-sm text-white/50 mt-1">Complete your profile to get the most out of your account</p>
           </div>
           <div className="text-right">
             <div className="text-3xl font-display font-bold text-accent">{completion}%</div>
           </div>
         </div>
-        <div className="w-full bg-white/50 rounded-full h-3 overflow-hidden">
+        <div className="w-full bg-white/10 rounded-full h-3 overflow-hidden">
           <div 
             className="bg-accent h-full rounded-full transition-all duration-500"
             style={{width: `${completion}%`}}
@@ -243,14 +243,14 @@ function PersonalInformationSection({
   isSubmitting: boolean;
 }) {
   return (
-    <div className="bg-white rounded-xl border border-black/5 p-6">
+    <div className="rounded-xl border border-white/[0.08] p-6" style={{background: 'linear-gradient(180deg, #111 0%, #0A0A0A 40%, #080808 100%)'}}>
       <div className="flex items-center gap-3 mb-6">
         <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center">
           <Heart className="w-5 h-5 text-accent" />
         </div>
         <div>
-          <h2 className="font-display text-xl font-bold text-primary">Personal Information</h2>
-          <p className="text-body-sm text-secondary">Update your name and contact details</p>
+          <h2 className="font-display text-xl font-bold text-white">Personal Information</h2>
+          <p className="text-body-sm text-white/50">Update your name and contact details</p>
         </div>
       </div>
 
@@ -260,7 +260,7 @@ function PersonalInformationSection({
         <div className="space-y-5">
           <div className="grid sm:grid-cols-2 gap-5">
             <div>
-              <label htmlFor="firstName" className="block text-body font-medium text-primary mb-2">
+              <label htmlFor="firstName" className="block text-body font-medium text-white mb-2">
                 First Name *
               </label>
               <Input
@@ -277,7 +277,7 @@ function PersonalInformationSection({
             </div>
 
             <div>
-              <label htmlFor="lastName" className="block text-body font-medium text-primary mb-2">
+              <label htmlFor="lastName" className="block text-body font-medium text-white mb-2">
                 Last Name *
               </label>
               <Input
@@ -295,7 +295,7 @@ function PersonalInformationSection({
           </div>
 
           <div>
-            <label htmlFor="phoneNumber" className="block text-body font-medium text-primary mb-2">
+            <label htmlFor="phoneNumber" className="block text-body font-medium text-white mb-2">
               Phone Number
             </label>
             <Input
@@ -307,20 +307,20 @@ function PersonalInformationSection({
               defaultValue={customer?.phoneNumber?.phoneNumber ?? ''}
               className="w-full"
             />
-            <p className="text-caption text-secondary mt-2">
+            <p className="text-caption text-white/50 mt-2">
               We'll use this for order updates and milestone reminders (if enabled)
             </p>
           </div>
 
           <div>
-            <label className="block text-body font-medium text-primary mb-2">
+            <label className="block text-body font-medium text-white mb-2">
               Email Address
             </label>
-            <div className="flex items-center gap-3 p-4 bg-surface rounded-lg border border-black/5">
-              <Mail className="w-5 h-5 text-secondary flex-shrink-0" />
+            <div className="flex items-center gap-3 p-4 bg-white/[0.05] rounded-lg border border-white/[0.08]">
+              <Mail className="w-5 h-5 text-white/50 flex-shrink-0" />
               <div className="flex-1">
-                <p className="text-body text-primary">{customer?.emailAddress?.emailAddress}</p>
-                <p className="text-caption text-secondary mt-0.5">
+                <p className="text-body text-white">{customer?.emailAddress?.emailAddress}</p>
+                <p className="text-caption text-white/50 mt-0.5">
                   Email is managed through your Shopify account
                 </p>
               </div>
@@ -328,7 +328,7 @@ function PersonalInformationSection({
           </div>
         </div>
 
-        <div className="mt-6 pt-6 border-t border-black/5">
+        <div className="mt-6 pt-6 border-t border-white/[0.08]">
           <Button
             type="submit"
             variant="primary"
@@ -356,14 +356,14 @@ function RecoveryJourneySection({
   milestoneReminders: boolean;
 }) {
   return (
-    <div className="bg-gradient-to-br from-accent/5 to-white rounded-xl border border-accent/20 p-6">
+    <div className="rounded-xl border border-accent/20 p-6" style={{background: 'linear-gradient(180deg, rgba(184,118,79,0.08) 0%, #0A0A0A 40%, #080808 100%)'}}>
       <div className="flex items-center gap-3 mb-6">
         <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center">
           <Calendar className="w-5 h-5 text-accent" />
         </div>
         <div>
-          <h2 className="font-display text-xl font-bold text-primary">Recovery Journey</h2>
-          <p className="text-body-sm text-secondary">Track your milestones and celebrate your progress</p>
+          <h2 className="font-display text-xl font-bold text-white">Recovery Journey</h2>
+          <p className="text-body-sm text-white/50">Track your milestones and celebrate your progress</p>
         </div>
       </div>
 
@@ -371,16 +371,16 @@ function RecoveryJourneySection({
         <input type="hidden" name="section" value="recovery" />
         <div className="space-y-5">
           <div>
-            <label htmlFor="sobriety_date" className="block text-body font-medium text-primary mb-2">
+            <label htmlFor="sobriety_date" className="block text-body font-medium text-white mb-2">
               Sobriety Start Date
             </label>
             <Input id="sobriety_date" name="sobriety_date" type="date" className="w-full" max={new Date().toISOString().split('T')[0]} defaultValue={sobrietyDate} />
-            <p className="text-caption text-secondary mt-2">This will help us calculate your milestones and recommend the right tokens</p>
+            <p className="text-caption text-white/50 mt-2">This will help us calculate your milestones and recommend the right tokens</p>
           </div>
 
           <div>
-            <label htmlFor="recovery_program" className="block text-body font-medium text-primary mb-2">Recovery Program</label>
-            <select id="recovery_program" name="recovery_program" className="w-full h-12 px-4 rounded-lg bg-surface/50 text-body text-primary focus:outline-none focus:bg-white focus:ring-2 focus:ring-accent/20 focus:shadow-sm transition-all duration-200" defaultValue={recoveryProgram}>
+            <label htmlFor="recovery_program" className="block text-body font-medium text-white mb-2">Recovery Program</label>
+            <select id="recovery_program" name="recovery_program" className="w-full h-12 px-4 rounded-lg bg-white/[0.05] text-body text-white border border-white/[0.08] focus:outline-none focus:border-white/[0.15] focus:ring-2 focus:ring-accent/20 transition-all duration-200" defaultValue={recoveryProgram}>
               <option value="">Select a program</option>
               <option value="AA">Alcoholics Anonymous (AA)</option>
               <option value="NA">Narcotics Anonymous (NA)</option>
@@ -394,10 +394,10 @@ function RecoveryJourneySection({
 
           <div>
             <label className="flex items-start gap-3">
-              <input type="checkbox" name="milestone_reminders" defaultChecked={milestoneReminders} className="mt-1 w-5 h-5 rounded border-black/20 text-accent focus:ring-accent" />
+              <input type="checkbox" name="milestone_reminders" defaultChecked={milestoneReminders} className="mt-1 w-5 h-5 rounded border-white/20 text-accent focus:ring-accent bg-white/[0.05]" />
               <div className="flex-1">
-                <span className="text-body font-medium text-primary">Enable Milestone Reminders</span>
-                <p className="text-caption text-secondary mt-1">Get notified when you're approaching important sobriety milestones (30, 60, 90 days, etc.)</p>
+                <span className="text-body font-medium text-white">Enable Milestone Reminders</span>
+                <p className="text-caption text-white/50 mt-1">Get notified when you're approaching important sobriety milestones (30, 60, 90 days, etc.)</p>
               </div>
             </label>
           </div>

@@ -27,24 +27,25 @@ export function MilestoneCard({
 
   return (
     <div
-      className={`rounded-2xl p-6 transition-shadow duration-200 hover:shadow-md ${
+      className={`rounded-2xl p-6 transition-colors duration-200 hover:border-white/[0.15] ${
         isNext
-          ? 'bg-accent/5 border-2 border-accent shadow-sm'
-          : 'bg-white border border-black/5 shadow-sm'
+          ? 'border-2 border-accent bg-accent/5'
+          : 'border border-white/[0.08]'
       }`}
+      style={isNext ? undefined : {background: 'linear-gradient(180deg, #111 0%, #0A0A0A 40%, #080808 100%)'}}
     >
       <div className="flex items-start gap-4">
         <span className="text-3xl shrink-0" role="img" aria-hidden="true">
           {emoji}
         </span>
         <div className="flex-1 min-w-0">
-          <h3 className="font-display text-lg font-bold text-primary">
+          <h3 className="font-display text-lg font-bold text-white">
             {label}
           </h3>
-          <p className="text-body-sm text-secondary mt-1">{description}</p>
+          <p className="text-body-sm text-white/50 mt-1">{description}</p>
           <p
             className={`text-body-sm font-medium mt-2 ${
-              isNext ? 'text-accent' : 'text-secondary/70'
+              isNext ? 'text-accent' : 'text-white/40'
             }`}
           >
             {dateLabel}

@@ -54,9 +54,9 @@ export default function AccountDashboard() {
           <QuickStatCard icon={<Award className="w-5 h-5" />} label="Recovery Journey" value="Set Up" valueColor="text-accent" isLink to="/account/profile" />
         )}
         {nextMilestone ? (
-          <QuickStatCard icon={<CheckCircle className="w-5 h-5" />} label={`Next: ${nextMilestone.label}`} value={`${nextMilestone.daysUntil}d`} valueColor="text-green-600" />
+          <QuickStatCard icon={<CheckCircle className="w-5 h-5" />} label={`Next: ${nextMilestone.label}`} value={`${nextMilestone.daysUntil}d`} valueColor="text-green-400" />
         ) : (
-          <QuickStatCard icon={<User className="w-5 h-5" />} label="Account Status" value="Active" valueColor="text-green-600" />
+          <QuickStatCard icon={<User className="w-5 h-5" />} label="Account Status" value="Active" valueColor="text-green-400" />
         )}
         <QuickStatCard icon={<ShoppingBag className="w-5 h-5" />} label="Orders" value="View All" isLink to="/account/orders" />
         <QuickStatCard icon={<MapPin className="w-5 h-5" />} label="Saved Addresses" value={customer.addresses?.nodes?.length?.toString() || '0'} />
@@ -67,7 +67,7 @@ export default function AccountDashboard() {
 
       {/* Quick Actions */}
       <div>
-        <h2 className="font-display text-xl lg:text-2xl font-bold text-primary mb-6">
+        <h2 className="font-display text-xl lg:text-2xl font-bold text-white mb-6">
           Quick Actions
         </h2>
         <div className="grid sm:grid-cols-2 gap-4 lg:gap-6">
@@ -107,18 +107,18 @@ function RecoveryCircleSection({circle}: {circle: RecoveryCircleMember[]}) {
       <div className="mb-10">
         <div className="flex items-center gap-3 mb-6">
           <Users className="w-5 h-5 text-accent" />
-          <h2 className="font-display text-xl lg:text-2xl font-bold text-primary">
+          <h2 className="font-display text-xl lg:text-2xl font-bold text-white">
             Your Recovery Circle
           </h2>
         </div>
-        <div className="rounded-xl border border-black/5 bg-surface/50 p-6 lg:p-8" style={{textAlign: 'center'}}>
+        <div className="rounded-xl border border-white/[0.08] bg-white/[0.03] p-6 lg:p-8" style={{textAlign: 'center'}}>
           <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-accent/10 text-accent mb-4">
             <Heart className="w-7 h-7" />
           </div>
-          <h3 className="font-display text-lg font-bold text-primary mb-2">
+          <h3 className="font-display text-lg font-bold text-white mb-2">
             Track milestones for the people you care about
           </h3>
-          <p style={{maxWidth: '28rem', marginLeft: 'auto', marginRight: 'auto', marginBottom: '1.5rem', fontSize: '1rem', lineHeight: 1.6, color: '#4A5568'}}>
+          <p style={{maxWidth: '28rem', marginLeft: 'auto', marginRight: 'auto', marginBottom: '1.5rem', fontSize: '1rem', lineHeight: 1.6, color: 'rgba(255,255,255,0.5)'}}>
             Your Recovery Circle lets you track recovery milestones for the people
             you care about. Use nicknames — no personal data is stored.
           </p>
@@ -143,10 +143,10 @@ function RecoveryCircleSection({circle}: {circle: RecoveryCircleMember[]}) {
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
           <Users className="w-5 h-5 text-accent" />
-          <h2 className="font-display text-xl lg:text-2xl font-bold text-primary">
+          <h2 className="font-display text-xl lg:text-2xl font-bold text-white">
             Your Recovery Circle
           </h2>
-          <span className="text-caption text-secondary">
+          <span className="text-caption text-white/50">
             {circle.length} {circle.length === 1 ? 'member' : 'members'}
           </span>
         </div>
@@ -166,7 +166,8 @@ function RecoveryCircleSection({circle}: {circle: RecoveryCircleMember[]}) {
             <Link
               key={member.id}
               to="/account/circle"
-              className="rounded-xl border border-black/5 bg-white p-4 hover:border-accent/30 hover:shadow-md transition-all duration-200 group"
+              className="rounded-xl border border-white/[0.08] p-4 hover:border-white/[0.15] transition-all duration-200 group"
+              style={{background: 'linear-gradient(180deg, #111 0%, #0A0A0A 40%, #080808 100%)'}}
             >
               <div className="flex items-center gap-3 mb-2">
                 <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center flex-shrink-0">
@@ -175,11 +176,11 @@ function RecoveryCircleSection({circle}: {circle: RecoveryCircleMember[]}) {
                   </span>
                 </div>
                 <div className="min-w-0">
-                  <p className="font-display text-base font-bold text-primary truncate group-hover:text-accent transition-colors">
+                  <p className="font-display text-base font-bold text-white truncate group-hover:text-accent transition-colors">
                     {member.name}
                   </p>
                   {member.relationship && (
-                    <p className="text-caption text-secondary truncate">
+                    <p className="text-caption text-white/50 truncate">
                       {getRelationshipLabel(member.relationship)}
                     </p>
                   )}
@@ -198,7 +199,7 @@ function RecoveryCircleSection({circle}: {circle: RecoveryCircleMember[]}) {
         <div className="mt-3 text-center">
           <Link
             to="/account/circle"
-            className="text-body-sm text-secondary hover:text-accent transition-colors"
+            className="text-body-sm text-white/50 hover:text-accent transition-colors"
           >
             +{remaining} more {remaining === 1 ? 'member' : 'members'}
           </Link>
@@ -212,7 +213,7 @@ function QuickStatCard({
   icon,
   label,
   value,
-  valueColor = 'text-primary',
+  valueColor = 'text-white',
   isLink = false,
   to,
 }: {
@@ -224,14 +225,14 @@ function QuickStatCard({
   to?: string;
 }) {
   const content = (
-    <div className={`bg-surface rounded-xl p-4 lg:p-6 text-center h-full ${isLink ? 'hover:bg-surface/80 transition-colors cursor-pointer' : ''}`}>
+    <div className={`bg-white/[0.05] rounded-xl p-4 lg:p-6 text-center h-full ${isLink ? 'hover:bg-white/[0.08] transition-colors cursor-pointer' : ''}`}>
       <div className="inline-flex items-center justify-center w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-accent/10 text-accent mb-3">
         {icon}
       </div>
       <div className={`font-display text-xl lg:text-2xl font-bold ${valueColor} mb-1`}>
         {value}
       </div>
-      <div className="text-body-sm lg:text-body text-secondary">{label}</div>
+      <div className="text-body-sm lg:text-body text-white/50">{label}</div>
     </div>
   );
 
@@ -256,18 +257,18 @@ function QuickLinkCard({
   return (
     <Link
       to={to}
-      className="flex items-start gap-4 lg:gap-5 p-5 lg:p-6 rounded-xl border border-black/5 hover:border-accent/30 hover:bg-surface/50 hover:shadow-md transition-all duration-200 group"
+      className="flex items-start gap-4 lg:gap-5 p-5 lg:p-6 rounded-xl border border-white/[0.08] hover:border-white/[0.15] transition-all duration-200 group"
     >
       <div className="flex-shrink-0 w-12 h-12 lg:w-14 lg:h-14 rounded-xl bg-accent/10 flex items-center justify-center text-accent group-hover:bg-accent group-hover:text-white transition-colors">
         {icon}
       </div>
       <div className="flex-1 min-w-0">
-        <h3 className="font-display text-base lg:text-lg font-bold text-primary group-hover:text-accent transition-colors mb-1">
+        <h3 className="font-display text-base lg:text-lg font-bold text-white group-hover:text-accent transition-colors mb-1">
           {title}
         </h3>
-        <p className="text-body-sm text-secondary leading-relaxed">{description}</p>
+        <p className="text-body-sm text-white/50 leading-relaxed">{description}</p>
       </div>
-      <ChevronRight className="flex-shrink-0 w-5 h-5 text-secondary group-hover:text-accent transition-colors mt-1" />
+      <ChevronRight className="flex-shrink-0 w-5 h-5 text-white/50 group-hover:text-accent transition-colors mt-1" />
     </Link>
   );
 }

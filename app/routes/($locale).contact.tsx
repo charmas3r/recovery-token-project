@@ -118,16 +118,16 @@ export default function ContactPage() {
     return (
       <div style={{minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 1rem'}}>
         <div style={{maxWidth: '28rem', width: '100%', textAlign: 'center'}}>
-          <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+          <div className="w-16 h-16 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
             <CheckCircle className="w-8 h-8 text-green-600" />
           </div>
-          <h1 style={{fontFamily: 'var(--font-display)', fontSize: '2rem', fontWeight: 700, color: '#1A202C', marginBottom: '1rem'}}>
+          <h1 style={{fontFamily: 'var(--font-display)', fontSize: '2rem', fontWeight: 700, color: '#FFFFFF', marginBottom: '1rem'}}>
             Message Sent
           </h1>
-          <p style={{fontSize: '1.125rem', color: '#4A5568', marginBottom: '2rem', lineHeight: 1.6}}>
+          <p style={{fontSize: '1.125rem', color: 'rgba(255,255,255,0.5)', marginBottom: '2rem', lineHeight: 1.6}}>
             Thank you for reaching out. We've received your message and will get back to you within 1-2 business days.
           </p>
-          <p style={{fontSize: '1rem', color: '#718096', lineHeight: 1.6}}>
+          <p style={{fontSize: '1rem', color: 'rgba(255,255,255,0.4)', lineHeight: 1.6}}>
             Your journey matters to us, and we're honored to be part of it.
           </p>
         </div>
@@ -142,10 +142,10 @@ export default function ContactPage() {
         <span style={{display: 'inline-block', color: '#FFFF93', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.25em', fontWeight: 600, marginBottom: '1rem'}}>
           Get in Touch
         </span>
-        <h1 style={{fontFamily: 'var(--font-display)', fontSize: 'clamp(2.5rem, 5vw, 3.5rem)', fontWeight: 700, color: '#1A202C', marginBottom: '1rem', lineHeight: 1.1}}>
+        <h1 style={{fontFamily: 'var(--font-display)', fontSize: 'clamp(2.5rem, 5vw, 3.5rem)', fontWeight: 700, color: '#FFFFFF', marginBottom: '1rem', lineHeight: 1.1}}>
           Contact Us
         </h1>
-        <p style={{fontSize: '1.125rem', color: '#4A5568', maxWidth: '40rem', margin: '0 auto', lineHeight: 1.6}}>
+        <p style={{fontSize: '1.125rem', color: 'rgba(255,255,255,0.5)', maxWidth: '40rem', margin: '0 auto', lineHeight: 1.6}}>
           Have questions about our recovery tokens, your order, or just want to share your story? We're here to listen and help.
         </p>
       </div>
@@ -155,7 +155,7 @@ export default function ContactPage() {
         <Form method="post" action="/contact" className="space-y-6">
           {/* General error */}
           {actionData?.error && (
-            <div className="p-4 rounded-lg bg-red-50 flex items-start gap-3">
+            <div className="p-4 rounded-lg bg-red-500/10 flex items-start gap-3">
               <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
               <p className="text-body text-red-700">{actionData.error}</p>
             </div>
@@ -163,7 +163,7 @@ export default function ContactPage() {
 
           {/* Name Field */}
           <div className="space-y-2">
-            <label htmlFor="name" className="block text-body-sm font-medium text-primary">
+            <label htmlFor="name" className="block text-body-sm font-medium text-white">
               Your Name
             </label>
             <input
@@ -189,7 +189,7 @@ export default function ContactPage() {
 
           {/* Email Field */}
           <div className="space-y-2">
-            <label htmlFor="email" className="block text-body-sm font-medium text-primary">
+            <label htmlFor="email" className="block text-body-sm font-medium text-white">
               Email Address
             </label>
             <input
@@ -215,7 +215,7 @@ export default function ContactPage() {
 
           {/* Subject Field */}
           <div className="space-y-2">
-            <label htmlFor="subject" className="block text-body-sm font-medium text-primary">
+            <label htmlFor="subject" className="block text-body-sm font-medium text-white">
               Subject
             </label>
             <input
@@ -240,7 +240,7 @@ export default function ContactPage() {
 
           {/* Message Field */}
           <div className="space-y-2">
-            <label htmlFor="message" className="block text-body-sm font-medium text-primary">
+            <label htmlFor="message" className="block text-body-sm font-medium text-white">
               Message
             </label>
             <textarea
@@ -290,9 +290,9 @@ export default function ContactPage() {
         </Form>
 
         {/* Additional Contact Info */}
-        <div style={{marginTop: '3rem', paddingTop: '3rem', borderTop: '1px solid rgba(0,0,0,0.1)'}}>
+        <div style={{marginTop: '3rem', paddingTop: '3rem', borderTop: '1px solid rgba(255,255,255,0.08)'}}>
           <div style={{textAlign: 'center'}}>
-            <p style={{fontSize: '1rem', color: '#4A5568', marginBottom: '0.5rem'}}>
+            <p style={{fontSize: '1rem', color: 'rgba(255,255,255,0.5)', marginBottom: '0.5rem'}}>
               Prefer email?
             </p>
             <a
@@ -305,7 +305,7 @@ export default function ContactPage() {
           </div>
 
           <div style={{marginTop: '1.5rem', textAlign: 'center'}}>
-            <p style={{fontSize: '0.875rem', color: '#718096', lineHeight: 1.6}}>
+            <p style={{fontSize: '0.875rem', color: 'rgba(255,255,255,0.4)', lineHeight: 1.6}}>
               We typically respond within 1-2 business days. Your privacy and discretion are important to us.
             </p>
           </div>

@@ -19,15 +19,18 @@ export function Card({children, hover = false, className}: CardProps) {
   return (
     <div
       className={clsx(
-        'bg-white rounded-md overflow-hidden',
-        'border border-surface-dark/10',
+        'rounded-md overflow-hidden',
+        'border border-white/[0.08]',
         hover && [
           'transition-all duration-300',
-          'hover:shadow-lg hover:-translate-y-1',
+          'hover:border-white/[0.15] hover:-translate-y-1',
         ],
         className,
       )}
+      style={{background: 'linear-gradient(180deg, #111 0%, #0A0A0A 40%, #080808 100%)'}}
     >
+      {/* Top-edge shine */}
+      <div className="h-px bg-gradient-to-r from-transparent via-white/[0.08] to-transparent" />
       {children}
     </div>
   );
@@ -58,7 +61,7 @@ Card.Image = function CardImage({
     <div
       className={clsx(
         aspectClasses[aspectRatio],
-        'bg-surface relative overflow-hidden',
+        'bg-black/40 relative overflow-hidden',
         className,
       )}
     >
@@ -94,7 +97,7 @@ Card.Title = function CardTitle({
   className?: string;
 }) {
   return (
-    <h3 className={clsx('text-subsection text-primary line-clamp-2', className)}>
+    <h3 className={clsx('text-subsection text-white line-clamp-2', className)}>
       {children}
     </h3>
   );
@@ -108,7 +111,7 @@ Card.Description = function CardDescription({
   className?: string;
 }) {
   return (
-    <p className={clsx('text-body-sm text-secondary line-clamp-2', className)}>
+    <p className={clsx('text-body-sm text-white/50 line-clamp-2', className)}>
       {children}
     </p>
   );

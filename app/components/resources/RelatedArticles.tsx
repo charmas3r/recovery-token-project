@@ -20,7 +20,7 @@ export function RelatedArticles({articles}: RelatedArticlesProps) {
   if (articles.length === 0) return null;
 
   return (
-    <section className="py-16 md:py-20 bg-surface">
+    <section className="py-16 md:py-20 bg-white/[0.03]">
       <div className="container-standard">
         <div
           style={{
@@ -49,7 +49,7 @@ export function RelatedArticles({articles}: RelatedArticlesProps) {
               fontFamily: 'var(--font-display, serif)',
               fontSize: '1.75rem',
               fontWeight: 700,
-              color: '#1A202C',
+              color: '#FFFFFF',
               lineHeight: 1.3,
             }}
           >

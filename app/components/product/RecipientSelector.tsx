@@ -77,17 +77,17 @@ export function RecipientSelector({
   };
 
   return (
-    <div className="border border-black/5 rounded-xl overflow-hidden">
+    <div className="border border-white/[0.08] rounded-xl overflow-hidden">
       {/* Toggle Header */}
       <button
         type="button"
         onClick={() => setIsExpanded(!isExpanded)}
-        className="flex items-center justify-between w-full p-4 text-left hover:bg-surface/50 transition-colors"
+        className="flex items-center justify-between w-full p-4 text-left hover:bg-white/[0.05] transition-colors"
       >
         <div className="flex items-center gap-3">
           <Gift className="w-5 h-5 text-accent" />
           <div>
-            <span className="font-display text-base font-bold text-primary">
+            <span className="font-display text-base font-bold text-white">
               Buying as a Gift?
             </span>
             {selectedRecipient.type !== 'self' && (
@@ -101,9 +101,9 @@ export function RecipientSelector({
           </div>
         </div>
         {isExpanded ? (
-          <ChevronUp className="w-5 h-5 text-secondary" />
+          <ChevronUp className="w-5 h-5 text-white/50" />
         ) : (
-          <ChevronDown className="w-5 h-5 text-secondary" />
+          <ChevronDown className="w-5 h-5 text-white/50" />
         )}
       </button>
 
@@ -135,7 +135,7 @@ export function RecipientSelector({
               {selectedRecipient.type === 'circle' && (
                 <div className="mt-2 ml-8">
                   <select
-                    className="w-full h-12 px-4 rounded-lg bg-surface/50 text-body text-primary focus:outline-none focus:bg-white focus:ring-2 focus:ring-accent/20 focus:shadow-sm transition-all duration-200"
+                    className="w-full h-12 px-4 rounded-lg bg-white/[0.05] text-body text-white focus:outline-none focus:bg-white/[0.08] focus:ring-2 focus:ring-accent/20 transition-all duration-200"
                     value={selectedRecipient.member.id}
                     onChange={(e) => {
                       const member = circle.find(
@@ -193,16 +193,16 @@ export function RecipientSelector({
                         type="checkbox"
                         checked={addToCircle}
                         onChange={(e) => handleAddToCircleToggle(e.target.checked)}
-                        className="mt-0.5 w-4 h-4 rounded border-black/20 text-accent focus:ring-accent/30 accent-[#FFFF93]"
+                        className="mt-0.5 w-4 h-4 rounded border-white/20 text-accent focus:ring-accent/30 accent-[#FFFF93]"
                       />
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2">
-                          <span className="text-body font-medium text-primary">
+                          <span className="text-body font-medium text-white">
                             Add to my Recovery Circle
                           </span>
                           <Heart className="w-4 h-4 text-accent" />
                         </div>
-                        <p className="text-caption text-secondary mt-1 leading-relaxed">
+                        <p className="text-caption text-white/50 mt-1 leading-relaxed">
                           Your Recovery Circle helps you track milestones for people you care
                           about — see their journey, gift history, and upcoming celebrations.
                           Only a nickname is needed. No personal identification data is stored.
@@ -214,7 +214,7 @@ export function RecipientSelector({
                     {addToCircle && (
                       <div className="ml-7 space-y-3">
                         <div>
-                          <label className="block text-caption font-medium text-secondary mb-1">
+                          <label className="block text-caption font-medium text-white/50 mb-1">
                             Relationship (optional)
                           </label>
                           <select
@@ -223,7 +223,7 @@ export function RecipientSelector({
                               setCircleRelationship(e.target.value);
                               handleCircleFieldChange(e.target.value, circleCleanDate, selectedRecipient.name);
                             }}
-                            className="w-full h-10 px-3 rounded-lg bg-white text-body text-primary border border-black/10 focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent/30 transition-all duration-200"
+                            className="w-full h-10 px-3 rounded-lg bg-white/[0.05] text-body text-white border border-white/[0.1] focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent/30 transition-all duration-200"
                           >
                             <option value="">Select relationship...</option>
                             {RELATIONSHIP_OPTIONS.map((opt) => (
@@ -234,7 +234,7 @@ export function RecipientSelector({
                           </select>
                         </div>
                         <div>
-                          <label className="block text-caption font-medium text-secondary mb-1">
+                          <label className="block text-caption font-medium text-white/50 mb-1">
                             Clean/Sobriety Date (optional)
                           </label>
                           <input
@@ -245,7 +245,7 @@ export function RecipientSelector({
                               setCircleCleanDate(e.target.value);
                               handleCircleFieldChange(circleRelationship, e.target.value, selectedRecipient.name);
                             }}
-                            className="w-full h-10 px-3 rounded-lg bg-white text-body text-primary border border-black/10 focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent/30 transition-all duration-200"
+                            className="w-full h-10 px-3 rounded-lg bg-white/[0.05] text-body text-white border border-white/[0.1] focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent/30 transition-all duration-200"
                           />
                         </div>
                       </div>
@@ -282,13 +282,13 @@ function RecipientOption({
         'flex items-start gap-3 w-full p-3 rounded-lg border-2 text-left transition-colors',
         selected
           ? 'border-accent bg-accent/5'
-          : 'border-black/5 hover:border-accent/30',
+          : 'border-white/[0.08] hover:border-accent/30',
       )}
     >
       <div
         className={clsx(
           'w-5 h-5 rounded-full border-2 flex items-center justify-center mt-0.5 flex-shrink-0',
-          selected ? 'border-accent bg-accent' : 'border-black/20',
+          selected ? 'border-accent bg-accent' : 'border-white/20',
         )}
       >
         {selected && (
@@ -297,14 +297,14 @@ function RecipientOption({
       </div>
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2">
-          <span className={clsx('text-body font-medium', selected ? 'text-accent' : 'text-primary')}>
+          <span className={clsx('text-body font-medium', selected ? 'text-accent' : 'text-white')}>
             {label}
           </span>
-          <span className={clsx(selected ? 'text-accent' : 'text-secondary')}>
+          <span className={clsx(selected ? 'text-accent' : 'text-white/50')}>
             {icon}
           </span>
         </div>
-        <p className="text-caption text-secondary">{description}</p>
+        <p className="text-caption text-white/50">{description}</p>
       </div>
     </button>
   );

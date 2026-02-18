@@ -134,12 +134,12 @@ export default function GlossaryPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen">
       <JsonLd data={jsonLdData} />
       <JsonLd data={breadcrumbJsonLd} />
 
       {/* Header Section */}
-      <section className="bg-surface py-12 md:py-16">
+      <section className="bg-white/[0.03] py-12 md:py-16">
         <div className="container-standard">
           <Breadcrumbs
             items={[
@@ -155,10 +155,10 @@ export default function GlossaryPage() {
             <span style={{display: 'inline-block', color: '#FFFF93', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.25em', fontWeight: 600, marginBottom: '1rem'}}>
               Knowledge Base
             </span>
-            <h1 style={{fontFamily: 'var(--font-display, serif)', fontSize: '3rem', fontWeight: 700, color: '#1A202C', lineHeight: 1.1, marginBottom: '1rem'}}>
+            <h1 style={{fontFamily: 'var(--font-display, serif)', fontSize: '3rem', fontWeight: 700, color: '#FFFFFF', lineHeight: 1.1, marginBottom: '1rem'}}>
               Recovery Glossary
             </h1>
-            <p style={{fontSize: '1.125rem', lineHeight: 1.6, color: '#4A5568', maxWidth: '36rem', marginLeft: 'auto', marginRight: 'auto', width: '100%'}}>
+            <p style={{fontSize: '1.125rem', lineHeight: 1.6, color: 'rgba(255,255,255,0.5)', maxWidth: '36rem', marginLeft: 'auto', marginRight: 'auto', width: '100%'}}>
               A comprehensive guide to the terms, traditions, and symbols of
               the recovery community. Whether you&apos;re new to recovery or
               supporting someone on their journey, this glossary is here to help.
@@ -168,7 +168,7 @@ export default function GlossaryPage() {
       </section>
 
       {/* Search & Filter Bar */}
-      <section className="sticky top-0 z-20 bg-white/95 backdrop-blur-sm border-b border-black/5 py-4">
+      <section className="sticky top-0 z-20 bg-black/95 backdrop-blur-sm border-b border-white/[0.08] py-4">
         <div className="container-standard space-y-4">
           <div className="grid md:grid-cols-[1fr_auto] gap-4 items-start">
             <GlossarySearch value={searchQuery} onChange={setSearchQuery} />
@@ -182,7 +182,7 @@ export default function GlossaryPage() {
       </section>
 
       {/* Alphabet Nav */}
-      <section className="py-4 border-b border-black/5">
+      <section className="py-4 border-b border-white/[0.08]">
         <div className="container-standard">
           <AlphabetNav activeLetters={activeLetters} />
         </div>
@@ -196,7 +196,7 @@ export default function GlossaryPage() {
               {groupedTerms.map(([letter, letterTerms]) => (
                 <div key={letter} id={`letter-${letter}`}>
                   <FadeUp>
-                    <h2 className="font-display text-2xl font-bold text-primary mb-6 pb-2 border-b border-black/10">
+                    <h2 className="font-display text-2xl font-bold text-white mb-6 pb-2 border-b border-white/[0.08]">
                       {letter}
                     </h2>
                   </FadeUp>
@@ -217,10 +217,10 @@ export default function GlossaryPage() {
             /* Empty State */
             <div style={{textAlign: 'center', paddingTop: '4rem', paddingBottom: '4rem'}}>
               <div style={{fontSize: '3rem', marginBottom: '1rem'}}>🔍</div>
-              <h3 style={{fontFamily: 'var(--font-display, serif)', fontSize: '1.25rem', fontWeight: 700, color: '#1A202C', marginBottom: '0.5rem'}}>
+              <h3 style={{fontFamily: 'var(--font-display, serif)', fontSize: '1.25rem', fontWeight: 700, color: '#FFFFFF', marginBottom: '0.5rem'}}>
                 No matching terms
               </h3>
-              <p style={{fontSize: '1rem', lineHeight: 1.6, color: '#4A5568', maxWidth: '28rem', marginLeft: 'auto', marginRight: 'auto'}}>
+              <p style={{fontSize: '1rem', lineHeight: 1.6, color: 'rgba(255,255,255,0.5)', maxWidth: '28rem', marginLeft: 'auto', marginRight: 'auto'}}>
                 We couldn&apos;t find any terms matching your search. Try a
                 different keyword or clear your filters.
               </p>
@@ -240,15 +240,15 @@ export default function GlossaryPage() {
       </section>
 
       {/* Bottom CTA */}
-      <section className="py-16 md:py-20 bg-surface">
+      <section className="py-16 md:py-20 bg-white/[0.03]">
         <div style={{maxWidth: '1280px', marginLeft: 'auto', marginRight: 'auto', paddingLeft: '1.5rem', paddingRight: '1.5rem', textAlign: 'center'}}>
           <span style={{display: 'inline-block', color: '#FFFF93', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.25em', fontWeight: 600, marginBottom: '1rem'}}>
             Explore More
           </span>
-          <h2 style={{fontFamily: 'var(--font-display, serif)', fontSize: '1.75rem', fontWeight: 700, color: '#1A202C', lineHeight: 1.3, marginBottom: '1rem'}}>
+          <h2 style={{fontFamily: 'var(--font-display, serif)', fontSize: '1.75rem', fontWeight: 700, color: '#FFFFFF', lineHeight: 1.3, marginBottom: '1rem'}}>
             Continue Your Journey
           </h2>
-          <p style={{fontSize: '1.125rem', lineHeight: 1.6, color: '#4A5568', maxWidth: '36rem', marginLeft: 'auto', marginRight: 'auto', marginBottom: '2rem'}}>
+          <p style={{fontSize: '1.125rem', lineHeight: 1.6, color: 'rgba(255,255,255,0.5)', maxWidth: '36rem', marginLeft: 'auto', marginRight: 'auto', marginBottom: '2rem'}}>
             Discover how many milestones you&apos;ve achieved or find the
             perfect token to celebrate your progress.
           </p>

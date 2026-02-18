@@ -82,18 +82,18 @@ export function ReviewsWidget({productId, shopDomain}: ReviewsWidgetProps) {
 function ReviewsSkeleton() {
   return (
     <div className="space-y-6 animate-pulse">
-      <div className="h-8 bg-gray-200 rounded w-48" />
+      <div className="h-8 bg-white/[0.08] rounded w-48" />
       {Array.from({length: 3}).map((_, i) => (
-        <div key={i} className="border rounded-lg p-4 space-y-3">
+        <div key={i} className="border border-white/[0.08] rounded-lg p-4 space-y-3">
           <div className="flex items-center gap-2">
-            <div className="h-5 bg-gray-200 rounded w-32" />
+            <div className="h-5 bg-white/[0.08] rounded w-32" />
           </div>
-          <div className="h-4 bg-gray-200 rounded w-3/4" />
-          <div className="h-4 bg-gray-200 rounded w-1/2" />
+          <div className="h-4 bg-white/[0.08] rounded w-3/4" />
+          <div className="h-4 bg-white/[0.08] rounded w-1/2" />
           <div className="space-y-2">
-            <div className="h-3 bg-gray-200 rounded w-full" />
-            <div className="h-3 bg-gray-200 rounded w-full" />
-            <div className="h-3 bg-gray-200 rounded w-2/3" />
+            <div className="h-3 bg-white/[0.08] rounded w-full" />
+            <div className="h-3 bg-white/[0.08] rounded w-full" />
+            <div className="h-3 bg-white/[0.08] rounded w-2/3" />
           </div>
         </div>
       ))}

@@ -261,8 +261,8 @@ export default function Addresses() {
 
       {/* New Address Form */}
       {showNewForm && (
-        <div className="mb-10 p-6 bg-surface rounded-xl border border-black/5">
-          <h2 className="font-display text-xl font-bold text-primary mb-6">
+        <div className="mb-10 p-6 bg-white/[0.05] rounded-xl border border-white/[0.08]">
+          <h2 className="font-display text-xl font-bold text-white mb-6">
             Add New Address
           </h2>
           <NewAddressForm onCancel={() => setShowNewForm(false)} />
@@ -272,7 +272,7 @@ export default function Addresses() {
       {/* Existing Addresses */}
       {addresses.nodes.length > 0 ? (
         <div className="space-y-6">
-          <h2 className="font-display text-xl font-bold text-primary">
+          <h2 className="font-display text-xl font-bold text-white">
             Saved Addresses
           </h2>
           <div className="grid sm:grid-cols-2 gap-6">
@@ -288,14 +288,14 @@ export default function Addresses() {
       ) : (
         !showNewForm && (
           <div className="text-center py-16 px-4">
-            <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-surface mb-6">
-              <MapPin className="w-10 h-10 text-secondary" />
+            <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-white/[0.05] mb-6">
+              <MapPin className="w-10 h-10 text-white/50" />
             </div>
-            <h3 className="font-display text-2xl font-bold text-primary mb-3">
+            <h3 className="font-display text-2xl font-bold text-white mb-3">
               No addresses saved
             </h3>
             <div className="max-w-md mx-auto">
-              <p className="text-body-lg text-secondary mb-8">
+              <p className="text-body-lg text-white/50 mb-8">
                 Add a shipping address to make checkout faster.
               </p>
             </div>
@@ -364,8 +364,8 @@ function AddressCard({
 
   if (isEditing) {
     return (
-      <div className="bg-white rounded-xl border border-black/5 p-5">
-        <h3 className="font-display font-bold text-primary mb-4">Edit Address</h3>
+      <div className="rounded-xl border border-white/[0.08] p-5" style={{background: 'linear-gradient(180deg, #111 0%, #0A0A0A 40%, #080808 100%)'}}>
+        <h3 className="font-display font-bold text-white mb-4">Edit Address</h3>
         <AddressForm
           addressId={address.id}
           address={address}
@@ -400,12 +400,12 @@ function AddressCard({
   }
 
   return (
-    <div className="bg-white rounded-xl border border-black/5 overflow-hidden">
+    <div className="rounded-xl border border-white/[0.08] overflow-hidden" style={{background: 'linear-gradient(180deg, #111 0%, #0A0A0A 40%, #080808 100%)'}}>
       {/* Header */}
-      <div className="px-5 py-4 border-b border-black/5 flex items-center justify-between">
+      <div className="px-5 py-4 border-b border-white/[0.08] flex items-center justify-between">
         <div className="flex items-center gap-2">
           <MapPin className="w-4 h-4 text-accent" />
-          <span className="font-display font-bold text-primary">
+          <span className="font-display font-bold text-white">
             {address.firstName} {address.lastName}
           </span>
         </div>
@@ -418,7 +418,7 @@ function AddressCard({
       </div>
 
       {/* Address Content */}
-      <div className="px-5 py-4 text-body-sm text-secondary space-y-0.5">
+      <div className="px-5 py-4 text-body-sm text-white/50 space-y-0.5">
         {address.company && <p>{address.company}</p>}
         <p>{address.address1}</p>
         {address.address2 && <p>{address.address2}</p>}
@@ -430,7 +430,7 @@ function AddressCard({
       </div>
 
       {/* Actions */}
-      <div className="px-5 py-3 bg-surface/50 flex items-center gap-3">
+      <div className="px-5 py-3 bg-white/[0.03] flex items-center gap-3">
         <Button
           variant="tertiary"
           size="sm"
@@ -486,7 +486,7 @@ function AddressForm({
 
       <div className="grid sm:grid-cols-2 gap-5">
         <div>
-          <label htmlFor={`firstName-${addressId}`} className="block text-body font-medium text-primary mb-2">
+          <label htmlFor={`firstName-${addressId}`} className="block text-body font-medium text-white mb-2">
             First Name *
           </label>
           <Input
@@ -501,7 +501,7 @@ function AddressForm({
         </div>
 
         <div>
-          <label htmlFor={`lastName-${addressId}`} className="block text-body font-medium text-primary mb-2">
+          <label htmlFor={`lastName-${addressId}`} className="block text-body font-medium text-white mb-2">
             Last Name *
           </label>
           <Input
@@ -516,7 +516,7 @@ function AddressForm({
         </div>
 
         <div className="sm:col-span-2">
-          <label htmlFor={`company-${addressId}`} className="block text-body font-medium text-primary mb-2">
+          <label htmlFor={`company-${addressId}`} className="block text-body font-medium text-white mb-2">
             Company
           </label>
           <Input
@@ -530,7 +530,7 @@ function AddressForm({
         </div>
 
         <div className="sm:col-span-2">
-          <label htmlFor={`address1-${addressId}`} className="block text-body font-medium text-primary mb-2">
+          <label htmlFor={`address1-${addressId}`} className="block text-body font-medium text-white mb-2">
             Address Line 1 *
           </label>
           <Input
@@ -545,7 +545,7 @@ function AddressForm({
         </div>
 
         <div className="sm:col-span-2">
-          <label htmlFor={`address2-${addressId}`} className="block text-body font-medium text-primary mb-2">
+          <label htmlFor={`address2-${addressId}`} className="block text-body font-medium text-white mb-2">
             Address Line 2
           </label>
           <Input
@@ -559,7 +559,7 @@ function AddressForm({
         </div>
 
         <div>
-          <label htmlFor={`city-${addressId}`} className="block text-body font-medium text-primary mb-2">
+          <label htmlFor={`city-${addressId}`} className="block text-body font-medium text-white mb-2">
             City *
           </label>
           <Input
@@ -574,7 +574,7 @@ function AddressForm({
         </div>
 
         <div>
-          <label htmlFor={`zoneCode-${addressId}`} className="block text-body font-medium text-primary mb-2">
+          <label htmlFor={`zoneCode-${addressId}`} className="block text-body font-medium text-white mb-2">
             State / Province *
           </label>
           <Input
@@ -589,7 +589,7 @@ function AddressForm({
         </div>
 
         <div>
-          <label htmlFor={`zip-${addressId}`} className="block text-body font-medium text-primary mb-2">
+          <label htmlFor={`zip-${addressId}`} className="block text-body font-medium text-white mb-2">
             ZIP / Postal Code *
           </label>
           <Input
@@ -604,7 +604,7 @@ function AddressForm({
         </div>
 
         <div>
-          <label htmlFor={`territoryCode-${addressId}`} className="block text-body font-medium text-primary mb-2">
+          <label htmlFor={`territoryCode-${addressId}`} className="block text-body font-medium text-white mb-2">
             Country Code *
           </label>
           <Input
@@ -621,7 +621,7 @@ function AddressForm({
         </div>
 
         <div className="sm:col-span-2">
-          <label htmlFor={`phoneNumber-${addressId}`} className="block text-body font-medium text-primary mb-2">
+          <label htmlFor={`phoneNumber-${addressId}`} className="block text-body font-medium text-white mb-2">
             Phone
           </label>
           <Input
@@ -641,9 +641,9 @@ function AddressForm({
               type="checkbox"
               name="defaultAddress"
               defaultChecked={isDefaultAddress}
-              className="w-4 h-4 rounded border-black/20 text-accent focus:ring-accent"
+              className="w-4 h-4 rounded border-white/20 text-accent focus:ring-accent bg-white/[0.05]"
             />
-            <span className="text-body-sm text-primary">Set as default address</span>
+            <span className="text-body-sm text-white">Set as default address</span>
           </label>
         </div>
       </div>

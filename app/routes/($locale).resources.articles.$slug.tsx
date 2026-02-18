@@ -115,7 +115,7 @@ export default function ArticlePage() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen">
       <ReadingProgress />
       <JsonLd data={articleJsonLd} />
       <JsonLd data={breadcrumbJsonLd} />

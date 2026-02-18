@@ -25,7 +25,7 @@ export function TrustBadges({className = ''}: {className?: string}) {
       {badges.map((badge) => (
         <div
           key={badge.label}
-          className="flex items-center gap-2 text-body-sm text-secondary"
+          className="flex items-center gap-2 text-body-sm text-white/50"
         >
           <span className="text-accent">{badge.icon}</span>
           <span>{badge.label}</span>

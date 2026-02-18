@@ -200,7 +200,7 @@ export function ProductForm({
 
         return (
           <div key={option.name} className="space-y-3">
-            <h3 className="font-display text-base font-bold text-primary">
+            <h3 className="font-display text-base font-bold text-white">
               {option.name}
             </h3>
             <div className="flex flex-wrap gap-2">
@@ -221,13 +221,13 @@ export function ProductForm({
                   'min-w-[44px] min-h-[44px]', // Touch target
                   'focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2',
                   {
-                    // Selected state (always show selected styling regardless of availability)
-                    'bg-primary text-white border-2 border-primary': selected,
+                    // Selected state
+                    'bg-white/[0.15] text-white border-2 border-white/[0.3]': selected,
                     // Available but not selected
-                    'bg-white text-primary border-2 border-black/10 hover:border-accent/50':
+                    'bg-white/[0.05] text-white border-2 border-white/[0.08] hover:border-white/[0.2]':
                       !selected && available && exists,
                     // Unavailable and not selected
-                    'bg-surface text-secondary/50 border-2 border-transparent cursor-not-allowed':
+                    'bg-white/[0.02] text-white/30 border-2 border-transparent cursor-not-allowed':
                       !selected && (!available || !exists),
                   },
                 );
@@ -348,7 +348,7 @@ function ProductOptionSwatch({
   return (
     <div
       aria-label={name}
-      className="w-6 h-6 rounded-full border border-black/10"
+      className="w-6 h-6 rounded-full border border-white/[0.15]"
       style={{
         backgroundColor: color || 'transparent',
       }}

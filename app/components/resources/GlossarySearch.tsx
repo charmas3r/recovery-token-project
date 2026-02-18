@@ -14,7 +14,7 @@ interface GlossarySearchProps {
 export function GlossarySearch({value, onChange}: GlossarySearchProps) {
   return (
     <div className="relative">
-      <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-secondary/50 pointer-events-none" />
+      <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/25 pointer-events-none" />
       <input
         type="search"
         placeholder="Search terms..."
@@ -32,7 +32,7 @@ export function GlossarySearch({value, onChange}: GlossarySearchProps) {
         <button
           type="button"
           onClick={() => onChange('')}
-          className="absolute right-3 top-1/2 -translate-y-1/2 p-1 rounded-full text-secondary/50 hover:text-primary hover:bg-surface transition-colors focus:outline-none focus:ring-2 focus:ring-accent"
+          className="absolute right-3 top-1/2 -translate-y-1/2 p-1 rounded-full text-white/25 hover:text-white hover:bg-white/[0.05] transition-colors focus:outline-none focus:ring-2 focus:ring-accent"
           aria-label="Clear search"
         >
           <X className="w-4 h-4" />

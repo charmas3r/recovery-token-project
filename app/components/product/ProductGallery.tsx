@@ -44,7 +44,7 @@ export function ProductGallery({images, selectedImage}: ProductGalleryProps) {
   if (!images.length) {
     return (
       <div className="aspect-square bg-surface rounded-2xl flex items-center justify-center">
-        <span className="text-secondary">No image available</span>
+        <span className="text-white/50">No image available</span>
       </div>
     );
   }

@@ -53,7 +53,7 @@ const IMPACT_CARDS = [
     description:
       'Tokens connect you to a global community. Every person who carries one shares in a tradition of mutual support and celebration.',
     icon: History,
-    color: '#4A5568',
+    color: '#9CA3AF',
   },
 ];
 
@@ -93,11 +93,11 @@ export default function WhyTokensMatterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen">
       <JsonLd data={breadcrumbJsonLd} />
 
       {/* Header Section */}
-      <section className="bg-surface py-12 md:py-16">
+      <section className="bg-white/[0.03] py-12 md:py-16">
         <div className="container-standard">
           <Breadcrumbs
             items={[
@@ -132,7 +132,7 @@ export default function WhyTokensMatterPage() {
               style={{
                 fontFamily: 'var(--font-display, serif)',
                 fontWeight: 700,
-                color: '#1A202C',
+                color: '#FFFFFF',
                 lineHeight: 1.1,
                 marginBottom: '1rem',
               }}
@@ -144,7 +144,7 @@ export default function WhyTokensMatterPage() {
               style={{
                 fontSize: '1.125rem',
                 lineHeight: 1.6,
-                color: '#4A5568',
+                color: 'rgba(255,255,255,0.5)',
                 maxWidth: '36rem',
                 marginLeft: 'auto',
                 marginRight: 'auto',
@@ -186,7 +186,7 @@ export default function WhyTokensMatterPage() {
                 fontFamily: 'var(--font-display, serif)',
                 fontSize: '2rem',
                 fontWeight: 700,
-                color: '#1A202C',
+                color: '#FFFFFF',
                 lineHeight: 1.2,
                 marginBottom: '1.5rem',
               }}
@@ -199,7 +199,7 @@ export default function WhyTokensMatterPage() {
                 style={{
                   fontSize: '1.0625rem',
                   lineHeight: 1.7,
-                  color: '#4A5568',
+                  color: 'rgba(255,255,255,0.5)',
                 }}
               >
                 Sobriety is invisible. You cannot see it, measure it on a
@@ -212,7 +212,7 @@ export default function WhyTokensMatterPage() {
                 style={{
                   fontSize: '1.0625rem',
                   lineHeight: 1.7,
-                  color: '#4A5568',
+                  color: 'rgba(255,255,255,0.5)',
                 }}
               >
                 Research in behavioral psychology shows that tangible rewards
@@ -226,7 +226,7 @@ export default function WhyTokensMatterPage() {
                 style={{
                   fontSize: '1.0625rem',
                   lineHeight: 1.7,
-                  color: '#4A5568',
+                  color: 'rgba(255,255,255,0.5)',
                 }}
               >
                 The tactile nature of a token — its weight, texture, and
@@ -241,7 +241,7 @@ export default function WhyTokensMatterPage() {
       </section>
 
       {/* The Tradition */}
-      <section className="py-12 md:py-16 bg-surface">
+      <section className="py-12 md:py-16 bg-white/[0.03]">
         <div className="container-standard">
           <div
             style={{
@@ -268,7 +268,7 @@ export default function WhyTokensMatterPage() {
                 fontFamily: 'var(--font-display, serif)',
                 fontSize: '2rem',
                 fontWeight: 700,
-                color: '#1A202C',
+                color: '#FFFFFF',
                 lineHeight: 1.2,
                 marginBottom: '1.5rem',
               }}
@@ -281,7 +281,7 @@ export default function WhyTokensMatterPage() {
                 style={{
                   fontSize: '1.0625rem',
                   lineHeight: 1.7,
-                  color: '#4A5568',
+                  color: 'rgba(255,255,255,0.5)',
                 }}
               >
                 The tradition of recovery tokens dates back to the earliest
@@ -293,7 +293,7 @@ export default function WhyTokensMatterPage() {
                 style={{
                   fontSize: '1.0625rem',
                   lineHeight: 1.7,
-                  color: '#4A5568',
+                  color: 'rgba(255,255,255,0.5)',
                 }}
               >
                 Over the decades, the practice of awarding chips at
@@ -307,7 +307,7 @@ export default function WhyTokensMatterPage() {
                 style={{
                   fontSize: '1.0625rem',
                   lineHeight: 1.7,
-                  color: '#4A5568',
+                  color: 'rgba(255,255,255,0.5)',
                 }}
               >
                 Today, this tradition extends beyond AA to encompass all
@@ -347,7 +347,7 @@ export default function WhyTokensMatterPage() {
                 fontFamily: 'var(--font-display, serif)',
                 fontSize: '2rem',
                 fontWeight: 700,
-                color: '#1A202C',
+                color: '#FFFFFF',
                 lineHeight: 1.2,
               }}
             >
@@ -368,7 +368,8 @@ export default function WhyTokensMatterPage() {
             {IMPACT_CARDS.map((card) => (
               <div
                 key={card.title}
-                className="bg-white rounded-2xl p-6 shadow-sm border border-black/5"
+                className="rounded-2xl p-6 border border-white/[0.08]"
+                style={{background: 'linear-gradient(180deg, #111 0%, #0A0A0A 40%, #080808 100%)'}}
               >
                 <div className="flex items-center gap-3 mb-4">
                   <div
@@ -382,11 +383,11 @@ export default function WhyTokensMatterPage() {
                   </div>
                 </div>
 
-                <h3 className="font-display text-lg font-bold text-primary mb-2">
+                <h3 className="font-display text-lg font-bold text-white mb-2">
                   {card.title}
                 </h3>
 
-                <p className="text-body text-secondary leading-relaxed">
+                <p className="text-body text-white/50 leading-relaxed">
                   {card.description}
                 </p>
               </div>
@@ -396,7 +397,7 @@ export default function WhyTokensMatterPage() {
       </section>
 
       {/* How They Help */}
-      <section className="py-12 md:py-16 bg-surface">
+      <section className="py-12 md:py-16 bg-white/[0.03]">
         <div className="container-standard">
           <div
             style={{
@@ -423,7 +424,7 @@ export default function WhyTokensMatterPage() {
                 fontFamily: 'var(--font-display, serif)',
                 fontSize: '2rem',
                 fontWeight: 700,
-                color: '#1A202C',
+                color: '#FFFFFF',
                 lineHeight: 1.2,
                 marginBottom: '1.5rem',
               }}
@@ -444,7 +445,7 @@ export default function WhyTokensMatterPage() {
                     style={{
                       fontSize: '1.0625rem',
                       lineHeight: 1.6,
-                      color: '#4A5568',
+                      color: 'rgba(255,255,255,0.5)',
                     }}
                   >
                     {item}
@@ -486,7 +487,7 @@ export default function WhyTokensMatterPage() {
               fontFamily: 'var(--font-display, serif)',
               fontSize: '1.75rem',
               fontWeight: 700,
-              color: '#1A202C',
+              color: '#FFFFFF',
               lineHeight: 1.3,
               marginBottom: '1rem',
             }}
@@ -497,7 +498,7 @@ export default function WhyTokensMatterPage() {
             style={{
               fontSize: '1.125rem',
               lineHeight: 1.6,
-              color: '#4A5568',
+              color: 'rgba(255,255,255,0.5)',
               maxWidth: '36rem',
               marginLeft: 'auto',
               marginRight: 'auto',

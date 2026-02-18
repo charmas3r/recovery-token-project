@@ -36,15 +36,15 @@ export function AddMemberForm({
   if (!isOpen) return null;
 
   return (
-    <div className="bg-white rounded-xl border border-accent/20 p-6 mb-6">
+    <div className="rounded-xl border border-accent/20 p-6 mb-6" style={{background: 'linear-gradient(180deg, #111 0%, #0A0A0A 40%, #080808 100%)'}}>
       <div className="flex items-center justify-between mb-5">
-        <h3 className="font-display text-lg font-bold text-primary">
+        <h3 className="font-display text-lg font-bold text-white">
           {formAction === 'edit' ? 'Edit Member' : 'Add to Your Circle'}
         </h3>
         <button
           type="button"
           onClick={onClose}
-          className="p-2 rounded-lg text-secondary hover:text-primary hover:bg-surface transition-colors"
+          className="p-2 rounded-lg text-white/40 hover:text-white hover:bg-white/[0.05] transition-colors"
           aria-label="Close form"
         >
           <X className="w-5 h-5" />
@@ -57,7 +57,7 @@ export function AddMemberForm({
 
         <div className="space-y-4">
           <div>
-            <label htmlFor="memberName" className="block text-body-sm font-medium text-primary mb-2">
+            <label htmlFor="memberName" className="block text-body-sm font-medium text-white mb-2">
               Name *
             </label>
             <Input
@@ -72,7 +72,7 @@ export function AddMemberForm({
           </div>
 
           <div>
-            <label htmlFor="cleanDate" className="block text-body-sm font-medium text-primary mb-2">
+            <label htmlFor="cleanDate" className="block text-body-sm font-medium text-white mb-2">
               Clean Date *
             </label>
             <Input
@@ -86,13 +86,13 @@ export function AddMemberForm({
           </div>
 
           <div>
-            <label htmlFor="relationship" className="block text-body-sm font-medium text-primary mb-2">
+            <label htmlFor="relationship" className="block text-body-sm font-medium text-white mb-2">
               Relationship *
             </label>
             <select
               id="relationship"
               name="relationship"
-              className="w-full h-12 px-4 rounded-lg bg-surface/50 text-body text-primary focus:outline-none focus:bg-white focus:ring-2 focus:ring-accent/20 focus:shadow-sm transition-all duration-200"
+              className="w-full h-12 px-4 rounded-lg bg-white/[0.05] text-body text-white focus:outline-none focus:bg-white/[0.08] focus:ring-2 focus:ring-accent/20 transition-all duration-200"
               defaultValue={defaultValues?.relationship ?? ''}
               required
             >
@@ -106,13 +106,13 @@ export function AddMemberForm({
           </div>
 
           <div>
-            <label htmlFor="recoveryProgram" className="block text-body-sm font-medium text-primary mb-2">
+            <label htmlFor="recoveryProgram" className="block text-body-sm font-medium text-white mb-2">
               Recovery Program
             </label>
             <select
               id="recoveryProgram"
               name="recoveryProgram"
-              className="w-full h-12 px-4 rounded-lg bg-surface/50 text-body text-primary focus:outline-none focus:bg-white focus:ring-2 focus:ring-accent/20 focus:shadow-sm transition-all duration-200"
+              className="w-full h-12 px-4 rounded-lg bg-white/[0.05] text-body text-white focus:outline-none focus:bg-white/[0.08] focus:ring-2 focus:ring-accent/20 transition-all duration-200"
               defaultValue={defaultValues?.recoveryProgram ?? ''}
             >
               <option value="">Select program (optional)</option>
@@ -125,7 +125,7 @@ export function AddMemberForm({
           </div>
         </div>
 
-        <div className="flex gap-3 mt-6 pt-5 border-t border-black/5">
+        <div className="flex gap-3 mt-6 pt-5 border-t border-white/[0.08]">
           <Button
             type="button"
             variant="secondary"

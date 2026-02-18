@@ -108,12 +108,12 @@ export default function FAQPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen">
       <JsonLd data={faqJsonLd} />
       <JsonLd data={breadcrumbJsonLd} />
 
       {/* Header Section */}
-      <section className="bg-surface py-12 md:py-16">
+      <section className="bg-white/[0.03] py-12 md:py-16">
         <div className="container-standard">
           <Breadcrumbs
             items={[
@@ -148,7 +148,7 @@ export default function FAQPage() {
               style={{
                 fontFamily: 'var(--font-display, serif)',
                 fontWeight: 700,
-                color: '#1A202C',
+                color: '#FFFFFF',
                 lineHeight: 1.1,
                 marginBottom: '1rem',
               }}
@@ -160,7 +160,7 @@ export default function FAQPage() {
               style={{
                 fontSize: '1.125rem',
                 lineHeight: 1.6,
-                color: '#4A5568',
+                color: 'rgba(255,255,255,0.5)',
                 maxWidth: '36rem',
                 marginLeft: 'auto',
                 marginRight: 'auto',
@@ -174,7 +174,7 @@ export default function FAQPage() {
       </section>
 
       {/* Category Filter Pills */}
-      <section className="py-6 border-b border-black/5 sticky top-0 bg-white z-10">
+      <section className="py-6 border-b border-white/[0.08] sticky top-0 bg-black z-10">
         <div className="container-standard">
           <div className="flex flex-wrap gap-2 justify-center">
             <button
@@ -182,7 +182,7 @@ export default function FAQPage() {
               className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
                 activeCategory === null
                   ? 'bg-accent text-white'
-                  : 'bg-surface text-secondary hover:text-primary hover:bg-surface/80'
+                  : 'bg-white/[0.05] text-white/50 hover:text-white hover:bg-white/[0.08]'
               }`}
               style={{minHeight: '44px'}}
             >
@@ -195,7 +195,7 @@ export default function FAQPage() {
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
                   activeCategory === category
                     ? 'bg-accent text-white'
-                    : 'bg-surface text-secondary hover:text-primary hover:bg-surface/80'
+                    : 'bg-white/[0.05] text-white/50 hover:text-white hover:bg-white/[0.08]'
                 }`}
                 style={{minHeight: '44px'}}
               >
@@ -211,7 +211,7 @@ export default function FAQPage() {
         <div className="container-standard" style={{maxWidth: '48rem'}}>
           {displayCategories.map((category) => (
             <div key={category} className="mb-10 last:mb-0">
-              <h2 className="font-display text-xl font-bold text-primary mb-4">
+              <h2 className="font-display text-xl font-bold text-white mb-4">
                 {category}
               </h2>
               <Accordion type="single">
@@ -231,7 +231,7 @@ export default function FAQPage() {
       </section>
 
       {/* Bottom CTA */}
-      <section className="py-16 md:py-20 bg-surface">
+      <section className="py-16 md:py-20 bg-white/[0.03]">
         <div
           style={{
             maxWidth: '1280px',
@@ -260,7 +260,7 @@ export default function FAQPage() {
               fontFamily: 'var(--font-display, serif)',
               fontSize: '1.75rem',
               fontWeight: 700,
-              color: '#1A202C',
+              color: '#FFFFFF',
               lineHeight: 1.3,
               marginBottom: '1rem',
             }}
@@ -271,7 +271,7 @@ export default function FAQPage() {
             style={{
               fontSize: '1.125rem',
               lineHeight: 1.6,
-              color: '#4A5568',
+              color: 'rgba(255,255,255,0.5)',
               maxWidth: '36rem',
               marginLeft: 'auto',
               marginRight: 'auto',

@@ -71,7 +71,7 @@ export function TableOfContents({headings}: TableOfContentsProps) {
                 heading.level === 3 && 'pl-4',
                 activeId === heading.id
                   ? 'text-accent font-medium'
-                  : 'text-secondary hover:text-primary',
+                  : 'text-white/50 hover:text-white',
               )}
             >
               {heading.text}
@@ -86,18 +86,18 @@ export function TableOfContents({headings}: TableOfContentsProps) {
     <>
       {/* Mobile: disclosure element */}
       <div className="lg:hidden mb-8">
-        <details className="bg-surface rounded-xl p-4">
-          <summary className="flex items-center gap-2 cursor-pointer text-body font-medium text-primary select-none">
+        <details className="bg-white/[0.05] rounded-xl p-4">
+          <summary className="flex items-center gap-2 cursor-pointer text-body font-medium text-white select-none">
             <List className="w-4 h-4" />
             Table of Contents
           </summary>
-          <div className="mt-3 pt-3 border-t border-black/5">{tocList}</div>
+          <div className="mt-3 pt-3 border-t border-white/[0.08]">{tocList}</div>
         </details>
       </div>
 
       {/* Desktop: sticky sidebar */}
       <aside className="hidden lg:block sticky top-24 self-start">
-        <p className="text-caption uppercase tracking-wider text-secondary font-semibold mb-3">
+        <p className="text-caption uppercase tracking-wider text-white/50 font-semibold mb-3">
           Contents
         </p>
         {tocList}

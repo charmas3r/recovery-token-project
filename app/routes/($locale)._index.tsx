@@ -1397,7 +1397,7 @@ function AnimatedStarWidget() {
       transition={{delay: 0.2, type: 'spring', stiffness: 200}}
     >
       <div className="absolute -inset-8 bg-yellow-400/15 blur-3xl rounded-full pointer-events-none" />
-      <div className="relative bg-white rounded-3xl px-12 py-10 shadow-xl border border-black/5">
+      <div className="relative rounded-3xl px-12 py-10 border border-white/[0.08]" style={{background: 'linear-gradient(180deg, #111 0%, #0A0A0A 40%, #080808 100%)'}}>
         <div className="flex justify-center gap-2.5 mb-5">
           {[1, 2, 3, 4, 5].map((n) => (
             <motion.div
@@ -1411,10 +1411,10 @@ function AnimatedStarWidget() {
           ))}
         </div>
         <div className="flex items-center justify-center gap-4">
-          <span className="text-4xl font-display font-bold text-primary">5.0</span>
+          <span className="text-4xl font-display font-bold text-white">5.0</span>
           <div className="text-left">
-            <p className="text-sm font-semibold text-primary">Perfect Rating</p>
-            <p className="text-xs text-secondary">Expected quality</p>
+            <p className="text-sm font-semibold text-white">Perfect Rating</p>
+            <p className="text-xs text-white/50">Expected quality</p>
           </div>
         </div>
       </div>

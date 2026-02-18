@@ -71,14 +71,14 @@ export function CartLineItem({
 
         {/* Recipient Display */}
         {recipientAttr && (
-          <div className="mt-2 p-2 bg-green-50 rounded-md border border-green-200">
-            <div className="flex items-center gap-1.5 text-green-700">
+          <div className="mt-2 p-2 bg-green-500/10 rounded-md border border-green-500/20">
+            <div className="flex items-center gap-1.5 text-green-400">
               <Gift className="w-3.5 h-3.5" />
               <span className="text-xs font-semibold uppercase tracking-wide">
                 Gift
               </span>
             </div>
-            <p className="text-sm text-primary font-medium mt-1">
+            <p className="text-sm text-white font-medium mt-1">
               For {recipientAttr.value}
             </p>
           </div>
@@ -93,7 +93,7 @@ export function CartLineItem({
                 Engraving
               </span>
             </div>
-            <p className="text-sm text-primary font-medium mt-1">
+            <p className="text-sm text-white font-medium mt-1">
               "{engravingAttr.value}"
             </p>
           </div>

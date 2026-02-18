@@ -160,12 +160,12 @@ export default function ArticlesHubPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen">
       <JsonLd data={collectionPageJsonLd} />
       <JsonLd data={breadcrumbJsonLd} />
 
       {/* Header Section */}
-      <section className="bg-surface py-12 md:py-16">
+      <section className="bg-white/[0.03] py-12 md:py-16">
         <div className="container-standard">
           <Breadcrumbs
             items={[
@@ -204,7 +204,7 @@ export default function ArticlesHubPage() {
                 fontFamily: 'var(--font-display, serif)',
                 fontSize: '3rem',
                 fontWeight: 700,
-                color: '#1A202C',
+                color: '#FFFFFF',
                 lineHeight: 1.1,
                 marginBottom: '1rem',
               }}
@@ -215,7 +215,7 @@ export default function ArticlesHubPage() {
               style={{
                 fontSize: '1.125rem',
                 lineHeight: 1.6,
-                color: '#4A5568',
+                color: 'rgba(255,255,255,0.5)',
                 maxWidth: '36rem',
                 marginLeft: 'auto',
                 marginRight: 'auto',
@@ -228,7 +228,7 @@ export default function ArticlesHubPage() {
       </section>
 
       {/* Category Filter Pills */}
-      <section className="sticky top-0 z-10 bg-white border-b border-black/5 py-4">
+      <section className="sticky top-0 z-10 bg-black/95 backdrop-blur-sm border-b border-white/[0.08] py-4">
         <div className="container-standard">
           <div className="flex flex-wrap gap-2 justify-center">
             <button
@@ -236,8 +236,8 @@ export default function ArticlesHubPage() {
               className={clsx(
                 'inline-flex items-center px-4 py-2 rounded-full text-sm font-medium transition-all duration-200',
                 !activeCategory
-                  ? 'bg-primary text-white shadow-sm'
-                  : 'bg-surface text-secondary hover:bg-surface/80 hover:text-primary',
+                  ? 'bg-white/[0.15] text-white'
+                  : 'bg-white/[0.05] text-white/50 hover:bg-white/[0.08] hover:text-white',
               )}
             >
               All ({(articles as Article[]).length})
@@ -249,8 +249,8 @@ export default function ArticlesHubPage() {
                 className={clsx(
                   'inline-flex items-center px-4 py-2 rounded-full text-sm font-medium transition-all duration-200',
                   activeCategory === cat
-                    ? 'bg-accent text-white shadow-sm'
-                    : 'bg-surface text-secondary hover:bg-surface/80 hover:text-primary',
+                    ? 'bg-accent text-white'
+                    : 'bg-white/[0.05] text-white/50 hover:bg-white/[0.08] hover:text-white',
                 )}
               >
                 {cat} ({categoryCounts[cat] || 0})
@@ -276,7 +276,7 @@ export default function ArticlesHubPage() {
               <p
                 style={{
                   fontSize: '1.125rem',
-                  color: '#4A5568',
+                  color: 'rgba(255,255,255,0.5)',
                   marginBottom: '1rem',
                 }}
               >
@@ -306,7 +306,7 @@ export default function ArticlesHubPage() {
       </section>
 
       {/* Bottom CTA */}
-      <section className="py-16 md:py-20 bg-surface">
+      <section className="py-16 md:py-20 bg-white/[0.03]">
         <div
           style={{
             maxWidth: '1280px',
@@ -335,7 +335,7 @@ export default function ArticlesHubPage() {
               fontFamily: 'var(--font-display, serif)',
               fontSize: '1.75rem',
               fontWeight: 700,
-              color: '#1A202C',
+              color: '#FFFFFF',
               lineHeight: 1.3,
               marginBottom: '1rem',
             }}
@@ -346,7 +346,7 @@ export default function ArticlesHubPage() {
             style={{
               fontSize: '1.125rem',
               lineHeight: 1.6,
-              color: '#4A5568',
+              color: 'rgba(255,255,255,0.5)',
               maxWidth: '36rem',
               marginLeft: 'auto',
               marginRight: 'auto',

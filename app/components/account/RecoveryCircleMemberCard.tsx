@@ -51,7 +51,7 @@ export function RecoveryCircleMemberCard({
   }
 
   return (
-    <div className="bg-white rounded-xl border border-black/5 p-6 hover:shadow-md transition-shadow">
+    <div className="rounded-xl border border-white/[0.08] p-6 hover:border-white/[0.15] transition-colors" style={{background: 'linear-gradient(180deg, #111 0%, #0A0A0A 40%, #080808 100%)'}}>
       {/* Header */}
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center gap-3">
@@ -59,10 +59,10 @@ export function RecoveryCircleMemberCard({
             {member.name.charAt(0).toUpperCase()}
           </div>
           <div>
-            <h3 className="font-display text-lg font-bold text-primary">
+            <h3 className="font-display text-lg font-bold text-white">
               {member.name}
             </h3>
-            <span className="inline-flex items-center gap-1.5 text-caption text-secondary">
+            <span className="inline-flex items-center gap-1.5 text-caption text-white/40">
               <Users className="w-3.5 h-3.5" />
               {getRelationshipLabel(member.relationship)}
             </span>
@@ -74,7 +74,7 @@ export function RecoveryCircleMemberCard({
           <button
             type="button"
             onClick={() => setIsEditing(true)}
-            className="p-2 rounded-lg text-secondary hover:text-accent hover:bg-accent/5 transition-colors"
+            className="p-2 rounded-lg text-white/40 hover:text-accent hover:bg-white/[0.05] transition-colors"
             aria-label={`Edit ${member.name}`}
           >
             <Pencil className="w-4 h-4" />
@@ -82,7 +82,7 @@ export function RecoveryCircleMemberCard({
           <button
             type="button"
             onClick={() => setShowDeleteConfirm(true)}
-            className="p-2 rounded-lg text-secondary hover:text-error hover:bg-error/5 transition-colors"
+            className="p-2 rounded-lg text-white/40 hover:text-error hover:bg-error/10 transition-colors"
             aria-label={`Remove ${member.name}`}
           >
             <Trash2 className="w-4 h-4" />
@@ -92,18 +92,18 @@ export function RecoveryCircleMemberCard({
 
       {/* Stats */}
       <div className="grid grid-cols-2 gap-3 mb-4">
-        <div className="bg-surface rounded-lg p-3 text-center">
+        <div className="bg-white/[0.05] rounded-lg p-3 text-center">
           <div className="font-display text-xl font-bold text-accent">
             {daysSober.toLocaleString()}
           </div>
-          <div className="text-caption text-secondary">Days Sober</div>
+          <div className="text-caption text-white/40">Days Sober</div>
         </div>
         {nextMilestone && (
-          <div className="bg-surface rounded-lg p-3 text-center">
-            <div className="font-display text-xl font-bold text-primary">
+          <div className="bg-white/[0.05] rounded-lg p-3 text-center">
+            <div className="font-display text-xl font-bold text-white">
               {nextMilestone.daysUntil}d
             </div>
-            <div className="text-caption text-secondary">
+            <div className="text-caption text-white/40">
               to {nextMilestone.label}
             </div>
           </div>
@@ -111,7 +111,7 @@ export function RecoveryCircleMemberCard({
       </div>
 
       {/* Meta info */}
-      <div className="flex flex-wrap items-center gap-3 text-caption text-secondary">
+      <div className="flex flex-wrap items-center gap-3 text-caption text-white/40">
         <span className="inline-flex items-center gap-1.5">
           <Calendar className="w-3.5 h-3.5" />
           {cleanDateFormatted}
@@ -131,8 +131,8 @@ export function RecoveryCircleMemberCard({
 
       {/* Delete Confirmation */}
       {showDeleteConfirm && (
-        <div className="mt-4 pt-4 border-t border-black/5">
-          <p className="text-body-sm text-secondary mb-3">
+        <div className="mt-4 pt-4 border-t border-white/[0.08]">
+          <p className="text-body-sm text-white/50 mb-3">
             Remove <strong>{member.name}</strong> from your circle? This cannot be undone.
           </p>
           <div className="flex gap-2">

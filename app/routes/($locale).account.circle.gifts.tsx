@@ -130,7 +130,7 @@ export default function GiftHistoryPage() {
       {/* Back to Circle */}
       <Link
         to="/account/circle"
-        className="inline-flex items-center gap-2 text-body text-secondary hover:text-accent transition-colors mb-8"
+        className="inline-flex items-center gap-2 text-body text-white/50 hover:text-accent transition-colors mb-8"
       >
         <ArrowLeft className="w-4 h-4" />
         Back to Recovery Circle
@@ -144,12 +144,12 @@ export default function GiftHistoryPage() {
               <Gift className="w-6 h-6 text-accent" />
             </div>
             <div>
-              <p className="font-display text-lg font-bold text-primary">
+              <p className="font-display text-lg font-bold text-white">
                 {totalGifts} {totalGifts === 1 ? 'gift' : 'gifts'} sent to{' '}
                 {giftGroups.length}{' '}
                 {giftGroups.length === 1 ? 'person' : 'people'}
               </p>
-              <p className="text-body-sm text-secondary">
+              <p className="text-body-sm text-white/50">
                 Every token carries meaning on someone's journey
               </p>
             </div>
@@ -168,10 +168,10 @@ export default function GiftHistoryPage() {
           <div className="w-20 h-20 rounded-full bg-accent/10 flex items-center justify-center mx-auto mb-6">
             <Gift className="w-10 h-10 text-accent" />
           </div>
-          <h3 className="font-display text-2xl font-bold text-primary mb-3">
+          <h3 className="font-display text-2xl font-bold text-white mb-3">
             No Gifts Yet
           </h3>
-          <p className="text-body-lg text-secondary max-w-md mx-auto mb-8">
+          <p className="text-body-lg text-white/50 max-w-md mx-auto mb-8">
             When you purchase tokens as gifts for someone in your circle, they'll
             appear here.
           </p>
@@ -191,22 +191,22 @@ function RecipientGiftSection({group}: {group: RecipientGiftGroup}) {
   const [isExpanded, setIsExpanded] = useState(true);
 
   return (
-    <div className="bg-white rounded-xl border border-black/5 overflow-hidden">
+    <div className="rounded-xl border border-white/[0.08] overflow-hidden" style={{background: 'linear-gradient(180deg, #111 0%, #0A0A0A 40%, #080808 100%)'}}>
       {/* Header */}
       <button
         type="button"
         onClick={() => setIsExpanded(!isExpanded)}
-        className="flex items-center justify-between w-full p-5 text-left hover:bg-surface/30 transition-colors"
+        className="flex items-center justify-between w-full p-5 text-left hover:bg-white/[0.03] transition-colors"
       >
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center text-accent font-display font-bold">
             {group.memberName.charAt(0).toUpperCase()}
           </div>
           <div>
-            <h3 className="font-display text-lg font-bold text-primary">
+            <h3 className="font-display text-lg font-bold text-white">
               {group.memberName}
             </h3>
-            <div className="flex items-center gap-3 text-caption text-secondary">
+            <div className="flex items-center gap-3 text-caption text-white/50">
               {group.member && (
                 <>
                   <span>
@@ -217,10 +217,10 @@ function RecipientGiftSection({group}: {group: RecipientGiftGroup}) {
                 </>
               )}
               {!group.member && !group.memberId && (
-                <span className="text-secondary/60">Not in circle</span>
+                <span className="text-white/40">Not in circle</span>
               )}
               {group.memberId && !group.member && (
-                <span className="text-secondary/60">Removed from circle</span>
+                <span className="text-white/40">Removed from circle</span>
               )}
             </div>
           </div>
@@ -230,24 +230,24 @@ function RecipientGiftSection({group}: {group: RecipientGiftGroup}) {
             {group.gifts.length} {group.gifts.length === 1 ? 'gift' : 'gifts'}
           </span>
           {isExpanded ? (
-            <ChevronUp className="w-5 h-5 text-secondary" />
+            <ChevronUp className="w-5 h-5 text-white/50" />
           ) : (
-            <ChevronDown className="w-5 h-5 text-secondary" />
+            <ChevronDown className="w-5 h-5 text-white/50" />
           )}
         </div>
       </button>
 
       {/* Gift Timeline */}
       {isExpanded && (
-        <div className="px-5 pb-5 border-t border-black/5">
+        <div className="px-5 pb-5 border-t border-white/[0.08]">
           <div className="space-y-3 mt-4">
             {group.gifts.map((gift, index) => (
               <div
                 key={`${gift.orderName}-${index}`}
-                className="flex gap-4 p-3 bg-surface/50 rounded-lg"
+                className="flex gap-4 p-3 bg-white/[0.03] rounded-lg"
               >
                 {gift.image && (
-                  <div className="w-14 h-14 rounded-lg overflow-hidden bg-surface flex-shrink-0">
+                  <div className="w-14 h-14 rounded-lg overflow-hidden bg-white/[0.05] flex-shrink-0">
                     <Image
                       data={gift.image}
                       width={56}
@@ -257,18 +257,18 @@ function RecipientGiftSection({group}: {group: RecipientGiftGroup}) {
                   </div>
                 )}
                 <div className="flex-1 min-w-0">
-                  <p className="font-display text-sm font-bold text-primary">
+                  <p className="font-display text-sm font-bold text-white">
                     {gift.title}
                   </p>
                   {gift.variantTitle && gift.variantTitle !== 'Default Title' && (
-                    <p className="text-caption text-secondary">{gift.variantTitle}</p>
+                    <p className="text-caption text-white/50">{gift.variantTitle}</p>
                   )}
                   {gift.engravingPreview && (
                     <p className="text-caption text-accent mt-0.5">
                       Engraving: {gift.engravingPreview}
                     </p>
                   )}
-                  <div className="flex items-center gap-3 mt-1 text-caption text-secondary">
+                  <div className="flex items-center gap-3 mt-1 text-caption text-white/50">
                     <span>
                       <Package className="w-3 h-3 inline mr-1" />
                       {gift.orderName}
@@ -283,7 +283,7 @@ function RecipientGiftSection({group}: {group: RecipientGiftGroup}) {
                   </div>
                 </div>
                 <div className="text-right flex-shrink-0">
-                  <p className="font-display text-sm font-bold text-primary">
+                  <p className="font-display text-sm font-bold text-white">
                     <Money data={gift.price} />
                   </p>
                 </div>
@@ -293,7 +293,7 @@ function RecipientGiftSection({group}: {group: RecipientGiftGroup}) {
 
           {/* Shop CTA for this member */}
           {group.member && (
-            <div className="mt-4 pt-4 border-t border-black/5">
+            <div className="mt-4 pt-4 border-t border-white/[0.08]">
               <Link to="/collections">
                 <Button variant="secondary" size="sm">
                   <ShoppingBag className="w-4 h-4 mr-2" />

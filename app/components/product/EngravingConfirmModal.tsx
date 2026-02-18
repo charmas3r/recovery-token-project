@@ -90,21 +90,22 @@ export function EngravingConfirmModal({
             maxWidth: '28rem',
             maxHeight: '90vh',
             overflowY: 'auto',
-            backgroundColor: 'white',
+            backgroundColor: '#0A0A0A',
             borderRadius: '0.75rem',
-            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)',
+            border: '1px solid rgba(255, 255, 255, 0.08)',
           }}
           aria-describedby="engraving-confirm-description"
         >
           {/* Header */}
-          <div className="flex items-center justify-between p-4 border-b border-black/5">
-            <Dialog.Title className="font-display text-lg font-bold text-primary">
+          <div className="flex items-center justify-between p-4 border-b border-white/[0.08]">
+            <Dialog.Title className="font-display text-lg font-bold text-white">
               Confirm Your Engraving
             </Dialog.Title>
             <Dialog.Close asChild>
               <button
                 className={clsx(
-                  'p-2 rounded-lg text-secondary hover:text-primary hover:bg-surface',
+                  'p-2 rounded-lg text-white/50 hover:text-white hover:bg-white/[0.05]',
                   'transition-colors focus:outline-none focus:ring-2 focus:ring-accent',
                 )}
                 aria-label="Close"
@@ -117,13 +118,13 @@ export function EngravingConfirmModal({
           {/* Body */}
           <div className="p-4 space-y-4">
             {/* Product Info */}
-            <div className="bg-surface/50 rounded-lg p-3">
-              <p className="font-semibold text-primary">{productTitle}</p>
+            <div className="bg-white/[0.05] rounded-lg p-3">
+              <p className="font-semibold text-white">{productTitle}</p>
               {variantTitle && variantTitle !== 'Default Title' && (
-                <p className="text-body-sm text-secondary">{variantTitle}</p>
+                <p className="text-body-sm text-white/50">{variantTitle}</p>
               )}
               {recipientName && (
-                <p className="text-body-sm text-green-700 font-medium mt-1">
+                <p className="text-body-sm text-green-400 font-medium mt-1">
                   🎁 Gift for {recipientName}
                 </p>
               )}
@@ -141,22 +142,22 @@ export function EngravingConfirmModal({
                 {engravingData.name && (
                   <div className="flex items-center gap-2 text-body-sm">
                     <User className="w-4 h-4 text-accent" />
-                    <span className="text-secondary">Name:</span>
-                    <span className="text-primary font-medium">{engravingData.name}</span>
+                    <span className="text-white/50">Name:</span>
+                    <span className="text-white font-medium">{engravingData.name}</span>
                   </div>
                 )}
                 {formattedCleanDate && (
                   <div className="flex items-center gap-2 text-body-sm">
                     <Calendar className="w-4 h-4 text-accent" />
-                    <span className="text-secondary">Clean Date:</span>
-                    <span className="text-primary font-medium">{formattedCleanDate}</span>
+                    <span className="text-white/50">Clean Date:</span>
+                    <span className="text-white font-medium">{formattedCleanDate}</span>
                   </div>
                 )}
                 {engravingData.years && (
                   <div className="flex items-center gap-2 text-body-sm">
                     <Hash className="w-4 h-4 text-accent" />
-                    <span className="text-secondary">Years:</span>
-                    <span className="text-primary font-medium">
+                    <span className="text-white/50">Years:</span>
+                    <span className="text-white font-medium">
                       {engravingData.years} {parseInt(engravingData.years, 10) === 1 ? 'Year' : 'Years'}
                     </span>
                   </div>
@@ -166,8 +167,8 @@ export function EngravingConfirmModal({
               {/* Combined Preview */}
               {previewText && (
                 <div className="pt-3 border-t border-accent/20">
-                  <p className="text-caption text-secondary mb-1">Engraving Preview:</p>
-                  <p className="font-display text-lg text-primary text-center tracking-wide">
+                  <p className="text-caption text-white/50 mb-1">Engraving Preview:</p>
+                  <p className="font-display text-lg text-white text-center tracking-wide">
                     {previewText}
                   </p>
                 </div>
@@ -176,11 +177,11 @@ export function EngravingConfirmModal({
 
             {/* Private Note (if present) */}
             {engravingData.note && (
-              <div className="bg-surface/50 rounded-lg p-3">
-                <p className="text-caption font-semibold text-secondary mb-1">
+              <div className="bg-white/[0.05] rounded-lg p-3">
+                <p className="text-caption font-semibold text-white/50 mb-1">
                   Private Note to Engraver
                 </p>
-                <p className="text-body-sm text-secondary italic">
+                <p className="text-body-sm text-white/50 italic">
                   "{engravingData.note}"
                 </p>
               </div>
@@ -193,10 +194,10 @@ export function EngravingConfirmModal({
             >
               <AlertTriangle className="w-5 h-5 text-warning flex-shrink-0 mt-0.5" />
               <div>
-                <p className="font-semibold text-primary text-body-sm">
+                <p className="font-semibold text-white text-body-sm">
                   Custom engraving is non-refundable
                 </p>
-                <p className="text-body-sm text-secondary mt-1">
+                <p className="text-body-sm text-white/50 mt-1">
                   Please double-check the spelling and content before confirming.
                   Engraved items cannot be returned or exchanged.
                 </p>
@@ -209,7 +210,7 @@ export function EngravingConfirmModal({
                 'flex items-start gap-3 p-3 rounded-lg border-2 cursor-pointer transition-colors',
                 isConfirmed
                   ? 'border-accent bg-accent/5'
-                  : 'border-black/10 hover:border-accent/30',
+                  : 'border-white/[0.1] hover:border-accent/30',
               )}
             >
               <input
@@ -221,7 +222,7 @@ export function EngravingConfirmModal({
                   'focus:ring-2 focus:ring-accent focus:ring-offset-2',
                 )}
               />
-              <span className="text-body-sm text-primary">
+              <span className="text-body-sm text-white">
                 I confirm this engraving is correct and understand it cannot be
                 changed after ordering.
               </span>
@@ -230,7 +231,7 @@ export function EngravingConfirmModal({
 
           {/* Footer */}
           <div
-            className="flex gap-3 p-4 border-t border-black/5"
+            className="flex gap-3 p-4 border-t border-white/[0.08]"
             id="engraving-confirm-description"
           >
             <Dialog.Close asChild>

@@ -176,12 +176,12 @@ export default function ReviewsPage() {
     : null;
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen">
       <JsonLd data={breadcrumbJsonLd} />
       {organizationJsonLd && <JsonLd data={organizationJsonLd} />}
 
       {/* Header Section */}
-      <section className="bg-surface py-12 md:py-16">
+      <section className="bg-white/[0.05] py-12 md:py-16">
         <div className="container-standard">
           <Breadcrumbs items={[{label: 'Reviews'}]} className="mb-6" />
 
@@ -211,7 +211,7 @@ export default function ReviewsPage() {
                 fontFamily: 'var(--font-display, serif)',
                 fontSize: '3rem',
                 fontWeight: 700,
-                color: '#1A202C',
+                color: '#FFFFFF',
                 lineHeight: 1.1,
                 marginBottom: '1rem',
               }}
@@ -222,7 +222,7 @@ export default function ReviewsPage() {
               style={{
                 fontSize: '1.125rem',
                 lineHeight: 1.6,
-                color: '#4A5568',
+                color: 'rgba(255,255,255,0.5)',
                 maxWidth: '36rem',
                 marginLeft: 'auto',
                 marginRight: 'auto',
@@ -247,7 +247,7 @@ export default function ReviewsPage() {
                   marginRight: 'auto',
                 }}
               >
-                <div className="bg-white rounded-2xl p-8 shadow-sm border border-black/5">
+                <div className="rounded-2xl p-8 border border-white/[0.08]" style={{background: 'linear-gradient(180deg, #111 0%, #0A0A0A 40%, #080808 100%)'}}>
                   <div
                     style={{
                       display: 'grid',
@@ -263,7 +263,7 @@ export default function ReviewsPage() {
                           fontFamily: 'var(--font-display, serif)',
                           fontSize: '4rem',
                           fontWeight: 700,
-                          color: '#1A202C',
+                          color: '#FFFFFF',
                           lineHeight: 1,
                         }}
                       >
@@ -281,7 +281,7 @@ export default function ReviewsPage() {
                             className={`w-6 h-6 ${
                               i < Math.round(averageRating)
                                 ? 'text-yellow-400 fill-yellow-400'
-                                : 'text-gray-200 fill-gray-200'
+                                : 'text-white/20 fill-white/20'
                             }`}
                           >
                             <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
@@ -291,7 +291,7 @@ export default function ReviewsPage() {
                       <div
                         style={{
                           fontSize: '0.875rem',
-                          color: '#4A5568',
+                          color: 'rgba(255,255,255,0.5)',
                         }}
                       >
                         Based on {totalCount}{' '}
@@ -320,7 +320,7 @@ export default function ReviewsPage() {
                               style={{
                                 fontSize: '0.875rem',
                                 fontWeight: 500,
-                                color: '#4A5568',
+                                color: 'rgba(255,255,255,0.5)',
                                 width: '3rem',
                                 textAlign: 'right',
                               }}
@@ -331,7 +331,7 @@ export default function ReviewsPage() {
                               style={{
                                 flex: 1,
                                 height: '0.5rem',
-                                backgroundColor: '#E2E8F0',
+                                backgroundColor: 'rgba(255,255,255,0.1)',
                                 borderRadius: '9999px',
                                 overflow: 'hidden',
                               }}
@@ -349,7 +349,7 @@ export default function ReviewsPage() {
                             <span
                               style={{
                                 fontSize: '0.75rem',
-                                color: '#718096',
+                                color: 'rgba(255,255,255,0.4)',
                                 width: '2.5rem',
                               }}
                             >
@@ -401,7 +401,7 @@ export default function ReviewsPage() {
                 <svg
                   key={i}
                   viewBox="0 0 24 24"
-                  className="w-8 h-8 text-gray-200 fill-gray-200"
+                  className="w-8 h-8 text-white/20 fill-white/20"
                 >
                   <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
                 </svg>
@@ -412,7 +412,7 @@ export default function ReviewsPage() {
                 fontFamily: 'var(--font-display, serif)',
                 fontSize: '1.75rem',
                 fontWeight: 700,
-                color: '#1A202C',
+                color: '#FFFFFF',
                 marginBottom: '0.75rem',
               }}
             >
@@ -422,7 +422,7 @@ export default function ReviewsPage() {
               style={{
                 fontSize: '1.125rem',
                 lineHeight: 1.6,
-                color: '#4A5568',
+                color: 'rgba(255,255,255,0.5)',
                 marginBottom: '2rem',
               }}
             >
@@ -439,7 +439,7 @@ export default function ReviewsPage() {
       )}
 
       {/* Bottom CTA */}
-      <section className="py-16 md:py-20 bg-surface">
+      <section className="py-16 md:py-20 bg-white/[0.05]">
         <div
           style={{
             maxWidth: '1280px',
@@ -468,7 +468,7 @@ export default function ReviewsPage() {
               fontFamily: 'var(--font-display, serif)',
               fontSize: '1.75rem',
               fontWeight: 700,
-              color: '#1A202C',
+              color: '#FFFFFF',
               lineHeight: 1.3,
               marginBottom: '1rem',
             }}
@@ -479,7 +479,7 @@ export default function ReviewsPage() {
             style={{
               fontSize: '1.125rem',
               lineHeight: 1.6,
-              color: '#4A5568',
+              color: 'rgba(255,255,255,0.5)',
               maxWidth: '36rem',
               marginLeft: 'auto',
               marginRight: 'auto',
@@ -522,8 +522,9 @@ function ReviewCard({review, index}: {review: Review; index: number}) {
 
   return (
     <div
-      className="bg-white rounded-2xl p-6 shadow-sm border border-black/5 hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
+      className="rounded-2xl p-6 border border-white/[0.08] hover:border-white/[0.15] hover:-translate-y-1 transition-all duration-300"
       style={{
+        background: 'linear-gradient(180deg, #111 0%, #0A0A0A 40%, #080808 100%)',
         animation: 'fadeInUp 0.5s ease-out forwards',
         animationDelay: `${index * 100}ms`,
         opacity: 0,
@@ -539,7 +540,7 @@ function ReviewCard({review, index}: {review: Review; index: number}) {
               className={`w-5 h-5 ${
                 i < review.rating
                   ? 'text-yellow-400 fill-yellow-400'
-                  : 'text-gray-200 fill-gray-200'
+                  : 'text-white/20 fill-white/20'
               }`}
             >
               <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
@@ -547,7 +548,7 @@ function ReviewCard({review, index}: {review: Review; index: number}) {
           ))}
         </div>
         {review.created_at && (
-          <span className="text-xs text-secondary/60">
+          <span className="text-xs text-white/40">
             {formatDate(review.created_at)}
           </span>
         )}
@@ -555,23 +556,23 @@ function ReviewCard({review, index}: {review: Review; index: number}) {
 
       {/* Review title */}
       {review.title && (
-        <h4 className="font-display font-bold text-primary text-lg mb-2">
+        <h4 className="font-display font-bold text-white text-lg mb-2">
           {review.title}
         </h4>
       )}
 
       {/* Review body */}
-      <p className="text-body-sm text-secondary leading-relaxed mb-5">
+      <p className="text-body-sm text-white/50 leading-relaxed mb-5">
         &ldquo;{review.body}&rdquo;
       </p>
 
       {/* Reviewer info */}
-      <div className="flex items-center gap-3 pt-4 border-t border-black/5">
-        <div className="w-11 h-11 rounded-full bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center text-white font-display font-bold text-sm shadow-sm">
+      <div className="flex items-center gap-3 pt-4 border-t border-white/[0.08]">
+        <div className="w-11 h-11 rounded-full bg-gradient-to-br from-accent to-accent/80 flex items-center justify-center text-white font-display font-bold text-sm">
           {review.reviewer.name.charAt(0).toUpperCase()}
         </div>
         <div className="flex-1 min-w-0">
-          <div className="font-semibold text-sm text-primary truncate">
+          <div className="font-semibold text-sm text-white truncate">
             {review.reviewer.name}
           </div>
           {review.reviewer.verified ? (
@@ -589,7 +590,7 @@ function ReviewCard({review, index}: {review: Review; index: number}) {
               Verified Buyer
             </div>
           ) : (
-            <div className="text-xs text-secondary/60">Customer</div>
+            <div className="text-xs text-white/40">Customer</div>
           )}
         </div>
       </div>

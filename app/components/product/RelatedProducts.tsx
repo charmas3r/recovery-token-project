@@ -34,7 +34,7 @@ export function RelatedProducts({products, currentProductId}: RelatedProductsPro
             <span className="inline-block text-accent text-caption uppercase tracking-[0.25em] font-semibold mb-4">
               You May Also Like
             </span>
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-primary leading-tight">
+            <h2 className="font-display text-3xl md:text-4xl font-bold text-white leading-tight">
               Related Tokens
             </h2>
           </div>

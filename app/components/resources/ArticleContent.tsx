@@ -46,7 +46,7 @@ export function ArticleContent({blocks}: ArticleContentProps) {
                 <h2
                   key={index}
                   id={block.id}
-                  className="font-display text-2xl md:text-[1.75rem] font-bold text-primary mt-12 mb-4 scroll-mt-24"
+                  className="font-display text-2xl md:text-[1.75rem] font-bold text-white mt-12 mb-4 scroll-mt-24"
                 >
                   {block.text}
                 </h2>
@@ -56,7 +56,7 @@ export function ArticleContent({blocks}: ArticleContentProps) {
               <h3
                 key={index}
                 id={block.id}
-                className="font-display text-xl font-bold text-primary mt-8 mb-3 scroll-mt-24"
+                className="font-display text-xl font-bold text-white mt-8 mb-3 scroll-mt-24"
               >
                 {block.text}
               </h3>
@@ -66,7 +66,7 @@ export function ArticleContent({blocks}: ArticleContentProps) {
             return (
               <p
                 key={index}
-                className="text-body text-secondary leading-relaxed mb-4"
+                className="text-body text-white/50 leading-relaxed mb-4"
               >
                 {renderInlineContent(block.content)}
               </p>
@@ -78,11 +78,11 @@ export function ArticleContent({blocks}: ArticleContentProps) {
                 key={index}
                 className="my-6 pl-6 border-l-4 border-accent/40 italic"
               >
-                <p className="text-body-lg text-secondary leading-relaxed">
+                <p className="text-body-lg text-white/50 leading-relaxed">
                   {block.text}
                 </p>
                 {block.attribution && (
-                  <footer className="mt-2 text-body-sm text-secondary/70 not-italic">
+                  <footer className="mt-2 text-body-sm text-white/40 not-italic">
                     — {block.attribution}
                   </footer>
                 )}
@@ -94,7 +94,7 @@ export function ArticleContent({blocks}: ArticleContentProps) {
               return (
                 <ol
                   key={index}
-                  className="my-4 pl-6 space-y-2 list-decimal text-body text-secondary leading-relaxed"
+                  className="my-4 pl-6 space-y-2 list-decimal text-body text-white/50 leading-relaxed"
                 >
                   {block.items.map((item, i) => (
                     <li key={i}>{item}</li>
@@ -105,7 +105,7 @@ export function ArticleContent({blocks}: ArticleContentProps) {
             return (
               <ul
                 key={index}
-                className="my-4 pl-6 space-y-2 list-disc text-body text-secondary leading-relaxed"
+                className="my-4 pl-6 space-y-2 list-disc text-body text-white/50 leading-relaxed"
               >
                 {block.items.map((item, i) => (
                   <li key={i}>{item}</li>
@@ -120,8 +120,8 @@ export function ArticleContent({blocks}: ArticleContentProps) {
                 key={index}
                 className={`my-6 rounded-xl p-5 ${
                   block.variant === 'tip'
-                    ? 'bg-accent/5 border border-accent/15'
-                    : 'bg-blue-50 border border-blue-100'
+                    ? 'bg-accent/10 border border-accent/20'
+                    : 'bg-blue-500/10 border border-blue-500/20'
                 }`}
               >
                 <div className="flex items-start gap-3">
@@ -131,10 +131,10 @@ export function ArticleContent({blocks}: ArticleContentProps) {
                     }`}
                   />
                   <div>
-                    <p className="font-semibold text-primary text-body mb-1">
+                    <p className="font-semibold text-white text-body mb-1">
                       {block.title}
                     </p>
-                    <p className="text-body text-secondary leading-relaxed">
+                    <p className="text-body text-white/50 leading-relaxed">
                       {block.text}
                     </p>
                   </div>
@@ -161,10 +161,10 @@ export function ArticleContent({blocks}: ArticleContentProps) {
                   src={block.src}
                   alt={block.alt}
                   loading="lazy"
-                  className="w-full rounded-xl shadow-sm"
+                  className="w-full rounded-xl"
                 />
                 {block.caption && (
-                  <figcaption className="mt-3 text-center text-body-sm text-secondary/70 italic">
+                  <figcaption className="mt-3 text-center text-body-sm text-white/40 italic">
                     {block.caption}
                   </figcaption>
                 )}

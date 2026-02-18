@@ -91,27 +91,27 @@ export default function OrderRoute() {
       {/* Back Link */}
       <Link
         to="/account/orders"
-        className="inline-flex items-center gap-2 text-body text-secondary hover:text-accent transition-colors mb-8"
+        className="inline-flex items-center gap-2 text-body text-white/50 hover:text-accent transition-colors mb-8"
       >
         <ArrowLeft className="w-4 h-4" />
         Back to Orders
       </Link>
 
       {/* Order Status */}
-      <div className="bg-surface rounded-xl p-6 mb-8 flex flex-wrap items-center justify-between gap-6">
+      <div className="bg-white/[0.05] rounded-xl p-6 mb-8 flex flex-wrap items-center justify-between gap-6">
         <div className="flex items-center gap-4">
           <div className="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center flex-shrink-0">
             <Package className="w-6 h-6 text-accent" />
           </div>
           <div>
-            <p className="text-body text-secondary mb-1">Status</p>
-            <p className="font-display text-lg font-bold text-primary">{fulfillmentStatus}</p>
+            <p className="text-body text-white/50 mb-1">Status</p>
+            <p className="font-display text-lg font-bold text-white">{fulfillmentStatus}</p>
           </div>
         </div>
         {order.confirmationNumber && (
           <div>
-            <p className="text-body text-secondary mb-1">Confirmation</p>
-            <p className="font-display text-lg font-bold text-primary">{order.confirmationNumber}</p>
+            <p className="text-body text-white/50 mb-1">Confirmation</p>
+            <p className="font-display text-lg font-bold text-white">{order.confirmationNumber}</p>
           </div>
         )}
         <a
@@ -133,10 +133,10 @@ export default function OrderRoute() {
           <Star className="w-5 h-5 text-accent" />
         </div>
         <div className="flex-1 min-w-0">
-          <p className="font-display font-bold text-primary text-sm">
+          <p className="font-display font-bold text-white text-sm">
             Enjoying your tokens?
           </p>
-          <p className="text-body-sm text-secondary">
+          <p className="text-body-sm text-white/50">
             Share your experience and help others on their recovery journey.
           </p>
         </div>
@@ -144,7 +144,7 @@ export default function OrderRoute() {
 
       {/* Line Items */}
       <div className="mb-8">
-        <h2 className="font-display text-xl font-bold text-primary mb-5">
+        <h2 className="font-display text-xl font-bold text-white mb-5">
           Items Ordered
         </h2>
         <div className="space-y-4">
@@ -155,14 +155,14 @@ export default function OrderRoute() {
       </div>
 
       {/* Order Summary */}
-      <div className="bg-surface rounded-xl p-6 mb-8">
-        <h2 className="font-display text-xl font-bold text-primary mb-5">
+      <div className="bg-white/[0.05] rounded-xl p-6 mb-8">
+        <h2 className="font-display text-xl font-bold text-white mb-5">
           Order Summary
         </h2>
         <div className="space-y-3">
           {((discountValue && discountValue.amount) || discountPercentage) && (
             <div className="flex justify-between text-body">
-              <span className="text-secondary">Discount</span>
+              <span className="text-white/50">Discount</span>
               <span className="text-success font-medium">
                 {discountPercentage ? (
                   `-${discountPercentage}%`
@@ -173,32 +173,32 @@ export default function OrderRoute() {
             </div>
           )}
           <div className="flex justify-between text-body">
-            <span className="text-secondary">Subtotal</span>
-            <span className="text-primary"><Money data={order.subtotal!} /></span>
+            <span className="text-white/50">Subtotal</span>
+            <span className="text-white"><Money data={order.subtotal!} /></span>
           </div>
           <div className="flex justify-between text-body">
-            <span className="text-secondary">Tax</span>
-            <span className="text-primary"><Money data={order.totalTax!} /></span>
+            <span className="text-white/50">Tax</span>
+            <span className="text-white"><Money data={order.totalTax!} /></span>
           </div>
-          <div className="flex justify-between text-body-lg font-bold pt-4 border-t border-black/5">
-            <span className="text-primary">Total</span>
-            <span className="text-primary"><Money data={order.totalPrice!} /></span>
+          <div className="flex justify-between text-body-lg font-bold pt-4 border-t border-white/[0.08]">
+            <span className="text-white">Total</span>
+            <span className="text-white"><Money data={order.totalPrice!} /></span>
           </div>
         </div>
       </div>
 
       {/* Shipping Address */}
       <div className="grid md:grid-cols-2 gap-6">
-        <div className="bg-surface rounded-xl p-6">
+        <div className="bg-white/[0.05] rounded-xl p-6">
           <div className="flex items-center gap-3 mb-4">
             <MapPin className="w-5 h-5 text-accent" />
-            <h2 className="font-display text-xl font-bold text-primary">
+            <h2 className="font-display text-xl font-bold text-white">
               Shipping Address
             </h2>
           </div>
           {order.shippingAddress ? (
-            <address className="text-body text-secondary not-italic space-y-1">
-              <p className="font-medium text-primary mb-2">{order.shippingAddress.name}</p>
+            <address className="text-body text-white/50 not-italic space-y-1">
+              <p className="font-medium text-white mb-2">{order.shippingAddress.name}</p>
               {order.shippingAddress.formatted && (
                 <p>{order.shippingAddress.formatted}</p>
               )}
@@ -207,18 +207,18 @@ export default function OrderRoute() {
               )}
             </address>
           ) : (
-            <p className="text-body text-secondary">No shipping address</p>
+            <p className="text-body text-white/50">No shipping address</p>
           )}
         </div>
 
-        <div className="bg-surface rounded-xl p-6">
+        <div className="bg-white/[0.05] rounded-xl p-6">
           <div className="flex items-center gap-3 mb-4">
             <CreditCard className="w-5 h-5 text-accent" />
-            <h2 className="font-display text-xl font-bold text-primary">
+            <h2 className="font-display text-xl font-bold text-white">
               Payment
             </h2>
           </div>
-          <p className="text-body text-secondary">
+          <p className="text-body text-white/50">
             Paid
           </p>
         </div>
@@ -234,9 +234,9 @@ function OrderLineItem({lineItem}: {lineItem: OrderLineItemFullFragment}) {
   const engravingPreviewAttr = customAttributes.find((a: any) => a.key === 'Engraving Preview');
 
   return (
-    <div className="flex gap-5 bg-white rounded-xl p-5 border border-black/5">
+    <div className="flex gap-5 rounded-xl p-5 border border-white/[0.08]" style={{background: 'linear-gradient(180deg, #111 0%, #0A0A0A 40%, #080808 100%)'}}>
       {lineItem.image && (
-        <div className="w-20 h-20 rounded-lg overflow-hidden bg-surface flex-shrink-0">
+        <div className="w-20 h-20 rounded-lg overflow-hidden bg-white/[0.05] flex-shrink-0">
           <Image
             data={lineItem.image}
             width={80}
@@ -246,15 +246,15 @@ function OrderLineItem({lineItem}: {lineItem: OrderLineItemFullFragment}) {
         </div>
       )}
       <div className="flex-1 min-w-0">
-        <h3 className="font-display text-base font-bold text-primary mb-1">{lineItem.title}</h3>
+        <h3 className="font-display text-base font-bold text-white mb-1">{lineItem.title}</h3>
         {lineItem.variantTitle && lineItem.variantTitle !== 'Default Title' && (
-          <p className="text-body text-secondary mb-2">{lineItem.variantTitle}</p>
+          <p className="text-body text-white/50 mb-2">{lineItem.variantTitle}</p>
         )}
-        <p className="text-body text-secondary">Qty: {lineItem.quantity}</p>
+        <p className="text-body text-white/50">Qty: {lineItem.quantity}</p>
 
         {/* Recipient Badge */}
         {recipientAttr && (
-          <div className="inline-flex items-center gap-1.5 mt-2 px-3 py-1.5 bg-green-50 text-green-700 rounded-full text-xs font-semibold">
+          <div className="inline-flex items-center gap-1.5 mt-2 px-3 py-1.5 bg-green-500/10 text-green-400 rounded-full text-xs font-semibold">
             <Gift className="w-3.5 h-3.5" />
             Gift for {recipientAttr.value}
           </div>
@@ -280,7 +280,7 @@ function OrderLineItem({lineItem}: {lineItem: OrderLineItemFullFragment}) {
         </div>
       </div>
       <div className="text-right flex-shrink-0">
-        <p className="font-display text-lg font-bold text-primary">
+        <p className="font-display text-lg font-bold text-white">
           <Money data={lineItem.price!} />
         </p>
       </div>

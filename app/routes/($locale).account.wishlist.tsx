@@ -174,8 +174,8 @@ export default function WishlistPage() {
     >
       {products.length > 0 ? (
         <>
-          <p className="text-body text-secondary mb-6">
-            <strong className="text-primary">{products.length}</strong>{' '}
+          <p className="text-body text-white/50 mb-6">
+            <strong className="text-white">{products.length}</strong>{' '}
             {products.length === 1 ? 'token' : 'tokens'} saved
           </p>
           <div className="products-grid">
@@ -207,7 +207,7 @@ function WishlistProductCard({product}: {product: any}) {
         <input type="hidden" name="productHandle" value={product.handle} />
         <button
           type="submit"
-          className="w-9 h-9 rounded-full bg-white/90 backdrop-blur-sm border border-black/10 shadow-sm flex items-center justify-center text-secondary hover:text-error hover:bg-white transition-all duration-200 opacity-0 group-hover/card:opacity-100 focus:opacity-100"
+          className="w-9 h-9 rounded-full bg-black/70 backdrop-blur-sm border border-white/[0.08] flex items-center justify-center text-white/50 hover:text-error hover:bg-black/90 transition-all duration-200 opacity-0 group-hover/card:opacity-100 focus:opacity-100"
           aria-label={`Remove ${product.title} from wishlist`}
         >
           <X className="w-4 h-4" />
@@ -223,7 +223,7 @@ function WishlistEmptyState() {
       <div className="w-20 h-20 rounded-full bg-accent/10 flex items-center justify-center mx-auto mb-6">
         <Heart className="w-10 h-10 text-accent" />
       </div>
-      <h3 className="font-display text-2xl font-bold text-primary mb-3">
+      <h3 className="font-display text-2xl font-bold text-white mb-3">
         Your Wishlist Is Empty
       </h3>
       <p
@@ -234,7 +234,7 @@ function WishlistEmptyState() {
           marginBottom: '2rem',
           fontSize: '1.125rem',
           lineHeight: 1.6,
-          color: '#4A5568',
+          color: 'rgba(255,255,255,0.5)',
         }}
       >
         Save tokens you love by tapping the heart icon on any product page.

@@ -28,7 +28,7 @@ export function Badge({children, variant = 'neutral', className}: BadgeProps) {
           'bg-error/10 text-error': variant === 'sale',
           'bg-success/10 text-success': variant === 'in-stock' || variant === 'success',
           'bg-warning/10 text-warning': variant === 'low-stock' || variant === 'warning',
-          'bg-surface text-secondary': variant === 'neutral',
+          'bg-white/[0.08] text-white/60': variant === 'neutral',
         },
         className,
       )}

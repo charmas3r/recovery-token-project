@@ -13,11 +13,11 @@ interface GlossaryTermCardProps {
 
 export function GlossaryTermCard({term}: GlossaryTermCardProps) {
   return (
-    <div className="bg-white rounded-2xl p-6 shadow-sm border border-black/5 transition-shadow duration-200 hover:shadow-md">
+    <div className="rounded-2xl p-6 border border-white/[0.08] transition-colors duration-200 hover:border-white/[0.15]" style={{background: 'linear-gradient(180deg, #111 0%, #0A0A0A 40%, #080808 100%)'}}>
       <div className="flex items-start justify-between gap-4 mb-3">
         <h3
           id={`term-${term.slug}`}
-          className="font-display text-lg font-bold text-primary"
+          className="font-display text-lg font-bold text-white"
         >
           {term.name}
         </h3>
@@ -26,7 +26,7 @@ export function GlossaryTermCard({term}: GlossaryTermCardProps) {
         </Badge>
       </div>
 
-      <p className="text-body text-secondary leading-relaxed mb-4">
+      <p className="text-body text-white/50 leading-relaxed mb-4">
         {term.definition}
       </p>
 

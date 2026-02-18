@@ -48,14 +48,14 @@ export const meta: MetaFunction = () => {
 function PolicySectionBlock({section}: {section: PolicySection}) {
   return (
     <div className="mb-8 last:mb-0">
-      <h3 className="font-display text-lg font-bold text-primary mb-4">
+      <h3 className="font-display text-lg font-bold text-white mb-4">
         {section.title}
       </h3>
       <ul className="space-y-3">
         {section.content.map((item, idx) => (
           <li key={idx} className="flex items-start gap-3">
             <Check className="w-5 h-5 text-accent shrink-0 mt-0.5" />
-            <span className="text-secondary leading-relaxed">{item}</span>
+            <span className="text-white/50 leading-relaxed">{item}</span>
           </li>
         ))}
       </ul>
@@ -90,11 +90,11 @@ export default function ShippingReturnsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen">
       <JsonLd data={breadcrumbJsonLd} />
 
       {/* Header Section */}
-      <section className="bg-surface py-12 md:py-16">
+      <section className="bg-white/[0.03] py-12 md:py-16">
         <div className="container-standard">
           <Breadcrumbs
             items={[
@@ -129,7 +129,7 @@ export default function ShippingReturnsPage() {
               style={{
                 fontFamily: 'var(--font-display, serif)',
                 fontWeight: 700,
-                color: '#1A202C',
+                color: '#FFFFFF',
                 lineHeight: 1.1,
                 marginBottom: '1rem',
               }}
@@ -141,7 +141,7 @@ export default function ShippingReturnsPage() {
               style={{
                 fontSize: '1.125rem',
                 lineHeight: 1.6,
-                color: '#4A5568',
+                color: 'rgba(255,255,255,0.5)',
                 maxWidth: '36rem',
                 marginLeft: 'auto',
                 marginRight: 'auto',
@@ -159,7 +159,7 @@ export default function ShippingReturnsPage() {
         <div className="container-standard">
           <div className="flex items-center justify-center gap-3">
             <Truck className="w-5 h-5 text-accent" />
-            <p className="text-center font-medium text-primary">
+            <p className="text-center font-medium text-white">
               Free standard shipping on all US orders over ${FREE_SHIPPING_THRESHOLD}
             </p>
           </div>
@@ -193,7 +193,7 @@ export default function ShippingReturnsPage() {
                 fontFamily: 'var(--font-display, serif)',
                 fontSize: '1.75rem',
                 fontWeight: 700,
-                color: '#1A202C',
+                color: '#FFFFFF',
                 lineHeight: 1.3,
               }}
             >
@@ -216,7 +216,7 @@ export default function ShippingReturnsPage() {
                     ? Package
                     : Truck;
               return (
-                <div key={method.id} className="bg-white rounded-2xl p-6 shadow-sm border border-black/5 h-full">
+                <div key={method.id} className="rounded-2xl p-6 border border-white/[0.08] h-full" style={{background: 'linear-gradient(180deg, #111 0%, #0A0A0A 40%, #080808 100%)'}}>
                   <div
                     className="w-12 h-12 rounded-xl flex items-center justify-center mb-4"
                     style={{backgroundColor: '#FFFF9315'}}
@@ -226,16 +226,16 @@ export default function ShippingReturnsPage() {
                       style={{color: '#FFFF93'}}
                     />
                   </div>
-                  <h3 className="font-display text-lg font-bold text-primary mb-1">
+                  <h3 className="font-display text-lg font-bold text-white mb-1">
                     {method.name}
                   </h3>
                   <p className="text-accent font-semibold text-sm mb-2">
                     {method.deliveryTime}
                   </p>
-                  <p className="text-secondary text-sm leading-relaxed mb-3">
+                  <p className="text-white/50 text-sm leading-relaxed mb-3">
                     {method.description}
                   </p>
-                  <p className="font-bold text-primary text-lg">
+                  <p className="font-bold text-white text-lg">
                     {method.price}
                   </p>
                 </div>
@@ -246,7 +246,7 @@ export default function ShippingReturnsPage() {
       </section>
 
       {/* Processing & International */}
-      <section className="py-12 md:py-16 bg-surface">
+      <section className="py-12 md:py-16 bg-white/[0.03]">
         <div className="container-standard" style={{maxWidth: '48rem'}}>
           <div style={{display: 'grid', gap: '3rem'}} className="grid-cols-1 md:grid-cols-2">
             <div className="flex items-start gap-3 mb-4">
@@ -302,7 +302,7 @@ export default function ShippingReturnsPage() {
                 fontFamily: 'var(--font-display, serif)',
                 fontSize: '1.75rem',
                 fontWeight: 700,
-                color: '#1A202C',
+                color: '#FFFFFF',
                 lineHeight: 1.3,
               }}
             >
@@ -320,7 +320,7 @@ export default function ShippingReturnsPage() {
       </section>
 
       {/* Bottom CTA */}
-      <section className="py-16 md:py-20 bg-surface">
+      <section className="py-16 md:py-20 bg-white/[0.03]">
         <div
           style={{
             maxWidth: '1280px',
@@ -349,7 +349,7 @@ export default function ShippingReturnsPage() {
               fontFamily: 'var(--font-display, serif)',
               fontSize: '1.75rem',
               fontWeight: 700,
-              color: '#1A202C',
+              color: '#FFFFFF',
               lineHeight: 1.3,
               marginBottom: '1rem',
             }}
@@ -360,7 +360,7 @@ export default function ShippingReturnsPage() {
             style={{
               fontSize: '1.125rem',
               lineHeight: 1.6,
-              color: '#4A5568',
+              color: 'rgba(255,255,255,0.5)',
               maxWidth: '36rem',
               marginLeft: 'auto',
               marginRight: 'auto',

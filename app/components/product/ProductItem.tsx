@@ -36,7 +36,7 @@ export function ProductItem({
   rating = 5,
   reviewCount,
   showRating = true,
-  variant = 'light',
+  variant = 'dark',
 }: ProductItemProps) {
   const variantUrl = useVariantUrl(product.handle);
   const image = product.featuredImage;

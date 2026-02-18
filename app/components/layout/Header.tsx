@@ -74,11 +74,13 @@ export function HeaderMenu({
   primaryDomainUrl,
   viewport,
   publicStoreDomain,
+  cart,
 }: {
   menu: HeaderProps['header']['menu'];
   primaryDomainUrl: HeaderProps['header']['shop']['primaryDomain']['url'];
   viewport: Viewport;
   publicStoreDomain: HeaderProps['publicStoreDomain'];
+  cart?: Promise<CartApiQueryFragment | null>;
 }) {
   const {close} = useAside();
 
@@ -117,6 +119,7 @@ export function HeaderMenu({
         getUrl={getUrl}
         titleRewrites={TITLE_REWRITES}
         close={close}
+        cart={cart}
       />
     );
   }
@@ -251,20 +254,308 @@ function MobileSearchInput({navFont, close}: {navFont: string; close: () => void
   );
 }
 
+function MobileCartQuickView({
+  cart,
+  expanded,
+  onToggle,
+  close,
+  navFont,
+}: {
+  cart?: Promise<CartApiQueryFragment | null>;
+  expanded: boolean;
+  onToggle: () => void;
+  close: () => void;
+  navFont: string;
+}) {
+  return (
+    <div style={{flex: 1, display: 'flex', flexDirection: 'column'}}>
+      {/* Cart toggle button */}
+      <button
+        onClick={onToggle}
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '8px',
+          width: '100%',
+          padding: '14px 20px',
+          background: expanded ? 'rgba(255,255,255,0.12)' : 'rgba(255,255,255,0.08)',
+          borderRadius: expanded ? '12px 12px 0 0' : '12px',
+          color: '#fff',
+          border: expanded ? '1px solid rgba(255,255,147,0.3)' : '1px solid transparent',
+          borderBottom: expanded ? '1px solid transparent' : '1px solid transparent',
+          outline: 'none',
+          cursor: 'pointer',
+          fontFamily: navFont,
+          fontSize: '0.9375rem',
+          fontWeight: 500,
+          position: 'relative',
+          transition: 'background 200ms ease, border-radius 200ms ease, border-color 200ms ease',
+        }}
+      >
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" />
+          <path d="M3 6h18" />
+          <path d="M16 10a4 4 0 0 1-8 0" />
+        </svg>
+        Cart
+        {cart && (
+          <Suspense fallback={null}>
+            <Await resolve={cart}>
+              {(resolvedCart) => {
+                const count = resolvedCart?.totalQuantity ?? 0;
+                if (count === 0) return null;
+                return (
+                  <span
+                    style={{
+                      background: '#FFFF93',
+                      color: '#1A202C',
+                      fontSize: '0.6875rem',
+                      fontWeight: 700,
+                      borderRadius: '9999px',
+                      minWidth: '20px',
+                      height: '20px',
+                      padding: '0 5px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    {count}
+                  </span>
+                );
+              }}
+            </Await>
+          </Suspense>
+        )}
+        <svg
+          width="12"
+          height="12"
+          viewBox="0 0 12 12"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          style={{
+            marginLeft: 'auto',
+            transition: 'transform 200ms ease',
+            transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
+            opacity: 0.5,
+          }}
+        >
+          <path d="M2 4l4 4 4-4" />
+        </svg>
+      </button>
+
+      {/* Expandable quick view panel */}
+      <div
+        style={{
+          maxHeight: expanded ? '300px' : '0px',
+          overflow: 'hidden',
+          transition: 'max-height 300ms cubic-bezier(0.32, 0.72, 0, 1)',
+        }}
+      >
+        <div
+          style={{
+            background: 'rgba(255,255,255,0.06)',
+            borderRadius: '0 0 12px 12px',
+            border: '1px solid rgba(255,255,147,0.3)',
+            borderTop: '1px solid rgba(255,255,255,0.06)',
+            padding: '12px',
+          }}
+        >
+          {cart ? (
+            <Suspense
+              fallback={
+                <p style={{color: 'rgba(255,255,255,0.4)', fontFamily: navFont, fontSize: '0.8125rem', textAlign: 'center', padding: '8px 0'}}>
+                  Loading...
+                </p>
+              }
+            >
+              <Await resolve={cart}>
+                {(resolvedCart) => (
+                  <MobileCartItems cart={resolvedCart} close={close} navFont={navFont} />
+                )}
+              </Await>
+            </Suspense>
+          ) : (
+            <p style={{color: 'rgba(255,255,255,0.4)', fontFamily: navFont, fontSize: '0.8125rem', textAlign: 'center', padding: '8px 0'}}>
+              Your cart is empty
+            </p>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function MobileCartItems({
+  cart,
+  close,
+  navFont,
+}: {
+  cart: CartApiQueryFragment | null;
+  close: () => void;
+  navFont: string;
+}) {
+  const lines = cart?.lines?.nodes ?? [];
+  const totalQuantity = cart?.totalQuantity ?? 0;
+
+  if (totalQuantity === 0 || lines.length === 0) {
+    return (
+      <div style={{textAlign: 'center', padding: '8px 0'}}>
+        <p style={{color: 'rgba(255,255,255,0.4)', fontFamily: navFont, fontSize: '0.8125rem'}}>
+          Your cart is empty
+        </p>
+        <NavLink
+          to="/collections"
+          onClick={close}
+          style={{
+            color: '#FFFF93',
+            fontFamily: navFont,
+            fontSize: '0.8125rem',
+            fontWeight: 500,
+            textDecoration: 'none',
+            display: 'inline-block',
+            marginTop: '8px',
+          }}
+        >
+          Start shopping →
+        </NavLink>
+      </div>
+    );
+  }
+
+  const subtotal = cart?.cost?.subtotalAmount;
+
+  return (
+    <div>
+      {/* Cart items list (scrollable) */}
+      <div style={{maxHeight: '180px', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '10px'}}>
+        {lines.map((line) => {
+          const {merchandise} = line;
+          const {product, image} = merchandise;
+          return (
+            <div
+              key={line.id}
+              style={{
+                display: 'flex',
+                gap: '10px',
+                alignItems: 'center',
+              }}
+            >
+              {/* Thumbnail */}
+              {image?.url && (
+                <img
+                  src={`${image.url}&width=80`}
+                  alt={image.altText || product.title}
+                  style={{
+                    width: '40px',
+                    height: '40px',
+                    borderRadius: '8px',
+                    objectFit: 'cover',
+                    flexShrink: 0,
+                    border: '1px solid rgba(255,255,255,0.08)',
+                  }}
+                />
+              )}
+              {/* Details */}
+              <div style={{flex: 1, minWidth: 0}}>
+                <p
+                  style={{
+                    color: 'rgba(255,255,255,0.85)',
+                    fontFamily: navFont,
+                    fontSize: '0.8125rem',
+                    fontWeight: 500,
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                    margin: 0,
+                  }}
+                >
+                  {product.title}
+                </p>
+                <p
+                  style={{
+                    color: 'rgba(255,255,255,0.4)',
+                    fontFamily: navFont,
+                    fontSize: '0.75rem',
+                    margin: 0,
+                  }}
+                >
+                  Qty: {line.quantity}
+                  {line.cost?.totalAmount && (
+                    <span style={{marginLeft: '8px'}}>
+                      ${parseFloat(line.cost.totalAmount.amount).toFixed(2)}
+                    </span>
+                  )}
+                </p>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Subtotal + View Cart */}
+      <div
+        style={{
+          marginTop: '12px',
+          paddingTop: '10px',
+          borderTop: '1px solid rgba(255,255,255,0.08)',
+        }}
+      >
+        <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px'}}>
+          <span style={{color: 'rgba(255,255,255,0.4)', fontFamily: navFont, fontSize: '0.75rem'}}>
+            Subtotal
+          </span>
+          <span style={{color: '#fff', fontFamily: navFont, fontSize: '0.875rem', fontWeight: 600}}>
+            {subtotal ? `$${parseFloat(subtotal.amount).toFixed(2)}` : '—'}
+          </span>
+        </div>
+        <NavLink
+          to="/cart"
+          onClick={close}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '6px',
+            width: '100%',
+            padding: '10px 16px',
+            background: '#FFFF93',
+            color: '#1A202C',
+            borderRadius: '8px',
+            fontFamily: navFont,
+            fontSize: '0.8125rem',
+            fontWeight: 600,
+            textDecoration: 'none',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          View Cart →
+        </NavLink>
+      </div>
+    </div>
+  );
+}
+
 function MobileNav({
   menu,
   fallbackMenu,
   getUrl,
   titleRewrites,
   close,
+  cart,
 }: {
   menu: HeaderProps['header']['menu'];
   fallbackMenu: typeof FALLBACK_HEADER_MENU;
   getUrl: (url: string) => string;
   titleRewrites: Record<string, string>;
   close: () => void;
+  cart?: Promise<CartApiQueryFragment | null>;
 }) {
   const [subMenu, setSubMenu] = useState<string | null>(null);
+  const [cartExpanded, setCartExpanded] = useState(false);
 
   // Build mobile nav items from CMS + hardcoded
   const HIDDEN_MOBILE = new Set(['Contact', 'About', 'Home']);
@@ -305,16 +596,53 @@ function MobileNav({
       >
         {/* Main menu panel */}
         <div style={{width: '50%', display: 'flex', flexDirection: 'column', minHeight: 0}}>
-          {/* Top Actions (Account / Search) */}
+          {/* Top Actions (Account, Cart, Order History, Search) */}
           <div style={{padding: '16px 24px 8px', flexShrink: 0}}>
+            {/* Account & Cart row */}
+            <div style={{display: 'flex', gap: '8px'}}>
+              <NavLink
+                to="/account"
+                onClick={close}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '8px',
+                  flex: 1,
+                  padding: '14px 20px',
+                  background: 'rgba(255,255,255,0.08)',
+                  borderRadius: '12px',
+                  color: '#fff',
+                  textDecoration: 'none',
+                  fontFamily: navFont,
+                  fontSize: '0.9375rem',
+                  fontWeight: 500,
+                }}
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+                  <circle cx="12" cy="7" r="4" />
+                </svg>
+                Account
+              </NavLink>
+              <MobileCartQuickView
+                cart={cart}
+                expanded={cartExpanded}
+                onToggle={() => setCartExpanded((prev) => !prev)}
+                close={close}
+                navFont={navFont}
+              />
+            </div>
+            {/* Order History link */}
             <NavLink
-              to="/account"
+              to="/account/orders"
               onClick={close}
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: '8px',
+                marginTop: '8px',
                 padding: '14px 20px',
                 background: 'rgba(255,255,255,0.08)',
                 borderRadius: '12px',
@@ -325,7 +653,14 @@ function MobileNav({
                 fontWeight: 500,
               }}
             >
-              Account
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+                <polyline points="10 9 9 9 8 9" />
+              </svg>
+              Order History
             </NavLink>
             <MobileSearchInput navFont={navFont} close={close} />
           </div>

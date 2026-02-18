@@ -15,19 +15,19 @@ import type {InputHTMLAttributes, TextareaHTMLAttributes} from 'react';
  * Shared input styles for consistency across all form inputs
  */
 export const inputStyles = {
-  base: 'w-full h-12 px-4 rounded-lg bg-surface/50 transition-all duration-200',
-  text: 'text-body text-primary placeholder:text-secondary/50',
-  focus: 'focus:outline-none focus:bg-white focus:ring-2 focus:ring-accent/20 focus:shadow-sm',
-  disabled: 'disabled:opacity-40 disabled:cursor-not-allowed disabled:bg-surface/30',
-  error: 'ring-2 ring-error/30 bg-error/5',
+  base: 'w-full h-12 px-4 rounded-lg bg-white/[0.05] transition-all duration-200',
+  text: 'text-body text-white placeholder:text-white/25',
+  focus: 'focus:outline-none focus:bg-white/[0.08] focus:ring-2 focus:ring-accent/20',
+  disabled: 'disabled:opacity-40 disabled:cursor-not-allowed disabled:bg-white/[0.02]',
+  error: 'ring-2 ring-error/30 bg-error/10',
 };
 
 export const textareaStyles = {
-  base: 'w-full px-4 py-3 rounded-lg bg-surface/50 transition-all duration-200 resize-none',
-  text: 'text-body text-primary placeholder:text-secondary/50',
-  focus: 'focus:outline-none focus:bg-white focus:ring-2 focus:ring-accent/20 focus:shadow-sm',
-  disabled: 'disabled:opacity-40 disabled:cursor-not-allowed disabled:bg-surface/30',
-  error: 'ring-2 ring-error/30 bg-error/5',
+  base: 'w-full px-4 py-3 rounded-lg bg-white/[0.05] transition-all duration-200 resize-none',
+  text: 'text-body text-white placeholder:text-white/25',
+  focus: 'focus:outline-none focus:bg-white/[0.08] focus:ring-2 focus:ring-accent/20',
+  disabled: 'disabled:opacity-40 disabled:cursor-not-allowed disabled:bg-white/[0.02]',
+  error: 'ring-2 ring-error/30 bg-error/10',
 };
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -74,7 +74,7 @@ export function Input({
       {/* Label */}
       <label
         htmlFor={inputId}
-        className="block text-body-sm font-medium text-primary"
+        className="block text-body-sm font-medium text-white"
       >
         {label}
       </label>
@@ -92,7 +92,7 @@ export function Input({
         <p
           className={clsx(
             'text-body-sm',
-            error ? 'text-error' : 'text-secondary/60',
+            error ? 'text-error' : 'text-white/40',
           )}
         >
           {error || helperText}
@@ -149,7 +149,7 @@ export function Textarea({
     <div className="space-y-2">
       <label
         htmlFor={textareaId}
-        className="block text-body-sm font-medium text-primary"
+        className="block text-body-sm font-medium text-white"
       >
         {label}
       </label>
@@ -166,7 +166,7 @@ export function Textarea({
         <p
           className={clsx(
             'text-body-sm',
-            error ? 'text-error' : 'text-secondary/60',
+            error ? 'text-error' : 'text-white/40',
           )}
         >
           {error || helperText}

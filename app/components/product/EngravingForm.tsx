@@ -176,7 +176,7 @@ export function EngravingForm({
         disabled={disabled}
         className={clsx(
           'w-full px-4 py-3 flex items-center justify-between',
-          'bg-surface/30 hover:bg-surface/60 transition-colors rounded-lg',
+          'bg-white/[0.05] hover:bg-white/[0.08] transition-colors rounded-lg',
           'focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2',
           disabled && 'opacity-50 cursor-not-allowed',
         )}
@@ -185,9 +185,9 @@ export function EngravingForm({
       >
         <div className="flex items-center gap-3">
           <Type className="w-5 h-5 text-accent" />
-          <span className="font-medium text-primary">Add Custom Engraving</span>
+          <span className="font-medium text-white">Add Custom Engraving</span>
           {!hasEngravingData && (
-            <span className="text-body-sm text-secondary/50">Required</span>
+            <span className="text-body-sm text-white/30">Required</span>
           )}
           {hasEngravingData && previewText && (
             <span className="text-body-sm text-accent bg-accent/10 px-2 py-0.5 rounded max-w-[200px] truncate">
@@ -197,7 +197,7 @@ export function EngravingForm({
         </div>
         <ChevronDown
           className={clsx(
-            'w-5 h-5 text-secondary/40 transition-transform duration-200',
+            'w-5 h-5 text-white/25 transition-transform duration-200',
             isExpanded && 'rotate-180',
           )}
         />
@@ -211,14 +211,14 @@ export function EngravingForm({
           isExpanded ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0',
         )}
       >
-        <div className="px-4 pb-4 pt-4 space-y-4 bg-surface/40 rounded-b-lg">
+        <div className="px-4 pb-4 pt-4 space-y-4 bg-white/[0.03] rounded-b-lg">
           {/* Name Field */}
           {config.showName && (
             <div className="space-y-1">
               <div className="flex items-center justify-between">
                 <label
                   htmlFor="engraving-name"
-                  className="flex items-center gap-2 text-body-sm font-semibold text-primary"
+                  className="flex items-center gap-2 text-body-sm font-semibold text-white"
                 >
                   <User className="w-4 h-4 text-accent" />
                   Name
@@ -226,7 +226,7 @@ export function EngravingForm({
                 <span
                   className={clsx(
                     'text-caption',
-                    value.name.length >= MAX_NAME_LENGTH ? 'text-error' : 'text-secondary/40',
+                    value.name.length >= MAX_NAME_LENGTH ? 'text-error' : 'text-white/25',
                   )}
                 >
                   {value.name.length}/{MAX_NAME_LENGTH}
@@ -242,17 +242,17 @@ export function EngravingForm({
                 disabled={disabled}
                 maxLength={MAX_NAME_LENGTH}
                 className={clsx(
-                  'w-full h-12 px-4 rounded-lg bg-white transition-all duration-200',
-                  'text-body text-primary placeholder:text-secondary/50',
-                  'focus:outline-none focus:ring-2 focus:ring-accent/20 focus:shadow-sm',
-                  displayNameError && 'ring-2 ring-error/30 bg-error/5',
-                  'disabled:opacity-40 disabled:cursor-not-allowed disabled:bg-surface/30',
+                  'w-full h-12 px-4 rounded-lg bg-white/[0.05] transition-all duration-200',
+                  'text-body text-white placeholder:text-white/25',
+                  'focus:outline-none focus:ring-2 focus:ring-accent/20 focus:bg-white/[0.08]',
+                  displayNameError && 'ring-2 ring-error/30 bg-error/10',
+                  'disabled:opacity-40 disabled:cursor-not-allowed disabled:bg-white/[0.02]',
                 )}
               />
               {displayNameError ? (
                 <p className="text-body-sm text-error">{displayNameError}</p>
               ) : (
-                <p className="text-caption text-secondary/50">
+                <p className="text-caption text-white/30">
                   Under 10 characters for optimal engraving
                 </p>
               )}
@@ -264,7 +264,7 @@ export function EngravingForm({
             <div className="space-y-1">
               <label
                 htmlFor="engraving-cleandate"
-                className="flex items-center gap-2 text-body-sm font-semibold text-primary"
+                className="flex items-center gap-2 text-body-sm font-semibold text-white"
               >
                 <Calendar className="w-4 h-4 text-accent" />
                 Clean Date
@@ -278,17 +278,17 @@ export function EngravingForm({
                 max={new Date().toISOString().split('T')[0]}
                 disabled={disabled}
                 className={clsx(
-                  'w-full h-12 px-4 rounded-lg bg-white transition-all duration-200',
-                  'text-body text-primary',
-                  'focus:outline-none focus:ring-2 focus:ring-accent/20 focus:shadow-sm',
-                  displayCleanDateError && 'ring-2 ring-error/30 bg-error/5',
-                  'disabled:opacity-40 disabled:cursor-not-allowed disabled:bg-surface/30',
+                  'w-full h-12 px-4 rounded-lg bg-white/[0.05] transition-all duration-200',
+                  'text-body text-white',
+                  'focus:outline-none focus:ring-2 focus:ring-accent/20 focus:bg-white/[0.08]',
+                  displayCleanDateError && 'ring-2 ring-error/30 bg-error/10',
+                  'disabled:opacity-40 disabled:cursor-not-allowed disabled:bg-white/[0.02]',
                 )}
               />
               {displayCleanDateError ? (
                 <p className="text-body-sm text-error">{displayCleanDateError}</p>
               ) : (
-                <p className="text-caption text-secondary/50">
+                <p className="text-caption text-white/30">
                   Your sobriety start date
                 </p>
               )}
@@ -300,7 +300,7 @@ export function EngravingForm({
             <div className="space-y-1">
               <label
                 htmlFor="engraving-years"
-                className="flex items-center gap-2 text-body-sm font-semibold text-primary"
+                className="flex items-center gap-2 text-body-sm font-semibold text-white"
               >
                 <Hash className="w-4 h-4 text-accent" />
                 Years
@@ -317,11 +317,11 @@ export function EngravingForm({
                 placeholder="e.g., 5"
                 disabled={disabled}
                 className={clsx(
-                  'w-full h-12 px-4 rounded-lg bg-white transition-all duration-200',
-                  'text-body text-primary placeholder:text-secondary/50',
-                  'focus:outline-none focus:ring-2 focus:ring-accent/20 focus:shadow-sm',
-                  displayYearsError && 'ring-2 ring-error/30 bg-error/5',
-                  'disabled:opacity-40 disabled:cursor-not-allowed disabled:bg-surface/30',
+                  'w-full h-12 px-4 rounded-lg bg-white/[0.05] transition-all duration-200',
+                  'text-body text-white placeholder:text-white/25',
+                  'focus:outline-none focus:ring-2 focus:ring-accent/20 focus:bg-white/[0.08]',
+                  displayYearsError && 'ring-2 ring-error/30 bg-error/10',
+                  'disabled:opacity-40 disabled:cursor-not-allowed disabled:bg-white/[0.02]',
                   // Hide number input spinners
                   '[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none',
                 )}
@@ -329,7 +329,7 @@ export function EngravingForm({
               {displayYearsError ? (
                 <p className="text-body-sm text-error">{displayYearsError}</p>
               ) : (
-                <p className="text-caption text-secondary/50">
+                <p className="text-caption text-white/30">
                   Number of years (1-99)
                 </p>
               )}
@@ -341,16 +341,16 @@ export function EngravingForm({
             <div className="flex items-center justify-between">
               <label
                 htmlFor="engraving-note"
-                className="flex items-center gap-2 text-body-sm font-semibold text-primary"
+                className="flex items-center gap-2 text-body-sm font-semibold text-white"
               >
-                <MessageSquare className="w-4 h-4 text-secondary" />
+                <MessageSquare className="w-4 h-4 text-white/40" />
                 Private Note to Engraver
-                <span className="font-normal text-secondary/60">(Optional)</span>
+                <span className="font-normal text-white/40">(Optional)</span>
               </label>
               <span
                 className={clsx(
                   'text-caption',
-                  value.note.length >= MAX_NOTE_LENGTH ? 'text-error' : 'text-secondary/40',
+                  value.note.length >= MAX_NOTE_LENGTH ? 'text-error' : 'text-white/25',
                 )}
               >
                 {value.note.length}/{MAX_NOTE_LENGTH}
@@ -366,23 +366,23 @@ export function EngravingForm({
               rows={2}
               maxLength={MAX_NOTE_LENGTH}
               className={clsx(
-                'w-full px-4 py-3 rounded-lg bg-white transition-all duration-200 resize-none',
-                'text-body text-primary placeholder:text-secondary/50',
-                'focus:outline-none focus:ring-2 focus:ring-accent/20 focus:shadow-sm',
-                errors?.note && 'ring-2 ring-error/30 bg-error/5',
-                'disabled:opacity-40 disabled:cursor-not-allowed disabled:bg-surface/30',
+                'w-full px-4 py-3 rounded-lg bg-white/[0.05] transition-all duration-200 resize-none',
+                'text-body text-white placeholder:text-white/25',
+                'focus:outline-none focus:ring-2 focus:ring-accent/20 focus:bg-white/[0.08]',
+                errors?.note && 'ring-2 ring-error/30 bg-error/10',
+                'disabled:opacity-40 disabled:cursor-not-allowed disabled:bg-white/[0.02]',
               )}
             />
-            <p className="text-caption text-secondary/50">
+            <p className="text-caption text-white/30">
               This note is private and won't appear on the token
             </p>
           </div>
 
           {/* Preview */}
           {previewText && (
-            <div className="bg-primary/5 rounded-lg p-4 border border-primary/10">
-              <p className="text-caption font-semibold text-primary mb-2">Preview</p>
-              <p className="font-display text-lg text-primary text-center tracking-wide">
+            <div className="bg-white/[0.05] rounded-lg p-4 border border-white/[0.08]">
+              <p className="text-caption font-semibold text-white mb-2">Preview</p>
+              <p className="font-display text-lg text-white text-center tracking-wide">
                 {previewText}
               </p>
             </div>

@@ -1,6 +1,6 @@
 /**
  * Rating Badge Component
- * 
+ *
  * Displays star rating and review count for a product.
  * Used on product pages, collection pages, and search results.
  */
@@ -19,10 +19,10 @@ export function RatingBadge({rating, reviewCount, className = ''}: RatingBadgePr
       <div className={`flex items-center gap-2 ${className}`}>
         <div className="flex items-center">
           {Array.from({length: 5}).map((_, i) => (
-            <Star key={i} className="h-5 w-5 text-gray-300" />
+            <Star key={i} className="h-5 w-5 text-white/20" />
           ))}
         </div>
-        <span className="text-sm text-gray-600">No reviews yet</span>
+        <span className="text-sm text-white/40">No reviews yet</span>
       </div>
     );
   }
@@ -42,13 +42,13 @@ export function RatingBadge({rating, reviewCount, className = ''}: RatingBadgePr
                   ? 'fill-yellow-400 text-yellow-400'
                   : isPartial
                   ? 'fill-yellow-400/50 text-yellow-400'
-                  : 'text-gray-300'
+                  : 'text-white/20'
               }`}
             />
           );
         })}
       </div>
-      <span className="text-sm text-gray-600">
+      <span className="text-sm text-white/50">
         {rating.toFixed(1)} ({reviewCount} {reviewCount === 1 ? 'review' : 'reviews'})
       </span>
     </div>

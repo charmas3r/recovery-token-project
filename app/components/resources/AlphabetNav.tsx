@@ -24,7 +24,7 @@ export function AlphabetNav({activeLetters}: AlphabetNavProps) {
             href={`#letter-${letter}`}
             className={clsx(
               'w-9 h-9 flex items-center justify-center rounded-lg text-body-sm font-semibold transition-all duration-200',
-              'focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2',
+              'focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-black',
               'text-accent hover:bg-accent/10',
             )}
           >
@@ -33,7 +33,7 @@ export function AlphabetNav({activeLetters}: AlphabetNavProps) {
         ) : (
           <span
             key={letter}
-            className="w-9 h-9 flex items-center justify-center rounded-lg text-body-sm text-secondary/30"
+            className="w-9 h-9 flex items-center justify-center rounded-lg text-body-sm text-white/20"
             aria-hidden="true"
           >
             {letter}

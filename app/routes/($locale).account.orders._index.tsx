@@ -102,16 +102,16 @@ export default function Orders() {
 function EmptyOrders({hasFilters = false}: {hasFilters?: boolean}) {
   return (
     <div className="text-center py-16 px-4">
-      <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-surface mb-6">
-        <Package className="w-10 h-10 text-secondary" />
+      <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-white/[0.05] mb-6">
+        <Package className="w-10 h-10 text-white/50" />
       </div>
       {hasFilters ? (
         <>
-          <h3 className="font-display text-2xl font-bold text-primary mb-3">
+          <h3 className="font-display text-2xl font-bold text-white mb-3">
             No orders found
           </h3>
           <div className="max-w-md mx-auto">
-            <p className="text-body-lg text-secondary mb-8">
+            <p className="text-body-lg text-white/50 mb-8">
               No orders match your search criteria.
             </p>
           </div>
@@ -121,11 +121,11 @@ function EmptyOrders({hasFilters = false}: {hasFilters?: boolean}) {
         </>
       ) : (
         <>
-          <h3 className="font-display text-2xl font-bold text-primary mb-3">
+          <h3 className="font-display text-2xl font-bold text-white mb-3">
             No orders yet
           </h3>
           <div className="max-w-md mx-auto">
-            <p className="text-body-lg text-secondary mb-8">
+            <p className="text-body-lg text-white/50 mb-8">
               You haven't placed any orders yet. Start shopping to celebrate your milestones!
             </p>
           </div>
@@ -174,7 +174,7 @@ function OrderSearchForm({
     <form
       ref={formRef}
       onSubmit={handleSubmit}
-      className="bg-surface rounded-xl p-5 lg:p-6 mb-8"
+      className="bg-white/[0.05] rounded-xl p-5 lg:p-6 mb-8"
       aria-label="Search orders"
     >
       <div className="flex flex-col sm:flex-row gap-3 lg:gap-4">

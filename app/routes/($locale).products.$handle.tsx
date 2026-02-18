@@ -505,7 +505,7 @@ export default function Product() {
       <JsonLd data={productSchema} />
 
       {/* Main Product Section */}
-      <section className="py-8 md:py-12 bg-white">
+      <section className="py-8 md:py-12">
         <div className="container-standard">
           {/* Breadcrumbs */}
           <Breadcrumbs items={breadcrumbItems} className="mb-8" />
@@ -528,7 +528,7 @@ export default function Product() {
               </span>
 
               {/* Product Title */}
-              <h1 className="font-display text-3xl md:text-4xl font-bold text-primary leading-tight">
+              <h1 className="font-display text-3xl md:text-4xl font-bold text-white leading-tight">
                 {title}
               </h1>
 
@@ -582,15 +582,15 @@ export default function Product() {
               </Suspense>
 
               {/* Trust Badges */}
-              <TrustBadges className="pt-4 border-t border-black/5" />
+              <TrustBadges className="pt-4 border-t border-white/[0.08]" />
 
               {/* Description */}
-              <div className="pt-6 border-t border-black/5">
-                <h2 className="font-display text-lg font-bold text-primary mb-4">
+              <div className="pt-6 border-t border-white/[0.08]">
+                <h2 className="font-display text-lg font-bold text-white mb-4">
                   About This Token
                 </h2>
-                <div 
-                  className="text-body text-secondary leading-relaxed prose prose-sm"
+                <div
+                  className="text-body text-white/50 leading-relaxed prose prose-sm prose-invert"
                   dangerouslySetInnerHTML={{__html: descriptionHtml}} 
                 />
               </div>
@@ -600,13 +600,13 @@ export default function Product() {
       </section>
 
       {/* Reviews Section */}
-      <section className="py-16 md:py-20 bg-surface">
+      <section className="py-16 md:py-20 bg-white/[0.05]">
         <div className="container-standard">
           <div className="text-center mb-12">
             <span className="inline-block text-accent text-caption uppercase tracking-[0.25em] font-semibold mb-4">
               Testimonials
             </span>
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-primary mb-4">
+            <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-4">
               Customer Reviews
             </h2>
             <button
@@ -715,7 +715,7 @@ function WishlistButton({
       className={`p-2 rounded-full transition-all duration-200 ${
         isSaved
           ? 'text-accent hover:text-accent/80'
-          : 'text-secondary hover:text-accent'
+          : 'text-white/50 hover:text-accent'
       }`}
       aria-label={isSaved ? 'Remove from wishlist' : 'Save to wishlist'}
     >
@@ -735,10 +735,11 @@ function ProductReviewsSkeleton() {
   return (
     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
       {Array.from({length: 3}).map((_, i) => (
-        <div 
-          key={i} 
-          className="bg-white rounded-2xl p-6 shadow-sm border border-black/5"
+        <div
+          key={i}
+          className="rounded-2xl p-6 border border-white/[0.08]"
           style={{
+            background: 'linear-gradient(180deg, #111 0%, #0A0A0A 40%, #080808 100%)',
             animation: `pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite`,
             animationDelay: `${i * 150}ms`,
           }}
@@ -746,9 +747,9 @@ function ProductReviewsSkeleton() {
           {/* Stars skeleton - star shapes */}
           <div className="flex gap-1.5 mb-5">
             {Array.from({length: 5}).map((_, j) => (
-              <div 
-                key={j} 
-                className="w-5 h-5 bg-gradient-to-br from-gray-200 to-gray-100 rounded-sm"
+              <div
+                key={j}
+                className="w-5 h-5 bg-gradient-to-br from-white/10 to-white/5 rounded-sm"
                 style={{
                   clipPath: 'polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)',
                 }}
@@ -756,19 +757,19 @@ function ProductReviewsSkeleton() {
             ))}
           </div>
           {/* Title skeleton */}
-          <div className="h-5 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 rounded-lg w-2/3 mb-4" />
+          <div className="h-5 bg-gradient-to-r from-white/10 via-white/5 to-white/10 rounded-lg w-2/3 mb-4" />
           {/* Text skeleton */}
           <div className="space-y-2.5 mb-6">
-            <div className="h-3.5 bg-gradient-to-r from-gray-100 via-gray-200 to-gray-100 rounded-md w-full" />
-            <div className="h-3.5 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 rounded-md w-11/12" />
-            <div className="h-3.5 bg-gradient-to-r from-gray-100 via-gray-200 to-gray-100 rounded-md w-4/5" />
+            <div className="h-3.5 bg-gradient-to-r from-white/5 via-white/10 to-white/5 rounded-md w-full" />
+            <div className="h-3.5 bg-gradient-to-r from-white/10 via-white/5 to-white/10 rounded-md w-11/12" />
+            <div className="h-3.5 bg-gradient-to-r from-white/5 via-white/10 to-white/5 rounded-md w-4/5" />
           </div>
           {/* Author skeleton */}
-          <div className="flex items-center gap-3 pt-5 border-t border-gray-100">
-            <div className="w-11 h-11 rounded-full bg-gradient-to-br from-gray-200 to-gray-100" />
+          <div className="flex items-center gap-3 pt-5 border-t border-white/[0.08]">
+            <div className="w-11 h-11 rounded-full bg-gradient-to-br from-white/10 to-white/5" />
             <div className="flex-1">
-              <div className="h-4 bg-gradient-to-r from-gray-200 to-gray-100 rounded w-24 mb-2" />
-              <div className="h-3 bg-gradient-to-r from-gray-100 to-gray-200 rounded w-20" />
+              <div className="h-4 bg-gradient-to-r from-white/10 to-white/5 rounded w-24 mb-2" />
+              <div className="h-3 bg-gradient-to-r from-white/5 to-white/10 rounded w-20" />
             </div>
           </div>
         </div>
@@ -795,11 +796,10 @@ function ProductEmptyReviewsState({productTitle, onWriteReview}: {productTitle: 
         }} />
         <div style={{
           position: 'relative',
-          background: 'white',
+          background: 'linear-gradient(180deg, #111 0%, #0A0A0A 40%, #080808 100%)',
           borderRadius: '1.5rem',
           padding: '2rem 2.5rem',
-          boxShadow: '0 10px 25px -5px rgba(0,0,0,0.1)',
-          border: '1px solid rgba(0,0,0,0.05)'
+          border: '1px solid rgba(255,255,255,0.08)'
         }}>
           <div style={{display: 'flex', justifyContent: 'center', gap: '0.5rem', marginBottom: '1rem'}}>
             {[1, 2, 3, 4, 5].map((n) => (
@@ -809,10 +809,10 @@ function ProductEmptyReviewsState({productTitle, onWriteReview}: {productTitle: 
             ))}
           </div>
           <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.75rem'}}>
-            <span style={{fontSize: '2.25rem', fontWeight: 'bold', color: '#1A202C'}}>5.0</span>
+            <span style={{fontSize: '2.25rem', fontWeight: 'bold', color: '#FFFFFF'}}>5.0</span>
             <div style={{textAlign: 'left'}}>
-              <p style={{fontSize: '0.875rem', fontWeight: '600', color: '#1A202C', margin: 0}}>Perfect Rating</p>
-              <p style={{fontSize: '0.75rem', color: '#4A5568', margin: 0}}>Expected quality</p>
+              <p style={{fontSize: '0.875rem', fontWeight: '600', color: '#FFFFFF', margin: 0}}>Perfect Rating</p>
+              <p style={{fontSize: '0.75rem', color: 'rgba(255,255,255,0.5)', margin: 0}}>Expected quality</p>
             </div>
           </div>
         </div>
@@ -822,7 +822,7 @@ function ProductEmptyReviewsState({productTitle, onWriteReview}: {productTitle: 
       <h3 style={{
         fontSize: 'clamp(1.5rem, 4vw, 1.875rem)',
         fontWeight: 'bold',
-        color: '#1A202C',
+        color: '#FFFFFF',
         marginBottom: '1rem',
         textAlign: 'center'
       }}>
@@ -832,7 +832,7 @@ function ProductEmptyReviewsState({productTitle, onWriteReview}: {productTitle: 
       {/* Description */}
       <p style={{
         fontSize: '1.125rem',
-        color: '#4A5568',
+        color: 'rgba(255,255,255,0.5)',
         marginBottom: '2rem',
         maxWidth: '32rem',
         marginLeft: 'auto',
@@ -840,12 +840,12 @@ function ProductEmptyReviewsState({productTitle, onWriteReview}: {productTitle: 
         textAlign: 'center',
         lineHeight: 1.6
       }}>
-        No reviews yet for <span style={{fontWeight: '600', color: '#1A202C'}}>{productTitle}</span>. 
+        No reviews yet for <span style={{fontWeight: '600', color: '#FFFFFF'}}>{productTitle}</span>. 
         Your experience matters—help others find meaning in their recovery journey.
       </p>
       
       {/* Feature badges */}
-      <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '1.5rem', fontSize: '0.875rem', color: '#4A5568'}}>
+      <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '1.5rem', fontSize: '0.875rem', color: 'rgba(255,255,255,0.5)'}}>
         <span style={{display: 'inline-flex', alignItems: 'center', gap: '0.5rem'}}>
           <svg viewBox="0 0 24 24" style={{width: '1.25rem', height: '1.25rem', color: '#FFFF93'}} fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M9 12l2 2 4-4" /><circle cx="12" cy="12" r="10" />
@@ -928,10 +928,11 @@ function ProductReviewsGrid({reviews}: {reviews: ProductReview[]}) {
   return (
     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
       {reviews.map((review, index) => (
-        <div 
+        <div
           key={review.id}
-          className="bg-white rounded-2xl p-6 shadow-sm border border-black/5 hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
+          className="rounded-2xl p-6 border border-white/[0.08] hover:border-white/[0.15] hover:-translate-y-1 transition-all duration-300"
           style={{
+            background: 'linear-gradient(180deg, #111 0%, #0A0A0A 40%, #080808 100%)',
             animation: 'fadeInUp 0.5s ease-out forwards',
             animationDelay: `${index * 100}ms`,
             opacity: 0,
@@ -948,7 +949,7 @@ function ProductReviewsGrid({reviews}: {reviews: ProductReview[]}) {
                   className={`w-5 h-5 ${
                     i < review.rating
                       ? 'text-yellow-400 fill-yellow-400'
-                      : 'text-gray-200 fill-gray-200'
+                      : 'text-white/20 fill-white/20'
                   }`}
                 >
                   <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
@@ -957,31 +958,31 @@ function ProductReviewsGrid({reviews}: {reviews: ProductReview[]}) {
             </div>
             {/* Date */}
             {review.created_at && (
-              <span className="text-xs text-secondary/60">
+              <span className="text-xs text-white/40">
                 {formatDate(review.created_at)}
               </span>
             )}
           </div>
-          
+
           {/* Review title */}
           {review.title && (
-            <h4 className="font-display font-bold text-primary text-lg mb-2 line-clamp-1">
+            <h4 className="font-display font-bold text-white text-lg mb-2 line-clamp-1">
               {review.title}
             </h4>
           )}
-          
+
           {/* Review body */}
-          <p className="text-body-sm text-secondary leading-relaxed mb-5 line-clamp-4 min-h-[5rem]">
+          <p className="text-body-sm text-white/50 leading-relaxed mb-5 line-clamp-4 min-h-[5rem]">
             "{review.body}"
           </p>
-          
+
           {/* Reviewer info */}
-          <div className="flex items-center gap-3 pt-4 border-t border-black/5">
-            <div className="w-11 h-11 rounded-full bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center text-white font-display font-bold text-sm shadow-sm">
+          <div className="flex items-center gap-3 pt-4 border-t border-white/[0.08]">
+            <div className="w-11 h-11 rounded-full bg-gradient-to-br from-accent to-accent/80 flex items-center justify-center text-white font-display font-bold text-sm">
               {review.reviewer.name.charAt(0).toUpperCase()}
             </div>
             <div className="flex-1 min-w-0">
-              <div className="font-semibold text-sm text-primary truncate">
+              <div className="font-semibold text-sm text-white truncate">
                 {review.reviewer.name}
               </div>
               {review.reviewer.verified ? (
@@ -993,7 +994,7 @@ function ProductReviewsGrid({reviews}: {reviews: ProductReview[]}) {
                   Verified Buyer
                 </div>
               ) : (
-                <div className="text-xs text-secondary/60">Customer</div>
+                <div className="text-xs text-white/40">Customer</div>
               )}
             </div>
           </div>

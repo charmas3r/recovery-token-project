@@ -163,7 +163,7 @@ export default function ResourcesHubPage() {
       icon: Calculator,
       href: '/resources/milestone-calculator',
       stat: 'Interactive Tool',
-      color: '#4A5568',
+      color: '#9CA3AF',
     },
     {
       title: 'Design Spotlights',
@@ -177,12 +177,12 @@ export default function ResourcesHubPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen">
       <JsonLd data={jsonLdData} />
       <JsonLd data={breadcrumbJsonLd} />
 
       {/* Header Section */}
-      <section className="bg-surface py-12 md:py-16">
+      <section className="bg-white/[0.03] py-12 md:py-16">
         <div className="container-standard">
           <Breadcrumbs items={[{label: 'Resources'}]} className="mb-6" />
 
@@ -214,7 +214,7 @@ export default function ResourcesHubPage() {
               style={{
                 fontFamily: 'var(--font-display, serif)',
                 fontWeight: 700,
-                color: '#1A202C',
+                color: '#FFFFFF',
                 lineHeight: 1.1,
                 marginBottom: '1rem',
               }}
@@ -226,7 +226,7 @@ export default function ResourcesHubPage() {
               style={{
                 fontSize: '1.125rem',
                 lineHeight: 1.6,
-                color: '#4A5568',
+                color: 'rgba(255,255,255,0.5)',
                 maxWidth: '36rem',
                 marginLeft: 'auto',
                 marginRight: 'auto',
@@ -240,11 +240,11 @@ export default function ResourcesHubPage() {
       </section>
 
       {/* Search Section */}
-      <section className="py-8 md:py-10 border-b border-black/5">
+      <section className="py-8 md:py-10 border-b border-white/[0.08]">
         <div className="container-standard">
           <div style={{maxWidth: '42rem', marginLeft: 'auto', marginRight: 'auto'}}>
             <div className="relative">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-secondary/50" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/25" />
               <input
                 type="text"
                 placeholder="Search articles and glossary terms..."
@@ -259,14 +259,14 @@ export default function ResourcesHubPage() {
             {hasSearchQuery && (
               <div className="mt-6">
                 {searchResults.length === 0 ? (
-                  <p className="text-center text-secondary py-4">
+                  <p className="text-center text-white/50 py-4">
                     No results found for &ldquo;{searchQuery}&rdquo;
                   </p>
                 ) : (
                   <div className="space-y-6">
                     {articleResults.length > 0 && (
                       <div>
-                        <h3 className="text-body-sm font-semibold text-secondary uppercase tracking-wider mb-3">
+                        <h3 className="text-body-sm font-semibold text-white/50 uppercase tracking-wider mb-3">
                           Articles ({articleResults.length})
                         </h3>
                         <div className="space-y-2">
@@ -276,14 +276,14 @@ export default function ResourcesHubPage() {
                               <Link
                                 key={article.id}
                                 to={`/resources/articles/${article.slug}`}
-                                className="flex items-start gap-3 p-3 rounded-xl hover:bg-surface/50 transition-colors group"
+                                className="flex items-start gap-3 p-3 rounded-xl hover:bg-white/[0.05] transition-colors group"
                               >
                                 <FileText className="w-5 h-5 text-accent mt-0.5 shrink-0" />
                                 <div>
-                                  <p className="font-medium text-primary group-hover:text-accent transition-colors">
+                                  <p className="font-medium text-white group-hover:text-accent transition-colors">
                                     {article.title}
                                   </p>
-                                  <p className="text-body-sm text-secondary line-clamp-1">
+                                  <p className="text-body-sm text-white/50 line-clamp-1">
                                     {article.excerpt}
                                   </p>
                                 </div>
@@ -296,7 +296,7 @@ export default function ResourcesHubPage() {
 
                     {glossaryResults.length > 0 && (
                       <div>
-                        <h3 className="text-body-sm font-semibold text-secondary uppercase tracking-wider mb-3">
+                        <h3 className="text-body-sm font-semibold text-white/50 uppercase tracking-wider mb-3">
                           Glossary Terms ({glossaryResults.length})
                         </h3>
                         <div className="space-y-2">
@@ -306,14 +306,14 @@ export default function ResourcesHubPage() {
                               <Link
                                 key={term.id}
                                 to={`/resources/glossary#${term.id}`}
-                                className="flex items-start gap-3 p-3 rounded-xl hover:bg-surface/50 transition-colors group"
+                                className="flex items-start gap-3 p-3 rounded-xl hover:bg-white/[0.05] transition-colors group"
                               >
                                 <BookOpen className="w-5 h-5 text-accent mt-0.5 shrink-0" />
                                 <div>
-                                  <p className="font-medium text-primary group-hover:text-accent transition-colors">
+                                  <p className="font-medium text-white group-hover:text-accent transition-colors">
                                     {term.name}
                                   </p>
-                                  <p className="text-body-sm text-secondary line-clamp-1">
+                                  <p className="text-body-sm text-white/50 line-clamp-1">
                                     {term.definition}
                                   </p>
                                 </div>
@@ -358,7 +358,7 @@ export default function ResourcesHubPage() {
                 fontFamily: 'var(--font-display, serif)',
                 fontSize: '1.75rem',
                 fontWeight: 700,
-                color: '#1A202C',
+                color: '#FFFFFF',
                 lineHeight: 1.3,
               }}
             >
@@ -374,7 +374,8 @@ export default function ResourcesHubPage() {
               <Link
                 key={card.title}
                 to={card.href}
-                className="block bg-white rounded-2xl p-6 shadow-sm border border-black/5 transition-all duration-200 hover:shadow-lg hover:-translate-y-1 group h-full"
+                className="block rounded-2xl p-6 border border-white/[0.08] transition-all duration-200 hover:border-white/[0.15] hover:-translate-y-1 group h-full"
+                style={{background: 'linear-gradient(180deg, #111 0%, #0A0A0A 40%, #080808 100%)'}}
               >
                 <div className="flex items-center gap-3 mb-4">
                   <div
@@ -389,11 +390,11 @@ export default function ResourcesHubPage() {
                   <Badge variant="new">{card.stat}</Badge>
                 </div>
 
-                <h3 className="font-display text-lg font-bold text-primary mb-2 group-hover:text-accent transition-colors">
+                <h3 className="font-display text-lg font-bold text-white mb-2 group-hover:text-accent transition-colors">
                   {card.title}
                 </h3>
 
-                <p className="text-body text-secondary leading-relaxed mb-4">
+                <p className="text-body text-white/50 leading-relaxed mb-4">
                   {card.description}
                 </p>
 
@@ -408,7 +409,7 @@ export default function ResourcesHubPage() {
       </section>
 
       {/* Featured Articles */}
-      <section className="py-12 md:py-16 bg-surface">
+      <section className="py-12 md:py-16 bg-white/[0.03]">
         <div className="container-standard">
           <div
             style={{
@@ -434,7 +435,7 @@ export default function ResourcesHubPage() {
                 fontFamily: 'var(--font-display, serif)',
                 fontSize: '1.75rem',
                 fontWeight: 700,
-                color: '#1A202C',
+                color: '#FFFFFF',
                 lineHeight: 1.3,
               }}
             >
@@ -489,7 +490,7 @@ export default function ResourcesHubPage() {
                   fontFamily: 'var(--font-display, serif)',
                   fontSize: '1.75rem',
                   fontWeight: 700,
-                  color: '#1A202C',
+                  color: '#FFFFFF',
                   lineHeight: 1.3,
                 }}
               >
@@ -549,7 +550,7 @@ export default function ResourcesHubPage() {
               fontFamily: 'var(--font-display, serif)',
               fontSize: '1.75rem',
               fontWeight: 700,
-              color: '#1A202C',
+              color: '#FFFFFF',
               lineHeight: 1.3,
               marginBottom: '1rem',
             }}
@@ -560,7 +561,7 @@ export default function ResourcesHubPage() {
             style={{
               fontSize: '1.125rem',
               lineHeight: 1.6,
-              color: '#4A5568',
+              color: 'rgba(255,255,255,0.5)',
               maxWidth: '36rem',
               marginLeft: 'auto',
               marginRight: 'auto',

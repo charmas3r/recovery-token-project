@@ -61,11 +61,11 @@ export default function TestimonialsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen">
       <JsonLd data={breadcrumbJsonLd} />
 
       {/* Header Section */}
-      <section className="bg-surface py-12 md:py-16">
+      <section className="bg-white/[0.03] py-12 md:py-16">
         <div className="container-standard">
           <Breadcrumbs
             items={[
@@ -100,7 +100,7 @@ export default function TestimonialsPage() {
               style={{
                 fontFamily: 'var(--font-display, serif)',
                 fontWeight: 700,
-                color: '#1A202C',
+                color: '#FFFFFF',
                 lineHeight: 1.1,
                 marginBottom: '1rem',
               }}
@@ -112,7 +112,7 @@ export default function TestimonialsPage() {
               style={{
                 fontSize: '1.125rem',
                 lineHeight: 1.6,
-                color: '#4A5568',
+                color: 'rgba(255,255,255,0.5)',
                 maxWidth: '36rem',
                 marginLeft: 'auto',
                 marginRight: 'auto',
@@ -141,7 +141,8 @@ export default function TestimonialsPage() {
             {TESTIMONIALS.map((testimonial) => (
               <div
                 key={testimonial.id}
-                className="bg-white rounded-2xl p-6 shadow-sm border border-black/5"
+                className="rounded-2xl p-6 border border-white/[0.08]"
+                style={{background: 'linear-gradient(180deg, #111 0%, #0A0A0A 40%, #080808 100%)'}}
               >
                 <div className="mb-4">
                   <Quote
@@ -154,7 +155,7 @@ export default function TestimonialsPage() {
                   style={{
                     fontSize: '1.0625rem',
                     lineHeight: 1.7,
-                    color: '#1A202C',
+                    color: '#FFFFFF',
                     marginBottom: '1.5rem',
                     fontStyle: 'italic',
                   }}
@@ -167,7 +168,7 @@ export default function TestimonialsPage() {
                     <p
                       style={{
                         fontWeight: 600,
-                        color: '#1A202C',
+                        color: '#FFFFFF',
                         fontSize: '0.9375rem',
                       }}
                     >
@@ -176,7 +177,7 @@ export default function TestimonialsPage() {
                     {testimonial.location && (
                       <p
                         style={{
-                          color: '#4A5568',
+                          color: 'rgba(255,255,255,0.5)',
                           fontSize: '0.8125rem',
                           marginTop: '0.125rem',
                         }}
@@ -208,7 +209,7 @@ export default function TestimonialsPage() {
       </section>
 
       {/* Bottom CTA */}
-      <section className="py-16 md:py-20 bg-surface">
+      <section className="py-16 md:py-20 bg-white/[0.03]">
         <div
           style={{
             maxWidth: '1280px',
@@ -237,7 +238,7 @@ export default function TestimonialsPage() {
               fontFamily: 'var(--font-display, serif)',
               fontSize: '1.75rem',
               fontWeight: 700,
-              color: '#1A202C',
+              color: '#FFFFFF',
               lineHeight: 1.3,
               marginBottom: '1rem',
             }}
@@ -248,7 +249,7 @@ export default function TestimonialsPage() {
             style={{
               fontSize: '1.125rem',
               lineHeight: 1.6,
-              color: '#4A5568',
+              color: 'rgba(255,255,255,0.5)',
               maxWidth: '36rem',
               marginLeft: 'auto',
               marginRight: 'auto',

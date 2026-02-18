@@ -38,27 +38,27 @@ export function MilestoneResults({result}: MilestoneResultsProps) {
           staggerDelay={0.15}
         >
           <StaggerItem>
-            <div className="text-center bg-white rounded-2xl p-6 shadow-sm border border-black/5">
+            <div className="text-center rounded-2xl p-6 border border-white/[0.08]" style={{background: 'linear-gradient(180deg, #111 0%, #0A0A0A 40%, #080808 100%)'}}>
               <div className="font-display text-3xl md:text-4xl font-bold text-accent">
                 <CountUp end={totalDays} duration={2} />
               </div>
-              <p className="text-body-sm text-secondary mt-1">Days</p>
+              <p className="text-body-sm text-white/50 mt-1">Days</p>
             </div>
           </StaggerItem>
           <StaggerItem>
-            <div className="text-center bg-white rounded-2xl p-6 shadow-sm border border-black/5">
+            <div className="text-center rounded-2xl p-6 border border-white/[0.08]" style={{background: 'linear-gradient(180deg, #111 0%, #0A0A0A 40%, #080808 100%)'}}>
               <div className="font-display text-3xl md:text-4xl font-bold text-accent">
                 <CountUp end={months + years * 12} duration={1.5} />
               </div>
-              <p className="text-body-sm text-secondary mt-1">Months</p>
+              <p className="text-body-sm text-white/50 mt-1">Months</p>
             </div>
           </StaggerItem>
           <StaggerItem>
-            <div className="text-center bg-white rounded-2xl p-6 shadow-sm border border-black/5">
+            <div className="text-center rounded-2xl p-6 border border-white/[0.08]" style={{background: 'linear-gradient(180deg, #111 0%, #0A0A0A 40%, #080808 100%)'}}>
               <div className="font-display text-3xl md:text-4xl font-bold text-accent">
                 <CountUp end={years} duration={1} />
               </div>
-              <p className="text-body-sm text-secondary mt-1">Years</p>
+              <p className="text-body-sm text-white/50 mt-1">Years</p>
             </div>
           </StaggerItem>
         </StaggerContainer>
@@ -71,7 +71,7 @@ export function MilestoneResults({result}: MilestoneResultsProps) {
             <span className="inline-block text-accent text-caption uppercase tracking-[0.25em] font-semibold mb-4">
               Milestones Achieved
             </span>
-            <h2 className="font-display text-subsection text-primary mb-6">
+            <h2 className="font-display text-subsection text-white mb-6">
               Look How Far You&apos;ve Come
             </h2>
           </FadeUp>
@@ -101,7 +101,7 @@ export function MilestoneResults({result}: MilestoneResultsProps) {
           <span className="inline-block text-accent text-caption uppercase tracking-[0.25em] font-semibold mb-4">
             Coming Up Next
           </span>
-          <h2 className="font-display text-subsection text-primary mb-6">
+          <h2 className="font-display text-subsection text-white mb-6">
             Your Next Milestone
           </h2>
           <MilestoneCard
@@ -112,7 +112,7 @@ export function MilestoneResults({result}: MilestoneResultsProps) {
             shopLink={next.milestone.shopLink}
             variant="next"
           />
-          <p className="text-body text-secondary mt-4 text-center">
+          <p className="text-body text-white/50 mt-4 text-center">
             Keep going — you&apos;re doing incredible work. Every single day
             matters.
           </p>
@@ -123,10 +123,10 @@ export function MilestoneResults({result}: MilestoneResultsProps) {
       {!next && achieved.length > 0 && (
         <FadeUp className="text-center py-8">
           <div className="text-5xl mb-4">🌟</div>
-          <h2 className="font-display text-subsection text-primary mb-2">
+          <h2 className="font-display text-subsection text-white mb-2">
             You&apos;ve Reached Every Milestone
           </h2>
-          <p className="text-body text-secondary max-w-md mx-auto">
+          <p className="text-body text-white/50 max-w-md mx-auto">
             Your recovery journey is truly extraordinary. You are an
             inspiration to everyone around you.
           </p>
@@ -135,7 +135,7 @@ export function MilestoneResults({result}: MilestoneResultsProps) {
 
       {/* Share Section */}
       <FadeUp className="text-center pt-4">
-        <p className="text-body-sm text-secondary mb-4">
+        <p className="text-body-sm text-white/50 mb-4">
           Proud of your progress? Share it.
         </p>
         <ShareResults

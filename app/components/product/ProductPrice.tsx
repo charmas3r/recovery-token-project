@@ -24,17 +24,17 @@ export function ProductPrice({
   return (
     <div className={`flex items-baseline gap-3 ${className}`}>
       {price ? (
-        <span className={`font-display text-2xl md:text-3xl font-bold ${isOnSale ? 'text-error' : 'text-primary'}`}>
+        <span className={`font-display text-2xl md:text-3xl font-bold ${isOnSale ? 'text-error' : 'text-white'}`}>
           <Money data={price} />
         </span>
       ) : (
-        <span className="font-display text-2xl md:text-3xl font-bold text-primary">
+        <span className="font-display text-2xl md:text-3xl font-bold text-white">
           &nbsp;
         </span>
       )}
-      
+
       {isOnSale && compareAtPrice && (
-        <span className="text-body text-secondary line-through">
+        <span className="text-body text-white/50 line-through">
           <Money data={compareAtPrice} />
         </span>
       )}

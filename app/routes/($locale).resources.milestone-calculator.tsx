@@ -105,7 +105,7 @@ export default function MilestoneCalculatorPage() {
   }
 
   const selectClasses =
-    'w-full h-14 px-4 rounded-xl bg-surface/50 text-body text-primary transition-all duration-200 focus:outline-none focus:bg-white focus:ring-2 focus:ring-accent/20 focus:shadow-sm appearance-none cursor-pointer';
+    'w-full h-14 px-4 rounded-xl bg-white/[0.05] text-body text-white transition-all duration-200 focus:outline-none focus:bg-white/[0.08] focus:ring-2 focus:ring-accent/20 appearance-none cursor-pointer';
 
   // Schema.org structured data
   const jsonLdData = {
@@ -152,12 +152,12 @@ export default function MilestoneCalculatorPage() {
   const hasDate = month && day && year;
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen">
       <JsonLd data={jsonLdData} />
       <JsonLd data={breadcrumbJsonLd} />
 
       {/* Header Section */}
-      <section className="bg-surface py-12 md:py-16">
+      <section className="bg-white/[0.03] py-12 md:py-16">
         <div className="container-standard">
           <Breadcrumbs
             items={[
@@ -173,10 +173,10 @@ export default function MilestoneCalculatorPage() {
             <span style={{display: 'inline-block', color: '#FFFF93', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.25em', fontWeight: 600, marginBottom: '1rem'}}>
               Recovery Tools
             </span>
-            <h1 style={{fontFamily: 'var(--font-display, serif)', fontSize: '3rem', fontWeight: 700, color: '#1A202C', lineHeight: 1.1, marginBottom: '1rem'}}>
+            <h1 style={{fontFamily: 'var(--font-display, serif)', fontSize: '3rem', fontWeight: 700, color: '#FFFFFF', lineHeight: 1.1, marginBottom: '1rem'}}>
               Milestone Calculator
             </h1>
-            <p style={{fontSize: '1.125rem', lineHeight: 1.6, color: '#4A5568', maxWidth: '36rem', marginLeft: 'auto', marginRight: 'auto'}}>
+            <p style={{fontSize: '1.125rem', lineHeight: 1.6, color: 'rgba(255,255,255,0.5)', maxWidth: '36rem', marginLeft: 'auto', marginRight: 'auto'}}>
               Enter your sobriety date to see how far you&apos;ve come. Every
               day is an achievement worth recognizing.
             </p>
@@ -188,13 +188,13 @@ export default function MilestoneCalculatorPage() {
       <section className="py-12 md:py-16">
         <div className="container-standard max-w-2xl mx-auto px-4">
           <ScaleIn>
-            <div className="bg-white rounded-3xl p-8 md:p-10 shadow-lg border border-black/5">
+            <div className="rounded-3xl p-8 md:p-10 border border-white/[0.08]" style={{background: 'linear-gradient(180deg, #111 0%, #0A0A0A 40%, #080808 100%)'}}>
               {/* Calendar icon + label */}
               <div className="text-center mb-8">
                 <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-accent/10 mb-4">
                   <Calendar className="w-7 h-7 text-accent" />
                 </div>
-                <p className="font-display text-lg font-semibold text-primary">
+                <p className="font-display text-lg font-semibold text-white">
                   When did your recovery journey begin?
                 </p>
               </div>
@@ -205,7 +205,7 @@ export default function MilestoneCalculatorPage() {
                 <div>
                   <label
                     htmlFor="calc-month"
-                    className="block text-caption font-medium text-secondary mb-2 uppercase tracking-wider"
+                    className="block text-caption font-medium text-white/50 mb-2 uppercase tracking-wider"
                   >
                     Month
                   </label>
@@ -219,7 +219,7 @@ export default function MilestoneCalculatorPage() {
                       }}
                       className={selectClasses}
                       style={{
-                        backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%234A5568' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")`,
+                        backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23999999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")`,
                         backgroundRepeat: 'no-repeat',
                         backgroundPosition: 'right 12px center',
                         paddingRight: '2.5rem',
@@ -239,7 +239,7 @@ export default function MilestoneCalculatorPage() {
                 <div>
                   <label
                     htmlFor="calc-day"
-                    className="block text-caption font-medium text-secondary mb-2 uppercase tracking-wider"
+                    className="block text-caption font-medium text-white/50 mb-2 uppercase tracking-wider"
                   >
                     Day
                   </label>
@@ -253,7 +253,7 @@ export default function MilestoneCalculatorPage() {
                       }}
                       className={selectClasses}
                       style={{
-                        backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%234A5568' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")`,
+                        backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23999999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")`,
                         backgroundRepeat: 'no-repeat',
                         backgroundPosition: 'right 12px center',
                         paddingRight: '2.5rem',
@@ -273,7 +273,7 @@ export default function MilestoneCalculatorPage() {
                 <div>
                   <label
                     htmlFor="calc-year"
-                    className="block text-caption font-medium text-secondary mb-2 uppercase tracking-wider"
+                    className="block text-caption font-medium text-white/50 mb-2 uppercase tracking-wider"
                   >
                     Year
                   </label>
@@ -287,7 +287,7 @@ export default function MilestoneCalculatorPage() {
                       }}
                       className={selectClasses}
                       style={{
-                        backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%234A5568' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")`,
+                        backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23999999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")`,
                         backgroundRepeat: 'no-repeat',
                         backgroundPosition: 'right 12px center',
                         paddingRight: '2.5rem',
@@ -329,7 +329,7 @@ export default function MilestoneCalculatorPage() {
                 </Button>
               </motion.div>
 
-              <p className="text-caption text-secondary/50 mt-5 text-center">
+              <p className="text-caption text-white/25 mt-5 text-center">
                 Your date is never stored or shared. This calculator runs
                 entirely in your browser.
               </p>
@@ -348,15 +348,15 @@ export default function MilestoneCalculatorPage() {
       )}
 
       {/* Bottom CTA - Always visible */}
-      <section className="py-16 md:py-20 bg-surface">
+      <section className="py-16 md:py-20 bg-white/[0.03]">
         <div style={{maxWidth: '1280px', marginLeft: 'auto', marginRight: 'auto', paddingLeft: '1.5rem', paddingRight: '1.5rem', textAlign: 'center'}}>
           <span style={{display: 'inline-block', color: '#FFFF93', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.25em', fontWeight: 600, marginBottom: '1rem'}}>
             Celebrate Every Milestone
           </span>
-          <h2 style={{fontFamily: 'var(--font-display, serif)', fontSize: '1.75rem', fontWeight: 700, color: '#1A202C', lineHeight: 1.3, marginBottom: '1rem'}}>
+          <h2 style={{fontFamily: 'var(--font-display, serif)', fontSize: '1.75rem', fontWeight: 700, color: '#FFFFFF', lineHeight: 1.3, marginBottom: '1rem'}}>
             Your Journey Deserves Recognition
           </h2>
-          <p style={{fontSize: '1.125rem', lineHeight: 1.6, color: '#4A5568', maxWidth: '36rem', marginLeft: 'auto', marginRight: 'auto', marginBottom: '2rem'}}>
+          <p style={{fontSize: '1.125rem', lineHeight: 1.6, color: 'rgba(255,255,255,0.5)', maxWidth: '36rem', marginLeft: 'auto', marginRight: 'auto', marginBottom: '2rem'}}>
             Whether it&apos;s day one or year twenty-five, every step forward
             matters. Find a token that honors your progress.
           </p>

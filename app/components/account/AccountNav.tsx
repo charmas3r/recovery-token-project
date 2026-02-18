@@ -1,6 +1,6 @@
 /**
  * AccountNav Component - Design System
- * 
+ *
  * Sidebar navigation for account pages
  * @see .cursor/skills/design-system/SKILL.md
  */
@@ -29,7 +29,7 @@ export function AccountNav() {
             `flex items-center gap-3 px-4 py-3 rounded-lg text-body font-medium transition-all duration-200 ${
               isActive
                 ? 'bg-accent/10 text-accent'
-                : 'text-secondary hover:bg-surface hover:text-primary'
+                : 'text-white/50 hover:bg-white/[0.05] hover:text-white'
             }`
           }
         >
@@ -37,12 +37,12 @@ export function AccountNav() {
           {item.label}
         </NavLink>
       ))}
-      
+
       {/* Sign Out */}
-      <Form method="POST" action="/account/logout" className="pt-4 border-t border-black/5 mt-4">
+      <Form method="POST" action="/account/logout" className="pt-4 border-t border-white/[0.08] mt-4">
         <button
           type="submit"
-          className="flex items-center gap-3 px-4 py-3 rounded-lg text-body font-medium text-secondary hover:bg-surface hover:text-error transition-all duration-200 w-full"
+          className="flex items-center gap-3 px-4 py-3 rounded-lg text-body font-medium text-white/50 hover:bg-white/[0.05] hover:text-error transition-all duration-200 w-full"
         >
           <LogOut className="w-5 h-5" />
           Sign Out

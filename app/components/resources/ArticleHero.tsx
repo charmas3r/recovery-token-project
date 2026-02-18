@@ -26,7 +26,7 @@ export function ArticleHero({article}: ArticleHeroProps) {
   );
 
   return (
-    <section className="bg-surface py-12 md:py-16">
+    <section className="bg-white/[0.03] py-12 md:py-16">
       <div className="container-standard">
         <Breadcrumbs
           items={[
@@ -56,7 +56,7 @@ export function ArticleHero({article}: ArticleHeroProps) {
               fontFamily: 'var(--font-display, serif)',
               fontSize: 'clamp(2rem, 5vw, 3rem)',
               fontWeight: 700,
-              color: '#1A202C',
+              color: '#FFFFFF',
               lineHeight: 1.1,
               marginBottom: '1rem',
             }}
@@ -70,7 +70,7 @@ export function ArticleHero({article}: ArticleHeroProps) {
               justifyContent: 'center',
               gap: '1.5rem',
               fontSize: '0.875rem',
-              color: '#4A5568',
+              color: 'rgba(255,255,255,0.5)',
             }}
           >
             <span

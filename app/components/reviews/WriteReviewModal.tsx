@@ -244,7 +244,7 @@ export function WriteReviewModal({
               zIndex: 9999,
               width: 'calc(100% - 2rem)',
               maxWidth: '28rem',
-              backgroundColor: 'white',
+              backgroundColor: '#0A0A0A',
               borderRadius: '0.75rem',
               boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
               padding: '2.5rem 1.5rem',
@@ -255,12 +255,12 @@ export function WriteReviewModal({
             <div className="flex justify-center mb-4">
               <CheckCircle2 className="w-16 h-16 text-green-500" />
             </div>
-            <h3 className="font-display text-xl font-bold text-primary mb-2">
+            <h3 className="font-display text-xl font-bold text-white mb-2">
               Thank You!
             </h3>
-            <p className="text-body text-secondary">
+            <p className="text-body text-white/50">
               Your review for{' '}
-              <span className="font-semibold text-primary">{productTitle}</span>{' '}
+              <span className="font-semibold text-white">{productTitle}</span>{' '}
               has been submitted and will appear after moderation.
             </p>
           </Dialog.Content>
@@ -287,21 +287,21 @@ export function WriteReviewModal({
             maxWidth: '32rem',
             maxHeight: '90vh',
             overflowY: 'auto',
-            backgroundColor: 'white',
+            backgroundColor: '#0A0A0A',
             borderRadius: '0.75rem',
             boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
           }}
           aria-describedby="write-review-description"
         >
           {/* Header */}
-          <div className="flex items-center justify-between p-4 border-b border-black/5">
-            <Dialog.Title className="font-display text-lg font-bold text-primary">
+          <div className="flex items-center justify-between p-4 border-b border-white/[0.08]">
+            <Dialog.Title className="font-display text-lg font-bold text-white">
               Write a Review
             </Dialog.Title>
             <Dialog.Close asChild>
               <button
                 className={clsx(
-                  'p-2 rounded-lg text-secondary hover:text-primary hover:bg-surface',
+                  'p-2 rounded-lg text-white/40 hover:text-white hover:bg-white/[0.05]',
                   'transition-colors focus:outline-none focus:ring-2 focus:ring-accent',
                 )}
                 aria-label="Close"
@@ -332,20 +332,20 @@ export function WriteReviewModal({
             </div>
 
             {/* Product name context */}
-            <div className="bg-surface/50 rounded-lg p-3">
-              <p className="font-semibold text-primary text-sm">{productTitle}</p>
+            <div className="bg-white/[0.05] rounded-lg p-3">
+              <p className="font-semibold text-white text-sm">{productTitle}</p>
             </div>
 
             {/* Server error */}
             {serverError && (
-              <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">
+              <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-lg text-sm text-red-400">
                 {serverError}
               </div>
             )}
 
             {/* Star Rating */}
             <div>
-              <label className="block text-sm font-semibold text-primary mb-2">
+              <label className="block text-sm font-semibold text-white mb-2">
                 Rating <span className="text-red-500">*</span>
               </label>
               <StarRatingInput
@@ -359,7 +359,7 @@ export function WriteReviewModal({
             <div>
               <label
                 htmlFor="review-title"
-                className="block text-sm font-semibold text-primary mb-2"
+                className="block text-sm font-semibold text-white mb-2"
               >
                 Headline <span className="text-red-500">*</span>
               </label>
@@ -370,10 +370,10 @@ export function WriteReviewModal({
                 placeholder="Summarize your experience"
                 maxLength={150}
                 className={clsx(
-                  'w-full px-3 py-2.5 rounded-lg border text-sm text-primary',
-                  'placeholder:text-secondary/50 transition-colors',
-                  'focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent',
-                  fieldErrors?.title ? 'border-red-400' : 'border-black/10',
+                  'w-full px-3 py-2.5 rounded-lg border text-sm text-white bg-white/[0.05]',
+                  'placeholder:text-white/25 transition-colors',
+                  'focus:outline-none focus:ring-2 focus:ring-accent focus:bg-white/[0.08]',
+                  fieldErrors?.title ? 'border-red-400' : 'border-white/[0.08]',
                 )}
               />
               {fieldErrors?.title && (
@@ -385,7 +385,7 @@ export function WriteReviewModal({
             <div>
               <label
                 htmlFor="review-body"
-                className="block text-sm font-semibold text-primary mb-2"
+                className="block text-sm font-semibold text-white mb-2"
               >
                 Your Review <span className="text-red-500">*</span>
               </label>
@@ -396,10 +396,10 @@ export function WriteReviewModal({
                 placeholder="What did you think of this token? How does it feel in your hand?"
                 maxLength={5000}
                 className={clsx(
-                  'w-full px-3 py-2.5 rounded-lg border text-sm text-primary resize-y',
-                  'placeholder:text-secondary/50 transition-colors',
-                  'focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent',
-                  fieldErrors?.body ? 'border-red-400' : 'border-black/10',
+                  'w-full px-3 py-2.5 rounded-lg border text-sm text-white bg-white/[0.05] resize-y',
+                  'placeholder:text-white/25 transition-colors',
+                  'focus:outline-none focus:ring-2 focus:ring-accent focus:bg-white/[0.08]',
+                  fieldErrors?.body ? 'border-red-400' : 'border-white/[0.08]',
                 )}
               />
               {fieldErrors?.body && (
@@ -409,7 +409,7 @@ export function WriteReviewModal({
 
             {/* Quality Question */}
             <div>
-              <label className="block text-sm font-semibold text-primary mb-2">
+              <label className="block text-sm font-semibold text-white mb-2">
                 How would you describe the quality?
               </label>
               <div className="flex flex-wrap gap-2">
@@ -425,7 +425,7 @@ export function WriteReviewModal({
                       'border focus:outline-none focus:ring-2 focus:ring-accent',
                       quality === option
                         ? 'bg-accent text-white border-accent'
-                        : 'bg-white text-secondary border-black/10 hover:border-accent/40 hover:text-primary',
+                        : 'bg-white/[0.05] text-white/50 border-white/[0.08] hover:border-accent/40 hover:text-white',
                     )}
                   >
                     {option}
@@ -436,9 +436,9 @@ export function WriteReviewModal({
 
             {/* Photo Upload */}
             <div>
-              <label className="block text-sm font-semibold text-primary mb-2">
+              <label className="block text-sm font-semibold text-white mb-2">
                 Photos
-                <span className="ml-2 text-xs font-normal text-secondary">
+                <span className="ml-2 text-xs font-normal text-white/40">
                   Optional &middot; Up to {REVIEW_PHOTO_MAX_COUNT}
                 </span>
               </label>
@@ -448,7 +448,7 @@ export function WriteReviewModal({
                 {photoPreviews.map((preview, index) => (
                   <div
                     key={preview}
-                    className="relative w-20 h-20 rounded-lg overflow-hidden border border-black/10 group"
+                    className="relative w-20 h-20 rounded-lg overflow-hidden border border-white/[0.08] group"
                   >
                     <img
                       src={preview}
@@ -477,9 +477,9 @@ export function WriteReviewModal({
                     onClick={() => fileInputRef.current?.click()}
                     disabled={isSubmitting}
                     className={clsx(
-                      'w-20 h-20 rounded-lg border-2 border-dashed border-black/10',
+                      'w-20 h-20 rounded-lg border-2 border-dashed border-white/[0.1]',
                       'flex flex-col items-center justify-center gap-1',
-                      'text-secondary hover:border-accent/40 hover:text-accent',
+                      'text-white/40 hover:border-accent/40 hover:text-accent',
                       'transition-colors focus:outline-none focus:ring-2 focus:ring-accent',
                       'disabled:opacity-50 disabled:cursor-not-allowed',
                     )}
@@ -519,7 +519,7 @@ export function WriteReviewModal({
             <div>
               <label
                 htmlFor="review-name"
-                className="block text-sm font-semibold text-primary mb-2"
+                className="block text-sm font-semibold text-white mb-2"
               >
                 Your Name <span className="text-red-500">*</span>
               </label>
@@ -530,10 +530,10 @@ export function WriteReviewModal({
                 placeholder="How should we display your name?"
                 maxLength={100}
                 className={clsx(
-                  'w-full px-3 py-2.5 rounded-lg border text-sm text-primary',
-                  'placeholder:text-secondary/50 transition-colors',
-                  'focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent',
-                  fieldErrors?.name ? 'border-red-400' : 'border-black/10',
+                  'w-full px-3 py-2.5 rounded-lg border text-sm text-white bg-white/[0.05]',
+                  'placeholder:text-white/25 transition-colors',
+                  'focus:outline-none focus:ring-2 focus:ring-accent focus:bg-white/[0.08]',
+                  fieldErrors?.name ? 'border-red-400' : 'border-white/[0.08]',
                 )}
               />
               {fieldErrors?.name && (
@@ -545,7 +545,7 @@ export function WriteReviewModal({
             <div>
               <label
                 htmlFor="review-email"
-                className="block text-sm font-semibold text-primary mb-2"
+                className="block text-sm font-semibold text-white mb-2"
               >
                 Email <span className="text-red-500">*</span>
               </label>
@@ -555,13 +555,13 @@ export function WriteReviewModal({
                 type="email"
                 placeholder="your@email.com"
                 className={clsx(
-                  'w-full px-3 py-2.5 rounded-lg border text-sm text-primary',
-                  'placeholder:text-secondary/50 transition-colors',
-                  'focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent',
-                  fieldErrors?.email ? 'border-red-400' : 'border-black/10',
+                  'w-full px-3 py-2.5 rounded-lg border text-sm text-white bg-white/[0.05]',
+                  'placeholder:text-white/25 transition-colors',
+                  'focus:outline-none focus:ring-2 focus:ring-accent focus:bg-white/[0.08]',
+                  fieldErrors?.email ? 'border-red-400' : 'border-white/[0.08]',
                 )}
               />
-              <p className="text-xs text-secondary mt-1">
+              <p className="text-xs text-white/40 mt-1">
                 Your email will not be published.
               </p>
               {fieldErrors?.email && (

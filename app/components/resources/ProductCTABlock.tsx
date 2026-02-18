@@ -26,10 +26,10 @@ export function ProductCTABlock({
     <div className="my-8 rounded-2xl border border-accent/20 bg-accent/5 p-6 md:p-8">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div className="flex-1">
-          <h3 className="font-display text-lg font-bold text-primary mb-1">
+          <h3 className="font-display text-lg font-bold text-white mb-1">
             {heading}
           </h3>
-          <p className="text-body text-secondary leading-relaxed">
+          <p className="text-body text-white/50 leading-relaxed">
             {description}
           </p>
         </div>

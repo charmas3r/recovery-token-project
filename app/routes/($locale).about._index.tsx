@@ -59,7 +59,7 @@ const ABOUT_CARDS = [
     icon: MessageCircle,
     href: '/about/testimonials',
     stat: 'Real Stories',
-    color: '#4A5568',
+    color: '#9CA3AF',
   },
 ];
 
@@ -84,11 +84,11 @@ export default function AboutHubPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen">
       <JsonLd data={breadcrumbJsonLd} />
 
       {/* Header Section */}
-      <section className="bg-surface py-12 md:py-16">
+      <section className="bg-white/[0.03] py-12 md:py-16">
         <div className="container-standard">
           <Breadcrumbs items={[{label: 'About'}]} className="mb-6" />
 
@@ -117,7 +117,7 @@ export default function AboutHubPage() {
               style={{
                 fontFamily: 'var(--font-display, serif)',
                 fontWeight: 700,
-                color: '#1A202C',
+                color: '#FFFFFF',
                 lineHeight: 1.1,
                 marginBottom: '1rem',
               }}
@@ -129,7 +129,7 @@ export default function AboutHubPage() {
               style={{
                 fontSize: '1.125rem',
                 lineHeight: 1.6,
-                color: '#4A5568',
+                color: 'rgba(255,255,255,0.5)',
                 maxWidth: '36rem',
                 marginLeft: 'auto',
                 marginRight: 'auto',
@@ -160,7 +160,8 @@ export default function AboutHubPage() {
               <Link
                 key={card.title}
                 to={card.href}
-                className="block bg-white rounded-2xl p-6 shadow-sm border border-black/5 transition-all duration-200 hover:shadow-lg hover:-translate-y-1 group h-full"
+                className="block rounded-2xl p-6 border border-white/[0.08] transition-all duration-200 hover:border-white/[0.15] hover:-translate-y-1 group h-full"
+                style={{background: 'linear-gradient(180deg, #111 0%, #0A0A0A 40%, #080808 100%)'}}
               >
                 <div className="flex items-center gap-3 mb-4">
                   <div
@@ -174,11 +175,11 @@ export default function AboutHubPage() {
                   </div>
                 </div>
 
-                <h2 className="font-display text-lg font-bold text-primary mb-2 group-hover:text-accent transition-colors">
+                <h2 className="font-display text-lg font-bold text-white mb-2 group-hover:text-accent transition-colors">
                   {card.title}
                 </h2>
 
-                <p className="text-body text-secondary leading-relaxed mb-4">
+                <p className="text-body text-white/50 leading-relaxed mb-4">
                   {card.description}
                 </p>
 
@@ -193,7 +194,7 @@ export default function AboutHubPage() {
       </section>
 
       {/* Bottom CTA */}
-      <section className="py-16 md:py-20 bg-surface">
+      <section className="py-16 md:py-20 bg-white/[0.03]">
         <div
           style={{
             maxWidth: '1280px',
@@ -222,7 +223,7 @@ export default function AboutHubPage() {
               fontFamily: 'var(--font-display, serif)',
               fontSize: '1.75rem',
               fontWeight: 700,
-              color: '#1A202C',
+              color: '#FFFFFF',
               lineHeight: 1.3,
               marginBottom: '1rem',
             }}
@@ -233,7 +234,7 @@ export default function AboutHubPage() {
             style={{
               fontSize: '1.125rem',
               lineHeight: 1.6,
-              color: '#4A5568',
+              color: 'rgba(255,255,255,0.5)',
               maxWidth: '36rem',
               marginLeft: 'auto',
               marginRight: 'auto',

@@ -112,7 +112,7 @@ export function AccordionItem({
 
   return (
     <div
-      className={`border-b border-black/10 ${className}`}
+      className={`border-b border-white/[0.08] ${className}`}
     >
       {/* Trigger */}
       <button
@@ -124,7 +124,7 @@ export function AccordionItem({
         className="flex items-center justify-between w-full py-5 px-1 text-left group focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-2 rounded-sm transition-colors"
         style={{minHeight: '44px'}}
       >
-        <span className="font-medium text-primary group-hover:text-accent transition-colors pr-4">
+        <span className="font-medium text-white group-hover:text-accent transition-colors pr-4">
           {trigger}
         </span>
         <motion.span
@@ -134,7 +134,7 @@ export function AccordionItem({
               ? {duration: 0}
               : {duration: 0.2, ease: 'easeInOut'}
           }
-          className="shrink-0 text-secondary"
+          className="shrink-0 text-white/40"
         >
           <ChevronDown className="w-5 h-5" />
         </motion.span>
@@ -161,7 +161,7 @@ export function AccordionItem({
             }
             style={{overflow: 'hidden'}}
           >
-            <div className="pb-5 px-1 text-secondary leading-relaxed">
+            <div className="pb-5 px-1 text-white/50 leading-relaxed">
               {children}
             </div>
           </motion.div>

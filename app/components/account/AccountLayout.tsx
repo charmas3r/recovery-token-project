@@ -1,6 +1,6 @@
 /**
  * AccountLayout Component - Design System
- * 
+ *
  * Account page layout with sidebar navigation
  * @see .cursor/skills/design-system/SKILL.md
  */
@@ -16,19 +16,19 @@ interface AccountLayoutProps {
 
 export function AccountLayout({children, heading, subheading}: AccountLayoutProps) {
   return (
-    <div className="bg-surface min-h-screen">
+    <div className="min-h-screen">
       <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
         <div className="flex flex-col lg:flex-row gap-6 lg:gap-10">
           {/* Sidebar - Hidden on mobile */}
           <aside className="hidden lg:block lg:w-[280px] flex-shrink-0">
-            <div className="bg-white rounded-2xl p-6 shadow-sm border border-black/5 sticky top-24">
+            <div className="rounded-2xl p-6 border border-white/[0.08] sticky top-24" style={{background: 'linear-gradient(180deg, #111 0%, #0A0A0A 40%, #080808 100%)'}}>
               <AccountNav />
             </div>
           </aside>
-          
+
           {/* Mobile Nav */}
           <div className="lg:hidden">
-            <div className="bg-white rounded-xl p-4 shadow-sm border border-black/5 overflow-x-auto">
+            <div className="rounded-xl p-4 border border-white/[0.08] overflow-x-auto" style={{background: 'linear-gradient(180deg, #111 0%, #0A0A0A 40%, #080808 100%)'}}>
               <div className="flex gap-2 min-w-max">
                 <MobileNavLink to="/account" end>Dashboard</MobileNavLink>
                 <MobileNavLink to="/account/orders">Orders</MobileNavLink>
@@ -39,20 +39,20 @@ export function AccountLayout({children, heading, subheading}: AccountLayoutProp
               </div>
             </div>
           </div>
-          
+
           {/* Main Content */}
           <main className="flex-1 min-w-0">
-            <div className="bg-white rounded-2xl p-6 md:p-10 shadow-sm border border-black/5">
+            <div className="rounded-2xl p-6 md:p-10 border border-white/[0.08]" style={{background: 'linear-gradient(180deg, #111 0%, #0A0A0A 40%, #080808 100%)'}}>
               {/* Page Header */}
-              <div className="mb-8 pb-6 border-b border-black/5">
-                <h1 className="font-display text-2xl md:text-3xl lg:text-4xl font-bold text-primary">
+              <div className="mb-8 pb-6 border-b border-white/[0.08]">
+                <h1 className="font-display text-2xl md:text-3xl lg:text-4xl font-bold text-white">
                   {heading}
                 </h1>
                 {subheading && (
-                  <p className="mt-3 text-body-lg text-secondary">{subheading}</p>
+                  <p className="mt-3 text-body-lg text-white/50">{subheading}</p>
                 )}
               </div>
-              
+
               {/* Page Content */}
               {children}
             </div>
@@ -81,7 +81,7 @@ function MobileNavLink({
         `px-4 py-2 rounded-lg text-body-sm font-medium whitespace-nowrap transition-colors ${
           isActive
             ? 'bg-accent text-white'
-            : 'bg-surface text-secondary hover:bg-accent/10 hover:text-accent'
+            : 'bg-white/[0.05] text-white/50 hover:bg-white/[0.08] hover:text-white'
         }`
       }
     >

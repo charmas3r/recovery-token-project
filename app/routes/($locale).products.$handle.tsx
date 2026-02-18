@@ -612,7 +612,7 @@ export default function Product() {
             <button
               type="button"
               onClick={() => setReviewModalOpen(true)}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold text-accent border border-accent/30 hover:bg-accent hover:text-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold text-accent border border-accent/30 hover:bg-accent hover:text-black transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
             >
               <PenLine className="w-4 h-4" />
               Write a Review
@@ -878,7 +878,7 @@ function ProductEmptyReviewsState({productTitle, onWriteReview}: {productTitle: 
             gap: '0.5rem',
             padding: '0.75rem 1.75rem',
             backgroundColor: '#FFFF93',
-            color: 'white',
+            color: '#000000',
             borderRadius: '9999px',
             fontSize: '0.9375rem',
             fontWeight: 600,
@@ -886,8 +886,8 @@ function ProductEmptyReviewsState({productTitle, onWriteReview}: {productTitle: 
             cursor: 'pointer',
             transition: 'background-color 0.2s',
           }}
-          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#a0683f')}
-          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#FFFF93')}
+          onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#a0683f'; e.currentTarget.style.color = '#000000'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = '#FFFF93'; e.currentTarget.style.color = '#000000'; }}
         >
           Write the First Review
         </button>

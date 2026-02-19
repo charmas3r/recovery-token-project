@@ -24,20 +24,20 @@ export function Breadcrumbs({items, className = ''}: BreadcrumbsProps) {
       aria-label="Breadcrumb" 
       className={`flex items-center gap-2 text-body-sm ${className}`}
     >
-      <Link 
-        to="/" 
-        className="text-white/40 hover:text-accent transition-colors"
+      <Link
+        to="/"
+        className="text-white/70 hover:text-accent transition-colors"
       >
         Home
       </Link>
 
       {items.map((item, index) => (
         <span key={index} className="flex items-center gap-2">
-          <ChevronRight className="w-4 h-4 text-white/25" />
+          <ChevronRight className="w-4 h-4 text-white/50" />
           {item.href ? (
             <Link
               to={item.href}
-              className="text-white/40 hover:text-accent transition-colors"
+              className="text-white/70 hover:text-accent transition-colors"
             >
               {item.label}
             </Link>

@@ -25,9 +25,10 @@ export function ResourcesNav() {
             className={clsx(
               'inline-flex items-center px-4 py-2 rounded-full text-body-sm font-medium transition-all duration-200',
               isActive
-                ? 'bg-accent text-white'
+                ? 'bg-accent'
                 : 'bg-white/[0.05] text-white/50 hover:bg-white/[0.08] hover:text-white',
             )}
+            style={isActive ? {color: '#000'} : undefined}
           >
             {link.label}
           </Link>

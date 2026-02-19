@@ -21,7 +21,7 @@ This rule applies whenever you are:
 
 2. **DESIGN-SYSTEM.md**
    - File: `DESIGN-SYSTEM.md`
-   - Contains world-class landing page patterns
+   - Contains dark theme patterns
 
 3. **PRD Section 3: Design System & Visual Language**
    - File: `prd.md` (Section 3)
@@ -31,92 +31,103 @@ This rule applies whenever you are:
 
 ## Mandatory Design System Requirements
 
-### 1. Colors - Use Design Tokens Only
+### 0. CRITICAL: Dark Theme — No White Backgrounds
 
-**✅ REQUIRED:**
+The entire site uses a dark theme. **Never use `bg-white` for page backgrounds or cards.** Never use `shadow-sm`, `shadow-md`, or `shadow-lg`.
+
+**`text-primary` is BLACK (#000000) — invisible on dark backgrounds. Always use `text-white` for headings.**
+
+### 1. Colors - Dark Theme Tokens
+
+**Page/Card backgrounds:**
 ```tsx
-// Text colors
-<h1 className="text-primary">Heading</h1>
-<p className="text-secondary">Body text</p>
-<span className="text-accent">Accent text</span>
-<h1 className="text-white">White text (on dark)</h1>
-<p className="text-white/80">80% opacity white</p>
+// Page background (body is black)
+<div className="min-h-screen">Content</div>
 
-// Background colors
-<section className="bg-primary">Dark section</section>
-<section className="bg-surface">Light gray section</section>
-<section className="bg-white">White section</section>
-<div className="bg-accent/10">Accent tint</div>
+// Card background (dark gradient + border)
+<div
+  className="rounded-2xl border border-white/[0.08] hover:border-white/[0.15]"
+  style={{background: 'linear-gradient(180deg, #111 0%, #0A0A0A 40%, #080808 100%)'}}
+>
+  Card content
+</div>
+
+// Subtle elevated area
+<div className="bg-white/[0.05]">Elevated section</div>
 ```
 
-**❌ FORBIDDEN:**
+**Text colors:**
 ```tsx
-<div className="text-gray-700">Bad</div>
-<div className="bg-[#B8764F]">Bad</div>
-<div className="text-blue-600">Bad</div>
+<h1 className="text-white">Heading</h1>
+<p className="text-white/50">Body text</p>
+<span className="text-accent">Accent text</span>
+<p className="text-white/40">Secondary/helper text</p>
+```
+
+**Borders:**
+```tsx
+<div className="border-white/[0.08]">Standard border</div>
+<div className="hover:border-white/[0.15]">Hover border</div>
+```
+
+**Inputs:**
+```tsx
+<input className="bg-white/[0.05] text-white placeholder:text-white/25 focus:bg-white/[0.08]" />
+```
+
+**FORBIDDEN:**
+```tsx
+<div className="bg-white">NEVER for page/card backgrounds</div>
+<div className="shadow-sm">NEVER use shadows</div>
+<div className="text-primary">INVISIBLE on dark backgrounds</div>
+<div className="border-black/5">Wrong — use border-white/[0.08]</div>
+<div className="bg-surface">Wrong — use bg-white/[0.05]</div>
 ```
 
 ### 2. Typography - Use Typography Scale Only
 
-**✅ REQUIRED:**
+**REQUIRED:**
 ```tsx
 // Hero headlines (48px)
 <h1 className="font-display text-hero text-white">Hero</h1>
 
 // Page titles (36px)
-<h1 className="font-display text-page-title text-primary">Page Title</h1>
+<h1 className="font-display text-page-title text-white">Page Title</h1>
 
 // Section headings (28px)
-<h2 className="font-display text-section text-primary">Section</h2>
+<h2 className="font-display text-section text-white">Section</h2>
 
 // Subsections (20px)
-<h3 className="font-display text-subsection text-primary">Subsection</h3>
+<h3 className="font-display text-subsection text-white">Subsection</h3>
 
 // Body text
-<p className="text-body-lg text-secondary">Large body</p>
-<p className="text-body text-secondary">Standard body</p>
-<span className="text-body-sm text-secondary">Small text</span>
+<p className="text-body-lg text-white/50">Large body</p>
+<p className="text-body text-white/50">Standard body</p>
+<span className="text-body-sm text-white/40">Small text</span>
 <span className="text-caption text-accent">Caption</span>
-
-// Responsive sizing
-<h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-[4.5rem]">Responsive</h1>
-```
-
-**❌ FORBIDDEN:**
-```tsx
-<h1 className="text-[42px]">Bad</h1>
-<p className="text-xl">Bad</p>
 ```
 
 ### 3. Eyebrow Text Pattern - Always Use
 
-**✅ REQUIRED for section headers:**
+**REQUIRED for section headers:**
 ```tsx
 <span className="inline-block text-accent text-caption uppercase tracking-[0.25em] font-semibold mb-4">
   Category Label
 </span>
 ```
 
-**Key properties:**
-- `text-accent` - Bronze/copper color
-- `text-caption` - 12px
-- `uppercase` - All caps
-- `tracking-[0.25em]` - Wide letter spacing
-- `font-semibold` - 600 weight
-- `mb-4` or `mb-6` - Space before heading
-
 ### 4. Section Headers - Centered Pattern
 
-**✅ REQUIRED for section introductions:**
+**REQUIRED for section introductions:**
 ```tsx
 <div className="text-center mb-16">
   <span className="inline-block text-accent text-caption uppercase tracking-[0.25em] font-semibold mb-4">
     Eyebrow
   </span>
-  <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-primary leading-tight mb-6">
+  <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight mb-6">
     Section Title
   </h2>
-  <p className="text-body-lg text-secondary max-w-[42rem] mx-auto">
+  <p className="text-body-lg text-white/50 max-w-[42rem] mx-auto">
     Description text centered and constrained.
   </p>
 </div>
@@ -124,126 +135,56 @@ This rule applies whenever you are:
 
 ### 5. Spacing - Use 8px System
 
-**✅ REQUIRED:**
+**REQUIRED:**
 ```tsx
-// Section padding
 <section className="py-20 md:py-28">Content</section>
-<section className="py-10 md:py-12">Tight section</section>
-
-// Component spacing
 <div className="space-y-6">Stacked elements</div>
 <div className="gap-8 lg:gap-12">Grid gaps</div>
-<div className="mb-16">Bottom margin</div>
 ```
 
-**❌ FORBIDDEN:**
+### 6. Cards - Dark Gradient Pattern
+
+**REQUIRED:**
 ```tsx
-<div className="p-[18px]">Bad</div>
-<div className="mt-3.5">Bad</div>
-```
-
-### 6. Container Widths
-
-**✅ REQUIRED:**
-```tsx
-// Wide container (homepage, landing pages)
-<div className="container-wide">Max 1440px</div>
-
-// Standard container (most pages)
-<div className="container-standard">Max 1280px</div>
-
-// Prose container (long-form content)
-<div className="container-prose">Max 640px</div>
+<div
+  className="rounded-2xl border border-white/[0.08] hover:border-white/[0.15] transition-colors"
+  style={{background: 'linear-gradient(180deg, #111 0%, #0A0A0A 40%, #080808 100%)'}}
+>
+  <div className="h-px bg-gradient-to-r from-transparent via-white/[0.08] to-transparent" />
+  <div className="p-6">
+    <h3 className="text-white font-bold">Title</h3>
+    <p className="text-white/50">Body</p>
+  </div>
+</div>
 ```
 
 ### 7. Buttons on Dark Backgrounds
 
-**✅ REQUIRED:**
+**REQUIRED:**
 ```tsx
-// Primary button (accent colored)
 <Button variant="primary" className="!bg-accent !text-white !border-accent hover:!bg-accent/90">
   Primary CTA
 </Button>
-
-// Secondary button (white outline)
 <Button variant="secondary" className="!border-white/30 !text-white hover:!bg-white/10">
   Secondary CTA
 </Button>
 ```
 
-### 8. Image Effects
+### 8. Focus States - All Interactive Elements
 
-**✅ REQUIRED for hero/featured images:**
-```tsx
-// Glow effect
-<div className="relative">
-  <div className="absolute inset-0 bg-accent/20 blur-3xl rounded-full scale-75" />
-  <img src={image} className="relative drop-shadow-2xl" />
-</div>
-
-// Stat overlay on images
-<div className="absolute -bottom-6 -right-6 md:right-8 bg-white rounded-xl p-6 shadow-xl">
-  <div className="text-4xl font-display font-bold text-accent">10K+</div>
-  <p className="text-sm text-secondary">Description</p>
-</div>
-```
-
-### 9. Grid Layouts
-
-**✅ REQUIRED patterns:**
-```tsx
-// Two-column hero
-<div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-
-// Three-column showcase
-<div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-  <div className="lg:col-span-3">Left</div>
-  <div className="lg:col-span-6">Center</div>
-  <div className="lg:col-span-3">Right</div>
-</div>
-
-// Trust bar
-<div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-10">
-
-// Testimonials
-<div className="grid md:grid-cols-3 gap-8">
-
-// Products grid
-<div className="products-grid">
-```
-
-### 10. Focus States - All Interactive Elements
-
-**✅ REQUIRED:**
+**REQUIRED:**
 ```tsx
 <button className="focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2">
   Button
 </button>
 ```
 
-### 11. Touch Targets - Minimum 44px
+### 9. Touch Targets - Minimum 44px
 
-**✅ REQUIRED:**
+**REQUIRED:**
 ```tsx
 <button className="min-h-[44px] min-w-[44px]">Tap target</button>
-<Button size="lg">Large button meets target</Button>
 ```
-
----
-
-## Section Background Alternation
-
-Follow this pattern for visual rhythm:
-
-| Section Type | Background |
-|--------------|------------|
-| Hero | `bg-primary` with gradient overlay |
-| Trust Bar | `bg-surface` with border |
-| Product Showcase | `bg-surface` |
-| Featured Products | `bg-white` |
-| Brand Story | `bg-primary` |
-| Testimonials | `bg-surface` |
-| Final CTA | `bg-white` with gradient card |
 
 ---
 
@@ -251,62 +192,50 @@ Follow this pattern for visual rhythm:
 
 Before committing any UI changes, verify:
 
-- [ ] **Colors**: All colors use design tokens
+- [ ] **Colors**: No `bg-white` cards, no `text-primary` headings, no shadows
+- [ ] **Cards**: Use dark gradient + `border-white/[0.08]`
 - [ ] **Typography**: All text uses typography scale
+- [ ] **Headings**: Use `text-white` (not `text-primary`)
+- [ ] **Body text**: Use `text-white/50` (not `text-secondary`)
+- [ ] **Borders**: Use `border-white/[0.08]` (not `border-black/*`)
+- [ ] **Inputs**: Use `bg-white/[0.05]` (not `bg-surface` or `bg-white`)
 - [ ] **Spacing**: All spacing uses 8px system
 - [ ] **Eyebrows**: Section headers have eyebrow text
-- [ ] **Containers**: Correct container width used
 - [ ] **Focus States**: All interactive elements focusable
 - [ ] **Touch Targets**: Minimum 44x44px
-- [ ] **ARIA Labels**: Icon buttons have labels
-- [ ] **Images**: Have aspect ratios set
 - [ ] **Responsive**: Tested at mobile, tablet, desktop
 
 ---
 
 ## Error Patterns - Must Fix
 
-**"Arbitrary color detected"**
+**"White background on card"**
 ```tsx
-// ❌ Wrong
-<div className="text-gray-700">
+// WRONG
+<div className="bg-white rounded-xl shadow-sm border border-black/5">
 
-// ✅ Fix
-<div className="text-secondary">
+// FIX
+<div className="rounded-xl border border-white/[0.08]"
+  style={{background: 'linear-gradient(180deg, #111 0%, #0A0A0A 40%, #080808 100%)'}}>
 ```
 
-**"Missing eyebrow text"**
+**"Invisible heading text"**
 ```tsx
-// ❌ Wrong - heading without eyebrow
-<h2>Section Title</h2>
+// WRONG — text-primary is black, invisible on dark bg
+<h2 className="text-primary">Heading</h2>
 
-// ✅ Fix
-<span className="inline-block text-accent text-caption uppercase tracking-[0.25em] font-semibold mb-4">
-  Label
-</span>
-<h2>Section Title</h2>
+// FIX
+<h2 className="text-white">Heading</h2>
 ```
 
-**"Button on dark without override"**
+**"Light theme border"**
 ```tsx
-// ❌ Wrong
-<Button variant="primary">On dark background</Button>
+// WRONG
+<div className="border-black/5">
 
-// ✅ Fix
-<Button variant="primary" className="!bg-accent !text-white">On dark</Button>
+// FIX
+<div className="border-white/[0.08]">
 ```
-
----
-
-## When to Ask Questions
-
-If you encounter:
-- A design requirement not covered by the system
-- Conflicting design patterns
-- Unclear hierarchy decisions
-- Accessibility concerns
-
-**STOP and ask the user** before proceeding.
 
 ---
 
@@ -314,15 +243,10 @@ If you encounter:
 
 **Every UI change MUST:**
 1. Read design system skill first
-2. Use design tokens (colors, typography, spacing)
-3. Follow section patterns (eyebrows, headers, layouts)
-4. Meet accessibility requirements
-5. Be responsive (mobile-first)
-6. Pass pre-commit checklist
-
-**Never use:**
-- Arbitrary colors or sizes
-- Missing eyebrow text on sections
-- Buttons without dark background overrides
-- Divs for buttons
-- Color alone to convey information
+2. Use dark theme patterns (no white backgrounds, no shadows)
+3. Use `text-white` for headings (never `text-primary`)
+4. Use dark gradient cards with subtle borders
+5. Follow section patterns (eyebrows, headers, layouts)
+6. Meet accessibility requirements
+7. Be responsive (mobile-first)
+8. Pass pre-commit checklist

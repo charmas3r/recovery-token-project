@@ -181,7 +181,7 @@ export default function FAQPage() {
               onClick={() => handleCategoryClick(null)}
               className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
                 activeCategory === null
-                  ? 'bg-accent text-white'
+                  ? 'bg-accent text-black'
                   : 'bg-white/[0.05] text-white/50 hover:text-white hover:bg-white/[0.08]'
               }`}
               style={{minHeight: '44px'}}
@@ -194,7 +194,7 @@ export default function FAQPage() {
                 onClick={() => handleCategoryClick(category)}
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
                   activeCategory === category
-                    ? 'bg-accent text-white'
+                    ? 'bg-accent text-black'
                     : 'bg-white/[0.05] text-white/50 hover:text-white hover:bg-white/[0.08]'
                 }`}
                 style={{minHeight: '44px'}}

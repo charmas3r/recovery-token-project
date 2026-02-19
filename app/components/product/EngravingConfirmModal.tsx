@@ -13,7 +13,6 @@ import {clsx} from 'clsx';
 import {X, AlertTriangle, CheckCircle2, User, Calendar, Hash} from 'lucide-react';
 import {Button} from '~/components/ui';
 import type {EngravingData} from './EngravingForm';
-import {formatEngravingPreview} from './EngravingForm';
 
 interface EngravingConfirmModalProps {
   open: boolean;
@@ -37,12 +36,6 @@ export function EngravingConfirmModal({
   isSubmitting = false,
 }: EngravingConfirmModalProps) {
   const [isConfirmed, setIsConfirmed] = useState(false);
-
-  // Format the preview text
-  const previewText = useMemo(
-    () => formatEngravingPreview(engravingData, variantTitle),
-    [engravingData, variantTitle],
-  );
 
   // Reset confirmation when modal opens/closes
   const handleOpenChange = (newOpen: boolean) => {
@@ -132,13 +125,13 @@ export function EngravingConfirmModal({
 
             {/* Engraving Preview */}
             <div className="border-2 border-accent/30 rounded-lg p-4 bg-accent/5">
-              <p className="text-caption font-semibold text-accent mb-3 flex items-center gap-2">
+              <p className="text-caption font-semibold text-accent mb-4 flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4" />
                 Your Engraving
               </p>
 
               {/* Individual Fields */}
-              <div className="space-y-2 mb-3">
+              <div className="space-y-2">
                 {engravingData.name && (
                   <div className="flex items-center gap-2 text-body-sm">
                     <User className="w-4 h-4 text-accent" />
@@ -155,7 +148,7 @@ export function EngravingConfirmModal({
                 )}
                 {engravingData.years && (
                   <div className="flex items-center gap-2 text-body-sm">
-                    <Hash className="w-4 h-4 text-accent" />
+                    <Hash className="w-4 h-4 text-white/40" />
                     <span className="text-white/50">Years:</span>
                     <span className="text-white font-medium">
                       {engravingData.years} {parseInt(engravingData.years, 10) === 1 ? 'Year' : 'Years'}
@@ -164,15 +157,6 @@ export function EngravingConfirmModal({
                 )}
               </div>
 
-              {/* Combined Preview */}
-              {previewText && (
-                <div className="pt-3 border-t border-accent/20">
-                  <p className="text-caption text-white/50 mb-1">Engraving Preview:</p>
-                  <p className="font-display text-lg text-white text-center tracking-wide">
-                    {previewText}
-                  </p>
-                </div>
-              )}
             </div>
 
             {/* Private Note (if present) */}
@@ -213,14 +197,37 @@ export function EngravingConfirmModal({
                   : 'border-white/[0.1] hover:border-accent/30',
               )}
             >
+              <span
+                role="checkbox"
+                aria-checked={isConfirmed}
+                tabIndex={0}
+                onClick={() => setIsConfirmed(!isConfirmed)}
+                onKeyDown={(e) => {
+                  if (e.key === ' ' || e.key === 'Enter') {
+                    e.preventDefault();
+                    setIsConfirmed(!isConfirmed);
+                  }
+                }}
+                className={clsx(
+                  'mt-0.5 w-5 h-5 rounded flex-shrink-0 flex items-center justify-center border-2 transition-colors',
+                  isConfirmed
+                    ? 'bg-emerald-500/20 border-emerald-500/60'
+                    : 'border-white/20 bg-white/[0.05]',
+                  'focus:outline-none focus:ring-2 focus:ring-emerald-500/40',
+                )}
+              >
+                {isConfirmed && (
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                    <path d="M2.5 6L5 8.5L9.5 3.5" stroke="#34d399" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                )}
+              </span>
               <input
                 type="checkbox"
                 checked={isConfirmed}
                 onChange={(e) => setIsConfirmed(e.target.checked)}
-                className={clsx(
-                  'mt-0.5 w-5 h-5 rounded border-2 text-accent',
-                  'focus:ring-2 focus:ring-accent focus:ring-offset-2',
-                )}
+                className="sr-only"
+                tabIndex={-1}
               />
               <span className="text-body-sm text-white">
                 I confirm this engraving is correct and understand it cannot be
@@ -241,7 +248,7 @@ export function EngravingConfirmModal({
             </Dialog.Close>
             <Button
               variant="primary"
-              className="flex-1"
+              className="flex-1 !h-auto !py-4"
               onClick={handleConfirm}
               disabled={!isConfirmed || isSubmitting}
             >

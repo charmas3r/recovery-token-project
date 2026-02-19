@@ -44,7 +44,7 @@ recovery-token-store/
 | Functions | camelCase | `loadCriticalData`, `formatPrice` |
 | Files (routes) | kebab-case | `($locale)._index.tsx` |
 | Constants | SCREAMING_SNAKE | `FEATURED_COLLECTION_QUERY` |
-| CSS Classes | Design tokens | `text-primary`, `bg-surface` |
+| CSS Classes | Design tokens | `text-white`, `bg-white/[0.05]` |
 | GraphQL | SCREAMING_SNAKE | `PRODUCT_QUERY`, `CART_FRAGMENT` |
 
 **Import Organization:**
@@ -129,33 +129,41 @@ All 13 skills have both SKILL.md (patterns) and REFERENCE.md (best practices):
 
 **Before ANY UI work, read:** `.cursor/skills/design-system/SKILL.md` + `.cursor/skills/design-system/REFERENCE.md`
 
+**CRITICAL: Dark theme site-wide.** `text-primary` is `#000000` (black) = invisible on dark backgrounds. Always use `text-white` for headings.
+
 ### Typography
 
 ```tsx
-// Headings (always use font-display)
+// Headings (always use font-display + text-white)
 <h1 className="font-display text-hero text-white">Hero</h1>
-<h2 className="font-display text-section text-primary">Section</h2>
-<h3 className="font-display text-subsection text-primary">Subsection</h3>
+<h2 className="font-display text-section text-white">Section</h2>
+<h3 className="font-display text-subsection text-white">Subsection</h3>
 
 // Body text
-<p className="text-body-lg text-secondary">Large body</p>
-<p className="text-body text-secondary">Standard body</p>
+<p className="text-body-lg text-white/50">Large body</p>
+<p className="text-body text-white/50">Standard body</p>
 ```
 
-### Colors
+### Colors (Dark Theme)
 
 ```tsx
 // Text
-text-primary       // #1A202C - Deep Navy
-text-secondary     // #4A5568 - Slate
-text-accent        // #B8764F - Bronze
-text-white         // White
+text-white         // Primary heading text
+text-white/50      // Body text
+text-white/40      // Helper/secondary text
+text-accent        // #B8764F or #FFFF93 - Accent
 
 // Backgrounds
-bg-primary         // Dark navy
-bg-surface         // Light gray
-bg-accent          // Bronze
-bg-white           // White
+bg-black           // Page background (or body default)
+bg-white/[0.05]    // Subtle elevated area
+bg-white/[0.03]    // Very subtle elevation
+
+// Card backgrounds (inline style)
+style={{background: 'linear-gradient(180deg, #111 0%, #0A0A0A 40%, #080808 100%)'}}
+
+// Borders
+border-white/[0.08]  // Standard border
+hover:border-white/[0.15]  // Hover state
 ```
 
 ### Spacing (8px grid)
@@ -179,6 +187,17 @@ p-3xl  // 64px
 </span>
 ```
 
+**Dark Card:**
+```tsx
+<div
+  className="rounded-2xl border border-white/[0.08] hover:border-white/[0.15] transition-colors"
+  style={{background: 'linear-gradient(180deg, #111 0%, #0A0A0A 40%, #080808 100%)'}}
+>
+  <h3 className="text-white font-bold">Title</h3>
+  <p className="text-white/50">Body</p>
+</div>
+```
+
 **Buttons on Dark Backgrounds:**
 ```tsx
 <Button variant="primary" className="!bg-accent !text-white">Primary</Button>
@@ -189,7 +208,7 @@ p-3xl  // 64px
 ```tsx
 <div className="relative">
   <div className="absolute inset-0 bg-accent/20 blur-3xl rounded-full scale-75" />
-  <img src={image} className="relative drop-shadow-2xl" />
+  <img src={image} className="relative" />
 </div>
 ```
 
@@ -293,15 +312,16 @@ import {Button} from '~/components/ui/Button';
 <Button size="lg">Large</Button>
 ```
 
-### Card Component
+### Card Component (Dark Gradient)
 
 ```tsx
 import {Card} from '~/components/ui/Card';
 
+// Card uses dark gradient bg + border-white/[0.08] automatically
 <Card hover>
   <Card.Image src={image} alt={title} aspectRatio="4/5" />
   <Card.Content>
-    <Card.Title>{title}</Card.Title>
+    <Card.Title>{title}</Card.Title>   {/* text-white */}
     <Card.Price>{price}</Card.Price>
   </Card.Content>
 </Card>
@@ -450,7 +470,10 @@ npm run codegen          # Generate types
 
 ### Code Review Checklist
 
-- [ ] Design tokens used (no arbitrary values)
+- [ ] Dark theme: `text-white` for headings (never `text-primary`)
+- [ ] Dark theme: `text-white/50` for body text (never `text-secondary`)
+- [ ] Dark theme: Dark gradient cards (never `bg-white` cards or shadows)
+- [ ] Dark theme: `border-white/[0.08]` (never `border-black/*`)
 - [ ] Eyebrow text on section headers
 - [ ] Buttons styled correctly on dark backgrounds
 - [ ] Focus states on all interactive elements
@@ -461,7 +484,8 @@ npm run codegen          # Generate types
 
 ### UI Checklist
 
-- [ ] Colors: Use design tokens only
+- [ ] Colors: Use dark theme tokens only (`text-white`, `text-white/50`, `bg-white/[0.05]`)
+- [ ] No `bg-white` cards, no `shadow-sm`/`shadow-lg`
 - [ ] Typography: Use scale classes only
 - [ ] Spacing: Use 8px system only
 - [ ] Images: Have aspect ratios set
@@ -495,10 +519,10 @@ Tailwind classes may NOT apply correctly in components rendered inside `<Suspens
   <span style={{display: 'inline-block', color: '#B8764F', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.25em', fontWeight: 600, marginBottom: '1rem'}}>
     Eyebrow Text
   </span>
-  <h1 style={{fontFamily: 'var(--font-display, serif)', fontSize: '3rem', fontWeight: 700, color: '#1A202C', lineHeight: 1.1, marginBottom: '1rem'}}>
+  <h1 style={{fontFamily: 'var(--font-display, serif)', fontSize: '3rem', fontWeight: 700, color: '#FFFFFF', lineHeight: 1.1, marginBottom: '1rem'}}>
     Page Heading
   </h1>
-  <p style={{fontSize: '1.125rem', lineHeight: 1.6, color: '#4A5568', maxWidth: '36rem', marginLeft: 'auto', marginRight: 'auto'}}>
+  <p style={{fontSize: '1.125rem', lineHeight: 1.6, color: 'rgba(255,255,255,0.5)', maxWidth: '36rem', marginLeft: 'auto', marginRight: 'auto'}}>
     Description paragraph that stays properly centered.
   </p>
 </div>
@@ -531,11 +555,13 @@ See `.cursor/skills/design-system/SKILL.md` for full token values.
 
 ## Summary
 
-1. **Read skills before implementing** - Always check relevant SKILL.md + REFERENCE.md documentation
-2. **Use design tokens** - No arbitrary colors, sizes, or spacing
-3. **Follow React Router patterns** - Never use Remix imports
-4. **Include eyebrow text** - Every section header needs one
-5. **Add animations** - Use Framer Motion components from `~/components/ui/Animations`
-6. **Ensure accessibility** - Focus states, touch targets, ARIA labels, reduced motion
-7. **Be responsive** - Test at mobile, tablet, desktop
-8. **Use inline styles for centered text** - Tailwind breaks inside `<Suspense>`, `<Await>`, and Framer Motion wrappers (`FadeUp`, etc.); always use inline styles for page headers, descriptions, and any centered/constrained text blocks
+1. **Dark theme everywhere** - `text-white` headings, `text-white/50` body, dark gradient cards, no shadows
+2. **Never use `text-primary` for headings** - It's `#000000` = invisible on dark backgrounds
+3. **Read skills before implementing** - Always check relevant SKILL.md + REFERENCE.md documentation
+4. **Use design tokens** - No arbitrary colors, sizes, or spacing
+5. **Follow React Router patterns** - Never use Remix imports
+6. **Include eyebrow text** - Every section header needs one
+7. **Add animations** - Use Framer Motion components from `~/components/ui/Animations`
+8. **Ensure accessibility** - Focus states, touch targets, ARIA labels, reduced motion
+9. **Be responsive** - Test at mobile, tablet, desktop
+10. **Use inline styles for centered text** - Tailwind breaks inside `<Suspense>`, `<Await>`, and Framer Motion wrappers (`FadeUp`, etc.); always use inline styles for page headers, descriptions, and any centered/constrained text blocks

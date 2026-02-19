@@ -86,19 +86,6 @@ export function EngravingForm({
     return false;
   }, [config, value]);
 
-  // Build preview text
-  const previewText = useMemo(() => {
-    const parts: string[] = [];
-    if (config.showName && value.name.trim()) parts.push(value.name.trim());
-    if (config.showCleanDate && value.cleanDate.trim()) parts.push(value.cleanDate.trim());
-    if (config.showYears && value.years.trim()) {
-      const yearsNum = parseInt(value.years, 10);
-      if (!isNaN(yearsNum)) {
-        parts.push(`${yearsNum} ${yearsNum === 1 ? 'Year' : 'Years'}`);
-      }
-    }
-    return parts.join(' • ');
-  }, [config, value]);
 
   const handleNameChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -188,11 +175,6 @@ export function EngravingForm({
           <span className="font-medium text-white">Add Custom Engraving</span>
           {!hasEngravingData && (
             <span className="text-body-sm text-white/30">Required</span>
-          )}
-          {hasEngravingData && previewText && (
-            <span className="text-body-sm text-accent bg-accent/10 px-2 py-0.5 rounded max-w-[200px] truncate">
-              {previewText}
-            </span>
           )}
         </div>
         <ChevronDown
@@ -378,15 +360,6 @@ export function EngravingForm({
             </p>
           </div>
 
-          {/* Preview */}
-          {previewText && (
-            <div className="bg-white/[0.05] rounded-lg p-4 border border-white/[0.08]">
-              <p className="text-caption font-semibold text-white mb-2">Preview</p>
-              <p className="font-display text-lg text-white text-center tracking-wide">
-                {previewText}
-              </p>
-            </div>
-          )}
         </div>
       </div>
     </div>

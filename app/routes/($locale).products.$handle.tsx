@@ -644,12 +644,15 @@ export default function Product() {
         </Await>
       </Suspense>
 
+      {/* Gradient transition to Related Products */}
+      <div className="mt-12 h-24 md:h-32" style={{background: 'linear-gradient(to bottom, transparent 0%, rgba(255,255,255,0.03) 50%, rgba(255,255,255,0.05) 100%)'}} />
+
       {/* Related Products Section */}
       <Suspense fallback={null}>
         <Await resolve={relatedProducts}>
-          {(resolvedProducts: RelatedProductsQuery | null) => 
+          {(resolvedProducts: RelatedProductsQuery | null) =>
             resolvedProducts && (
-              <RelatedProducts 
+              <RelatedProducts
                 products={resolvedProducts.products.nodes}
                 currentProductId={product.id}
               />
@@ -657,6 +660,9 @@ export default function Product() {
           }
         </Await>
       </Suspense>
+
+      {/* Gradient transition out of Related Products */}
+      <div className="h-24 md:h-32" style={{background: 'linear-gradient(to bottom, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.03) 50%, transparent 100%)'}} />
 
       {/* Write Review Modal */}
       <WriteReviewModal

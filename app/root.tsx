@@ -80,10 +80,10 @@ export function links() {
       crossOrigin: 'anonymous',
     },
     
-    // Load design system fonts: Inter (body) & Manrope (display/headings)
+    // Load design system fonts: Inter (body), Manrope (display/headings), Sora (logo)
     {
       rel: 'stylesheet',
-      href: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700&display=swap',
+      href: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700&family=Sora:wght@700&display=swap',
     },
     
     // Favicon

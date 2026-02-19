@@ -7,6 +7,7 @@ import {
 } from '@shopify/hydrogen';
 import type {HeaderQuery, CartApiQueryFragment} from 'storefrontapi.generated';
 import {useAside} from '~/components/layout/Aside';
+import {CoinPlugzLogo} from '~/components/layout/CoinPlugzLogo';
 
 interface HeaderProps {
   header: HeaderQuery;
@@ -45,14 +46,7 @@ export function Header({
     >
       <div className="max-w-[1440px] mx-auto px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Logo - Left */}
-        <NavLink
-          prefetch="intent"
-          to="/"
-          end
-          className="font-display text-xl font-bold text-white uppercase tracking-wide hover:text-accent transition-colors"
-        >
-          {shop.name}
-        </NavLink>
+        <CoinPlugzLogo />
 
         {/* Navigation Menu - Center (Desktop only) */}
         <HeaderMenu

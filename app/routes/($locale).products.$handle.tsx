@@ -492,7 +492,7 @@ export default function Product() {
 
   // Build breadcrumb items
   const breadcrumbItems = [
-    {label: 'Shop', href: '/collections'},
+    {label: 'Shop', href: '/collections/all'},
     {label: title},
   ];
 

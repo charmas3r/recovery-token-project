@@ -526,12 +526,23 @@ export default function Product() {
 
           {/* Two-Column Layout */}
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-16">
-            {/* Left Column - Gallery */}
+            {/* Left Column - Gallery + Description */}
             <div>
               <ProductGallery
                 images={variantImages}
                 selectedImage={selectedVariant?.image}
               />
+
+              {/* Description - Desktop only (below gallery on left side) */}
+              <div className="hidden lg:block mt-8 pt-6 border-t border-white/[0.08]">
+                <h2 className="font-display text-lg font-bold text-white mb-4">
+                  About This Token
+                </h2>
+                <div
+                  className="text-body text-white/50 leading-relaxed prose prose-sm prose-invert"
+                  dangerouslySetInnerHTML={{__html: descriptionHtml}}
+                />
+              </div>
             </div>
 
             {/* Right Column - Product Info */}
@@ -598,14 +609,14 @@ export default function Product() {
               {/* Trust Badges */}
               <TrustBadges className="pt-4 border-t border-white/[0.08]" />
 
-              {/* Description */}
-              <div className="pt-6 border-t border-white/[0.08]">
+              {/* Description - Mobile only (in right column below trust badges) */}
+              <div className="lg:hidden pt-6 border-t border-white/[0.08]">
                 <h2 className="font-display text-lg font-bold text-white mb-4">
                   About This Token
                 </h2>
                 <div
                   className="text-body text-white/50 leading-relaxed prose prose-sm prose-invert"
-                  dangerouslySetInnerHTML={{__html: descriptionHtml}} 
+                  dangerouslySetInnerHTML={{__html: descriptionHtml}}
                 />
               </div>
             </div>

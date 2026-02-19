@@ -1,6 +1,6 @@
 import {Await, useLoaderData, useFetcher, useSearchParams} from 'react-router';
 import type {Route} from './+types/products.$handle';
-import {Suspense, useState, useEffect} from 'react';
+import {Suspense, useState, useEffect, useMemo} from 'react';
 import {
   getSelectedProductOptions,
   Analytics,
@@ -25,7 +25,9 @@ import {CUSTOMER_METAFIELDS_QUERY} from '~/graphql/customer-account/CustomerMeta
 import {parseRecoveryCircle} from '~/lib/recoveryCircle';
 import {parseWishlist, isInWishlist as checkIsInWishlist} from '~/lib/wishlist';
 import {Heart, PenLine} from 'lucide-react';
+import {motion} from 'framer-motion';
 import {WriteReviewModal} from '~/components/reviews/WriteReviewModal';
+import {ProductDetails} from '~/components/product/ProductDetails';
 
 export const meta: Route.MetaFunction = ({data}) => {
   const product = data?.product;
@@ -533,14 +535,11 @@ export default function Product() {
                 selectedImage={selectedVariant?.image}
               />
 
-              {/* Description - Desktop only (below gallery on left side) */}
+              {/* Product Details - Desktop only (below gallery on left side) */}
               <div className="hidden lg:block mt-8 pt-6 border-t border-white/[0.08]">
-                <h2 className="font-display text-lg font-bold text-white mb-4">
-                  About This Token
-                </h2>
-                <div
-                  className="text-body text-white/50 leading-relaxed prose prose-sm prose-invert"
-                  dangerouslySetInnerHTML={{__html: descriptionHtml}}
+                <ProductDetails
+                  descriptionHtml={descriptionHtml}
+                  productTitle={title}
                 />
               </div>
             </div>
@@ -609,14 +608,11 @@ export default function Product() {
               {/* Trust Badges */}
               <TrustBadges className="pt-4 border-t border-white/[0.08]" />
 
-              {/* Description - Mobile only (in right column below trust badges) */}
+              {/* Product Details - Mobile only (in right column below trust badges) */}
               <div className="lg:hidden pt-6 border-t border-white/[0.08]">
-                <h2 className="font-display text-lg font-bold text-white mb-4">
-                  About This Token
-                </h2>
-                <div
-                  className="text-body text-white/50 leading-relaxed prose prose-sm prose-invert"
-                  dangerouslySetInnerHTML={{__html: descriptionHtml}}
+                <ProductDetails
+                  descriptionHtml={descriptionHtml}
+                  productTitle={title}
                 />
               </div>
             </div>
@@ -625,40 +621,86 @@ export default function Product() {
       </section>
 
       {/* Reviews Section */}
-      <section className="py-16 md:py-20 bg-white/[0.05]">
-        <div className="container-standard">
-          <div className="text-center mb-12">
-            <span className="inline-block text-accent text-caption uppercase tracking-[0.25em] font-semibold mb-4">
-              Testimonials
+      <section className="py-20 md:py-28 bg-black overflow-hidden">
+        {/* Section Header — empty-state style with green accent */}
+        <div style={{textAlign: 'center', maxWidth: '42rem', marginLeft: 'auto', marginRight: 'auto', padding: '0 1.5rem'}}>
+          <span
+            className="inline-block text-caption uppercase tracking-[0.25em] font-semibold mb-4"
+            style={{color: '#00F260'}}
+          >
+            Testimonials
+          </span>
+          <h2
+            className="font-display"
+            style={{fontSize: 'clamp(1.875rem, 4vw, 3rem)', fontWeight: 700, color: '#fff', lineHeight: 1.1, marginBottom: '1.5rem'}}
+          >
+            Be the First to Share Your Story
+          </h2>
+          <p style={{fontSize: '1.125rem', lineHeight: 1.6, color: 'rgba(255,255,255,0.5)', maxWidth: '32rem', marginLeft: 'auto', marginRight: 'auto'}}>
+            No reviews yet for <span style={{fontWeight: 600, color: '#FFFFFF'}}>{title}</span>.
+            Your experience matters—help others find meaning in their recovery journey.
+          </p>
+
+          {/* Feature badges */}
+          <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '1.5rem', fontSize: '0.875rem', color: 'rgba(255,255,255,0.5)', marginTop: '1.5rem'}}>
+            <span style={{display: 'inline-flex', alignItems: 'center', gap: '0.5rem'}}>
+              <svg viewBox="0 0 24 24" style={{width: '1.25rem', height: '1.25rem', color: '#00F260'}} fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M9 12l2 2 4-4" /><circle cx="12" cy="12" r="10" />
+              </svg>
+              Verified buyers
             </span>
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-4">
-              Customer Reviews
-            </h2>
-            <button
-              type="button"
-              onClick={() => setReviewModalOpen(true)}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold text-accent border border-accent/30 hover:bg-accent hover:text-black transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
-            >
-              <PenLine className="w-4 h-4" />
-              Write a Review
-            </button>
+            <span style={{display: 'inline-flex', alignItems: 'center', gap: '0.5rem'}}>
+              <svg viewBox="0 0 24 24" style={{width: '1.25rem', height: '1.25rem', color: '#00F260'}} fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+              Authentic stories
+            </span>
+            <span style={{display: 'inline-flex', alignItems: 'center', gap: '0.5rem'}}>
+              <svg viewBox="0 0 24 24" style={{width: '1.25rem', height: '1.25rem', color: '#00F260'}} fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+              </svg>
+              Community support
+            </span>
           </div>
-          <Suspense fallback={<ProductReviewsSkeleton />}>
-            <Await resolve={productReviews}>
-              {(resolvedReviews) => {
-                if (!resolvedReviews || resolvedReviews.reviews.length === 0) {
-                  return (
-                    <ProductEmptyReviewsState
-                      productTitle={title}
-                      onWriteReview={() => setReviewModalOpen(true)}
-                    />
-                  );
-                }
-                return <ProductReviewsGrid reviews={resolvedReviews.reviews} />;
-              }}
-            </Await>
-          </Suspense>
+
+          {/* Write the First Review CTA */}
+          <button
+            type="button"
+            onClick={() => setReviewModalOpen(true)}
+            style={{
+              marginTop: '2rem',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              padding: '0.75rem 1.75rem',
+              backgroundColor: '#00F260',
+              color: '#000000',
+              borderRadius: '9999px',
+              fontSize: '0.9375rem',
+              fontWeight: 600,
+              border: 'none',
+              cursor: 'pointer',
+              transition: 'opacity 0.2s',
+              marginBottom: '3rem',
+            }}
+            onMouseEnter={(e) => { e.currentTarget.style.opacity = '0.85'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.opacity = '1'; }}
+          >
+            Write the First Review
+          </button>
         </div>
+
+        {/* Reviews carousel (shown when reviews exist) */}
+        <Suspense fallback={<ProductReviewsSkeleton />}>
+          <Await resolve={productReviews}>
+            {(resolvedReviews) => {
+              if (!resolvedReviews || resolvedReviews.reviews.length === 0) {
+                return null;
+              }
+              return <ProductReviewsCarousel reviews={resolvedReviews.reviews} />;
+            }}
+          </Await>
+        </Suspense>
       </section>
 
       {/* Related Products Section */}
@@ -758,47 +800,47 @@ function WishlistButton({
  */
 function ProductReviewsSkeleton() {
   return (
-    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {Array.from({length: 3}).map((_, i) => (
-        <div
-          key={i}
-          className="rounded-2xl p-6 border border-white/[0.08]"
-          style={{
-            background: 'linear-gradient(180deg, #111 0%, #0A0A0A 40%, #080808 100%)',
-            animation: `pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite`,
-            animationDelay: `${i * 150}ms`,
-          }}
-        >
-          {/* Stars skeleton - star shapes */}
-          <div className="flex gap-1.5 mb-5">
-            {Array.from({length: 5}).map((_, j) => (
-              <div
-                key={j}
-                className="w-5 h-5 bg-gradient-to-br from-white/10 to-white/5 rounded-sm"
-                style={{
-                  clipPath: 'polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)',
-                }}
-              />
-            ))}
-          </div>
-          {/* Title skeleton */}
-          <div className="h-5 bg-gradient-to-r from-white/10 via-white/5 to-white/10 rounded-lg w-2/3 mb-4" />
-          {/* Text skeleton */}
-          <div className="space-y-2.5 mb-6">
-            <div className="h-3.5 bg-gradient-to-r from-white/5 via-white/10 to-white/5 rounded-md w-full" />
-            <div className="h-3.5 bg-gradient-to-r from-white/10 via-white/5 to-white/10 rounded-md w-11/12" />
-            <div className="h-3.5 bg-gradient-to-r from-white/5 via-white/10 to-white/5 rounded-md w-4/5" />
-          </div>
-          {/* Author skeleton */}
-          <div className="flex items-center gap-3 pt-5 border-t border-white/[0.08]">
-            <div className="w-11 h-11 rounded-full bg-gradient-to-br from-white/10 to-white/5" />
-            <div className="flex-1">
-              <div className="h-4 bg-gradient-to-r from-white/10 to-white/5 rounded w-24 mb-2" />
-              <div className="h-3 bg-gradient-to-r from-white/5 to-white/10 rounded w-20" />
+    <div className="relative overflow-hidden">
+      <div className="flex gap-6 px-6">
+        {Array.from({length: 4}).map((_, i) => (
+          <div
+            key={i}
+            className="flex-shrink-0 w-[340px] md:w-[420px] rounded-2xl p-7 md:p-8 border border-white/[0.08]"
+            style={{
+              background: 'linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)',
+              animation: `pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite`,
+              animationDelay: `${i * 150}ms`,
+            }}
+          >
+            {/* Stars skeleton */}
+            <div className="flex gap-1.5 mb-5">
+              {Array.from({length: 5}).map((_, j) => (
+                <div
+                  key={j}
+                  className="w-5 h-5 bg-gradient-to-br from-white/10 to-white/5 rounded-sm"
+                  style={{
+                    clipPath: 'polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)',
+                  }}
+                />
+              ))}
+            </div>
+            {/* Text skeleton */}
+            <div className="space-y-2.5 mb-6">
+              <div className="h-3.5 bg-gradient-to-r from-white/5 via-white/10 to-white/5 rounded-md w-full" />
+              <div className="h-3.5 bg-gradient-to-r from-white/10 via-white/5 to-white/10 rounded-md w-11/12" />
+              <div className="h-3.5 bg-gradient-to-r from-white/5 via-white/10 to-white/5 rounded-md w-4/5" />
+            </div>
+            {/* Author skeleton */}
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-white/10 to-white/5" />
+              <div className="flex-1">
+                <div className="h-4 bg-gradient-to-r from-white/10 to-white/5 rounded w-24 mb-2" />
+                <div className="h-3 bg-gradient-to-r from-white/5 to-white/10 rounded w-20" />
+              </div>
             </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 }
@@ -1033,6 +1075,94 @@ function ProductReviewsGrid({reviews}: {reviews: ProductReview[]}) {
           to { opacity: 1; transform: translateY(0); }
         }
       `}</style>
+    </div>
+  );
+}
+
+/**
+ * Reviews Carousel — full-width animated marquee matching the landing page
+ */
+function ProductReviewsCarousel({reviews}: {reviews: ProductReview[]}) {
+  const doubled = useMemo(() => [...reviews, ...reviews], [reviews]);
+
+  // Scale speed based on count: fewer reviews → faster per-card, more → slower
+  const duration = Math.max(30, reviews.length * 8);
+
+  return (
+    <div className="relative">
+      {/* Left fade */}
+      <div
+        className="absolute left-0 top-0 bottom-0 w-24 md:w-40 z-10 pointer-events-none"
+        style={{background: 'linear-gradient(to right, #000 0%, transparent 100%)'}}
+      />
+      {/* Right fade */}
+      <div
+        className="absolute right-0 top-0 bottom-0 w-24 md:w-40 z-10 pointer-events-none"
+        style={{background: 'linear-gradient(to left, #000 0%, transparent 100%)'}}
+      />
+
+      <motion.div
+        className="flex gap-6"
+        animate={{x: ['0%', '-50%']}}
+        transition={{
+          x: {duration, repeat: Infinity, ease: 'linear'},
+        }}
+        style={{width: 'max-content'}}
+      >
+        {doubled.map((review, index) => (
+          <div
+            key={`${review.id}-${index}`}
+            className="flex-shrink-0 w-[340px] md:w-[420px]"
+          >
+            <div
+              className="h-full rounded-2xl p-7 md:p-8 border border-white/[0.08] flex flex-col justify-between"
+              style={{background: 'linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)'}}
+            >
+              {/* Star rating */}
+              <div>
+                <div className="flex gap-0.5 mb-4">
+                  {Array.from({length: 5}).map((_, i) => (
+                    <svg
+                      key={i}
+                      viewBox="0 0 24 24"
+                      className={`w-5 h-5 ${
+                        i < review.rating
+                          ? 'text-yellow-400 fill-yellow-400'
+                          : 'text-white/20 fill-white/20'
+                      }`}
+                    >
+                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                    </svg>
+                  ))}
+                </div>
+
+                {/* Review body */}
+                <p style={{fontSize: '0.9375rem', lineHeight: 1.7, color: 'rgba(255,255,255,0.6)', marginBottom: '1.5rem'}}>
+                  "{review.body}"
+                </p>
+              </div>
+
+              {/* Reviewer info */}
+              <div className="flex items-center gap-3">
+                <div
+                  className="w-10 h-10 rounded-full flex items-center justify-center text-white font-display font-bold text-sm"
+                  style={{background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.1)'}}
+                >
+                  {review.reviewer.name.charAt(0).toUpperCase()}
+                </div>
+                <div>
+                  <div className="font-display font-bold text-white text-sm">
+                    {review.reviewer.name}
+                  </div>
+                  <div className="text-xs" style={{color: '#00F260'}}>
+                    {review.reviewer.verified ? 'Verified Buyer' : 'Customer'}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </motion.div>
     </div>
   );
 }

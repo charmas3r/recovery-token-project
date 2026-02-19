@@ -115,9 +115,9 @@ export function ProductDetails({
               ~1.2 oz (34 g) — substantial feel in hand
             </span>
           </div>
-          {/* Visual size reference — interactive 3D coin at actual size */}
+          {/* Visual size reference — interactive 3D coin */}
           <div className="flex items-center gap-5 pt-3">
-            <CoinModel size={151} thickness={11} accentColor="#B8764F" />
+            <CoinModel size={200} diameterMm={40} thicknessMm={3} accentColor="#B8764F" />
             <div className="text-body-sm space-y-1">
               <span className="text-white/60 block">
                 Shown at actual size on most screens

@@ -621,87 +621,28 @@ export default function Product() {
       </section>
 
       {/* Reviews Section */}
-      <section className="py-20 md:py-28 bg-black overflow-hidden">
-        {/* Section Header — empty-state style with green accent */}
-        <div style={{textAlign: 'center', maxWidth: '42rem', marginLeft: 'auto', marginRight: 'auto', padding: '0 1.5rem'}}>
-          <span
-            className="inline-block text-caption uppercase tracking-[0.25em] font-semibold mb-4"
-            style={{color: '#00F260'}}
-          >
-            Testimonials
-          </span>
-          <h2
-            className="font-display"
-            style={{fontSize: 'clamp(1.875rem, 4vw, 3rem)', fontWeight: 700, color: '#fff', lineHeight: 1.1, marginBottom: '1.5rem'}}
-          >
-            Be the First to Share Your Story
-          </h2>
-          <p style={{fontSize: '1.125rem', lineHeight: 1.6, color: 'rgba(255,255,255,0.5)', maxWidth: '32rem', marginLeft: 'auto', marginRight: 'auto'}}>
-            No reviews yet for <span style={{fontWeight: 600, color: '#FFFFFF'}}>{title}</span>.
-            Your experience matters—help others find meaning in their recovery journey.
-          </p>
-
-          {/* Feature badges */}
-          <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '1.5rem', fontSize: '0.875rem', color: 'rgba(255,255,255,0.5)', marginTop: '1.5rem'}}>
-            <span style={{display: 'inline-flex', alignItems: 'center', gap: '0.5rem'}}>
-              <svg viewBox="0 0 24 24" style={{width: '1.25rem', height: '1.25rem', color: '#00F260'}} fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M9 12l2 2 4-4" /><circle cx="12" cy="12" r="10" />
-              </svg>
-              Verified buyers
-            </span>
-            <span style={{display: 'inline-flex', alignItems: 'center', gap: '0.5rem'}}>
-              <svg viewBox="0 0 24 24" style={{width: '1.25rem', height: '1.25rem', color: '#00F260'}} fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-              </svg>
-              Authentic stories
-            </span>
-            <span style={{display: 'inline-flex', alignItems: 'center', gap: '0.5rem'}}>
-              <svg viewBox="0 0 24 24" style={{width: '1.25rem', height: '1.25rem', color: '#00F260'}} fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
-              </svg>
-              Community support
-            </span>
-          </div>
-
-          {/* Write the First Review CTA */}
-          <button
-            type="button"
-            onClick={() => setReviewModalOpen(true)}
-            style={{
-              marginTop: '2rem',
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '0.5rem',
-              padding: '0.75rem 1.75rem',
-              backgroundColor: '#00F260',
-              color: '#000000',
-              borderRadius: '9999px',
-              fontSize: '0.9375rem',
-              fontWeight: 600,
-              border: 'none',
-              cursor: 'pointer',
-              transition: 'opacity 0.2s',
-              marginBottom: '3rem',
-            }}
-            onMouseEnter={(e) => { e.currentTarget.style.opacity = '0.85'; }}
-            onMouseLeave={(e) => { e.currentTarget.style.opacity = '1'; }}
-          >
-            Write the First Review
-          </button>
-        </div>
-
-        {/* Reviews carousel (shown when reviews exist) */}
-        <Suspense fallback={<ProductReviewsSkeleton />}>
-          <Await resolve={productReviews}>
-            {(resolvedReviews) => {
-              if (!resolvedReviews || resolvedReviews.reviews.length === 0) {
-                return null;
-              }
-              return <ProductReviewsCarousel reviews={resolvedReviews.reviews} />;
-            }}
-          </Await>
-        </Suspense>
-      </section>
+      <Suspense fallback={
+        <section className="py-20 md:py-28 bg-black overflow-hidden">
+          <ProductReviewsSkeleton />
+        </section>
+      }>
+        <Await resolve={productReviews}>
+          {(resolvedReviews) => {
+            const hasReviews = resolvedReviews && resolvedReviews.reviews.length > 0;
+            const actualCount = hasReviews ? resolvedReviews.reviews.length : 0;
+            return (
+              <ProductReviewsSection
+                hasReviews={!!hasReviews}
+                reviews={hasReviews ? resolvedReviews.reviews : []}
+                rating={reviewsSummary?.rating ?? 0}
+                reviewCount={actualCount || (reviewsSummary?.reviewCount ?? 0)}
+                productTitle={title}
+                onWriteReview={() => setReviewModalOpen(true)}
+              />
+            );
+          }}
+        </Await>
+      </Suspense>
 
       {/* Related Products Section */}
       <Suspense fallback={null}>
@@ -1080,13 +1021,392 @@ function ProductReviewsGrid({reviews}: {reviews: ProductReview[]}) {
 }
 
 /**
+ * Reviews Section — conditionally renders empty state or reviews with rating header
+ */
+function ProductReviewsSection({
+  hasReviews,
+  reviews,
+  rating,
+  reviewCount,
+  productTitle,
+  onWriteReview,
+}: {
+  hasReviews: boolean;
+  reviews: ProductReview[];
+  rating: number;
+  reviewCount: number;
+  productTitle: string;
+  onWriteReview: () => void;
+}) {
+  const [showAllReviews, setShowAllReviews] = useState(false);
+
+  if (!hasReviews) {
+    // Empty state
+    return (
+      <section className="py-20 md:py-28 bg-black overflow-hidden">
+        <div style={{textAlign: 'center', maxWidth: '42rem', marginLeft: 'auto', marginRight: 'auto', padding: '0 1.5rem'}}>
+          <span
+            className="inline-block text-caption uppercase tracking-[0.25em] font-semibold mb-4"
+            style={{color: '#00F260'}}
+          >
+            Testimonials
+          </span>
+          <h2
+            className="font-display"
+            style={{fontSize: 'clamp(1.875rem, 4vw, 3rem)', fontWeight: 700, color: '#fff', lineHeight: 1.1, marginBottom: '1.5rem'}}
+          >
+            Be the First to Share Your Story
+          </h2>
+          <p style={{fontSize: '1.125rem', lineHeight: 1.6, color: 'rgba(255,255,255,0.5)', maxWidth: '32rem', marginLeft: 'auto', marginRight: 'auto'}}>
+            No reviews yet for <span style={{fontWeight: 600, color: '#FFFFFF'}}>{productTitle}</span>.
+            Your experience matters—help others find meaning in their recovery journey.
+          </p>
+
+          {/* Feature badges */}
+          <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '1.5rem', fontSize: '0.875rem', color: 'rgba(255,255,255,0.5)', marginTop: '1.5rem'}}>
+            <span style={{display: 'inline-flex', alignItems: 'center', gap: '0.5rem'}}>
+              <svg viewBox="0 0 24 24" style={{width: '1.25rem', height: '1.25rem', color: '#00F260'}} fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M9 12l2 2 4-4" /><circle cx="12" cy="12" r="10" />
+              </svg>
+              Verified buyers
+            </span>
+            <span style={{display: 'inline-flex', alignItems: 'center', gap: '0.5rem'}}>
+              <svg viewBox="0 0 24 24" style={{width: '1.25rem', height: '1.25rem', color: '#00F260'}} fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+              Authentic stories
+            </span>
+            <span style={{display: 'inline-flex', alignItems: 'center', gap: '0.5rem'}}>
+              <svg viewBox="0 0 24 24" style={{width: '1.25rem', height: '1.25rem', color: '#00F260'}} fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+              </svg>
+              Community support
+            </span>
+          </div>
+
+          <button
+            type="button"
+            onClick={onWriteReview}
+            style={{
+              marginTop: '2rem',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              padding: '0.75rem 1.75rem',
+              backgroundColor: '#00F260',
+              color: '#000000',
+              borderRadius: '9999px',
+              fontSize: '0.9375rem',
+              fontWeight: 600,
+              border: 'none',
+              cursor: 'pointer',
+              transition: 'opacity 0.2s',
+            }}
+            onMouseEnter={(e) => { e.currentTarget.style.opacity = '0.85'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.opacity = '1'; }}
+          >
+            Write the First Review
+          </button>
+        </div>
+      </section>
+    );
+  }
+
+  // Has reviews — show rating header + carousel/list
+  return (
+    <section className="py-20 md:py-28 bg-black overflow-hidden">
+      {/* Rating header with splatter accents */}
+      <div style={{textAlign: 'center', position: 'relative', marginBottom: '3.5rem', padding: '0 1.5rem'}}>
+        {/* Splatter blobs — neon green + purple */}
+        <div style={{
+          position: 'absolute',
+          top: '-40px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          width: '400px',
+          height: '300px',
+          pointerEvents: 'none',
+          zIndex: 0,
+        }}>
+          {/* Green splatter */}
+          <div style={{
+            position: 'absolute',
+            top: '10px',
+            left: '20px',
+            width: '180px',
+            height: '180px',
+            background: 'radial-gradient(ellipse at 40% 50%, rgba(0,242,96,0.15) 0%, rgba(0,242,96,0.05) 40%, transparent 70%)',
+            borderRadius: '60% 40% 50% 50%',
+            filter: 'blur(30px)',
+            transform: 'rotate(-15deg)',
+          }} />
+          {/* Purple splatter */}
+          <div style={{
+            position: 'absolute',
+            top: '0',
+            right: '20px',
+            width: '160px',
+            height: '160px',
+            background: 'radial-gradient(ellipse at 60% 50%, rgba(168,85,247,0.15) 0%, rgba(168,85,247,0.05) 40%, transparent 70%)',
+            borderRadius: '40% 60% 50% 50%',
+            filter: 'blur(30px)',
+            transform: 'rotate(20deg)',
+          }} />
+          {/* Small green speck */}
+          <div style={{
+            position: 'absolute',
+            bottom: '40px',
+            right: '60px',
+            width: '60px',
+            height: '60px',
+            background: 'radial-gradient(circle, rgba(0,242,96,0.2) 0%, transparent 70%)',
+            borderRadius: '50%',
+            filter: 'blur(15px)',
+          }} />
+          {/* Small purple speck */}
+          <div style={{
+            position: 'absolute',
+            bottom: '60px',
+            left: '40px',
+            width: '80px',
+            height: '80px',
+            background: 'radial-gradient(circle, rgba(168,85,247,0.18) 0%, transparent 70%)',
+            borderRadius: '50%',
+            filter: 'blur(18px)',
+          }} />
+        </div>
+
+        {/* Content */}
+        <div style={{position: 'relative', zIndex: 1}}>
+          <div style={{marginBottom: '1.5rem'}}>
+            <span
+              className="text-caption uppercase tracking-[0.25em] font-semibold"
+              style={{color: '#00F260'}}
+            >
+              Ratings & Reviews
+            </span>
+          </div>
+
+          {/* Enlarged rating display — right below eyebrow */}
+          <div style={{display: 'inline-block', position: 'relative', marginBottom: '2.5rem'}}>
+            <div style={{
+              position: 'relative',
+              background: 'linear-gradient(180deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%)',
+              borderRadius: '1.5rem',
+              padding: '1.5rem 2.5rem',
+              border: '1px solid rgba(255,255,255,0.08)',
+            }}>
+              <div style={{display: 'flex', justifyContent: 'center', gap: '0.375rem', marginBottom: '0.75rem'}}>
+                {[1, 2, 3, 4, 5].map((n) => {
+                  const filled = n <= Math.round(rating);
+                  return (
+                    <svg key={n} viewBox="0 0 24 24" style={{
+                      width: '2rem',
+                      height: '2rem',
+                      color: filled ? '#00F260' : 'rgba(255,255,255,0.15)',
+                      fill: filled ? '#00F260' : 'rgba(255,255,255,0.15)',
+                      filter: filled ? 'drop-shadow(0 0 6px rgba(0,242,96,0.4))' : 'none',
+                    }}>
+                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                    </svg>
+                  );
+                })}
+              </div>
+              <div style={{display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: '0.5rem'}}>
+                <span style={{
+                  fontSize: '3rem',
+                  fontWeight: 800,
+                  background: 'linear-gradient(135deg, #00F260 0%, #A855F7 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  lineHeight: 1,
+                }}>
+                  {rating.toFixed(1)}
+                </span>
+                <span style={{fontSize: '0.875rem', color: 'rgba(255,255,255,0.5)'}}>
+                  / 5.0
+                </span>
+              </div>
+              <p style={{fontSize: '0.8125rem', color: 'rgba(255,255,255,0.4)', marginTop: '0.25rem'}}>
+                Based on {reviewCount} {reviewCount === 1 ? 'review' : 'reviews'}
+              </p>
+            </div>
+          </div>
+
+          <h2
+            className="font-display"
+            style={{fontSize: 'clamp(1.875rem, 4vw, 3rem)', fontWeight: 700, color: '#fff', lineHeight: 1.1, marginBottom: '1rem'}}
+          >
+            What Our Customers Are Saying
+          </h2>
+          <p style={{fontSize: '1.125rem', lineHeight: 1.6, color: 'rgba(255,255,255,0.5)', maxWidth: '36rem', marginLeft: 'auto', marginRight: 'auto', marginBottom: '2rem'}}>
+            Honest reviews from verified buyers who carry their tokens every day.
+          </p>
+
+          {/* Action buttons */}
+          <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '0.75rem'}}>
+            <button
+              type="button"
+              onClick={() => setShowAllReviews(!showAllReviews)}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                padding: '0.75rem 1.75rem',
+                backgroundColor: showAllReviews ? 'transparent' : '#00F260',
+                color: showAllReviews ? '#00F260' : '#000000',
+                borderRadius: '9999px',
+                fontSize: '0.9375rem',
+                fontWeight: 600,
+                border: showAllReviews ? '1px solid rgba(0,242,96,0.3)' : 'none',
+                cursor: 'pointer',
+                transition: 'all 0.2s',
+              }}
+            >
+              {showAllReviews ? 'Back to Carousel' : `See All ${reviewCount} ${reviewCount === 1 ? 'Review' : 'Reviews'}`}
+            </button>
+            <button
+              type="button"
+              onClick={onWriteReview}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                padding: '0.75rem 1.75rem',
+                color: '#A855F7',
+                borderRadius: '9999px',
+                fontSize: '0.9375rem',
+                fontWeight: 600,
+                border: '1px solid rgba(168,85,247,0.3)',
+                backgroundColor: 'transparent',
+                cursor: 'pointer',
+                transition: 'all 0.2s',
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#A855F7'; e.currentTarget.style.color = '#000'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#A855F7'; }}
+            >
+              <PenLine style={{width: '1rem', height: '1rem'}} />
+              Write a Review
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Carousel or scrollable list */}
+      {showAllReviews ? (
+        <ProductReviewsList reviews={reviews} />
+      ) : (
+        <ProductReviewsCarousel reviews={reviews} />
+      )}
+    </section>
+  );
+}
+
+/**
+ * Reviews List — scrollable grid view of all reviews
+ */
+function ProductReviewsList({reviews}: {reviews: ProductReview[]}) {
+  const formatDate = (dateString: string) => {
+    try {
+      return new Date(dateString).toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+      });
+    } catch {
+      return '';
+    }
+  };
+
+  return (
+    <div className="container-standard">
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {reviews.map((review, index) => (
+          <motion.div
+            key={review.id}
+            initial={{opacity: 0, y: 20}}
+            animate={{opacity: 1, y: 0}}
+            transition={{delay: index * 0.05, duration: 0.4}}
+            className="rounded-2xl p-7 md:p-8 border border-white/[0.08] hover:border-white/[0.15] transition-colors"
+            style={{background: 'linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)'}}
+          >
+            {/* Header: stars + date */}
+            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem'}}>
+              <div className="flex gap-0.5">
+                {Array.from({length: 5}).map((_, i) => (
+                  <svg
+                    key={i}
+                    viewBox="0 0 24 24"
+                    className={`w-5 h-5 ${
+                      i < review.rating
+                        ? 'text-yellow-400 fill-yellow-400'
+                        : 'text-white/20 fill-white/20'
+                    }`}
+                  >
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                  </svg>
+                ))}
+              </div>
+              {review.created_at && (
+                <span style={{fontSize: '0.75rem', color: 'rgba(255,255,255,0.4)'}}>
+                  {formatDate(review.created_at)}
+                </span>
+              )}
+            </div>
+
+            {/* Title */}
+            {review.title && (
+              <h4 className="font-display font-bold text-white text-lg mb-2 line-clamp-1">
+                {review.title}
+              </h4>
+            )}
+
+            {/* Body */}
+            <p style={{fontSize: '0.9375rem', lineHeight: 1.7, color: 'rgba(255,255,255,0.6)', marginBottom: '1.5rem'}}>
+              "{review.body}"
+            </p>
+
+            {/* Reviewer */}
+            <div className="flex items-center gap-3 pt-4 border-t border-white/[0.08]">
+              <div
+                className="w-10 h-10 rounded-full flex items-center justify-center text-white font-display font-bold text-sm"
+                style={{background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.1)'}}
+              >
+                {review.reviewer.name.charAt(0).toUpperCase()}
+              </div>
+              <div>
+                <div className="font-display font-bold text-white text-sm">
+                  {review.reviewer.name}
+                </div>
+                <div className="text-xs" style={{color: '#00F260'}}>
+                  {review.reviewer.verified ? 'Verified Buyer' : 'Customer'}
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/**
  * Reviews Carousel — full-width animated marquee matching the landing page
  */
 function ProductReviewsCarousel({reviews}: {reviews: ProductReview[]}) {
-  const doubled = useMemo(() => [...reviews, ...reviews], [reviews]);
+  // Repeat enough times so the marquee fills the viewport and loops seamlessly.
+  // We need at least ~6 visible cards to look like a real stream.
+  const repeatCount = Math.max(2, Math.ceil(8 / reviews.length));
+  const looped = useMemo(
+    () => Array.from({length: repeatCount}, () => reviews).flat(),
+    [reviews, repeatCount],
+  );
+  // The marquee translates by 50% (half the total width) to loop, so we need
+  // an even number of repetitions. Double the looped array for the x: 0→-50% trick.
+  const marqueeItems = useMemo(() => [...looped, ...looped], [looped]);
 
-  // Scale speed based on count: fewer reviews → faster per-card, more → slower
-  const duration = Math.max(30, reviews.length * 8);
+  // Match landing page pace (~6s per card visible width)
+  const duration = looped.length * 6;
 
   return (
     <div className="relative">
@@ -1109,7 +1429,7 @@ function ProductReviewsCarousel({reviews}: {reviews: ProductReview[]}) {
         }}
         style={{width: 'max-content'}}
       >
-        {doubled.map((review, index) => (
+        {marqueeItems.map((review, index) => (
           <div
             key={`${review.id}-${index}`}
             className="flex-shrink-0 w-[340px] md:w-[420px]"

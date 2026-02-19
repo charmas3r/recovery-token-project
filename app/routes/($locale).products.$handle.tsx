@@ -397,6 +397,17 @@ function getVariantImages(
     return allImages;
   }
 
+  // If no images have option-specific altText tags, skip filtering entirely.
+  // This handles products that haven't been set up with per-variant image tagging.
+  const hasTaggedImages = allImages.some(img =>
+    img.altText && selectedVariant.selectedOptions.some(opt =>
+      img.altText!.toLowerCase().includes(normalizeForComparison(opt.name) + ':')
+    )
+  );
+  if (!hasTaggedImages) {
+    return allImages;
+  }
+
   // Build a set of image IDs directly assigned to variants with matching options
   const matchingImageIds = new Set<string>();
 

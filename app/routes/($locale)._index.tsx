@@ -7,6 +7,8 @@ import type {
 } from 'storefrontapi.generated';
 import {ProductItem} from '~/components/product/ProductItem';
 import {Button} from '~/components/ui/Button';
+import {getJudgeMeClient} from '~/lib/judgeme.server';
+import {extractProductId} from '~/lib/judgeme';
 import {AnimatePresence} from 'framer-motion';
 import {
   FadeUp,
@@ -230,9 +232,16 @@ function loadDeferredData({context}: Route.LoaderArgs) {
     return null;
   });
 
+  // Fetch per-product review summaries for product cards
+  const reviewSummaries = fetchProductReviewSummaries(context.env).catch((error: Error) => {
+    console.error('Failed to fetch review summaries:', error);
+    return null;
+  });
+
   return {
     recommendedProducts,
     storeReviews,
+    reviewSummaries,
   };
 }
 
@@ -287,6 +296,32 @@ async function fetchStoreReviews(env: {
 }
 
 /**
+ * Fetch per-product review summaries for product cards
+ * Returns a Map of Shopify product external ID -> {rating, reviewCount}
+ */
+async function fetchProductReviewSummaries(env: {
+  PUBLIC_JUDGEME_SHOP_DOMAIN?: string;
+  PUBLIC_STORE_DOMAIN?: string;
+  JUDGEME_PUBLIC_TOKEN?: string;
+  JUDGEME_PRIVATE_TOKEN?: string;
+}) {
+  if (!env.JUDGEME_PUBLIC_TOKEN) {
+    return null;
+  }
+
+  const judgeme = getJudgeMeClient(env as Parameters<typeof getJudgeMeClient>[0]);
+  const summaries = await judgeme.getShopReviewsSummaries();
+
+  // Convert Map to a plain object for serialization (Maps don't serialize through loaders)
+  const result: Record<string, {rating: number; reviewCount: number}> = {};
+  for (const [id, summary] of summaries) {
+    result[String(id)] = summary;
+  }
+
+  return result;
+}
+
+/**
  * Homepage - World-Class Landing Page
  * Clean, impactful design with strong visual hierarchy
  */
@@ -297,7 +332,7 @@ export default function Homepage() {
       <HeroSection collection={data.featuredCollection} />
       <PromoCarousel />
       <ProductShowcase />
-      <FeaturedProducts products={data.recommendedProducts} />
+      <FeaturedProducts products={data.recommendedProducts} reviewSummaries={data.reviewSummaries} />
       <BrandStory />
       <CustomerReviewsSection reviews={data.storeReviews} />
       <FinalCTA collection={data.featuredCollection} />
@@ -772,8 +807,10 @@ function FeatureCard({
  */
 function FeaturedProducts({
   products,
+  reviewSummaries,
 }: {
   products: Promise<RecommendedProductsQuery | null>;
+  reviewSummaries: Promise<Record<string, {rating: number; reviewCount: number}> | null>;
 }) {
   return (
     <section className="py-20 md:py-28 bg-black border-t border-white/[0.06]">
@@ -1031,21 +1068,27 @@ function FeaturedProducts({
 
         {/* Products Grid */}
         <Suspense fallback={<ProductsGridSkeleton />}>
-          <Await resolve={products}>
-            {(response) => (
+          <Await resolve={Promise.all([products, reviewSummaries])}>
+            {([response, resolvedSummaries]) => (
               <StaggerContainer className="products-grid" staggerDelay={0.1}>
                 {response
-                  ? response.products.nodes.map((product) => (
-                      <StaggerItem key={product.id}>
-                        <HoverLift lift={-8}>
-                          <ProductItem
-                            product={product}
-                            loading="lazy"
-                            variant="dark"
-                          />
-                        </HoverLift>
-                      </StaggerItem>
-                    ))
+                  ? response.products.nodes.map((product) => {
+                      const productNumericId = extractProductId(product.id);
+                      const summary = resolvedSummaries?.[productNumericId];
+                      return (
+                        <StaggerItem key={product.id}>
+                          <HoverLift lift={-8}>
+                            <ProductItem
+                              product={product}
+                              loading="lazy"
+                              variant="dark"
+                              rating={summary?.rating}
+                              reviewCount={summary?.reviewCount}
+                            />
+                          </HoverLift>
+                        </StaggerItem>
+                      );
+                    })
                   : null}
               </StaggerContainer>
             )}

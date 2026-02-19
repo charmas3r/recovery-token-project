@@ -109,12 +109,12 @@ export function createJudgeMeClient(config: JudgeMeConfig) {
       }
 
       // Response is JSON: { product_external_id, widget: "<html string>" }
-      const json = JSON.parse(text);
+      const json = JSON.parse(text) as {widget?: string};
       const widget = json.widget || '';
 
-      // Extract data attributes from the widget HTML
-      const ratingMatch = widget.match(/data-average-rating='([^']+)'/);
-      const countMatch = widget.match(/data-number-of-reviews='([^']+)'/);
+      // Extract data attributes from the widget HTML (handle both single and double quotes)
+      const ratingMatch = widget.match(/data-average-rating=["']([^"']+)["']/);
+      const countMatch = widget.match(/data-number-of-reviews=["']([^"']+)["']/);
 
       return {
         rating: ratingMatch ? parseFloat(ratingMatch[1]) : 0,
@@ -140,6 +140,61 @@ export function createJudgeMeClient(config: JudgeMeConfig) {
       });
 
       return request<JudgeMeReviewsResponse>(`/reviews?${params}`);
+    },
+
+    /**
+     * Get per-product review summaries for all products in the shop.
+     * Fetches reviews via REST API and computes averages.
+     * More reliable than widget endpoint HTML parsing.
+     */
+    async getShopReviewsSummaries(): Promise<Map<number, JudgeMeRatingSummary>> {
+      const token = config.privateToken || config.publicToken;
+      const params = new URLSearchParams({
+        shop_domain: config.shopDomain,
+        api_token: token,
+        per_page: '100',
+        page: '1',
+      });
+
+      const response = await fetch(`${baseUrl}/reviews?${params}`, {
+        headers: {'Content-Type': 'application/json'},
+      });
+
+      if (!response.ok) {
+        throw new Error(`Judge.me API error (${response.status})`);
+      }
+
+      const data = (await response.json()) as {
+        reviews?: Array<{
+          rating: number;
+          product_external_id: number;
+          published: boolean;
+          hidden: boolean;
+          curated: string;
+        }>;
+      };
+
+      // Group reviews by product and compute averages
+      const accumulator = new Map<number, {totalRating: number; count: number}>();
+
+      for (const review of data.reviews || []) {
+        if (!review.published || review.hidden || review.curated === 'spam') continue;
+
+        const existing = accumulator.get(review.product_external_id) || {totalRating: 0, count: 0};
+        existing.totalRating += review.rating;
+        existing.count += 1;
+        accumulator.set(review.product_external_id, existing);
+      }
+
+      const result = new Map<number, JudgeMeRatingSummary>();
+      for (const [id, {totalRating, count}] of accumulator) {
+        result.set(id, {
+          rating: Math.round((totalRating / count) * 10) / 10,
+          reviewCount: count,
+        });
+      }
+
+      return result;
     },
 
     /**

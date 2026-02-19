@@ -323,6 +323,20 @@ async function fetchReviewsSummary(context: Route.LoaderArgs['context'], handle:
     const productId = extractProductId(product.id);
     const summary = await judgeme.getRatingSummary(productId);
 
+    // If widget parsing returned 0 reviews, try REST API as fallback
+    if (summary.reviewCount === 0) {
+      try {
+        const summaries = await judgeme.getShopReviewsSummaries();
+        const numericId = Number(productId);
+        const restSummary = summaries.get(numericId);
+        if (restSummary && restSummary.reviewCount > 0) {
+          return restSummary;
+        }
+      } catch {
+        // Fall through to widget result
+      }
+    }
+
     return summary;
   } catch (error) {
     // Log but don't throw - reviews are non-critical

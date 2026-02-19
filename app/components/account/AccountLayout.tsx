@@ -80,7 +80,7 @@ function MobileNavLink({
       className={({isActive}) =>
         `px-4 py-2 rounded-lg text-body-sm font-medium whitespace-nowrap transition-colors ${
           isActive
-            ? 'bg-accent text-white'
+            ? 'bg-accent text-black'
             : 'bg-white/[0.05] text-white/50 hover:bg-white/[0.08] hover:text-white'
         }`
       }

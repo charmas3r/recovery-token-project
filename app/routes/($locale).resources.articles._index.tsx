@@ -249,7 +249,7 @@ export default function ArticlesHubPage() {
                 className={clsx(
                   'inline-flex items-center px-4 py-2 rounded-full text-sm font-medium transition-all duration-200',
                   activeCategory === cat
-                    ? 'bg-accent text-white'
+                    ? 'bg-accent text-black'
                     : 'bg-white/[0.05] text-white/50 hover:bg-white/[0.08] hover:text-white',
                 )}
               >

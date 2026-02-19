@@ -320,7 +320,7 @@ export default function MilestoneCalculatorPage() {
                   size="lg"
                   className={`w-full !h-14 !text-lg !rounded-xl ${
                     hasDate
-                      ? '!bg-accent !text-white'
+                      ? '!bg-accent !text-black'
                       : ''
                   }`}
                   onClick={handleCalculate}
@@ -365,7 +365,7 @@ export default function MilestoneCalculatorPage() {
               <Button
                 variant="primary"
                 size="lg"
-                className="!bg-accent !text-white"
+                className="!bg-accent !text-black"
               >
                 Shop Recovery Tokens
               </Button>

@@ -124,7 +124,7 @@ function RecoveryCircleSection({circle}: {circle: RecoveryCircleMember[]}) {
           </p>
           <Link
             to="/account/circle"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-accent text-white font-medium hover:bg-accent/90 transition-colors min-h-[44px]"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-accent text-black font-medium hover:bg-accent/90 transition-colors min-h-[44px]"
           >
             Set Up Circle
             <ChevronRight className="w-4 h-4" />
@@ -259,7 +259,7 @@ function QuickLinkCard({
       to={to}
       className="flex items-start gap-4 lg:gap-5 p-5 lg:p-6 rounded-xl border border-white/[0.08] hover:border-white/[0.15] transition-all duration-200 group"
     >
-      <div className="flex-shrink-0 w-12 h-12 lg:w-14 lg:h-14 rounded-xl bg-accent/10 flex items-center justify-center text-accent group-hover:bg-accent group-hover:text-white transition-colors">
+      <div className="flex-shrink-0 w-12 h-12 lg:w-14 lg:h-14 rounded-xl bg-accent/10 flex items-center justify-center text-accent group-hover:bg-accent group-hover:text-black transition-colors">
         {icon}
       </div>
       <div className="flex-1 min-w-0">

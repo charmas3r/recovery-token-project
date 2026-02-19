@@ -424,7 +424,7 @@ export function WriteReviewModal({
                       'px-4 py-2 rounded-full text-sm font-medium transition-all',
                       'border focus:outline-none focus:ring-2 focus:ring-accent',
                       quality === option
-                        ? 'bg-accent text-white border-accent'
+                        ? 'bg-accent text-black border-accent'
                         : 'bg-white/[0.05] text-white/50 border-white/[0.08] hover:border-accent/40 hover:text-white',
                     )}
                   >

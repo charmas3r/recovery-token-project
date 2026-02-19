@@ -11,9 +11,10 @@ import {
   FileText,
   Gem,
   Ruler,
-  Sparkles,
+  ShieldCheck,
   Truck,
 } from 'lucide-react';
+import {CoinModel} from './CoinModel';
 
 interface ProductDetailsProps {
   descriptionHtml: string;
@@ -114,31 +115,24 @@ export function ProductDetails({
               ~1.2 oz (34 g) — substantial feel in hand
             </span>
           </div>
-          {/* Visual size reference */}
-          <div className="flex items-center gap-4 pt-2">
-            <div
-              className="rounded-full border border-white/[0.15] flex items-center justify-center"
-              style={{
-                width: '48px',
-                height: '48px',
-                background:
-                  'linear-gradient(135deg, rgba(184,118,79,0.3) 0%, rgba(184,118,79,0.1) 100%)',
-              }}
-            >
-              <span className="text-[10px] text-white/50 font-medium">
-                40mm
+          {/* Visual size reference — interactive 3D coin at actual size */}
+          <div className="flex items-center gap-5 pt-3">
+            <CoinModel size={151} thickness={11} accentColor="#B8764F" />
+            <div className="text-body-sm space-y-1">
+              <span className="text-white/60 block">
+                Shown at actual size on most screens
+              </span>
+              <span className="text-white/40 block">
+                Slightly larger than a U.S. half-dollar coin
               </span>
             </div>
-            <span className="text-body-sm text-white/40">
-              Slightly larger than a U.S. half-dollar coin
-            </span>
           </div>
         </div>
       ),
     },
     {
       id: 'care',
-      icon: <Sparkles className="w-5 h-5" />,
+      icon: <ShieldCheck className="w-5 h-5" />,
       title: 'Care Instructions',
       content: (
         <div className="space-y-3 text-body-sm text-white/50 leading-relaxed">

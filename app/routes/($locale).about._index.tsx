@@ -14,7 +14,7 @@ import {buildMeta} from '~/lib/meta';
 
 export const meta: MetaFunction = () => {
   return buildMeta({
-    title: 'About Us — Recovery Token Store',
+    title: 'About Us — Coin-plugz',
     description:
       'Learn about our mission, discover why recovery tokens matter, and hear stories from our community. Premium tokens celebrating sobriety milestones.',
   });

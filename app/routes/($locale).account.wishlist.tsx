@@ -10,7 +10,7 @@ import {Heart, X} from 'lucide-react';
 import {Button} from '~/components/ui/Button';
 
 export const meta: Route.MetaFunction = () => {
-  return [{title: 'My Wishlist | Recovery Token Store'}];
+  return [{title: 'My Wishlist | Coin-plugz'}];
 };
 
 const WISHLIST_PRODUCT_QUERY = `#graphql

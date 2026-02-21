@@ -38,7 +38,7 @@ export const meta: Route.MetaFunction = ({data}) => {
   }
 
   return buildMeta({
-    title: `${product.title} | Recovery Token Store`,
+    title: `${product.title} | Coin-plugz`,
     description: product.description,
     ogImage: product.selectedOrFirstAvailableVariant?.image?.url || undefined,
     ogType: 'product',
@@ -487,7 +487,7 @@ export default function Product() {
     sku: selectedVariant?.sku,
     brand: {
       '@type': 'Brand',
-      name: vendor || 'Recovery Token Store',
+      name: vendor || 'Coin-plugz',
     },
     offers: {
       '@type': 'Offer',

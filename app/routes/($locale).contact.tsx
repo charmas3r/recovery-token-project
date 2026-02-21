@@ -20,7 +20,7 @@ import {buildMeta} from '~/lib/meta';
 
 export const meta: Route.MetaFunction = () => {
   return buildMeta({
-    title: 'Contact Us | Recovery Token Store',
+    title: 'Contact Us | Coin-plugz',
     description:
       'Have questions about recovery tokens or your order? We\'re here to help. Reach out to our supportive team.',
   });

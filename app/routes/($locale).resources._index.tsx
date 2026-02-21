@@ -24,7 +24,7 @@ import {buildMeta} from '~/lib/meta';
 
 export const meta: MetaFunction = () => {
   return buildMeta({
-    title: 'Recovery Resources — Recovery Token Store',
+    title: 'Recovery Resources — Coin-plugz',
     description:
       'Explore recovery articles, a comprehensive glossary, and an interactive milestone calculator. Free resources to support your recovery journey.',
   });

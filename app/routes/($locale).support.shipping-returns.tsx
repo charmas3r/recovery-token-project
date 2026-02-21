@@ -26,7 +26,7 @@ import {buildMeta} from '~/lib/meta';
 
 export const meta: MetaFunction = () => {
   return buildMeta({
-    title: 'Shipping & Returns — Recovery Token Store',
+    title: 'Shipping & Returns — Coin-plugz',
     description:
       'Free shipping on orders over $75. Standard, expedited, and overnight options. Easy 30-day returns for non-personalized items. Learn about our full shipping and return policies.',
   });

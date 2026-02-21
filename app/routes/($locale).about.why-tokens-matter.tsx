@@ -14,7 +14,7 @@ import {buildMeta} from '~/lib/meta';
 
 export const meta: MetaFunction = () => {
   return buildMeta({
-    title: 'Why Tokens Matter — Recovery Token Store',
+    title: 'Why Tokens Matter — Coin-plugz',
     description:
       'Discover the psychology and tradition behind recovery tokens. Learn why physical symbols help anchor abstract achievements and support long-term sobriety.',
   });

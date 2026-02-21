@@ -201,7 +201,7 @@ function ScrambleHeading() {
 
 export const meta: Route.MetaFunction = () => {
   return buildMeta({
-    title: 'Recovery Token Store | Meaningful Milestone Tokens',
+    title: 'Coin-plugz | Meaningful Milestone Tokens',
     description:
       'Premium hand-crafted recovery tokens celebrating sobriety milestones. Honor every step of your journey with tokens made to last a lifetime.',
   });

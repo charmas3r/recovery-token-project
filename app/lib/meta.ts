@@ -1,4 +1,4 @@
-const SITE_NAME = 'Recovery Token Store';
+const SITE_NAME = 'Coin-plugz';
 const DEFAULT_OG_IMAGE =
   'https://cdn.shopify.com/s/files/1/0752/2733/2779/files/sunflower-token-final-webp.webp?v=1769842039';
 const DEFAULT_DESCRIPTION =

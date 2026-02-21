@@ -26,9 +26,9 @@ interface Review {
 
 export const meta: Route.MetaFunction = () => {
   return buildMeta({
-    title: 'Customer Reviews — Recovery Token Store',
+    title: 'Customer Reviews — Coin-plugz',
     description:
-      'Read real reviews from our community. See why thousands trust Recovery Token Store for meaningful sobriety milestone tokens.',
+      'Read real reviews from our community. See why thousands trust Coin-plugz for meaningful sobriety milestone tokens.',
   });
 };
 
@@ -134,7 +134,7 @@ export default function ReviewsPage() {
     ? {
         '@context': 'https://schema.org',
         '@type': 'Organization',
-        name: 'Recovery Token Store',
+        name: 'Coin-plugz',
         url: 'https://recoverytokenstore.com',
         aggregateRating: {
           '@type': 'AggregateRating',

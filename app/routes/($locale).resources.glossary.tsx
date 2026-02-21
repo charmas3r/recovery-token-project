@@ -32,7 +32,7 @@ import {buildMeta} from '~/lib/meta';
 
 export const meta: MetaFunction = () => {
   return buildMeta({
-    title: 'Recovery Glossary — Recovery Token Store',
+    title: 'Recovery Glossary — Coin-plugz',
     description:
       'Learn the meaning of sobriety coins, AA chips, clean time, and 30+ recovery terms. A comprehensive glossary for anyone on the recovery journey.',
   });

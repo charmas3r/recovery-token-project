@@ -25,7 +25,7 @@ import {buildMeta} from '~/lib/meta';
 
 export const meta: MetaFunction<typeof loader> = ({data}) => {
   if (!data?.article) {
-    return [{title: 'Article Not Found — Recovery Token Store'}];
+    return [{title: 'Article Not Found — Coin-plugz'}];
   }
   const article = data.article as Article;
   return buildMeta({
@@ -67,7 +67,7 @@ export default function ArticlePage() {
     url: `https://recoverytokenstore.com/resources/articles/${typedArticle.slug}`,
     publisher: {
       '@type': 'Organization',
-      name: 'Recovery Token Store',
+      name: 'Coin-plugz',
       url: 'https://recoverytokenstore.com',
     },
     mainEntityOfPage: {

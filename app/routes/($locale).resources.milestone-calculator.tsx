@@ -25,7 +25,7 @@ import {buildMeta} from '~/lib/meta';
 
 export const meta: MetaFunction = () => {
   return buildMeta({
-    title: 'Sobriety Milestone Calculator — Recovery Token Store',
+    title: 'Sobriety Milestone Calculator — Coin-plugz',
     description:
       'Enter your sobriety date to see how many days sober you are, milestones achieved, and what\'s coming next. Free recovery milestone calculator.',
   });

@@ -14,7 +14,7 @@ import {buildMeta} from '~/lib/meta';
 
 export const meta: MetaFunction = () => {
   return buildMeta({
-    title: 'Our Story — Recovery Token Store',
+    title: 'Our Story — Coin-plugz',
     description:
       'Discover our mission to create premium, handcrafted recovery tokens that honor sobriety milestones. Learn about our values, our beginning, and what sets us apart.',
   });
@@ -305,7 +305,7 @@ export default function OurStoryPage() {
                   color: 'rgba(255,255,255,0.5)',
                 }}
               >
-                Recovery Token Store was born from a simple observation: the
+                Coin-plugz was born from a simple observation: the
                 tokens available to celebrate sobriety milestones did not
                 reflect the magnitude of the achievement. Standard chips
                 and medallions served their purpose, but we believed people

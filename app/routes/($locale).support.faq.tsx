@@ -18,9 +18,9 @@ import {buildMeta} from '~/lib/meta';
 
 export const meta: MetaFunction = () => {
   return buildMeta({
-    title: 'FAQ — Recovery Token Store',
+    title: 'FAQ — Coin-plugz',
     description:
-      'Find answers to frequently asked questions about Recovery Token Store — orders, shipping, returns, engraving, product details, and account help.',
+      'Find answers to frequently asked questions about Coin-plugz — orders, shipping, returns, engraving, product details, and account help.',
   });
 };
 

@@ -15,7 +15,7 @@ import {buildMeta} from '~/lib/meta';
 
 export const meta: MetaFunction = () => {
   return buildMeta({
-    title: 'Testimonials — Recovery Token Store',
+    title: 'Testimonials — Coin-plugz',
     description:
       'Hear from members of our community about how recovery tokens have become meaningful companions on their sobriety journey.',
   });

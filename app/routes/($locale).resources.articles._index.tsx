@@ -26,7 +26,7 @@ import {buildMeta} from '~/lib/meta';
 
 export const meta: MetaFunction = () => {
   return buildMeta({
-    title: 'Recovery Token Articles — Recovery Token Store',
+    title: 'Recovery Token Articles — Coin-plugz',
     description:
       'Explore articles about recovery token history, craftsmanship, symbolism, and traditions. Learn about AA chips, sobriety coins, and the heritage behind every token.',
   });

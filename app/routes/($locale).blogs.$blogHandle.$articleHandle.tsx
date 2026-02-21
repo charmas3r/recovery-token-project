@@ -7,8 +7,8 @@ import {buildMeta} from '~/lib/meta';
 export const meta: Route.MetaFunction = ({data}) => {
   const article = data?.article;
   const title = article?.title
-    ? `${article.title} | Recovery Token Store`
-    : 'Article | Recovery Token Store';
+    ? `${article.title} | Coin-plugz`
+    : 'Article | Coin-plugz';
   return buildMeta({
     title,
     description: article?.contentHtml

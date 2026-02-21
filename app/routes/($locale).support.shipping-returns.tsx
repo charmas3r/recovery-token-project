@@ -22,27 +22,14 @@ import {
   DAMAGED_ITEMS,
   type PolicySection,
 } from '~/data/shipping-returns';
+import {buildMeta} from '~/lib/meta';
 
 export const meta: MetaFunction = () => {
-  return [
-    {title: 'Shipping & Returns — Recovery Token Store'},
-    {
-      name: 'description',
-      content:
-        'Free shipping on orders over $75. Standard, expedited, and overnight options. Easy 30-day returns for non-personalized items. Learn about our full shipping and return policies.',
-    },
-    {
-      property: 'og:title',
-      content: 'Shipping & Returns — Recovery Token Store',
-    },
-    {
-      property: 'og:description',
-      content:
-        'Free shipping over $75. Standard, expedited, and overnight options. Easy 30-day returns.',
-    },
-    {property: 'og:type', content: 'website'},
-    {name: 'twitter:card', content: 'summary_large_image'},
-  ];
+  return buildMeta({
+    title: 'Shipping & Returns — Recovery Token Store',
+    description:
+      'Free shipping on orders over $75. Standard, expedited, and overnight options. Easy 30-day returns for non-personalized items. Learn about our full shipping and return policies.',
+  });
 };
 
 function PolicySectionBlock({section}: {section: PolicySection}) {

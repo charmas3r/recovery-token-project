@@ -10,6 +10,7 @@ import type {Route} from './+types/reviews';
 import {Breadcrumbs} from '~/components/ui/Breadcrumbs';
 import {JsonLd} from '~/components/seo/JsonLd';
 import {Button} from '~/components/ui/Button';
+import {buildMeta} from '~/lib/meta';
 
 interface Review {
   id: string;
@@ -24,25 +25,11 @@ interface Review {
 }
 
 export const meta: Route.MetaFunction = () => {
-  return [
-    {title: 'Customer Reviews — Recovery Token Store'},
-    {
-      name: 'description',
-      content:
-        'Read real reviews from our community. See why thousands trust Recovery Token Store for meaningful sobriety milestone tokens.',
-    },
-    {
-      property: 'og:title',
-      content: 'Customer Reviews — Recovery Token Store',
-    },
-    {
-      property: 'og:description',
-      content:
-        'Read real reviews from our community. See why thousands trust Recovery Token Store for meaningful milestone tokens.',
-    },
-    {property: 'og:type', content: 'website'},
-    {name: 'twitter:card', content: 'summary_large_image'},
-  ];
+  return buildMeta({
+    title: 'Customer Reviews — Recovery Token Store',
+    description:
+      'Read real reviews from our community. See why thousands trust Recovery Token Store for meaningful sobriety milestone tokens.',
+  });
 };
 
 export async function loader({context}: Route.LoaderArgs) {

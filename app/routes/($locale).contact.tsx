@@ -16,16 +16,14 @@ import {Button} from '~/components/ui/Button';
 import {Input, Textarea, inputStyles, textareaStyles} from '~/components/ui/Input';
 import {contactFormSchema, formatZodErrors} from '~/lib/validation';
 import {getKlaviyoClient, KlaviyoError} from '~/lib/klaviyo.server';
+import {buildMeta} from '~/lib/meta';
 
 export const meta: Route.MetaFunction = () => {
-  return [
-    {title: 'Contact Us | Recovery Token Store'},
-    {
-      name: 'description',
-      content:
-        'Have questions about recovery tokens or your order? We\'re here to help. Reach out to our supportive team.',
-    },
-  ];
+  return buildMeta({
+    title: 'Contact Us | Recovery Token Store',
+    description:
+      'Have questions about recovery tokens or your order? We\'re here to help. Reach out to our supportive team.',
+  });
 };
 
 interface ActionData {

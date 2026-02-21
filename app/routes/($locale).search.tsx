@@ -12,9 +12,14 @@ import type {
   RegularSearchQuery,
   PredictiveSearchQuery,
 } from 'storefrontapi.generated';
+import {buildMeta} from '~/lib/meta';
 
 export const meta: Route.MetaFunction = () => {
-  return [{title: `Recovery Token Store | Search`}];
+  return buildMeta({
+    title: 'Search | Recovery Token Store',
+    description: 'Search for recovery tokens, collections, and resources.',
+    noIndex: true,
+  });
 };
 
 export async function loader({request, context}: Route.LoaderArgs) {

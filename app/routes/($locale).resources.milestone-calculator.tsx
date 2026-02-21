@@ -21,16 +21,14 @@ import {
   calculateMilestones,
   type CalculationResult,
 } from '~/data/milestones';
+import {buildMeta} from '~/lib/meta';
 
 export const meta: MetaFunction = () => {
-  return [
-    {title: 'Sobriety Milestone Calculator — Recovery Token Store'},
-    {
-      name: 'description',
-      content:
-        'Enter your sobriety date to see how many days sober you are, milestones achieved, and what\'s coming next. Free recovery milestone calculator.',
-    },
-  ];
+  return buildMeta({
+    title: 'Sobriety Milestone Calculator — Recovery Token Store',
+    description:
+      'Enter your sobriety date to see how many days sober you are, milestones achieved, and what\'s coming next. Free recovery milestone calculator.',
+  });
 };
 
 export async function loader() {

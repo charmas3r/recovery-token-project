@@ -28,56 +28,37 @@ import {Heart, PenLine} from 'lucide-react';
 import {motion} from 'framer-motion';
 import {WriteReviewModal} from '~/components/reviews/WriteReviewModal';
 import {ProductDetails} from '~/components/product/ProductDetails';
+import {buildMeta} from '~/lib/meta';
 
 export const meta: Route.MetaFunction = ({data}) => {
   const product = data?.product;
-  const reviewsSummary = data?.reviewsSummary;
 
   if (!product) {
     return [{title: 'Product Not Found'}];
   }
 
-  return [
-    {title: `${product.title} | Recovery Token Store`},
-    {name: 'description', content: product.description},
-    {
-      tagName: 'link',
-      rel: 'canonical',
-      href: `https://recoverytoken.store/products/${product.handle}`,
-    },
-
-    // OpenGraph
-    {property: 'og:type', content: 'product'},
-    {property: 'og:title', content: product.title},
-    {property: 'og:description', content: product.description},
-    {
-      property: 'og:image',
-      content: product.selectedOrFirstAvailableVariant?.image?.url,
-    },
-    {
-      property: 'og:url',
-      content: `https://recoverytoken.store/products/${product.handle}`,
-    },
-
-    // Twitter Card
-    {name: 'twitter:card', content: 'summary_large_image'},
-    {name: 'twitter:title', content: product.title},
-    {name: 'twitter:description', content: product.description},
-    {
-      name: 'twitter:image',
-      content: product.selectedOrFirstAvailableVariant?.image?.url,
-    },
-
-    // Product-specific meta
-    {
-      property: 'product:price:amount',
-      content: product.selectedOrFirstAvailableVariant?.price.amount,
-    },
-    {
-      property: 'product:price:currency',
-      content: product.selectedOrFirstAvailableVariant?.price.currencyCode,
-    },
-  ];
+  return buildMeta({
+    title: `${product.title} | Recovery Token Store`,
+    description: product.description,
+    ogImage: product.selectedOrFirstAvailableVariant?.image?.url || undefined,
+    ogType: 'product',
+    url: `/products/${product.handle}`,
+    extra: [
+      {
+        tagName: 'link',
+        rel: 'canonical',
+        href: `/products/${product.handle}`,
+      },
+      {
+        property: 'product:price:amount',
+        content: product.selectedOrFirstAvailableVariant?.price.amount,
+      },
+      {
+        property: 'product:price:currency',
+        content: product.selectedOrFirstAvailableVariant?.price.currencyCode,
+      },
+    ],
+  });
 };
 
 export async function loader(args: Route.LoaderArgs) {

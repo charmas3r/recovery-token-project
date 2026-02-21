@@ -1,9 +1,13 @@
 import {useLoaderData} from 'react-router';
 import type {Route} from './+types/pages.$handle';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
+import {buildMeta} from '~/lib/meta';
 
 export const meta: Route.MetaFunction = ({data}) => {
-  return [{title: `Hydrogen | ${data?.page.title ?? ''}`}];
+  const title = data?.page?.title
+    ? `${data.page.title} | Recovery Token Store`
+    : 'Recovery Token Store';
+  return buildMeta({title});
 };
 
 export async function loader(args: Route.LoaderArgs) {

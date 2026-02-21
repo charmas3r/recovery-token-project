@@ -21,27 +21,20 @@ import {
   getHeadings,
 } from '~/lib/sanity.queries';
 import type {Article} from '~/data/articles';
+import {buildMeta} from '~/lib/meta';
 
 export const meta: MetaFunction<typeof loader> = ({data}) => {
   if (!data?.article) {
     return [{title: 'Article Not Found — Recovery Token Store'}];
   }
   const article = data.article as Article;
-  return [
-    {title: article.metaTitle},
-    {name: 'description', content: article.metaDescription},
-    {property: 'og:title', content: article.metaTitle},
-    {property: 'og:description', content: article.metaDescription},
-    {property: 'og:type', content: 'article'},
-    {
-      property: 'og:url',
-      content: `https://recoverytokenstore.com/resources/articles/${article.slug}`,
-    },
-    {name: 'twitter:card', content: 'summary_large_image'},
-    {name: 'twitter:title', content: article.metaTitle},
-    {name: 'twitter:description', content: article.metaDescription},
-    {name: 'keywords', content: article.keywords.join(', ')},
-  ];
+  return buildMeta({
+    title: article.metaTitle,
+    description: article.metaDescription,
+    ogType: 'article',
+    url: `/resources/articles/${article.slug}`,
+    extra: [{name: 'keywords', content: article.keywords.join(', ')}],
+  });
 };
 
 export async function loader({params}: Route.LoaderArgs) {

@@ -3,11 +3,16 @@ import type {Route} from './+types/blogs._index';
 import {getPaginationVariables} from '@shopify/hydrogen';
 import {PaginatedResourceSection} from '~/components/layout/PaginatedResourceSection';
 import type {BlogsQuery} from 'storefrontapi.generated';
+import {buildMeta} from '~/lib/meta';
 
 type BlogNode = BlogsQuery['blogs']['nodes'][0];
 
 export const meta: Route.MetaFunction = () => {
-  return [{title: `Hydrogen | Blogs`}];
+  return buildMeta({
+    title: 'Blog | Recovery Token Store',
+    description:
+      'Stories, guides, and insights about recovery milestones and the journey of sobriety.',
+  });
 };
 
 export async function loader(args: Route.LoaderArgs) {

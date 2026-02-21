@@ -11,27 +11,14 @@ import {Breadcrumbs} from '~/components/ui/Breadcrumbs';
 import {JsonLd} from '~/components/seo/JsonLd';
 import {Button} from '~/components/ui/Button';
 import {TESTIMONIALS} from '~/data/testimonials';
+import {buildMeta} from '~/lib/meta';
 
 export const meta: MetaFunction = () => {
-  return [
-    {title: 'Testimonials — Recovery Token Store'},
-    {
-      name: 'description',
-      content:
-        'Hear from members of our community about how recovery tokens have become meaningful companions on their sobriety journey.',
-    },
-    {
-      property: 'og:title',
-      content: 'Testimonials — Recovery Token Store',
-    },
-    {
-      property: 'og:description',
-      content:
-        'Real stories from real people about how recovery tokens support their sobriety journey.',
-    },
-    {property: 'og:type', content: 'website'},
-    {name: 'twitter:card', content: 'summary_large_image'},
-  ];
+  return buildMeta({
+    title: 'Testimonials — Recovery Token Store',
+    description:
+      'Hear from members of our community about how recovery tokens have become meaningful companions on their sobriety journey.',
+  });
 };
 
 export default function TestimonialsPage() {

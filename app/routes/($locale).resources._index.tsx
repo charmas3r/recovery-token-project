@@ -20,27 +20,14 @@ import {inputStyles} from '~/components/ui/Input';
 import {getAllArticles, getAllGlossaryTerms} from '~/lib/sanity.queries';
 import type {Article} from '~/data/articles';
 import type {GlossaryTerm} from '~/data/glossary-terms';
+import {buildMeta} from '~/lib/meta';
 
 export const meta: MetaFunction = () => {
-  return [
-    {title: 'Recovery Resources — Recovery Token Store'},
-    {
-      name: 'description',
-      content:
-        'Explore recovery articles, a comprehensive glossary, and an interactive milestone calculator. Free resources to support your recovery journey.',
-    },
-    {
-      property: 'og:title',
-      content: 'Recovery Resources — Recovery Token Store',
-    },
-    {
-      property: 'og:description',
-      content:
-        'Explore recovery articles, a comprehensive glossary, and an interactive milestone calculator.',
-    },
-    {property: 'og:type', content: 'website'},
-    {name: 'twitter:card', content: 'summary_large_image'},
-  ];
+  return buildMeta({
+    title: 'Recovery Resources — Recovery Token Store',
+    description:
+      'Explore recovery articles, a comprehensive glossary, and an interactive milestone calculator. Free resources to support your recovery journey.',
+  });
 };
 
 export async function loader() {

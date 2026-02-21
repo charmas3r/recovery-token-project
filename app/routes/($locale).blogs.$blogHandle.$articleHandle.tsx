@@ -2,9 +2,21 @@ import {useLoaderData} from 'react-router';
 import type {Route} from './+types/blogs.$blogHandle.$articleHandle';
 import {Image} from '@shopify/hydrogen';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
+import {buildMeta} from '~/lib/meta';
 
 export const meta: Route.MetaFunction = ({data}) => {
-  return [{title: `Hydrogen | ${data?.article.title ?? ''} article`}];
+  const article = data?.article;
+  const title = article?.title
+    ? `${article.title} | Recovery Token Store`
+    : 'Article | Recovery Token Store';
+  return buildMeta({
+    title,
+    description: article?.contentHtml
+      ? article.contentHtml.replace(/<[^>]*>/g, '').slice(0, 160)
+      : undefined,
+    ogImage: article?.image?.url || undefined,
+    ogType: 'article',
+  });
 };
 
 export async function loader(args: Route.LoaderArgs) {

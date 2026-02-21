@@ -4,9 +4,14 @@ import {getPaginationVariables, Image, Money} from '@shopify/hydrogen';
 import {PaginatedResourceSection} from '~/components/layout/PaginatedResourceSection';
 import {ProductItem} from '~/components/product/ProductItem';
 import type {CollectionItemFragment} from 'storefrontapi.generated';
+import {buildMeta} from '~/lib/meta';
 
 export const meta: Route.MetaFunction = () => {
-  return [{title: `Hydrogen | Products`}];
+  return buildMeta({
+    title: 'All Products | Recovery Token Store',
+    description:
+      'Browse our full collection of premium recovery tokens celebrating sobriety milestones.',
+  });
 };
 
 export async function loader(args: Route.LoaderArgs) {

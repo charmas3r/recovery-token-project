@@ -22,20 +22,14 @@ import {getAllArticles} from '~/lib/sanity.queries';
 import type {Article, ArticleCategory} from '~/data/articles';
 import {ARTICLE_CATEGORIES} from '~/data/articles';
 import {clsx} from 'clsx';
+import {buildMeta} from '~/lib/meta';
 
 export const meta: MetaFunction = () => {
-  return [
-    {title: 'Recovery Token Articles — Recovery Token Store'},
-    {
-      name: 'description',
-      content:
-        'Explore articles about recovery token history, craftsmanship, symbolism, and traditions. Learn about AA chips, sobriety coins, and the heritage behind every token.',
-    },
-    {property: 'og:title', content: 'Recovery Token Articles — Recovery Token Store'},
-    {property: 'og:description', content: 'Explore articles about recovery token history, craftsmanship, symbolism, and traditions.'},
-    {property: 'og:type', content: 'website'},
-    {name: 'twitter:card', content: 'summary_large_image'},
-  ];
+  return buildMeta({
+    title: 'Recovery Token Articles — Recovery Token Store',
+    description:
+      'Explore articles about recovery token history, craftsmanship, symbolism, and traditions. Learn about AA chips, sobriety coins, and the heritage behind every token.',
+  });
 };
 
 export async function loader() {

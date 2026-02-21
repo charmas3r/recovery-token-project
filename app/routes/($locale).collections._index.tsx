@@ -3,6 +3,15 @@ import type {Route} from './+types/collections._index';
 import {getPaginationVariables, Image} from '@shopify/hydrogen';
 import type {CollectionFragment} from 'storefrontapi.generated';
 import {PaginatedResourceSection} from '~/components/layout/PaginatedResourceSection';
+import {buildMeta} from '~/lib/meta';
+
+export const meta: Route.MetaFunction = () => {
+  return buildMeta({
+    title: 'Collections | Recovery Token Store',
+    description:
+      'Browse our curated collections of premium recovery tokens for every milestone.',
+  });
+};
 
 export async function loader(args: Route.LoaderArgs) {
   // Start fetching non-critical data without blocking time to first byte

@@ -28,16 +28,14 @@ import {
   type GlossaryCategory,
   type GlossaryTerm,
 } from '~/data/glossary-terms';
+import {buildMeta} from '~/lib/meta';
 
 export const meta: MetaFunction = () => {
-  return [
-    {title: 'Recovery Glossary — Recovery Token Store'},
-    {
-      name: 'description',
-      content:
-        'Learn the meaning of sobriety coins, AA chips, clean time, and 30+ recovery terms. A comprehensive glossary for anyone on the recovery journey.',
-    },
-  ];
+  return buildMeta({
+    title: 'Recovery Glossary — Recovery Token Store',
+    description:
+      'Learn the meaning of sobriety coins, AA chips, clean time, and 30+ recovery terms. A comprehensive glossary for anyone on the recovery journey.',
+  });
 };
 
 export async function loader() {

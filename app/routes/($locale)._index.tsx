@@ -7,6 +7,7 @@ import type {
 } from 'storefrontapi.generated';
 import {ProductItem} from '~/components/product/ProductItem';
 import {Button} from '~/components/ui/Button';
+import {buildMeta} from '~/lib/meta';
 import {getJudgeMeClient} from '~/lib/judgeme.server';
 import {extractProductId} from '~/lib/judgeme';
 import {AnimatePresence} from 'framer-motion';
@@ -199,7 +200,11 @@ function ScrambleHeading() {
 }
 
 export const meta: Route.MetaFunction = () => {
-  return [{title: 'Recovery Token Store | Meaningful Milestone Tokens'}];
+  return buildMeta({
+    title: 'Recovery Token Store | Meaningful Milestone Tokens',
+    description:
+      'Premium hand-crafted recovery tokens celebrating sobriety milestones. Honor every step of your journey with tokens made to last a lifetime.',
+  });
 };
 
 export async function loader(args: Route.LoaderArgs) {

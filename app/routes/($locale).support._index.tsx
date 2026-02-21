@@ -10,27 +10,14 @@ import {HelpCircle, Truck, Mail, ArrowRight} from 'lucide-react';
 import {Breadcrumbs} from '~/components/ui/Breadcrumbs';
 import {JsonLd} from '~/components/seo/JsonLd';
 import {Button} from '~/components/ui/Button';
+import {buildMeta} from '~/lib/meta';
 
 export const meta: MetaFunction = () => {
-  return [
-    {title: 'Support Center — Recovery Token Store'},
-    {
-      name: 'description',
-      content:
-        'Get help with orders, shipping, returns, and more. Browse our FAQ, learn about our shipping policies, or contact our support team.',
-    },
-    {
-      property: 'og:title',
-      content: 'Support Center — Recovery Token Store',
-    },
-    {
-      property: 'og:description',
-      content:
-        'Get help with orders, shipping, returns, and more. Browse our FAQ or contact our support team.',
-    },
-    {property: 'og:type', content: 'website'},
-    {name: 'twitter:card', content: 'summary_large_image'},
-  ];
+  return buildMeta({
+    title: 'Support Center — Recovery Token Store',
+    description:
+      'Get help with orders, shipping, returns, and more. Browse our FAQ, learn about our shipping policies, or contact our support team.',
+  });
 };
 
 const SUPPORT_CARDS = [

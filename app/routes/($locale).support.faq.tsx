@@ -14,27 +14,14 @@ import {Accordion, AccordionItem} from '~/components/ui/Accordion';
 import {Button} from '~/components/ui/Button';
 
 import {FAQ_ITEMS, FAQ_CATEGORIES, type FAQCategory} from '~/data/faq';
+import {buildMeta} from '~/lib/meta';
 
 export const meta: MetaFunction = () => {
-  return [
-    {title: 'FAQ — Recovery Token Store'},
-    {
-      name: 'description',
-      content:
-        'Find answers to frequently asked questions about Recovery Token Store — orders, shipping, returns, engraving, product details, and account help.',
-    },
-    {
-      property: 'og:title',
-      content: 'Frequently Asked Questions — Recovery Token Store',
-    },
-    {
-      property: 'og:description',
-      content:
-        'Answers to common questions about orders, shipping, returns, engraving, and more.',
-    },
-    {property: 'og:type', content: 'website'},
-    {name: 'twitter:card', content: 'summary_large_image'},
-  ];
+  return buildMeta({
+    title: 'FAQ — Recovery Token Store',
+    description:
+      'Find answers to frequently asked questions about Recovery Token Store — orders, shipping, returns, engraving, product details, and account help.',
+  });
 };
 
 export default function FAQPage() {

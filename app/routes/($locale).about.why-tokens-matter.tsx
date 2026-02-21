@@ -10,27 +10,14 @@ import {Brain, History, Sparkles, Check} from 'lucide-react';
 import {Breadcrumbs} from '~/components/ui/Breadcrumbs';
 import {JsonLd} from '~/components/seo/JsonLd';
 import {Button} from '~/components/ui/Button';
+import {buildMeta} from '~/lib/meta';
 
 export const meta: MetaFunction = () => {
-  return [
-    {title: 'Why Tokens Matter — Recovery Token Store'},
-    {
-      name: 'description',
-      content:
-        'Discover the psychology and tradition behind recovery tokens. Learn why physical symbols help anchor abstract achievements and support long-term sobriety.',
-    },
-    {
-      property: 'og:title',
-      content: 'Why Tokens Matter — Recovery Token Store',
-    },
-    {
-      property: 'og:description',
-      content:
-        'Discover the psychology and tradition behind recovery tokens and why physical symbols matter.',
-    },
-    {property: 'og:type', content: 'website'},
-    {name: 'twitter:card', content: 'summary_large_image'},
-  ];
+  return buildMeta({
+    title: 'Why Tokens Matter — Recovery Token Store',
+    description:
+      'Discover the psychology and tradition behind recovery tokens. Learn why physical symbols help anchor abstract achievements and support long-term sobriety.',
+  });
 };
 
 const IMPACT_CARDS = [

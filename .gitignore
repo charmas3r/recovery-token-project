@@ -9,3 +9,19 @@ node_modules
 .react-router
 .claude/settings.local.json
 api/server.js
+
+# IDE
+.idea/
+
+# Build artifacts
+tsconfig.tsbuildinfo
+
+# Playwright MCP logs/screenshots
+.playwright-mcp/
+
+# Sanity studio runtime
+studio/.sanity/
+
+# Debug screenshots
+*.png
+!public/*.png

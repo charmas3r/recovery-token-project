@@ -7,7 +7,7 @@ export function CoinPlugzLogo() {
       to="/"
       end
       className="coinplugz-logo"
-      aria-label="Coin-Plugz"
+      aria-label="Coin-plugz"
     >
       {/* Electric C Icon */}
       <span className="cp-icon">
@@ -83,7 +83,7 @@ export function CoinPlugzLogo() {
             <circle cx="12" cy="28" r="0.8" fill="#00ff78" className="cpsk3" />
           </svg>
         </span>
-        <span className="cp-plugz">Plugz</span>
+        <span className="cp-plugz">plugz</span>
       </span>
     </NavLink>
   );

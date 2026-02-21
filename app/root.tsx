@@ -173,8 +173,8 @@ export function Layout({children}: {children?: React.ReactNode}) {
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <meta name="theme-color" content="#000000" />
+        <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 58 58' fill='none'%3E%3Crect width='58' height='58' rx='8' fill='%23000000'/%3E%3Ccircle cx='29' cy='29' r='26' stroke='%2300ff78' stroke-width='1' opacity='0.12'/%3E%3Cpath d='M40 16 L22 16 Q10 16 10 29 Q10 42 22 42 L40 42' stroke='%2300ff78' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3Cpath d='M36 10 L28 26 L38 26 L26 48' stroke='%2300ff78' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round' fill='none' opacity='0.5'/%3E%3Ccircle cx='36' cy='10' r='1.8' fill='%2300ff78' opacity='0.7'/%3E%3Ccircle cx='26' cy='48' r='1.8' fill='%2300ff78' opacity='0.7'/%3E%3Cpath d='M42 18 L46 14' stroke='%2300ff78' stroke-width='1.5' stroke-linecap='round' opacity='0.4'/%3E%3Cpath d='M42 40 L46 44' stroke='%2300ff78' stroke-width='1.5' stroke-linecap='round' opacity='0.4'/%3E%3C/svg%3E" type="image/svg+xml" />
         <link rel="icon" href="/favicon.ico" sizes="32x32" />
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="stylesheet" href={tailwindCss}></link>
         <link rel="stylesheet" href={resetStyles}></link>

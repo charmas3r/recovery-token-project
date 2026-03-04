@@ -27,6 +27,9 @@ import {parseWishlist, isInWishlist as checkIsInWishlist} from '~/lib/wishlist';
 import {Heart, PenLine} from 'lucide-react';
 import {motion} from 'framer-motion';
 import {WriteReviewModal} from '~/components/reviews/WriteReviewModal';
+import {AskQuestionModal} from '~/components/qa/AskQuestionModal';
+import {QASection, parseQAMetafield} from '~/components/qa/QASection';
+import type {QAItem} from '~/components/qa/QASection';
 import {ProductDetails} from '~/components/product/ProductDetails';
 import {buildMeta} from '~/lib/meta';
 
@@ -471,6 +474,15 @@ export default function Product() {
   );
   const productId = extractProductId(product.id);
 
+  // Parse Q&A data from product metafield
+  const qaMetafield = product.metafields?.find(
+    (m: {key: string; value: string} | null) => m?.key === 'product_qa',
+  );
+  const qaItems = parseQAMetafield(qaMetafield?.value);
+
+  // Q&A modal state
+  const [questionModalOpen, setQuestionModalOpen] = useState(false);
+
   // Build breadcrumb items
   const breadcrumbItems = [
     {label: 'Shop', href: '/collections/all'},
@@ -630,6 +642,8 @@ export default function Product() {
                 reviewCount={actualCount || (reviewsSummary?.reviewCount ?? 0)}
                 productTitle={title}
                 onWriteReview={() => setReviewModalOpen(true)}
+                qaItems={qaItems}
+                onAskQuestion={() => setQuestionModalOpen(true)}
               />
             );
           }}
@@ -661,6 +675,14 @@ export default function Product() {
         open={reviewModalOpen}
         onOpenChange={setReviewModalOpen}
         productId={productId}
+        productHandle={product.handle}
+        productTitle={title}
+      />
+
+      {/* Ask Question Modal */}
+      <AskQuestionModal
+        open={questionModalOpen}
+        onOpenChange={setQuestionModalOpen}
         productHandle={product.handle}
         productTitle={title}
       />
@@ -1019,6 +1041,73 @@ function ProductReviewsGrid({reviews}: {reviews: ProductReview[]}) {
 }
 
 /**
+ * Tab bar for switching between Reviews and Questions
+ */
+function ReviewsQATabBar({
+  activeTab,
+  onTabChange,
+  reviewCount,
+  questionCount,
+}: {
+  activeTab: 'reviews' | 'questions';
+  onTabChange: (tab: 'reviews' | 'questions') => void;
+  reviewCount: number;
+  questionCount: number;
+}) {
+  return (
+    <div style={{
+      display: 'flex',
+      justifyContent: 'center',
+      gap: '0.25rem',
+      marginBottom: '2.5rem',
+      padding: '0.25rem',
+      backgroundColor: 'rgba(255,255,255,0.03)',
+      borderRadius: '9999px',
+      maxWidth: '20rem',
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    }}>
+      <button
+        type="button"
+        onClick={() => onTabChange('reviews')}
+        style={{
+          flex: 1,
+          padding: '0.625rem 1.25rem',
+          borderRadius: '9999px',
+          fontSize: '0.875rem',
+          fontWeight: 600,
+          border: 'none',
+          cursor: 'pointer',
+          transition: 'all 0.2s',
+          backgroundColor: activeTab === 'reviews' ? 'rgba(255,255,255,0.08)' : 'transparent',
+          color: activeTab === 'reviews' ? '#FFFFFF' : 'rgba(255,255,255,0.5)',
+        }}
+      >
+        Reviews{reviewCount > 0 ? ` (${reviewCount})` : ''}
+      </button>
+      <button
+        type="button"
+        onClick={() => onTabChange('questions')}
+        style={{
+          flex: 1,
+          padding: '0.625rem 1.25rem',
+          borderRadius: '9999px',
+          fontSize: '0.875rem',
+          fontWeight: 600,
+          border: 'none',
+          cursor: 'pointer',
+          transition: 'all 0.2s',
+          backgroundColor: activeTab === 'questions' ? 'rgba(255,255,255,0.08)' : 'transparent',
+          color: activeTab === 'questions' ? '#FFFFFF' : 'rgba(255,255,255,0.5)',
+        }}
+      >
+        Questions{questionCount > 0 ? ` (${questionCount})` : ''}
+      </button>
+    </div>
+  );
+}
+
+/**
  * Reviews Section — conditionally renders empty state or reviews with rating header
  */
 function ProductReviewsSection({
@@ -1028,6 +1117,8 @@ function ProductReviewsSection({
   reviewCount,
   productTitle,
   onWriteReview,
+  qaItems = [],
+  onAskQuestion,
 }: {
   hasReviews: boolean;
   reviews: ProductReview[];
@@ -1035,77 +1126,99 @@ function ProductReviewsSection({
   reviewCount: number;
   productTitle: string;
   onWriteReview: () => void;
+  qaItems?: QAItem[];
+  onAskQuestion?: () => void;
 }) {
   const [showAllReviews, setShowAllReviews] = useState(false);
+  const [activeTab, setActiveTab] = useState<'reviews' | 'questions'>('reviews');
 
   if (!hasReviews) {
-    // Empty state
+    // Empty state with tabs
     return (
       <section className="py-20 md:py-28 bg-black overflow-hidden">
-        <div style={{textAlign: 'center', maxWidth: '42rem', marginLeft: 'auto', marginRight: 'auto', padding: '0 1.5rem'}}>
-          <span
-            className="inline-block text-caption uppercase tracking-[0.25em] font-semibold mb-4"
-            style={{color: '#00F260'}}
-          >
-            Testimonials
-          </span>
-          <h2
-            className="font-display"
-            style={{fontSize: 'clamp(1.875rem, 4vw, 3rem)', fontWeight: 700, color: '#fff', lineHeight: 1.1, marginBottom: '1.5rem'}}
-          >
-            Be the First to Share Your Story
-          </h2>
-          <p style={{fontSize: '1.125rem', lineHeight: 1.6, color: 'rgba(255,255,255,0.5)', maxWidth: '32rem', marginLeft: 'auto', marginRight: 'auto'}}>
-            No reviews yet for <span style={{fontWeight: 600, color: '#FFFFFF'}}>{productTitle}</span>.
-            Your experience matters—help others find meaning in their recovery journey.
-          </p>
+        {/* Tab bar */}
+        <ReviewsQATabBar
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
+          reviewCount={reviewCount}
+          questionCount={qaItems.length}
+        />
 
-          {/* Feature badges */}
-          <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '1.5rem', fontSize: '0.875rem', color: 'rgba(255,255,255,0.5)', marginTop: '1.5rem'}}>
-            <span style={{display: 'inline-flex', alignItems: 'center', gap: '0.5rem'}}>
-              <svg viewBox="0 0 24 24" style={{width: '1.25rem', height: '1.25rem', color: '#00F260'}} fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M9 12l2 2 4-4" /><circle cx="12" cy="12" r="10" />
-              </svg>
-              Verified buyers
+        {activeTab === 'reviews' && (
+          <div style={{textAlign: 'center', maxWidth: '42rem', marginLeft: 'auto', marginRight: 'auto', padding: '0 1.5rem'}}>
+            <span
+              className="inline-block text-caption uppercase tracking-[0.25em] font-semibold mb-4"
+              style={{color: '#00F260'}}
+            >
+              Testimonials
             </span>
-            <span style={{display: 'inline-flex', alignItems: 'center', gap: '0.5rem'}}>
-              <svg viewBox="0 0 24 24" style={{width: '1.25rem', height: '1.25rem', color: '#00F260'}} fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-              </svg>
-              Authentic stories
-            </span>
-            <span style={{display: 'inline-flex', alignItems: 'center', gap: '0.5rem'}}>
-              <svg viewBox="0 0 24 24" style={{width: '1.25rem', height: '1.25rem', color: '#00F260'}} fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
-              </svg>
-              Community support
-            </span>
+            <h2
+              className="font-display"
+              style={{fontSize: 'clamp(1.875rem, 4vw, 3rem)', fontWeight: 700, color: '#fff', lineHeight: 1.1, marginBottom: '1.5rem'}}
+            >
+              Be the First to Share Your Story
+            </h2>
+            <p style={{fontSize: '1.125rem', lineHeight: 1.6, color: 'rgba(255,255,255,0.5)', maxWidth: '32rem', marginLeft: 'auto', marginRight: 'auto'}}>
+              No reviews yet for <span style={{fontWeight: 600, color: '#FFFFFF'}}>{productTitle}</span>.
+              Your experience matters—help others find meaning in their recovery journey.
+            </p>
+
+            {/* Feature badges */}
+            <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '1.5rem', fontSize: '0.875rem', color: 'rgba(255,255,255,0.5)', marginTop: '1.5rem'}}>
+              <span style={{display: 'inline-flex', alignItems: 'center', gap: '0.5rem'}}>
+                <svg viewBox="0 0 24 24" style={{width: '1.25rem', height: '1.25rem', color: '#00F260'}} fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M9 12l2 2 4-4" /><circle cx="12" cy="12" r="10" />
+                </svg>
+                Verified buyers
+              </span>
+              <span style={{display: 'inline-flex', alignItems: 'center', gap: '0.5rem'}}>
+                <svg viewBox="0 0 24 24" style={{width: '1.25rem', height: '1.25rem', color: '#00F260'}} fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                </svg>
+                Authentic stories
+              </span>
+              <span style={{display: 'inline-flex', alignItems: 'center', gap: '0.5rem'}}>
+                <svg viewBox="0 0 24 24" style={{width: '1.25rem', height: '1.25rem', color: '#00F260'}} fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+                </svg>
+                Community support
+              </span>
+            </div>
+
+            <button
+              type="button"
+              onClick={onWriteReview}
+              style={{
+                marginTop: '2rem',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                padding: '0.75rem 1.75rem',
+                backgroundColor: '#00F260',
+                color: '#000000',
+                borderRadius: '9999px',
+                fontSize: '0.9375rem',
+                fontWeight: 600,
+                border: 'none',
+                cursor: 'pointer',
+                transition: 'opacity 0.2s',
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.opacity = '0.85'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.opacity = '1'; }}
+            >
+              Write the First Review
+            </button>
           </div>
+        )}
 
-          <button
-            type="button"
-            onClick={onWriteReview}
-            style={{
-              marginTop: '2rem',
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '0.5rem',
-              padding: '0.75rem 1.75rem',
-              backgroundColor: '#00F260',
-              color: '#000000',
-              borderRadius: '9999px',
-              fontSize: '0.9375rem',
-              fontWeight: 600,
-              border: 'none',
-              cursor: 'pointer',
-              transition: 'opacity 0.2s',
-            }}
-            onMouseEnter={(e) => { e.currentTarget.style.opacity = '0.85'; }}
-            onMouseLeave={(e) => { e.currentTarget.style.opacity = '1'; }}
-          >
-            Write the First Review
-          </button>
-        </div>
+        {activeTab === 'questions' && (
+          <div className="container-standard">
+            <QASection
+              questions={qaItems}
+              onAskQuestion={onAskQuestion ?? (() => {})}
+            />
+          </div>
+        )}
       </section>
     );
   }
@@ -1113,6 +1226,16 @@ function ProductReviewsSection({
   // Has reviews — show rating header + carousel/list
   return (
     <section className="py-20 md:py-28 bg-black overflow-hidden">
+      {/* Tab bar */}
+      <ReviewsQATabBar
+        activeTab={activeTab}
+        onTabChange={setActiveTab}
+        reviewCount={reviewCount}
+        questionCount={qaItems.length}
+      />
+
+      {activeTab === 'reviews' && (
+      <>
       {/* Rating header with splatter accents */}
       <div style={{textAlign: 'center', position: 'relative', marginBottom: '3.5rem', padding: '0 1.5rem'}}>
         {/* Splatter blobs — neon green + purple */}
@@ -1295,6 +1418,17 @@ function ProductReviewsSection({
         <ProductReviewsList reviews={reviews} />
       ) : (
         <ProductReviewsCarousel reviews={reviews} />
+      )}
+      </>
+      )}
+
+      {activeTab === 'questions' && (
+        <div className="container-standard">
+          <QASection
+            questions={qaItems}
+            onAskQuestion={onAskQuestion ?? (() => {})}
+          />
+        </div>
       )}
     </section>
   );
@@ -1575,6 +1709,11 @@ const PRODUCT_FRAGMENT = `#graphql
     seo {
       description
       title
+    }
+    metafields(identifiers: [{namespace: "custom", key: "product_qa"}]) {
+      key
+      value
+      type
     }
   }
   ${PRODUCT_VARIANT_FRAGMENT}

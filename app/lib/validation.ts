@@ -296,6 +296,27 @@ export function validateReviewPhotos(files: File[]): string | null {
 }
 
 // ============================================================================
+// PRODUCT QUESTIONS (Q&A)
+// ============================================================================
+
+export const questionFormSchema = z.object({
+  name: z
+    .string()
+    .min(2, 'Name must be at least 2 characters')
+    .max(100, 'Name must be less than 100 characters'),
+  email: z.string().email('Please enter a valid email address'),
+  question: z
+    .string()
+    .min(10, 'Question must be at least 10 characters')
+    .max(1000, 'Question must be less than 1000 characters'),
+  productHandle: z.string().min(1, 'Product handle is required'),
+  productTitle: z.string().min(1, 'Product title is required'),
+  honeypot: z.string().max(0).optional(),
+});
+
+export type QuestionFormData = z.infer<typeof questionFormSchema>;
+
+// ============================================================================
 // HELPER UTILITIES
 // ============================================================================
 

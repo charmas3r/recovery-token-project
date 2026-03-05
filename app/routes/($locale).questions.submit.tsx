@@ -65,7 +65,7 @@ export async function action({
       context.env,
       productHandle,
       'custom',
-      'qa_items',
+      'product_qa',
     );
 
     if (!metafieldResult) {
@@ -112,7 +112,7 @@ export async function action({
       context.env,
       productId,
       'custom',
-      'qa_items',
+      'product_qa',
       JSON.stringify(updatedQuestions),
     );
   } catch (error) {
@@ -126,7 +126,7 @@ export async function action({
   const origin = new URL(request.url).origin;
   const sessionSecret = context.env.SESSION_SECRET;
   const token = await generateAnswerToken(sessionSecret, productHandle, questionId);
-  const answerUrl = `${origin}/admin/qa/answer?product=${productHandle}&qid=${questionId}&token=${token}`;
+  const answerUrl = `${origin}/admin/qa/answer?product=${encodeURIComponent(productHandle)}&qid=${encodeURIComponent(questionId)}&token=${encodeURIComponent(token)}`;
 
   // -----------------------------------------------------------------------
   // 5. Send Klaviyo event (non-blocking)

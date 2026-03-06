@@ -18,7 +18,7 @@ node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
 ```
 
 - [ ] Generated cryptographically secure SESSION_SECRET (32+ bytes)
-- [ ] Added to Vercel environment variables
+- [ ] Added to Oxygen environment variables
 - [ ] Verified it's different from `lucid-dev-secret`
 - [ ] Confirmed secret is NOT committed to git
 - [ ] All environments use different secrets (dev, staging, prod)
@@ -29,7 +29,7 @@ node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
 
 ### 🟠 2. Environment Variables
 
-- [ ] All production environment variables configured in Vercel
+- [ ] All production environment variables configured in Oxygen
 - [ ] `PUBLIC_CUSTOMER_ACCOUNT_API_CLIENT_ID` set correctly
 - [ ] `PUBLIC_CUSTOMER_ACCOUNT_API_URL` verified: `https://shopify.com/75227332779`
 - [ ] `PUBLIC_STORE_DOMAIN` set to: `recovery-token-store.myshopify.com`
@@ -114,7 +114,7 @@ node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
    node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
    ```
 
-2. Update in Vercel environment variables
+2. Update in Oxygen environment variables (Shopify Admin → Hydrogen → Settings)
 
 3. Redeploy application (this will invalidate all sessions)
 

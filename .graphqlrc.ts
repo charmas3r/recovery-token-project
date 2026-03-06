@@ -14,6 +14,7 @@ const graphqlConfig: IGraphQLConfig = {
         './*.{ts,tsx,js,jsx}',
         './app/**/*.{ts,tsx,js,jsx}',
         '!./app/graphql/**/*.{ts,tsx,js,jsx}',
+        '!./app/lib/shopify-admin.server.{ts,tsx}',
       ],
     },
 

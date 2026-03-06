@@ -1,8 +1,9 @@
 /**
- * Shopify Admin API — Product Metafields
+ * Shopify Admin API — Product Metafields (Write-only)
  *
- * Reads and writes product metafields through Shopify's Admin API GraphQL
- * endpoint. Used by the Q&A feature to store question/answer data on products.
+ * Writes product metafields through Shopify's Admin API GraphQL endpoint.
+ * Reads are done via the Storefront API (see getProductQAFromStorefront).
+ * Used by the Q&A feature to store question/answer data on products.
  */
 
 // ---------------------------------------------------------------------------
@@ -14,7 +15,7 @@ interface AdminApiConfig {
   headers: Record<string, string>;
 }
 
-interface MetafieldResult {
+export interface ProductQAData {
   productId: string;
   metafieldValue: string | null;
 }
@@ -97,50 +98,49 @@ async function adminQuery<T>(
 }
 
 // ---------------------------------------------------------------------------
-// Public API
+// Public API — Storefront API reads
 // ---------------------------------------------------------------------------
 
-/**
- * Fetch a product by handle and read a single metafield value.
- *
- * @returns `{productId, metafieldValue}` or `null` if product not found.
- */
-export async function getProductMetafield(
-  env: Env,
-  productHandle: string,
-  namespace: string,
-  key: string,
-): Promise<MetafieldResult | null> {
-  const query = `#graphql
-    query ProductMetafield($handle: String!, $namespace: String!, $key: String!) {
-      productByHandle(handle: $handle) {
-        id
-        metafield(namespace: $namespace, key: $key) {
-          value
-        }
+const PRODUCT_QA_QUERY = `#graphql
+  query ProductQA($handle: String!) {
+    productByHandle(handle: $handle) {
+      id
+      title
+      metafields(identifiers: [{namespace: "custom", key: "product_qa"}]) {
+        key
+        value
       }
     }
-  `;
-
-  const json = await adminQuery<{
-    data: {
-      productByHandle: {
-        id: string;
-        metafield: {value: string} | null;
-      } | null;
-    };
-  }>(env, query, {handle: productHandle, namespace, key});
-
-  const product = json.data?.productByHandle;
-  if (!product) {
-    return null;
   }
+` as const;
+
+/**
+ * Fetch product ID and Q&A metafield via the Storefront API.
+ * This avoids needing `read_products` scope on the Admin API token.
+ */
+export async function getProductQAFromStorefront(
+  storefront: {query: (query: string, options?: {variables?: Record<string, unknown>}) => Promise<any>},
+  productHandle: string,
+): Promise<ProductQAData | null> {
+  const {productByHandle} = await storefront.query(PRODUCT_QA_QUERY, {
+    variables: {handle: productHandle},
+  });
+
+  if (!productByHandle) return null;
+
+  const qaMetafield = productByHandle.metafields?.find(
+    (m: {key: string; value: string} | null) => m?.key === 'product_qa',
+  );
 
   return {
-    productId: product.id,
-    metafieldValue: product.metafield?.value ?? null,
+    productId: productByHandle.id,
+    metafieldValue: qaMetafield?.value ?? null,
   };
 }
+
+// ---------------------------------------------------------------------------
+// Public API — Admin API writes
+// ---------------------------------------------------------------------------
 
 /**
  * Create or update a JSON metafield on a product.

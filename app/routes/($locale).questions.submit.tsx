@@ -16,7 +16,7 @@
 import type {Route} from './+types/questions.submit';
 import {questionFormSchema, formatZodErrors} from '~/lib/validation';
 import {getKlaviyoClient, KlaviyoError} from '~/lib/klaviyo.server';
-import {getProductMetafield, setProductMetafield} from '~/lib/shopify-admin.server';
+import {getProductQAFromStorefront, setProductMetafield} from '~/lib/shopify-admin.server';
 import {generateAnswerToken} from '~/lib/qa-tokens.server';
 import type {QAItem} from '~/components/qa/QASection';
 
@@ -61,29 +61,27 @@ export async function action({
   let existingQuestions: QAItem[];
 
   try {
-    const metafieldResult = await getProductMetafield(
-      context.env,
+    const productData = await getProductQAFromStorefront(
+      context.storefront,
       productHandle,
-      'custom',
-      'product_qa',
     );
 
-    if (!metafieldResult) {
+    if (!productData) {
       return {error: 'Could not find this product. Please try again.'};
     }
 
-    productId = metafieldResult.productId;
+    productId = productData.productId;
 
     // Parse existing metafield value, or start with empty array
     try {
-      existingQuestions = metafieldResult.metafieldValue
-        ? JSON.parse(metafieldResult.metafieldValue)
+      existingQuestions = productData.metafieldValue
+        ? (JSON.parse(productData.metafieldValue) as QAItem[])
         : [];
     } catch {
       existingQuestions = [];
     }
   } catch (error) {
-    console.error('[questions.submit] Admin API lookup failed:', error);
+    console.error('[questions.submit] Storefront API lookup failed:', error);
     return {error: 'Something went wrong. Please try again later.'};
   }
 

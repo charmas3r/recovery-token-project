@@ -76,6 +76,9 @@ export function AskQuestionModal({
             }}
           >
             <Dialog.Title className="sr-only">Question Submitted</Dialog.Title>
+            <Dialog.Description className="sr-only">
+              Your question has been submitted successfully.
+            </Dialog.Description>
             <div className="flex justify-center mb-4">
               <CheckCircle2 className="w-16 h-16 text-green-500" />
             </div>
@@ -115,7 +118,6 @@ export function AskQuestionModal({
             borderRadius: '0.75rem',
             boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
           }}
-          aria-describedby="ask-question-description"
         >
           {/* Header */}
           <div className="flex items-center justify-between p-4 border-b border-white/[0.08]">
@@ -123,6 +125,9 @@ export function AskQuestionModal({
               <MessageCircleQuestion className="w-5 h-5 text-accent" />
               Ask a Question
             </Dialog.Title>
+            <Dialog.Description className="sr-only">
+              Submit a question about this product.
+            </Dialog.Description>
             <Dialog.Close asChild>
               <button
                 className={clsx(
@@ -247,10 +252,7 @@ export function AskQuestionModal({
             </div>
 
             {/* Submit */}
-            <div
-              className="flex gap-3 pt-2"
-              id="ask-question-description"
-            >
+            <div className="flex gap-3 pt-2">
               <Dialog.Close asChild>
                 <Button
                   variant="secondary"

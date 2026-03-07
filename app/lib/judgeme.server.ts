@@ -235,6 +235,58 @@ export function createJudgeMeClient(config: JudgeMeConfig) {
         body: JSON.stringify(payload),
       });
     },
+
+    /**
+     * Check if a review from a given email already exists for a product.
+     * Uses private token to access reviewer emails.
+     */
+    async hasExistingReview(
+      productExternalId: string,
+      email: string,
+    ): Promise<boolean> {
+      if (!config.privateToken) {
+        console.warn('Private token required for duplicate review check');
+        return false;
+      }
+
+      const params = new URLSearchParams({
+        shop_domain: config.shopDomain,
+        api_token: config.privateToken,
+        per_page: '100',
+        page: '1',
+      });
+
+      const response = await fetch(`${baseUrl}/reviews?${params}`, {
+        headers: {'Content-Type': 'application/json'},
+      });
+
+      if (!response.ok) {
+        console.error('Judge.me review check failed:', response.status);
+        return false;
+      }
+
+      const data = (await response.json()) as {
+        reviews?: Array<{
+          product_external_id: number;
+          reviewer: {email: string};
+          published: boolean;
+          hidden: boolean;
+          curated: string;
+        }>;
+      };
+
+      const externalId = Number(productExternalId);
+      const normalizedEmail = email.toLowerCase().trim();
+
+      return (data.reviews || []).some(
+        (r) =>
+          r.product_external_id === externalId &&
+          r.reviewer?.email?.toLowerCase().trim() === normalizedEmail &&
+          r.published &&
+          !r.hidden &&
+          r.curated !== 'spam',
+      );
+    },
   };
 }
 

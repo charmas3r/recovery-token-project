@@ -14,7 +14,7 @@ import {buildMeta} from '~/lib/meta';
 
 export const meta: MetaFunction = () => {
   return buildMeta({
-    title: 'Support Center — Coin-plugz',
+    title: 'Support Center — Coinplugz',
     description:
       'Get help with orders, shipping, returns, and more. Browse our FAQ, learn about our shipping policies, or contact our support team.',
   });
@@ -59,13 +59,13 @@ export default function SupportHubPage() {
         '@type': 'ListItem',
         position: 1,
         name: 'Home',
-        item: 'https://recoverytokenstore.com/',
+        item: 'https://coinplugz.com/',
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: 'Support',
-        item: 'https://recoverytokenstore.com/support',
+        item: 'https://coinplugz.com/support',
       },
     ],
   };

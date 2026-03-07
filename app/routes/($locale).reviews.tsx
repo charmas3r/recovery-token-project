@@ -26,9 +26,9 @@ interface Review {
 
 export const meta: Route.MetaFunction = () => {
   return buildMeta({
-    title: 'Customer Reviews — Coin-plugz',
+    title: 'Customer Reviews — Coinplugz',
     description:
-      'Read real reviews from our community. See why thousands trust Coin-plugz for meaningful sobriety milestone tokens.',
+      'Read real reviews from our community. See why thousands trust Coinplugz for meaningful sobriety milestone tokens.',
   });
 };
 
@@ -119,13 +119,13 @@ export default function ReviewsPage() {
         '@type': 'ListItem',
         position: 1,
         name: 'Home',
-        item: 'https://recoverytokenstore.com/',
+        item: 'https://coinplugz.com/',
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: 'Reviews',
-        item: 'https://recoverytokenstore.com/reviews',
+        item: 'https://coinplugz.com/reviews',
       },
     ],
   };
@@ -134,8 +134,8 @@ export default function ReviewsPage() {
     ? {
         '@context': 'https://schema.org',
         '@type': 'Organization',
-        name: 'Coin-plugz',
-        url: 'https://recoverytokenstore.com',
+        name: 'Coinplugz',
+        url: 'https://coinplugz.com',
         aggregateRating: {
           '@type': 'AggregateRating',
           ratingValue: averageRating.toString(),

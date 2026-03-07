@@ -8,8 +8,8 @@ import {buildMeta} from '~/lib/meta';
 
 export const meta: Route.MetaFunction = ({data}) => {
   const title = data?.blog?.title
-    ? `${data.blog.title} | Coin-plugz`
-    : 'Blog | Coin-plugz';
+    ? `${data.blog.title} | Coinplugz`
+    : 'Blog | Coinplugz';
   return buildMeta({title});
 };
 

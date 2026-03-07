@@ -25,7 +25,7 @@ import {buildMeta} from '~/lib/meta';
 
 export const meta: MetaFunction = () => {
   return buildMeta({
-    title: 'Sobriety Milestone Calculator — Coin-plugz',
+    title: 'Sobriety Milestone Calculator — Coinplugz',
     description:
       'Enter your sobriety date to see how many days sober you are, milestones achieved, and what\'s coming next. Free recovery milestone calculator.',
   });
@@ -112,7 +112,7 @@ export default function MilestoneCalculatorPage() {
     name: 'Sobriety Milestone Calculator',
     description:
       'Calculate how many days sober you are and see your recovery milestones achieved and upcoming.',
-    url: 'https://recoverytokenstore.com/resources/milestone-calculator',
+    url: 'https://coinplugz.com/resources/milestone-calculator',
     applicationCategory: 'HealthApplication',
     operatingSystem: 'All',
     offers: {
@@ -130,19 +130,19 @@ export default function MilestoneCalculatorPage() {
         '@type': 'ListItem',
         position: 1,
         name: 'Home',
-        item: 'https://recoverytokenstore.com/',
+        item: 'https://coinplugz.com/',
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: 'Resources',
-        item: 'https://recoverytokenstore.com/resources',
+        item: 'https://coinplugz.com/resources',
       },
       {
         '@type': 'ListItem',
         position: 3,
         name: 'Milestone Calculator',
-        item: 'https://recoverytokenstore.com/resources/milestone-calculator',
+        item: 'https://coinplugz.com/resources/milestone-calculator',
       },
     ],
   };

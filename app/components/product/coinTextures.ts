@@ -96,7 +96,7 @@ function drawFrontFace(
 ) {
   drawBaseGradient(ctx, accentColor);
 
-  // Engraved Coin-Plugz "C" logo (from site header SVG, viewBox 0 0 58 58)
+  // Engraved Coinplugz "C" logo (from site header SVG, viewBox 0 0 58 58)
   // Scale SVG coordinates (58×58) to fit ~45% of the texture, centered
   const logoScale = (TEX_SIZE * 0.45) / 58;
   const cx = HALF;

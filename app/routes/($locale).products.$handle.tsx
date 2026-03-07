@@ -41,7 +41,7 @@ export const meta: Route.MetaFunction = ({data}) => {
   }
 
   return buildMeta({
-    title: `${product.title} | Coin-plugz`,
+    title: `${product.title} | Coinplugz`,
     description: product.description,
     ogImage: product.selectedOrFirstAvailableVariant?.image?.url || undefined,
     ogType: 'product',
@@ -499,7 +499,7 @@ export default function Product() {
     sku: selectedVariant?.sku,
     brand: {
       '@type': 'Brand',
-      name: vendor || 'Coin-plugz',
+      name: vendor || 'Coinplugz',
     },
     offers: {
       '@type': 'Offer',
@@ -508,7 +508,7 @@ export default function Product() {
       availability: selectedVariant?.availableForSale
         ? 'https://schema.org/InStock'
         : 'https://schema.org/OutOfStock',
-      url: `https://recoverytoken.store/products/${product.handle}`,
+      url: `https://coinplugz.com/products/${product.handle}`,
     },
     aggregateRating: reviewsSummary && reviewsSummary.reviewCount > 0 ? {
       '@type': 'AggregateRating',
@@ -1619,8 +1619,6 @@ function ProductReviewsCarousel({reviews}: {reviews: ProductReview[]}) {
   );
 }
 
-// Environment variable for Judge.me shop domain
-const PUBLIC_JUDGEME_SHOP_DOMAIN = 'recovery-token-store.myshopify.com';
 
 const PRODUCT_VARIANT_FRAGMENT = `#graphql
   fragment ProductVariant on ProductVariant {

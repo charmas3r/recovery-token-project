@@ -65,9 +65,8 @@ export async function action({request, context}: Route.ActionArgs): Promise<Acti
     }
 
     // If Klaviyo is not configured, still accept the form
-    // (for development/testing without Klaviyo)
-    if (error instanceof Error && error.message.includes('not configured')) {
-      console.warn('Klaviyo newsletter not configured, subscription logged only');
+    if (error instanceof Error && (error.message.includes('not configured') || error.message.includes('not set'))) {
+      console.warn('Klaviyo not configured, subscription logged only');
       console.log('Newsletter signup:', result.data.email);
       return {success: true};
     }

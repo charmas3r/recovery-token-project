@@ -32,7 +32,7 @@ import {buildMeta} from '~/lib/meta';
 
 export const meta: MetaFunction = () => {
   return buildMeta({
-    title: 'Recovery Glossary — Coin-plugz',
+    title: 'Recovery Glossary — Coinplugz',
     description:
       'Learn the meaning of sobriety coins, AA chips, clean time, and 30+ recovery terms. A comprehensive glossary for anyone on the recovery journey.',
   });
@@ -97,12 +97,12 @@ export default function GlossaryPage() {
     name: 'Recovery Glossary',
     description:
       'A comprehensive glossary of recovery and sobriety terms, including definitions for sobriety coins, AA chips, clean time, and more.',
-    url: 'https://recoverytokenstore.com/resources/glossary',
+    url: 'https://coinplugz.com/resources/glossary',
     hasDefinedTerm: (terms as GlossaryTerm[]).map((term) => ({
       '@type': 'DefinedTerm',
       name: term.name,
       description: term.definition,
-      inDefinedTermSet: 'https://recoverytokenstore.com/resources/glossary',
+      inDefinedTermSet: 'https://coinplugz.com/resources/glossary',
     })),
   };
 
@@ -114,19 +114,19 @@ export default function GlossaryPage() {
         '@type': 'ListItem',
         position: 1,
         name: 'Home',
-        item: 'https://recoverytokenstore.com/',
+        item: 'https://coinplugz.com/',
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: 'Resources',
-        item: 'https://recoverytokenstore.com/resources',
+        item: 'https://coinplugz.com/resources',
       },
       {
         '@type': 'ListItem',
         position: 3,
         name: 'Glossary',
-        item: 'https://recoverytokenstore.com/resources/glossary',
+        item: 'https://coinplugz.com/resources/glossary',
       },
     ],
   };

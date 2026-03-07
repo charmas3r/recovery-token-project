@@ -14,7 +14,7 @@ import {buildMeta} from '~/lib/meta';
 
 export const meta: MetaFunction = () => {
   return buildMeta({
-    title: 'About Us — Coin-plugz',
+    title: 'About Us — Coinplugz',
     description:
       'Learn about our mission, discover why recovery tokens matter, and hear stories from our community. Premium tokens celebrating sobriety milestones.',
   });
@@ -59,13 +59,13 @@ export default function AboutHubPage() {
         '@type': 'ListItem',
         position: 1,
         name: 'Home',
-        item: 'https://recoverytokenstore.com/',
+        item: 'https://coinplugz.com/',
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: 'About',
-        item: 'https://recoverytokenstore.com/about',
+        item: 'https://coinplugz.com/about',
       },
     ],
   };

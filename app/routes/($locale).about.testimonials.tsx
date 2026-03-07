@@ -15,7 +15,7 @@ import {buildMeta} from '~/lib/meta';
 
 export const meta: MetaFunction = () => {
   return buildMeta({
-    title: 'Testimonials — Coin-plugz',
+    title: 'Testimonials — Coinplugz',
     description:
       'Hear from members of our community about how recovery tokens have become meaningful companions on their sobriety journey.',
   });
@@ -30,19 +30,19 @@ export default function TestimonialsPage() {
         '@type': 'ListItem',
         position: 1,
         name: 'Home',
-        item: 'https://recoverytokenstore.com/',
+        item: 'https://coinplugz.com/',
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: 'About',
-        item: 'https://recoverytokenstore.com/about',
+        item: 'https://coinplugz.com/about',
       },
       {
         '@type': 'ListItem',
         position: 3,
         name: 'Testimonials',
-        item: 'https://recoverytokenstore.com/about/testimonials',
+        item: 'https://coinplugz.com/about/testimonials',
       },
     ],
   };

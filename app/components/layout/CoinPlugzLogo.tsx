@@ -7,7 +7,7 @@ export function CoinPlugzLogo() {
       to="/"
       end
       className="coinplugz-logo"
-      aria-label="Coin-plugz"
+      aria-label="Coinplugz"
     >
       {/* Electric C Icon */}
       <span className="cp-icon">

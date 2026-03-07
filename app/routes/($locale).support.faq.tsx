@@ -18,9 +18,9 @@ import {buildMeta} from '~/lib/meta';
 
 export const meta: MetaFunction = () => {
   return buildMeta({
-    title: 'FAQ — Coin-plugz',
+    title: 'FAQ — Coinplugz',
     description:
-      'Find answers to frequently asked questions about Coin-plugz — orders, shipping, returns, engraving, product details, and account help.',
+      'Find answers to frequently asked questions about Coinplugz — orders, shipping, returns, engraving, product details, and account help.',
   });
 };
 
@@ -77,19 +77,19 @@ export default function FAQPage() {
         '@type': 'ListItem',
         position: 1,
         name: 'Home',
-        item: 'https://recoverytokenstore.com/',
+        item: 'https://coinplugz.com/',
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: 'Support',
-        item: 'https://recoverytokenstore.com/support',
+        item: 'https://coinplugz.com/support',
       },
       {
         '@type': 'ListItem',
         position: 3,
         name: 'FAQ',
-        item: 'https://recoverytokenstore.com/support/faq',
+        item: 'https://coinplugz.com/support/faq',
       },
     ],
   };

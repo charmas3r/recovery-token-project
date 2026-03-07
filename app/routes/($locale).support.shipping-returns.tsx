@@ -26,7 +26,7 @@ import {buildMeta} from '~/lib/meta';
 
 export const meta: MetaFunction = () => {
   return buildMeta({
-    title: 'Shipping & Returns — Coin-plugz',
+    title: 'Shipping & Returns — Coinplugz',
     description:
       'Free shipping on orders over $75. Standard, expedited, and overnight options. Easy 30-day returns for non-personalized items. Learn about our full shipping and return policies.',
   });
@@ -59,19 +59,19 @@ export default function ShippingReturnsPage() {
         '@type': 'ListItem',
         position: 1,
         name: 'Home',
-        item: 'https://recoverytokenstore.com/',
+        item: 'https://coinplugz.com/',
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: 'Support',
-        item: 'https://recoverytokenstore.com/support',
+        item: 'https://coinplugz.com/support',
       },
       {
         '@type': 'ListItem',
         position: 3,
         name: 'Shipping & Returns',
-        item: 'https://recoverytokenstore.com/support/shipping-returns',
+        item: 'https://coinplugz.com/support/shipping-returns',
       },
     ],
   };

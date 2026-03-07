@@ -10,8 +10,8 @@ type SelectedPolicies = keyof Pick<
 
 export const meta: Route.MetaFunction = ({data}) => {
   const title = data?.policy?.title
-    ? `${data.policy.title} | Coin-plugz`
-    : 'Policy | Coin-plugz';
+    ? `${data.policy.title} | Coinplugz`
+    : 'Policy | Coinplugz';
   return buildMeta({title});
 };
 

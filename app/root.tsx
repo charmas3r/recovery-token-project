@@ -223,15 +223,79 @@ export function ErrorBoundary() {
     errorMessage = error.message;
   }
 
+  const is404 = errorStatus === 404;
+
   return (
-    <div className="route-error">
-      <h1>Oops</h1>
-      <h2>{errorStatus}</h2>
-      {errorMessage && (
-        <fieldset>
-          <pre>{errorMessage}</pre>
-        </fieldset>
-      )}
+    <div
+      style={{
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: '#000',
+        color: '#fff',
+        fontFamily: 'var(--font-body, Inter, sans-serif)',
+        textAlign: 'center',
+        padding: '2rem',
+      }}
+    >
+      <p
+        style={{
+          fontSize: '0.75rem',
+          textTransform: 'uppercase',
+          letterSpacing: '0.25em',
+          fontWeight: 600,
+          color: '#B8764F',
+          marginBottom: '1rem',
+        }}
+      >
+        {is404 ? 'Page Not Found' : 'Something Went Wrong'}
+      </p>
+      <h1
+        style={{
+          fontFamily: 'var(--font-display, Manrope, sans-serif)',
+          fontSize: 'clamp(4rem, 15vw, 8rem)',
+          fontWeight: 700,
+          lineHeight: 1,
+          marginBottom: '1rem',
+          color: '#fff',
+        }}
+      >
+        {errorStatus}
+      </h1>
+      <p
+        style={{
+          fontSize: '1.125rem',
+          color: 'rgba(255,255,255,0.5)',
+          maxWidth: '28rem',
+          lineHeight: 1.6,
+          marginBottom: '2.5rem',
+        }}
+      >
+        {is404
+          ? "The page you're looking for doesn't exist or has been moved."
+          : errorMessage}
+      </p>
+      <a
+        href="/"
+        style={{
+          display: 'inline-block',
+          padding: '0.875rem 2rem',
+          background: '#B8764F',
+          color: '#fff',
+          fontWeight: 600,
+          fontSize: '0.875rem',
+          borderRadius: '0.5rem',
+          textDecoration: 'none',
+          letterSpacing: '0.02em',
+          transition: 'opacity 0.2s',
+        }}
+        onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.85')}
+        onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}
+      >
+        Back to Home
+      </a>
     </div>
   );
 }

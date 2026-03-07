@@ -5,8 +5,8 @@ import {buildMeta} from '~/lib/meta';
 
 export const meta: Route.MetaFunction = ({data}) => {
   const title = data?.page?.title
-    ? `${data.page.title} | Coin-plugz`
-    : 'Coin-plugz';
+    ? `${data.page.title} | Coinplugz`
+    : 'Coinplugz';
   return buildMeta({title});
 };
 

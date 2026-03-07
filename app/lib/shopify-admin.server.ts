@@ -198,3 +198,76 @@ export async function setProductMetafield(
     );
   }
 }
+
+// ---------------------------------------------------------------------------
+// Public API — Discount code creation
+// ---------------------------------------------------------------------------
+
+/**
+ * Generate a random alphanumeric code suffix.
+ */
+function generateCodeSuffix(length = 6): string {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // No I/1/O/0 for readability
+  const bytes = new Uint8Array(length);
+  crypto.getRandomValues(bytes);
+  return Array.from(bytes, (b) => chars[b % chars.length]).join('');
+}
+
+/**
+ * Create a unique single-use 25%-off discount code via Shopify Admin API.
+ *
+ * @returns The discount code string (e.g. "THANKS-A3F9B2")
+ */
+export async function createUniqueDiscountCode(env: Env): Promise<string> {
+  const code = `THANKS-${generateCodeSuffix()}`;
+
+  const mutation = `#graphql
+    mutation discountCodeBasicCreate($basicCodeDiscount: DiscountCodeBasicInput!) {
+      discountCodeBasicCreate(basicCodeDiscount: $basicCodeDiscount) {
+        codeDiscountNode {
+          id
+        }
+        userErrors {
+          field
+          message
+        }
+      }
+    }
+  `;
+
+  const json = await adminQuery<{
+    data: {
+      discountCodeBasicCreate: {
+        codeDiscountNode: {id: string} | null;
+        userErrors: Array<{field: string[]; message: string}>;
+      };
+    };
+  }>(env, mutation, {
+    basicCodeDiscount: {
+      title: `QR Review Reward - ${code}`,
+      code,
+      startsAt: new Date().toISOString(),
+      usageLimit: 1,
+      customerSelection: {
+        all: true,
+      },
+      customerGets: {
+        value: {
+          percentage: 0.25,
+        },
+        items: {
+          all: true,
+        },
+      },
+    },
+  });
+
+  const {userErrors} = json.data.discountCodeBasicCreate;
+  if (userErrors?.length) {
+    throw new Error(
+      `Shopify discount error: ${userErrors.map((e) => e.message).join(', ')}`,
+    );
+  }
+
+  return code;
+}

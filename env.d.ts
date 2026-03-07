@@ -13,8 +13,8 @@ declare module '@shopify/oxygen-workers-types' {
     KLAVIYO_PRIVATE_API_KEY?: string;
     KLAVIYO_NEWSLETTER_LIST_ID?: string;
 
-    // Shopify Admin API (used for staged file uploads)
-    PRIVATE_STOREFRONT_API_TOKEN?: string;
+    // Shopify Admin API (metafields, discounts, file uploads)
+    SHOPIFY_ADMIN_API_TOKEN?: string;
 
     // Judge.me Reviews Integration (optional)
     JUDGEME_PUBLIC_TOKEN?: string;

@@ -28,12 +28,12 @@ export async function uploadImagesToShopify(
   files: File[],
   env: Env,
 ): Promise<string[]> {
-  const adminToken = env.PRIVATE_STOREFRONT_API_TOKEN;
+  const adminToken = env.SHOPIFY_ADMIN_API_TOKEN;
   const storeDomain = env.PUBLIC_STORE_DOMAIN;
 
   if (!adminToken || !storeDomain) {
     throw new Error(
-      'PRIVATE_STOREFRONT_API_TOKEN and PUBLIC_STORE_DOMAIN are required for photo uploads',
+      'SHOPIFY_ADMIN_API_TOKEN and PUBLIC_STORE_DOMAIN are required for photo uploads',
     );
   }
 

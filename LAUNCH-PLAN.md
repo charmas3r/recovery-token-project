@@ -1,4 +1,4 @@
-# Coin-plugz Store Launch Plan
+# Coinplugz Store Launch Plan
 
 **Created**: 2026-03-04
 **Status**: Pre-launch
@@ -16,17 +16,17 @@
 
 | # | Issue | Severity | Details |
 |---|-------|----------|---------|
-| 1 | **Create client transfer store** | CRITICAL | Current dev store cannot be transferred. EVAN creates a new **client transfer store** in Shopify Partner Dashboard. Recreate products, collections, and settings. Once ready, transfer ownership to JESSE — he picks a Shopify plan and EVAN earns Partner recurring revenue share. |
-| 2 | **Update `.env` credentials for new store** | CRITICAL | New store = new `PUBLIC_STOREFRONT_API_TOKEN`, `PRIVATE_STOREFRONT_API_TOKEN`, `PUBLIC_STORE_DOMAIN`, `PUBLIC_CUSTOMER_ACCOUNT_API_CLIENT_ID`, `SHOP_ID`, `PUBLIC_STOREFRONT_ID`. All must be updated in `.env` and Oxygen env vars. |
-| 3 | **Migrate from Vercel to Oxygen** | CRITICAL | The project uses Vercel with a hacky edge function wrapper + Cache API polyfill. Hydrogen is built for Oxygen. Migration: connect repo in Shopify Admin → set env vars → remove `vercel.json`, `api/index.js`, Vercel build steps. Eliminates hosting cost and CSP/checkout issues. |
-| 4 | **Newsletter signup broken** | CRITICAL | `KLAVIYO_NEWSLETTER_LIST_ID` is commented out in `.env`. Any user submitting the newsletter form gets an error. Uncomment it and add to Oxygen env vars. |
-| 5 | **51 hardcoded old-domain URLs** | HIGH | `recoverytokenstore.com` is hardcoded in JSON-LD structured data across ~15 route files. Google will index the wrong canonical URLs. Need to replace with the actual production domain (or make dynamic from `request.url`). |
-| 6 | **Wrong domain in product schema** | HIGH | `recoverytoken.store` hardcoded in product route JSON-LD (line 499). |
-| 7 | **Hardcoded myshopify domain** | MEDIUM | `recovery-token-store.myshopify.com` on product route line 1489 for Judge.me fallback — should use `env.PUBLIC_JUDGEME_SHOP_DOMAIN`. |
-| 8 | **Cart page title says "Hydrogen"** | MEDIUM | `($locale).cart.tsx` line 8: `"Hydrogen | Cart"` → `"Cart | Coin-plugz"` |
-| 9 | **Old brand email exposed** | MEDIUM | `support@recoverytokenstore.com` in FAQ data and contact page — needs updating to new domain email. |
-| 10 | **404 page is unstyled** | MEDIUM | Catch-all route renders `null`; root `ErrorBoundary` shows plain "Oops" div with no navigation or branding. |
-| 11 | **Missing `PUBLIC_STOREFRONT_ID`** | MEDIUM | Needed for Shopify analytics attribution. Add to `.env` and Oxygen env vars. |
+| 1 | ~~**Create client transfer store**~~ | ✅ DONE | Client transfer store created in Shopify Partner Dashboard with products, collections, and settings. |
+| 2 | ~~**Update `.env` credentials for new store**~~ | ✅ DONE | `.env` and Oxygen env vars updated with new store credentials. |
+| 3 | ~~**Migrate from Vercel to Oxygen**~~ | ✅ DONE | Removed `vercel.json`, `api/index.js`, Cache API polyfill. Deployed to Oxygen. (commit `ffdd458`) |
+| 4 | ~~**Newsletter signup broken**~~ | ✅ DONE | `KLAVIYO_NEWSLETTER_LIST_ID` env var set. Graceful fallback added if Klaviyo is not fully configured. |
+| 5 | ~~**51 hardcoded old-domain URLs**~~ | ✅ DONE | All `recoverytokenstore.com` URLs replaced with `coinplugz.com` across 13 route files. |
+| 6 | ~~**Wrong domain in product schema**~~ | ✅ DONE | `recoverytoken.store` replaced with `coinplugz.com` in product route JSON-LD. |
+| 7 | ~~**Hardcoded myshopify domain**~~ | ✅ DONE | Dead code constant removed; `env.PUBLIC_JUDGEME_SHOP_DOMAIN` was already used correctly. |
+| 8 | ~~**Cart page title says "Hydrogen"**~~ | ✅ DONE | Updated to `"Cart | Coinplugz"`. |
+| 9 | ~~**Old brand email exposed**~~ | ✅ DONE | Updated to `support@coinplugz.com` in FAQ data and contact page. |
+| 10 | ~~**404 page is unstyled**~~ | ✅ DONE | Branded dark-themed error page with eyebrow text, large status code, descriptive message, and "Back to Home" CTA. |
+| 11 | ~~**Missing `PUBLIC_STOREFRONT_ID`**~~ | ✅ DONE | Set during Oxygen migration. |
 
 ### BOTH: Shopify Admin Setup (on new client transfer store)
 
@@ -93,13 +93,8 @@
 
 | Feature | Status | Notes |
 |---------|--------|-------|
-| **Product Q&A on PDP** | In progress | Question/answer feature on product detail pages |
-| **QR Code Review Page** | Planned | QR codes ship with orders; customer scans → review page with optional discount incentive |
-
-### QR Code Review Feature — Open Questions
-- **Discount mechanism**: Auto-generated per customer, or shared code revealed after submission?
-- **QR code generation**: At fulfillment time (app/script), or static inserts pointing to `/reviews/submit?order={id}`?
-- **Review verification**: Should QR link tie to a specific order/product for verified-purchase badge?
+| **Product Q&A on PDP** | ✅ Done | Question/answer feature on product detail pages (commits `800876e`–`b7c4ee3`) |
+| **QR Code Review Page** | ✅ Done | Static QR per product → `/review?product=<handle>` → review form → unique 25% discount code. Duplicate prevention via Judge.me email check. |
 
 ---
 
@@ -127,10 +122,10 @@
 - [ ] Verify sitemap.xml renders correctly (`/sitemap.xml`)
 - [ ] Verify robots.txt is correct (`/robots.txt`)
 - [ ] Submit sitemap to Google Search Console
-- [ ] Create client transfer store + migrate products from dev store
-- [ ] Update `.env` credentials for new store
-- [ ] Migrate from Vercel to Oxygen (see section 3)
-- [ ] Set up Oxygen environment variables in Shopify Admin
+- [x] Create client transfer store + migrate products from dev store
+- [x] Update `.env` credentials for new store
+- [x] Migrate from Vercel to Oxygen (see section 3)
+- [x] Set up Oxygen environment variables in Shopify Admin
 - [ ] Transfer store to JESSE
 - [ ] Remove development screenshot files from repo root
 
@@ -171,13 +166,13 @@
 
 ## 7. SUGGESTED LAUNCH SEQUENCE
 
-1. **Day 1**: EVAN creates client transfer store in Partner Dashboard, exports/imports products & collections from dev store
-2. **Day 1**: JESSE sets up accounts (Judge.me Awesome, Klaviyo list, domain email) + purchases domain
-3. **Day 1-2**: EVAN migrates from Vercel to Oxygen, updates `.env` credentials for new store, fixes release blocker bugs
-4. **Day 1-3**: EVAN completes Product Q&A feature + QR Code Review Page feature
-5. **Day 2-3**: EVAN adds GA4, cookie consent, builds proper 404 page, drafts legal policies
-6. **Day 3**: EVAN transfers store ownership to JESSE → JESSE accepts + picks Shopify plan + configures DNS
-7. **Day 3-4**: JESSE reviews/approves legal policies, configures shipping rates + payment processing
-8. **Day 4-5**: Full end-to-end testing on Oxygen deployment (all features)
-9. **Day 5-6**: Smoke test checklist completed by both parties
-10. **Day 7**: Point production domain, submit to Google Search Console, announce
+1. ~~**Day 1**: EVAN creates client transfer store in Partner Dashboard, exports/imports products & collections from dev store~~ ✅
+2. ~~**Day 1**: EVAN migrates from Vercel to Oxygen, updates `.env` credentials for new store~~ ✅
+3. ~~**Day 1-3**: EVAN completes Product Q&A feature~~ ✅
+4. **Next**: EVAN fixes release blocker bugs (#4–#11) + completes QR Code Review Page feature
+5. **Next**: JESSE sets up accounts (Judge.me Awesome, Klaviyo list, domain email)
+6. **Next**: EVAN adds GA4, cookie consent, builds proper 404 page, drafts legal policies
+7. **Next**: EVAN transfers store ownership to JESSE → JESSE accepts + picks Shopify plan
+8. **Next**: JESSE reviews/approves legal policies, configures shipping rates + payment processing
+9. **Next**: Full end-to-end testing on Oxygen URL (all features, smoke test checklist)
+10. **Last**: JESSE purchases custom domain → DNS setup → point to Oxygen → Google Search Console → announce

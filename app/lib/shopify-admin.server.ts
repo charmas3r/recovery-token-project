@@ -29,12 +29,12 @@ export interface ProductQAData {
  * Throws if required vars are missing.
  */
 function getAdminApiConfig(env: Env): AdminApiConfig {
-  const adminToken = env.PRIVATE_STOREFRONT_API_TOKEN;
+  const adminToken = env.SHOPIFY_ADMIN_API_TOKEN;
   const storeDomain = env.PUBLIC_STORE_DOMAIN;
 
   if (!adminToken || !storeDomain) {
     throw new Error(
-      'PRIVATE_STOREFRONT_API_TOKEN and PUBLIC_STORE_DOMAIN are required for Admin API access',
+      'SHOPIFY_ADMIN_API_TOKEN and PUBLIC_STORE_DOMAIN are required for Admin API access',
     );
   }
 

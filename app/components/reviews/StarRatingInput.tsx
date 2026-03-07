@@ -66,7 +66,7 @@ export function StarRatingInput({value, onChange, error}: StarRatingInputProps) 
               aria-checked={value === star}
               aria-label={`${star} star${star !== 1 ? 's' : ''}`}
               tabIndex={-1}
-              className="p-1 focus:outline-none focus:ring-2 focus:ring-accent rounded"
+              className="p-1 focus:outline-none rounded"
               onClick={() => handleClick(star)}
               onMouseEnter={() => setHovered(star)}
               style={{

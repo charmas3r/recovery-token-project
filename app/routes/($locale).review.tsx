@@ -695,7 +695,7 @@ function ReviewForm({product, isSubmitting, actionData}: ReviewFormProps) {
                 type="submit"
                 variant="primary"
                 size="lg"
-                className="!bg-accent !text-white w-full"
+                className="!bg-accent !text-black w-full font-semibold"
                 disabled={isSubmitting || rating === 0}
               >
                 {isSubmitting ? 'Submitting...' : 'Submit Review'}

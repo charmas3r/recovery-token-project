@@ -265,6 +265,36 @@ export const reviewFormSchema = z.object({
 
 export type ReviewFormData = z.infer<typeof reviewFormSchema>;
 
+// ============================================================================
+// QR CODE REVIEW (simplified — no photos, no quality pills)
+// ============================================================================
+
+export const qrReviewFormSchema = z.object({
+  productId: z.string().min(1, 'Product ID is required'),
+  productHandle: z.string().min(1, 'Product handle is required'),
+  rating: z
+    .number()
+    .int()
+    .min(1, 'Please select a rating')
+    .max(5, 'Rating must be 5 or less'),
+  title: z
+    .string()
+    .min(2, 'Headline must be at least 2 characters')
+    .max(150, 'Headline must be less than 150 characters'),
+  body: z
+    .string()
+    .min(10, 'Review must be at least 10 characters')
+    .max(5000, 'Review must be less than 5000 characters'),
+  name: z
+    .string()
+    .min(2, 'Name must be at least 2 characters')
+    .max(100, 'Name must be less than 100 characters'),
+  email: z.string().email('Please enter a valid email address'),
+  honeypot: z.string().max(0).optional(),
+});
+
+export type QRReviewFormData = z.infer<typeof qrReviewFormSchema>;
+
 // Review photo upload constraints
 export const REVIEW_PHOTO_MAX_COUNT = 3;
 export const REVIEW_PHOTO_MAX_SIZE = 5 * 1024 * 1024; // 5MB

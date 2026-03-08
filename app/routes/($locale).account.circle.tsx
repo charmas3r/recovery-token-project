@@ -210,6 +210,7 @@ export default function RecoveryCirclePage() {
     <AccountLayout
       heading="Recovery Circle"
       subheading="People you're supporting on their recovery journey"
+      backLink={{to: '/account', label: 'Back to Account'}}
     >
       {/* Success Message */}
       {actionData?.success && actionData?.message && (

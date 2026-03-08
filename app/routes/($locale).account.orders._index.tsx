@@ -70,6 +70,7 @@ export default function Orders() {
     <AccountLayout
       heading="Your Orders"
       subheading="Track your orders and view your purchase history"
+      backLink={{to: '/account', label: 'Back to Account'}}
     >
       {/* Search Form */}
       <OrderSearchForm currentFilters={filters} />
@@ -101,7 +102,7 @@ export default function Orders() {
 
 function EmptyOrders({hasFilters = false}: {hasFilters?: boolean}) {
   return (
-    <div className="text-center py-16 px-4">
+    <div style={{textAlign: 'center', paddingTop: '4rem', paddingBottom: '4rem'}}>
       <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-white/[0.05] mb-6">
         <Package className="w-10 h-10 text-white/50" />
       </div>
@@ -110,11 +111,9 @@ function EmptyOrders({hasFilters = false}: {hasFilters?: boolean}) {
           <h3 className="font-display text-2xl font-bold text-white mb-3">
             No orders found
           </h3>
-          <div className="max-w-md mx-auto">
-            <p className="text-body-lg text-white/50 mb-8">
-              No orders match your search criteria.
-            </p>
-          </div>
+          <p style={{maxWidth: '28rem', marginLeft: 'auto', marginRight: 'auto', marginBottom: '2rem', fontSize: '1.125rem', lineHeight: 1.6, color: 'rgba(255,255,255,0.5)'}}>
+            No orders match your search criteria.
+          </p>
           <Link to="/account/orders">
             <Button variant="secondary" size="lg">Clear Filters</Button>
           </Link>
@@ -124,11 +123,9 @@ function EmptyOrders({hasFilters = false}: {hasFilters?: boolean}) {
           <h3 className="font-display text-2xl font-bold text-white mb-3">
             No orders yet
           </h3>
-          <div className="max-w-md mx-auto">
-            <p className="text-body-lg text-white/50 mb-8">
-              You haven't placed any orders yet. Start shopping to celebrate your milestones!
-            </p>
-          </div>
+          <p style={{maxWidth: '28rem', marginLeft: 'auto', marginRight: 'auto', marginBottom: '2rem', fontSize: '1.125rem', lineHeight: 1.6, color: 'rgba(255,255,255,0.5)'}}>
+            You haven't placed any orders yet. Start shopping to celebrate your milestones!
+          </p>
           <Link to="/collections">
             <Button variant="primary" size="lg">Browse Tokens</Button>
           </Link>

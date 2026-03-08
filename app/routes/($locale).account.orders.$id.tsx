@@ -8,7 +8,7 @@ import type {
 import {CUSTOMER_ORDER_QUERY} from '~/graphql/customer-account/CustomerOrderQuery';
 import {AccountLayout} from '~/components/account/AccountLayout';
 import {Button} from '~/components/ui/Button';
-import {ArrowLeft, ExternalLink, Package, MapPin, CreditCard, Gift, Type, Star} from 'lucide-react';
+import {ExternalLink, Package, MapPin, CreditCard, Gift, Type, Star} from 'lucide-react';
 
 /**
  * Convert a product title to a URL handle
@@ -87,15 +87,8 @@ export default function OrderRoute() {
     <AccountLayout
       heading={`Order ${order.name}`}
       subheading={`Placed on ${orderDate}`}
+      backLink={{to: '/account/orders', label: 'Back to Orders'}}
     >
-      {/* Back Link */}
-      <Link
-        to="/account/orders"
-        className="inline-flex items-center gap-2 text-body text-white/50 hover:text-accent transition-colors mb-8"
-      >
-        <ArrowLeft className="w-4 h-4" />
-        Back to Orders
-      </Link>
 
       {/* Order Status */}
       <div className="bg-white/[0.05] rounded-xl p-6 mb-8 flex flex-wrap items-center justify-between gap-6">

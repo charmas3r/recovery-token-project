@@ -171,6 +171,7 @@ export default function WishlistPage() {
     <AccountLayout
       heading="My Wishlist"
       subheading="Tokens you've saved for later"
+      backLink={{to: '/account', label: 'Back to Account'}}
     >
       {products.length > 0 ? (
         <>

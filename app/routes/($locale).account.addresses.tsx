@@ -245,6 +245,7 @@ export default function Addresses() {
     <AccountLayout
       heading="Your Addresses"
       subheading="Manage your shipping addresses"
+      backLink={{to: '/account', label: 'Back to Account'}}
     >
       {/* Add New Address Button */}
       {!showNewForm && (
@@ -287,18 +288,16 @@ export default function Addresses() {
         </div>
       ) : (
         !showNewForm && (
-          <div className="text-center py-16 px-4">
+          <div style={{textAlign: 'center', paddingTop: '4rem', paddingBottom: '4rem'}}>
             <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-white/[0.05] mb-6">
               <MapPin className="w-10 h-10 text-white/50" />
             </div>
             <h3 className="font-display text-2xl font-bold text-white mb-3">
               No addresses saved
             </h3>
-            <div className="max-w-md mx-auto">
-              <p className="text-body-lg text-white/50 mb-8">
-                Add a shipping address to make checkout faster.
-              </p>
-            </div>
+            <p style={{maxWidth: '28rem', marginLeft: 'auto', marginRight: 'auto', marginBottom: '2rem', fontSize: '1.125rem', lineHeight: 1.6, color: 'rgba(255,255,255,0.5)'}}>
+              Add a shipping address to make checkout faster.
+            </p>
             <Button variant="primary" size="lg" onClick={() => setShowNewForm(true)}>
               <Plus className="w-4 h-4 mr-2" />
               Add Address

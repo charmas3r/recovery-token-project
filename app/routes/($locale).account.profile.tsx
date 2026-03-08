@@ -178,6 +178,7 @@ export default function AccountProfile() {
     <AccountLayout
       heading="Your Profile"
       subheading="Manage your personal information and recovery journey"
+      backLink={{to: '/account', label: 'Back to Account'}}
     >
       {/* Success Message */}
       {action?.success && (
@@ -415,7 +416,7 @@ function RecoveryJourneySection({
 
 function AccountSummarySection() {
   return (
-    <div className="bg-gradient-to-br from-primary to-surface-dark rounded-xl p-6 text-white">
+    <div className="rounded-xl border border-white/[0.08] p-6 text-white" style={{background: 'linear-gradient(180deg, #111 0%, #0A0A0A 40%, #080808 100%)'}}>
       <h2 className="font-display text-xl font-bold mb-6">Account Summary</h2>
       
       <div className="grid sm:grid-cols-2 gap-6">

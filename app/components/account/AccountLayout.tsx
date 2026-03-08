@@ -5,16 +5,18 @@
  * @see .cursor/skills/design-system/SKILL.md
  */
 
-import {NavLink} from 'react-router';
+import {NavLink, Link} from 'react-router';
 import {AccountNav} from './AccountNav';
+import {ArrowLeft} from 'lucide-react';
 
 interface AccountLayoutProps {
   children: React.ReactNode;
   heading: string;
   subheading?: string;
+  backLink?: {to: string; label: string};
 }
 
-export function AccountLayout({children, heading, subheading}: AccountLayoutProps) {
+export function AccountLayout({children, heading, subheading, backLink}: AccountLayoutProps) {
   return (
     <div className="min-h-screen">
       <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
@@ -43,6 +45,17 @@ export function AccountLayout({children, heading, subheading}: AccountLayoutProp
           {/* Main Content */}
           <main className="flex-1 min-w-0">
             <div className="rounded-2xl p-6 md:p-10 border border-white/[0.08]" style={{background: 'linear-gradient(180deg, #111 0%, #0A0A0A 40%, #080808 100%)'}}>
+              {/* Back Link */}
+              {backLink && (
+                <Link
+                  to={backLink.to}
+                  className="inline-flex items-center gap-2 text-body-sm text-white/50 hover:text-accent transition-colors mb-4"
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                  {backLink.label}
+                </Link>
+              )}
+
               {/* Page Header */}
               <div className="mb-8 pb-6 border-b border-white/[0.08]">
                 <h1 className="font-display text-2xl md:text-3xl lg:text-4xl font-bold text-white">
@@ -80,7 +93,7 @@ function MobileNavLink({
       className={({isActive}) =>
         `px-4 py-2 rounded-lg text-body-sm font-medium whitespace-nowrap transition-colors ${
           isActive
-            ? 'bg-accent text-black'
+            ? 'bg-accent !text-black'
             : 'bg-white/[0.05] text-white/50 hover:bg-white/[0.08] hover:text-white'
         }`
       }

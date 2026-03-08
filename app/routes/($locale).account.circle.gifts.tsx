@@ -12,7 +12,7 @@ import {
 import {Image, Money} from '@shopify/hydrogen';
 import type {CurrencyCode} from '@shopify/hydrogen/storefront-api-types';
 import {Button} from '~/components/ui/Button';
-import {Gift, Package, ShoppingBag, ChevronDown, ChevronUp, ArrowLeft, Users} from 'lucide-react';
+import {Gift, Package, ShoppingBag, ChevronDown, ChevronUp, Users} from 'lucide-react';
 import {useState} from 'react';
 
 export const meta: Route.MetaFunction = () => {
@@ -126,15 +126,8 @@ export default function GiftHistoryPage() {
     <AccountLayout
       heading="Gift History"
       subheading="Tokens you've purchased for others"
+      backLink={{to: '/account/circle', label: 'Back to Recovery Circle'}}
     >
-      {/* Back to Circle */}
-      <Link
-        to="/account/circle"
-        className="inline-flex items-center gap-2 text-body text-white/50 hover:text-accent transition-colors mb-8"
-      >
-        <ArrowLeft className="w-4 h-4" />
-        Back to Recovery Circle
-      </Link>
 
       {giftGroups.length > 0 ? (
         <>
@@ -164,14 +157,14 @@ export default function GiftHistoryPage() {
         </>
       ) : (
         /* Empty State */
-        <div className="text-center py-16">
+        <div style={{textAlign: 'center', paddingTop: '4rem', paddingBottom: '4rem'}}>
           <div className="w-20 h-20 rounded-full bg-accent/10 flex items-center justify-center mx-auto mb-6">
             <Gift className="w-10 h-10 text-accent" />
           </div>
           <h3 className="font-display text-2xl font-bold text-white mb-3">
             No Gifts Yet
           </h3>
-          <p className="text-body-lg text-white/50 max-w-md mx-auto mb-8">
+          <p style={{maxWidth: '28rem', marginLeft: 'auto', marginRight: 'auto', marginBottom: '2rem', fontSize: '1.125rem', lineHeight: 1.6, color: 'rgba(255,255,255,0.5)'}}>
             When you purchase tokens as gifts for someone in your circle, they'll
             appear here.
           </p>

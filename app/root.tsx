@@ -17,6 +17,7 @@ import resetStyles from '~/styles/reset.css?url';
 import appStyles from '~/styles/app.css?url';
 import tailwindCss from './styles/tailwind.css?url';
 import {PageLayout} from './components/layout/PageLayout';
+import {PostHogAnalytics} from '~/components/analytics/PostHogAnalytics';
 
 export type RootLoader = typeof loader;
 
@@ -101,6 +102,8 @@ export async function loader(args: Route.LoaderArgs) {
     ...deferredData,
     ...criticalData,
     publicStoreDomain: env.PUBLIC_STORE_DOMAIN,
+    postHogKey: env.VITE_PUBLIC_POSTHOG_KEY,
+    postHogHost: env.VITE_PUBLIC_POSTHOG_HOST,
     shop: getShopAnalytics({
       storefront,
       publicStorefrontId: env.PUBLIC_STOREFRONT_ID,
@@ -108,7 +111,7 @@ export async function loader(args: Route.LoaderArgs) {
     consent: {
       checkoutDomain: env.PUBLIC_CHECKOUT_DOMAIN,
       storefrontAccessToken: env.PUBLIC_STOREFRONT_API_TOKEN,
-      withPrivacyBanner: false,
+      withPrivacyBanner: true,
       // localize the privacy banner
       country: args.context.storefront.i18n.country,
       language: args.context.storefront.i18n.language,
@@ -207,6 +210,12 @@ export default function App() {
       <PageLayout {...data}>
         <Outlet />
       </PageLayout>
+      {data.postHogKey && (
+        <PostHogAnalytics
+          postHogKey={data.postHogKey}
+          postHogHost={data.postHogHost}
+        />
+      )}
     </Analytics.Provider>
   );
 }

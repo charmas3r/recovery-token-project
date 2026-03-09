@@ -20,5 +20,9 @@ declare module '@shopify/oxygen-workers-types' {
     JUDGEME_PUBLIC_TOKEN?: string;
     JUDGEME_PRIVATE_TOKEN?: string;
     PUBLIC_JUDGEME_SHOP_DOMAIN?: string;
+
+    // PostHog Analytics (optional)
+    VITE_PUBLIC_POSTHOG_KEY?: string;
+    VITE_PUBLIC_POSTHOG_HOST?: string;
   }
 }

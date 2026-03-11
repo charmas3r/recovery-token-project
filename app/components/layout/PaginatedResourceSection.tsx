@@ -4,7 +4,7 @@ import {useNavigate} from 'react-router';
 
 /**
  * <PaginatedResourceSection > is a component that encapsulate how the previous and next behaviors throughout your application.
- * Automatically loads the next page when the user scrolls near the bottom.
+ * Automatically loads next/previous pages when the user scrolls near them.
  */
 export function PaginatedResourceSection<NodesType>({
   connection,
@@ -17,16 +17,28 @@ export function PaginatedResourceSection<NodesType>({
 }) {
   return (
     <Pagination connection={connection}>
-      {({nodes, isLoading, PreviousLink, NextLink, hasNextPage, nextPageUrl, state}) => {
+      {({
+        nodes,
+        isLoading,
+        hasNextPage,
+        nextPageUrl,
+        hasPreviousPage,
+        previousPageUrl,
+        state,
+      }) => {
         const resourcesMarkup = nodes.map((node, index) =>
           children({node, index}),
         );
 
         return (
           <div>
-            <PreviousLink>
-              {isLoading ? 'Loading...' : <span>↑ Load previous</span>}
-            </PreviousLink>
+            {hasPreviousPage && (
+              <InfiniteScrollTrigger
+                pageUrl={previousPageUrl}
+                isLoading={isLoading}
+                state={state}
+              />
+            )}
             {resourcesClassName ? (
               <div className={resourcesClassName}>{resourcesMarkup}</div>
             ) : (
@@ -34,7 +46,7 @@ export function PaginatedResourceSection<NodesType>({
             )}
             {hasNextPage && (
               <InfiniteScrollTrigger
-                nextPageUrl={nextPageUrl}
+                pageUrl={nextPageUrl}
                 isLoading={isLoading}
                 state={state}
               />
@@ -47,11 +59,11 @@ export function PaginatedResourceSection<NodesType>({
 }
 
 function InfiniteScrollTrigger({
-  nextPageUrl,
+  pageUrl,
   isLoading,
   state,
 }: {
-  nextPageUrl: string;
+  pageUrl: string;
   isLoading: boolean;
   state: unknown;
 }) {
@@ -70,7 +82,7 @@ function InfiniteScrollTrigger({
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting && !loadingRef.current) {
-          navigate(nextPageUrl, {
+          navigate(pageUrl, {
             replace: true,
             preventScrollReset: true,
             state,
@@ -82,7 +94,7 @@ function InfiniteScrollTrigger({
 
     observer.observe(element);
     return () => observer.disconnect();
-  }, [nextPageUrl, navigate, state]);
+  }, [pageUrl, navigate, state]);
 
   return (
     <div ref={triggerRef} className="flex justify-center py-8">

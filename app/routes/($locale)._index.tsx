@@ -740,7 +740,7 @@ function ProductShowcase() {
 
           {/* CTA */}
           <div className="flex justify-center mt-12">
-            <Link to="/products/sunflower-token">
+            <a href="https://coinplugz.com/products/the-sun-flower-token">
               <motion.div
                 whileHover={{scale: 1.02}}
                 whileTap={{scale: 0.98}}
@@ -751,7 +751,7 @@ function ProductShowcase() {
                   View Token Details
                 </Button>
               </motion.div>
-            </Link>
+            </a>
           </div>
         </SectionCard>
       </div>

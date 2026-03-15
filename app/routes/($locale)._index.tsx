@@ -845,7 +845,8 @@ function FeaturedProducts({
         </FadeUp>
 
         {/* Category Cards */}
-        <StaggerContainer className="grid md:grid-cols-2 gap-6 lg:gap-8 mb-16 max-w-4xl mx-auto" staggerDelay={0.15}>
+        <div style={{maxWidth: '56rem', marginLeft: 'auto', marginRight: 'auto'}}>
+        <StaggerContainer className="grid md:grid-cols-2 gap-6 lg:gap-8 mb-16" staggerDelay={0.15}>
           {/* Color Printed Tokens Card (Vibrant) */}
           <StaggerItem>
             <HoverScale scale={1.02}>
@@ -1006,6 +1007,7 @@ function FeaturedProducts({
             </HoverScale>
           </StaggerItem>
         </StaggerContainer>
+        </div>
 
         {/* Featured Products Header */}
         <FadeUp className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8">

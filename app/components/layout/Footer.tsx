@@ -37,7 +37,6 @@ const FOOTER_COLUMNS = [
       {label: 'Classic Best Sellers', to: '/collections/classic'},
       {label: 'Color Printed', to: '/collections/color-printed'},
       {label: 'Skullz & Flowerz', to: '/collections/skullz-flowerz'},
-      {label: 'Gift Sets', to: '/collections/gift-sets'},
     ],
   },
   {

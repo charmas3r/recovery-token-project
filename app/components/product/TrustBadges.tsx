@@ -13,7 +13,7 @@ interface TrustBadge {
 }
 
 const badges: TrustBadge[] = [
-  {icon: <Truck className="w-5 h-5" />, label: 'Free shipping over $50'},
+  {icon: <Truck className="w-5 h-5" />, label: 'Free shipping over $70'},
   {icon: <ShieldCheck className="w-5 h-5" />, label: 'Secure checkout'},
   {icon: <RefreshCw className="w-5 h-5" />, label: '30-day returns'},
   {icon: <Award className="w-5 h-5" />, label: 'Premium quality'},

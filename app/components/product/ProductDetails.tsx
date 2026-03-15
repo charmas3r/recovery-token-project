@@ -181,7 +181,7 @@ export function ProductDetails({
 
             <span className="text-white/40">Shipping</span>
             <span className="text-white/70">
-              Free standard shipping on orders over $50. USPS First Class
+              Free standard shipping on orders over $70. USPS First Class
               (3–5 days) or Priority (1–3 days).
             </span>
 

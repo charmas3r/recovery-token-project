@@ -28,7 +28,7 @@ export const meta: MetaFunction = () => {
   return buildMeta({
     title: 'Shipping & Returns — Coinplugz',
     description:
-      'Free shipping on orders over $75. Standard, expedited, and overnight options. Easy 30-day returns for non-personalized items. Learn about our full shipping and return policies.',
+      'Free shipping on orders over $70. Standard, expedited, and overnight options. Easy 30-day returns for non-personalized items. Learn about our full shipping and return policies.',
   });
 };
 

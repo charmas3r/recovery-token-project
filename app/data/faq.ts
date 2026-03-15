@@ -40,7 +40,7 @@ export const FAQ_ITEMS: FAQItem[] = [
     id: 'free-shipping',
     question: 'Do you offer free shipping?',
     answer:
-      'Yes! We offer free standard shipping on all US orders over $75. This is automatically applied at checkout — no coupon code needed.',
+      'Yes! We offer free standard shipping on all US orders over $70. This is automatically applied at checkout — no coupon code needed.',
     category: 'Orders & Shipping',
   },
   {

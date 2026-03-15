@@ -442,7 +442,7 @@ const PROMOS = [
   {
     icon: <ShippingIcon />,
     headline: 'Free Shipping',
-    subtext: 'On every order over $50 — no code needed',
+    subtext: 'On every order over $70 — no code needed',
     accent: '#FFFF93',
     gradient: 'radial-gradient(ellipse at 50% 0%, rgba(255,255,147,0.12) 0%, transparent 70%)',
   },

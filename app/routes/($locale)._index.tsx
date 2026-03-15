@@ -383,7 +383,7 @@ function HeroSection({
             {/* CTA Buttons */}
             <HeroItem>
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mt-10">
-                <Link to={collection ? `/collections/${collection.handle}` : '/collections'}>
+                <Link to="/collections/all">
                   <motion.div
                     whileHover={{scale: 1.02}}
                     whileTap={{scale: 0.98}}
@@ -394,7 +394,7 @@ function HeroSection({
                       size="lg"
                       className="w-full sm:w-auto !px-10"
                     >
-                      Shop Collection
+                      Shop Recovery Tokens
                     </Button>
                   </motion.div>
                 </Link>
@@ -839,8 +839,7 @@ function FeaturedProducts({
         </FadeUp>
 
         {/* Category Cards */}
-        <div style={{maxWidth: '56rem', marginLeft: 'auto', marginRight: 'auto'}}>
-        <StaggerContainer className="grid md:grid-cols-2 gap-6 lg:gap-8 mb-16" staggerDelay={0.15}>
+        <StaggerContainer className="grid md:grid-cols-3 gap-6 lg:gap-8 mb-16" staggerDelay={0.15}>
           {/* Color Printed Tokens Card (Vibrant) */}
           <StaggerItem>
             <HoverScale scale={1.02}>
@@ -981,8 +980,81 @@ function FeaturedProducts({
               </Link>
             </HoverScale>
           </StaggerItem>
+
+          {/* Classic Best Sellers Card */}
+          <StaggerItem>
+            <HoverScale scale={1.02}>
+              <Link
+                to="/collections/classic"
+                className="group relative rounded-2xl overflow-hidden aspect-[3/4] md:aspect-[3/4] block border border-white/[0.08]"
+              >
+                {/* Warm bronze background */}
+                <div className="absolute inset-0 bg-gradient-to-b from-[#1a1408] via-[#0d0b07] to-[#0A0A0A]">
+                  {/* Bronze glow */}
+                  <motion.div
+                    className="absolute top-12 right-10 w-36 h-36 rounded-full opacity-20"
+                    style={{background: 'radial-gradient(circle, #B8764F 0%, #8B5E3C 40%, transparent 70%)'}}
+                    animate={{scale: [1, 1.1, 1], opacity: [0.15, 0.25, 0.15]}}
+                    transition={{duration: 5, repeat: Infinity}}
+                  />
+                  {/* Warm accent glow */}
+                  <motion.div
+                    className="absolute bottom-20 left-8 w-24 h-24 rounded-full opacity-15"
+                    style={{background: 'radial-gradient(circle, #D4A574 0%, #8B5E3C 40%, transparent 70%)'}}
+                    animate={{scale: [1, 1.08, 1], opacity: [0.1, 0.18, 0.1]}}
+                    transition={{duration: 4, repeat: Infinity, delay: 1}}
+                  />
+                  {/* Floating particles */}
+                  <motion.div
+                    className="absolute top-1/4 right-14 w-2 h-2 rounded-full bg-amber-500/40"
+                    animate={{y: [0, -12, 0], opacity: [0.4, 0.7, 0.4]}}
+                    transition={{duration: 3.5, repeat: Infinity}}
+                  />
+                  <motion.div
+                    className="absolute top-1/3 left-10 w-1.5 h-1.5 rounded-full bg-yellow-600/30"
+                    animate={{y: [0, 8, 0]}}
+                    transition={{duration: 4, repeat: Infinity, delay: 0.6}}
+                  />
+                  <motion.div
+                    className="absolute top-1/2 right-1/4 w-1 h-1 rounded-full bg-orange-300/40"
+                    animate={{y: [0, -6, 0], x: [0, 4, 0]}}
+                    transition={{duration: 3, repeat: Infinity, delay: 1.2}}
+                  />
+                </div>
+
+                {/* Overlay gradient */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/20" />
+
+                {/* Content */}
+                <div className="relative h-full flex flex-col justify-end p-6 md:p-8">
+                  <div className="flex items-center gap-2 mb-2">
+                    <ClassicTokenIcon />
+                    <span className="text-accent text-caption uppercase tracking-[0.2em] font-semibold">
+                      Fan Favorites
+                    </span>
+                  </div>
+                  <h3 className="font-display text-2xl md:text-2xl lg:text-3xl font-bold text-white mb-2">
+                    Classic Best Sellers
+                  </h3>
+                  <p className="text-white/80 text-body-sm max-w-[20rem] mb-4">
+                    Timeless bronze tokens that started it all. Hand-crafted favorites loved by thousands.
+                  </p>
+                  <motion.span
+                    className="inline-flex items-center gap-2 text-accent font-semibold"
+                    whileHover={{x: 5}}
+                    transition={{duration: 0.2}}
+                  >
+                    Shop Classics
+                    <ArrowRightIcon />
+                  </motion.span>
+                </div>
+
+                {/* Hover effect */}
+                <div className="absolute inset-0 bg-amber-900/0 group-hover:bg-amber-900/[0.05] transition-colors duration-300" />
+              </Link>
+            </HoverScale>
+          </StaggerItem>
         </StaggerContainer>
-        </div>
 
         {/* Featured Products Header */}
         <FadeUp className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8">
@@ -1077,6 +1149,17 @@ function BronzeIcon() {
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#FFFF93]">
       <circle cx="12" cy="12" r="10" />
       <path d="M12 6v6l4 2" />
+    </svg>
+  );
+}
+
+function ClassicTokenIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-accent">
+      <circle cx="12" cy="12" r="10" />
+      <path d="M12 8v4" />
+      <path d="M12 16h.01" />
+      <path d="M8 12h8" />
     </svg>
   );
 }

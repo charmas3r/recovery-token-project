@@ -34,9 +34,8 @@ const FOOTER_COLUMNS = [
     title: 'Shop',
     links: [
       {label: 'All Tokens', to: '/collections'},
-      {label: 'The 7 Deadly Sinz', to: '/collections/the-7-deadly-sinz'},
-      {label: 'Dia de los Muertos', to: '/collections/dia-de-los-muertos'},
-      {label: 'Color Printed', to: '/collections/color-tokens'},
+      {label: 'Color Printed', to: '/collections/color-printed'},
+      {label: 'Skullz & Flowerz', to: '/collections/skullz-flowerz'},
       {label: 'Gift Sets', to: '/collections/gift-sets'},
     ],
   },

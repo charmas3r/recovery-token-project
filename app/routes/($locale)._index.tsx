@@ -214,12 +214,16 @@ export async function loader(args: Route.LoaderArgs) {
 }
 
 async function loadCriticalData({context}: Route.LoaderArgs) {
-  const [{collections}] = await Promise.all([
+  const [{collections}, colorPrintedCollection] = await Promise.all([
     context.storefront.query(FEATURED_COLLECTION_QUERY),
+    context.storefront.query(COLLECTION_BY_HANDLE_QUERY, {
+      variables: {handle: 'color-printed'},
+    }),
   ]);
 
   return {
     featuredCollection: collections.nodes[0],
+    colorPrintedCollection: colorPrintedCollection.collection,
   };
 }
 
@@ -337,7 +341,7 @@ export default function Homepage() {
       <HeroSection collection={data.featuredCollection} />
       <PromoCarousel />
       <ProductShowcase />
-      <FeaturedProducts products={data.recommendedProducts} reviewSummaries={data.reviewSummaries} />
+      <FeaturedProducts products={data.recommendedProducts} reviewSummaries={data.reviewSummaries} colorPrintedCollection={data.colorPrintedCollection} />
       <BrandStory />
       <CustomerReviewsSection reviews={data.storeReviews} />
       <FinalCTA collection={data.featuredCollection} />
@@ -813,9 +817,11 @@ function FeatureCard({
 function FeaturedProducts({
   products,
   reviewSummaries,
+  colorPrintedCollection,
 }: {
   products: Promise<RecommendedProductsQuery | null>;
   reviewSummaries: Promise<Record<string, {rating: number; reviewCount: number}> | null>;
+  colorPrintedCollection?: {image?: {url: string; altText?: string | null} | null; handle: string} | null;
 }) {
   return (
     <section className="py-20 md:py-28 bg-black border-t border-white/[0.06]">
@@ -839,164 +845,42 @@ function FeaturedProducts({
         </FadeUp>
 
         {/* Category Cards */}
-        <StaggerContainer className="grid md:grid-cols-3 gap-6 lg:gap-8 mb-16" staggerDelay={0.15}>
-          {/* The 7 Deadly Sinz Card */}
-          <StaggerItem>
-            <HoverScale scale={1.02}>
-              <Link
-                to="/collections/the-7-deadly-sinz"
-                className="group relative rounded-2xl overflow-hidden aspect-[3/4] md:aspect-[3/4] block border border-white/[0.08]"
-              >
-                {/* Dark fiery background */}
-                <div className="absolute inset-0 bg-gradient-to-b from-[#1a0000] via-[#0A0A0A] to-[#0A0000]">
-                  {/* Ember glow */}
-                  <motion.div
-                    className="absolute bottom-0 left-1/2 -translate-x-1/2 w-64 h-40 rounded-full opacity-40"
-                    style={{background: 'radial-gradient(ellipse, #8B0000 0%, #4A0000 40%, transparent 70%)'}}
-                    animate={{opacity: [0.3, 0.5, 0.3], scale: [1, 1.1, 1]}}
-                    transition={{duration: 4, repeat: Infinity}}
-                  />
-                  {/* Floating embers */}
-                  <motion.div
-                    className="absolute bottom-16 left-1/4 w-1.5 h-1.5 rounded-full bg-red-500/80"
-                    animate={{y: [-20, -60], opacity: [0.8, 0], x: [0, 10]}}
-                    transition={{duration: 2.5, repeat: Infinity, repeatDelay: 1}}
-                  />
-                  <motion.div
-                    className="absolute bottom-20 right-1/3 w-1 h-1 rounded-full bg-orange-400/70"
-                    animate={{y: [-10, -50], opacity: [0.7, 0], x: [0, -8]}}
-                    transition={{duration: 2, repeat: Infinity, repeatDelay: 1.5, delay: 0.5}}
-                  />
-                  <motion.div
-                    className="absolute bottom-12 left-1/2 w-1 h-1 rounded-full bg-red-400/60"
-                    animate={{y: [-15, -55], opacity: [0.6, 0], x: [0, 5]}}
-                    transition={{duration: 3, repeat: Infinity, repeatDelay: 0.8, delay: 1}}
-                  />
-                </div>
-
-                {/* Overlay gradient — strong bottom fade for text legibility */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/30" />
-
-                {/* Content */}
-                <div className="relative h-full flex flex-col justify-end p-6 md:p-8">
-                  <div className="flex items-center gap-2 mb-2">
-                    <FlameIcon />
-                    <span className="text-red-400 text-caption uppercase tracking-[0.2em] font-semibold">
-                      Limited Edition
-                    </span>
-                  </div>
-                  <h3 className="font-display text-2xl md:text-2xl lg:text-3xl font-bold text-white mb-2">
-                    The 7 Deadly Sinz
-                  </h3>
-                  <p className="text-white/80 text-body-sm max-w-[20rem] mb-4">
-                    Dark, provocative designs that embrace the shadows. Bold tokens for bold souls.
-                  </p>
-                  <motion.span
-                    className="inline-flex items-center gap-2 text-red-400 font-semibold"
-                    whileHover={{x: 5}}
-                    transition={{duration: 0.2}}
-                  >
-                    Explore Sinz
-                    <ArrowRightIcon />
-                  </motion.span>
-                </div>
-
-                {/* Hover effect */}
-                <div className="absolute inset-0 bg-red-900/0 group-hover:bg-red-900/[0.06] transition-colors duration-300" />
-              </Link>
-            </HoverScale>
-          </StaggerItem>
-
-          {/* Dia de los Muertos Card */}
-          <StaggerItem>
-            <HoverScale scale={1.02}>
-              <Link
-                to="/collections/dia-de-los-muertos"
-                className="group relative rounded-2xl overflow-hidden aspect-[3/4] md:aspect-[3/4] block border border-white/[0.08]"
-              >
-                {/* Festive gradient background */}
-                <div className="absolute inset-0 bg-gradient-to-b from-[#1a0a2e] via-[#0f0a1a] to-[#0A0A0A]">
-                  {/* Marigold glow */}
-                  <motion.div
-                    className="absolute top-8 right-8 w-32 h-32 rounded-full opacity-30"
-                    style={{background: 'radial-gradient(circle, #FF9800 0%, #E65100 40%, transparent 70%)'}}
-                    animate={{scale: [1, 1.15, 1], opacity: [0.25, 0.4, 0.25]}}
-                    transition={{duration: 5, repeat: Infinity}}
-                  />
-                  {/* Teal accent glow */}
-                  <motion.div
-                    className="absolute bottom-12 left-6 w-24 h-24 rounded-full opacity-20"
-                    style={{background: 'radial-gradient(circle, #00BCD4 0%, #006064 40%, transparent 70%)'}}
-                    animate={{scale: [1, 1.1, 1], opacity: [0.15, 0.25, 0.15]}}
-                    transition={{duration: 4, repeat: Infinity, delay: 1}}
-                  />
-                  {/* Floating marigold petals */}
-                  <motion.div
-                    className="absolute top-1/4 right-12 w-2 h-2 rounded-full bg-orange-400/60"
-                    animate={{y: [0, 15, 0], rotate: [0, 180, 360]}}
-                    transition={{duration: 4, repeat: Infinity}}
-                  />
-                  <motion.div
-                    className="absolute top-1/3 left-10 w-1.5 h-1.5 rounded-full bg-amber-300/50"
-                    animate={{y: [0, 12, 0], rotate: [0, -180, -360]}}
-                    transition={{duration: 3.5, repeat: Infinity, delay: 0.7}}
-                  />
-                  <motion.div
-                    className="absolute top-1/2 right-1/4 w-1.5 h-1.5 rounded-full bg-pink-400/40"
-                    animate={{y: [0, 10, 0], x: [0, -5, 0]}}
-                    transition={{duration: 3, repeat: Infinity, delay: 1.2}}
-                  />
-                </div>
-
-                {/* Overlay gradient — strong bottom fade for text legibility */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/20" />
-
-                {/* Content */}
-                <div className="relative h-full flex flex-col justify-end p-6 md:p-8">
-                  <div className="flex items-center gap-2 mb-2">
-                    <CalaveraIcon />
-                    <span className="text-amber-400 text-caption uppercase tracking-[0.2em] font-semibold">
-                      Cultural Collection
-                    </span>
-                  </div>
-                  <h3 className="font-display text-2xl md:text-2xl lg:text-3xl font-bold text-white mb-2">
-                    Dia de los Muertos
-                  </h3>
-                  <p className="text-white/80 text-body-sm max-w-[20rem] mb-4">
-                    Celebrate life and honor those who came before. Vibrant sugar skull artistry.
-                  </p>
-                  <motion.span
-                    className="inline-flex items-center gap-2 text-amber-400 font-semibold"
-                    whileHover={{x: 5}}
-                    transition={{duration: 0.2}}
-                  >
-                    Explore Collection
-                    <ArrowRightIcon />
-                  </motion.span>
-                </div>
-
-                {/* Hover effect */}
-                <div className="absolute inset-0 bg-amber-500/0 group-hover:bg-amber-500/[0.04] transition-colors duration-300" />
-              </Link>
-            </HoverScale>
-          </StaggerItem>
-
+        <StaggerContainer className="grid md:grid-cols-2 gap-6 lg:gap-8 mb-16 max-w-4xl mx-auto" staggerDelay={0.15}>
           {/* Color Printed Tokens Card (Vibrant) */}
           <StaggerItem>
             <HoverScale scale={1.02}>
               <Link
-                to="/collections/color-tokens"
+                to="/collections/color-printed"
                 className="group relative rounded-2xl overflow-hidden aspect-[3/4] md:aspect-[3/4] block border border-white/[0.08]"
               >
                 {/* Colorful background */}
                 <div className="absolute inset-0 bg-gradient-to-b from-[#667eea] via-[#764ba2] to-[#2d1b4e]">
-                  {/* Decorative elements */}
-                  <motion.div
-                    className="absolute top-1/3 right-8 w-32 h-32 rounded-full bg-white/15 blur-sm"
-                    animate={{scale: [1, 1.05, 1]}}
-                    transition={{duration: 4, repeat: Infinity, delay: 0.5}}
-                  />
-                  <div className="absolute top-1/3 right-10 w-28 h-28 rounded-full border-4 border-white/20" />
+                  {/* Collection image in ring area */}
+                  {colorPrintedCollection?.image?.url ? (
+                    <>
+                      <motion.div
+                        className="absolute top-[28%] right-6 md:right-10 w-32 h-32 md:w-36 md:h-36 rounded-full bg-white/15 blur-sm"
+                        animate={{scale: [1, 1.05, 1]}}
+                        transition={{duration: 4, repeat: Infinity, delay: 0.5}}
+                      />
+                      <div className="absolute top-[28%] right-6 md:right-10 w-32 h-32 md:w-36 md:h-36 rounded-full border-4 border-white/20 overflow-hidden">
+                        <img
+                          src={colorPrintedCollection.image.url}
+                          alt={colorPrintedCollection.image.altText || 'Color Printed Collection'}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <motion.div
+                        className="absolute top-1/3 right-8 w-32 h-32 rounded-full bg-white/15 blur-sm"
+                        animate={{scale: [1, 1.05, 1]}}
+                        transition={{duration: 4, repeat: Infinity, delay: 0.5}}
+                      />
+                      <div className="absolute top-1/3 right-10 w-28 h-28 rounded-full border-4 border-white/20" />
+                    </>
+                  )}
                   {/* Floating color dots */}
                   <motion.div
                     className="absolute top-6 right-20 w-4 h-4 rounded-full bg-yellow-300/60"
@@ -1044,6 +928,80 @@ function FeaturedProducts({
 
                 {/* Hover effect */}
                 <div className="absolute inset-0 bg-white/0 group-hover:bg-white/[0.06] transition-colors duration-300" />
+              </Link>
+            </HoverScale>
+          </StaggerItem>
+
+          {/* Skullz & Flowerz Card */}
+          <StaggerItem>
+            <HoverScale scale={1.02}>
+              <Link
+                to="/collections/skullz-flowerz"
+                className="group relative rounded-2xl overflow-hidden aspect-[3/4] md:aspect-[3/4] block border border-white/[0.08]"
+              >
+                {/* Dark moody background */}
+                <div className="absolute inset-0 bg-gradient-to-b from-[#1a0a1a] via-[#0d0d0d] to-[#0A0A0A]">
+                  {/* Ethereal purple/green glow */}
+                  <motion.div
+                    className="absolute top-12 right-8 w-36 h-36 rounded-full opacity-25"
+                    style={{background: 'radial-gradient(circle, #9333ea 0%, #581c87 40%, transparent 70%)'}}
+                    animate={{scale: [1, 1.12, 1], opacity: [0.2, 0.35, 0.2]}}
+                    transition={{duration: 5, repeat: Infinity}}
+                  />
+                  {/* Subtle green life glow */}
+                  <motion.div
+                    className="absolute bottom-20 left-8 w-28 h-28 rounded-full opacity-15"
+                    style={{background: 'radial-gradient(circle, #22c55e 0%, #166534 40%, transparent 70%)'}}
+                    animate={{scale: [1, 1.1, 1], opacity: [0.1, 0.2, 0.1]}}
+                    transition={{duration: 4.5, repeat: Infinity, delay: 1.2}}
+                  />
+                  {/* Floating particles — life & death duality */}
+                  <motion.div
+                    className="absolute top-1/4 right-12 w-2 h-2 rounded-full bg-purple-400/50"
+                    animate={{y: [0, -15, 0], opacity: [0.5, 0.8, 0.5]}}
+                    transition={{duration: 3.5, repeat: Infinity}}
+                  />
+                  <motion.div
+                    className="absolute top-1/3 left-12 w-1.5 h-1.5 rounded-full bg-green-400/40"
+                    animate={{y: [0, 10, 0], rotate: [0, 180, 360]}}
+                    transition={{duration: 4, repeat: Infinity, delay: 0.8}}
+                  />
+                  <motion.div
+                    className="absolute top-1/2 right-1/4 w-1 h-1 rounded-full bg-pink-300/50"
+                    animate={{y: [0, -8, 0], x: [0, 5, 0]}}
+                    transition={{duration: 3, repeat: Infinity, delay: 1.5}}
+                  />
+                </div>
+
+                {/* Overlay gradient — strong bottom fade for text legibility */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/20" />
+
+                {/* Content */}
+                <div className="relative h-full flex flex-col justify-end p-6 md:p-8">
+                  <div className="flex items-center gap-2 mb-2">
+                    <SkullFlowerIcon />
+                    <span className="text-purple-300 text-caption uppercase tracking-[0.2em] font-semibold">
+                      Dark Collection
+                    </span>
+                  </div>
+                  <h3 className="font-display text-2xl md:text-2xl lg:text-3xl font-bold text-white mb-2">
+                    Skullz &amp; Flowerz
+                  </h3>
+                  <p className="text-white/80 text-body-sm max-w-[20rem] mb-4">
+                    Dark, provocative designs that embrace the duality of life and death. Beauty blooms from the bones.
+                  </p>
+                  <motion.span
+                    className="inline-flex items-center gap-2 text-purple-300 font-semibold"
+                    whileHover={{x: 5}}
+                    transition={{duration: 0.2}}
+                  >
+                    Explore Collection
+                    <ArrowRightIcon />
+                  </motion.span>
+                </div>
+
+                {/* Hover effect */}
+                <div className="absolute inset-0 bg-purple-900/0 group-hover:bg-purple-900/[0.06] transition-colors duration-300" />
               </Link>
             </HoverScale>
           </StaggerItem>
@@ -1155,6 +1113,21 @@ function ColorPaletteIcon() {
       <circle cx="8" cy="19" r="2.5" />
       <circle cx="5" cy="13" r="2.5" />
       <circle cx="12" cy="12" r="3" />
+    </svg>
+  );
+}
+
+function SkullFlowerIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-purple-300">
+      {/* Skull */}
+      <circle cx="9" cy="9" r="1.5" fill="currentColor" />
+      <circle cx="15" cy="9" r="1.5" fill="currentColor" />
+      <path d="M12 2a7 7 0 0 0-7 7c0 2.2 1 4.1 2.5 5.4V17a1.5 1.5 0 0 0 1.5 1.5h6a1.5 1.5 0 0 0 1.5-1.5v-2.6A7 7 0 0 0 12 2z" />
+      {/* Flower growing from top */}
+      <circle cx="12" cy="1" r="1" fill="currentColor" opacity="0.6" />
+      <path d="M10.5 2.5c-.8-.8-1.5-.3-1.5.5s.7 1.3 1.5.5" opacity="0.6" />
+      <path d="M13.5 2.5c.8-.8 1.5-.3 1.5.5s-.7 1.3-1.5.5" opacity="0.6" />
     </svg>
   );
 }
@@ -1724,6 +1697,25 @@ const FEATURED_COLLECTION_QUERY = `#graphql
     collections(first: 1, sortKey: UPDATED_AT, reverse: true) {
       nodes {
         ...FeaturedCollection
+      }
+    }
+  }
+` as const;
+
+const COLLECTION_BY_HANDLE_QUERY = `#graphql
+  query CollectionByHandle($handle: String!, $country: CountryCode, $language: LanguageCode)
+    @inContext(country: $country, language: $language) {
+    collection(handle: $handle) {
+      id
+      title
+      description
+      handle
+      image {
+        id
+        url
+        altText
+        width
+        height
       }
     }
   }

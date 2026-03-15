@@ -214,16 +214,12 @@ export async function loader(args: Route.LoaderArgs) {
 }
 
 async function loadCriticalData({context}: Route.LoaderArgs) {
-  const [{collections}, colorPrintedCollection] = await Promise.all([
+  const [{collections}] = await Promise.all([
     context.storefront.query(FEATURED_COLLECTION_QUERY),
-    context.storefront.query(COLLECTION_BY_HANDLE_QUERY, {
-      variables: {handle: 'color-printed'},
-    }),
   ]);
 
   return {
     featuredCollection: collections.nodes[0],
-    colorPrintedCollection: colorPrintedCollection.collection,
   };
 }
 
@@ -341,7 +337,7 @@ export default function Homepage() {
       <HeroSection collection={data.featuredCollection} />
       <PromoCarousel />
       <ProductShowcase />
-      <FeaturedProducts products={data.recommendedProducts} reviewSummaries={data.reviewSummaries} colorPrintedCollection={data.colorPrintedCollection} />
+      <FeaturedProducts products={data.recommendedProducts} reviewSummaries={data.reviewSummaries} />
       <BrandStory />
       <CustomerReviewsSection reviews={data.storeReviews} />
       <FinalCTA collection={data.featuredCollection} />
@@ -817,11 +813,9 @@ function FeatureCard({
 function FeaturedProducts({
   products,
   reviewSummaries,
-  colorPrintedCollection,
 }: {
   products: Promise<RecommendedProductsQuery | null>;
   reviewSummaries: Promise<Record<string, {rating: number; reviewCount: number}> | null>;
-  colorPrintedCollection?: {image?: {url: string; altText?: string | null} | null; handle: string} | null;
 }) {
   return (
     <section className="py-20 md:py-28 bg-black border-t border-white/[0.06]">
@@ -856,32 +850,13 @@ function FeaturedProducts({
               >
                 {/* Colorful background */}
                 <div className="absolute inset-0 bg-gradient-to-b from-[#667eea] via-[#764ba2] to-[#2d1b4e]">
-                  {/* Collection image in ring area */}
-                  {colorPrintedCollection?.image?.url ? (
-                    <>
-                      <motion.div
-                        className="absolute top-[28%] right-6 md:right-10 w-32 h-32 md:w-36 md:h-36 rounded-full bg-white/15 blur-sm"
-                        animate={{scale: [1, 1.05, 1]}}
-                        transition={{duration: 4, repeat: Infinity, delay: 0.5}}
-                      />
-                      <div className="absolute top-[28%] right-6 md:right-10 w-32 h-32 md:w-36 md:h-36 rounded-full border-4 border-white/20 overflow-hidden">
-                        <img
-                          src={colorPrintedCollection.image.url}
-                          alt={colorPrintedCollection.image.altText || 'Color Printed Collection'}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                    </>
-                  ) : (
-                    <>
-                      <motion.div
-                        className="absolute top-1/3 right-8 w-32 h-32 rounded-full bg-white/15 blur-sm"
-                        animate={{scale: [1, 1.05, 1]}}
-                        transition={{duration: 4, repeat: Infinity, delay: 0.5}}
-                      />
-                      <div className="absolute top-1/3 right-10 w-28 h-28 rounded-full border-4 border-white/20" />
-                    </>
-                  )}
+                  {/* Decorative ring */}
+                  <motion.div
+                    className="absolute top-1/3 right-8 w-32 h-32 rounded-full bg-white/15 blur-sm"
+                    animate={{scale: [1, 1.05, 1]}}
+                    transition={{duration: 4, repeat: Infinity, delay: 0.5}}
+                  />
+                  <div className="absolute top-1/3 right-10 w-28 h-28 rounded-full border-4 border-white/20" />
                   {/* Floating color dots */}
                   <motion.div
                     className="absolute top-6 right-20 w-4 h-4 rounded-full bg-yellow-300/60"
@@ -1699,25 +1674,6 @@ const FEATURED_COLLECTION_QUERY = `#graphql
     collections(first: 1, sortKey: UPDATED_AT, reverse: true) {
       nodes {
         ...FeaturedCollection
-      }
-    }
-  }
-` as const;
-
-const COLLECTION_BY_HANDLE_QUERY = `#graphql
-  query CollectionByHandle($handle: String!, $country: CountryCode, $language: LanguageCode)
-    @inContext(country: $country, language: $language) {
-    collection(handle: $handle) {
-      id
-      title
-      description
-      handle
-      image {
-        id
-        url
-        altText
-        width
-        height
       }
     }
   }

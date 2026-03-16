@@ -15,14 +15,19 @@ export function CartSummary({cart, layout}: CartSummaryProps) {
     layout === 'page' ? 'cart-summary-page' : 'cart-summary-aside';
 
   const subtotal = cart?.cost?.subtotalAmount;
-  const total = cart?.cost?.totalAmount;
-  const hasDiscount =
-    subtotal &&
-    total &&
-    parseFloat(subtotal.amount) > parseFloat(total.amount);
-  const discountAmount = hasDiscount
-    ? (parseFloat(subtotal.amount) - parseFloat(total.amount)).toFixed(2)
-    : null;
+
+  // Calculate total discount from line-level discount allocations
+  const totalDiscount = cart?.lines?.nodes?.reduce((sum, line) => {
+    const lineDiscount = line?.discountAllocations?.reduce(
+      (lineSum: number, alloc: any) =>
+        lineSum + parseFloat(alloc.discountedAmount?.amount || '0'),
+      0,
+    );
+    return sum + (lineDiscount || 0);
+  }, 0) || 0;
+
+  const hasDiscount = totalDiscount > 0;
+  const currencyCode = subtotal?.currencyCode || 'USD';
 
   return (
     <div aria-labelledby="cart-summary" className={className}>
@@ -33,15 +38,15 @@ export function CartSummary({cart, layout}: CartSummaryProps) {
           {subtotal?.amount ? <Money data={subtotal} /> : '-'}
         </dd>
       </dl>
-      {hasDiscount && discountAmount && (
+      {hasDiscount && (
         <dl className="cart-subtotal">
           <dt>Order discount</dt>
           <dd style={{color: '#22c55e'}}>
             &minus;{' '}
             <Money
               data={{
-                amount: discountAmount,
-                currencyCode: subtotal.currencyCode,
+                amount: totalDiscount.toFixed(2),
+                currencyCode,
               }}
             />
           </dd>
@@ -49,11 +54,16 @@ export function CartSummary({cart, layout}: CartSummaryProps) {
       )}
       <CartDiscounts discountCodes={cart?.discountCodes} />
       <CartGiftCard giftCardCodes={cart?.appliedGiftCards} />
-      {hasDiscount && total && (
+      {hasDiscount && subtotal && (
         <dl className="cart-subtotal" style={{fontWeight: 700}}>
           <dt>Total</dt>
           <dd>
-            <Money data={total} />
+            <Money
+              data={{
+                amount: (parseFloat(subtotal.amount) - totalDiscount).toFixed(2),
+                currencyCode,
+              }}
+            />
           </dd>
         </dl>
       )}

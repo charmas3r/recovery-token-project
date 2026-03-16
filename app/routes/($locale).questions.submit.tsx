@@ -124,7 +124,7 @@ export async function action({
   const origin = new URL(request.url).origin;
   const sessionSecret = context.env.SESSION_SECRET;
   const token = await generateAnswerToken(sessionSecret, productHandle, questionId);
-  const answerUrl = `${origin}/admin/qa/answer?product=${encodeURIComponent(productHandle)}&qid=${encodeURIComponent(questionId)}&token=${encodeURIComponent(token)}`;
+  const answerUrl = `${origin}/qa-admin/answer?product=${encodeURIComponent(productHandle)}&qid=${encodeURIComponent(questionId)}&token=${encodeURIComponent(token)}`;
 
   // -----------------------------------------------------------------------
   // 5. Send Klaviyo event (non-blocking)

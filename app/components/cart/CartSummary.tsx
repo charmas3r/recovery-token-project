@@ -14,21 +14,49 @@ export function CartSummary({cart, layout}: CartSummaryProps) {
   const className =
     layout === 'page' ? 'cart-summary-page' : 'cart-summary-aside';
 
+  const subtotal = cart?.cost?.subtotalAmount;
+  const total = cart?.cost?.totalAmount;
+  const hasDiscount =
+    subtotal &&
+    total &&
+    parseFloat(subtotal.amount) > parseFloat(total.amount);
+  const discountAmount = hasDiscount
+    ? (parseFloat(subtotal.amount) - parseFloat(total.amount)).toFixed(2)
+    : null;
+
   return (
     <div aria-labelledby="cart-summary" className={className}>
       <h4>Totals</h4>
       <dl className="cart-subtotal">
         <dt>Subtotal</dt>
         <dd>
-          {cart?.cost?.subtotalAmount?.amount ? (
-            <Money data={cart?.cost?.subtotalAmount} />
-          ) : (
-            '-'
-          )}
+          {subtotal?.amount ? <Money data={subtotal} /> : '-'}
         </dd>
       </dl>
+      {hasDiscount && discountAmount && (
+        <dl className="cart-subtotal">
+          <dt>Order discount</dt>
+          <dd style={{color: '#22c55e'}}>
+            &minus;{' '}
+            <Money
+              data={{
+                amount: discountAmount,
+                currencyCode: subtotal.currencyCode,
+              }}
+            />
+          </dd>
+        </dl>
+      )}
       <CartDiscounts discountCodes={cart?.discountCodes} />
       <CartGiftCard giftCardCodes={cart?.appliedGiftCards} />
+      {hasDiscount && total && (
+        <dl className="cart-subtotal" style={{fontWeight: 700}}>
+          <dt>Total</dt>
+          <dd>
+            <Money data={total} />
+          </dd>
+        </dl>
+      )}
       <CartCheckoutActions checkoutUrl={cart?.checkoutUrl} />
     </div>
   );

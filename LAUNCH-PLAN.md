@@ -111,9 +111,9 @@
 - [ ] Social media accounts created (for OG tags, links)
 
 ### Technical (EVAN)
-- [ ] Fix all 9 release blocker bugs above
+- [x] Fix all 11 release blocker bugs above
 - [ ] Add Google Analytics / GA4 (tag in root.tsx)
-- [ ] Consider adding cookie consent banner (`withPrivacyBanner: true` — currently `false`)
+- [x] Cookie consent banner enabled (`withPrivacyBanner: true`)
 - [ ] Run Lighthouse audit on key pages (homepage, PDP, collection)
 - [ ] Test all forms: contact, newsletter, review submission
 - [ ] Test cart + checkout flow end-to-end on production
@@ -127,7 +127,7 @@
 - [x] Migrate from Vercel to Oxygen (see section 3)
 - [x] Set up Oxygen environment variables in Shopify Admin
 - [ ] Transfer store to JESSE
-- [ ] Remove development screenshot files from repo root
+- [x] ~~Remove development screenshot files from repo root~~ — not tracked in git, local only
 
 ### SEO (EVAN + JESSE)
 - [ ] All page titles and meta descriptions reviewed

@@ -69,7 +69,7 @@ export const CUSTOMER_ORDER_QUERY = `#graphql
     }
     shippingAddress {
       name
-      formatted(withName: true)
+      formatted(withName: false)
       formattedArea
     }
     discountApplications(first: 100) {

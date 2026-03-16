@@ -192,12 +192,11 @@ export default function OrderRoute() {
           {order.shippingAddress ? (
             <address className="text-body text-white/50 not-italic space-y-1">
               <p className="font-medium text-white mb-2">{order.shippingAddress.name}</p>
-              {order.shippingAddress.formatted && (
-                <p>{order.shippingAddress.formatted}</p>
-              )}
-              {order.shippingAddress.formattedArea && (
-                <p>{order.shippingAddress.formattedArea}</p>
-              )}
+              {order.shippingAddress.formatted &&
+                Array.isArray(order.shippingAddress.formatted) &&
+                order.shippingAddress.formatted.map(
+                  (line: string, i: number) => <p key={i}>{line}</p>,
+                )}
             </address>
           ) : (
             <p className="text-body text-white/50">No shipping address</p>

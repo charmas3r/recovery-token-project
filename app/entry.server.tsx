@@ -19,10 +19,8 @@ export default async function handleRequest(
       checkoutDomain: context.env.PUBLIC_CHECKOUT_DOMAIN,
       storeDomain: context.env.PUBLIC_STORE_DOMAIN,
     },
-    scriptSrc: [
+    defaultSrc: [
       'https://us-assets.i.posthog.com',
-    ],
-    connectSrc: [
       'https://us.i.posthog.com',
     ],
     imgSrc: [

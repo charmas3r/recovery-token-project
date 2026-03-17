@@ -19,6 +19,12 @@ export default async function handleRequest(
       checkoutDomain: context.env.PUBLIC_CHECKOUT_DOMAIN,
       storeDomain: context.env.PUBLIC_STORE_DOMAIN,
     },
+    scriptSrc: [
+      'https://us-assets.i.posthog.com',
+    ],
+    connectSrc: [
+      'https://us.i.posthog.com',
+    ],
     imgSrc: [
       'https://cdn.shopify.com',
       'https://res.cloudinary.com',

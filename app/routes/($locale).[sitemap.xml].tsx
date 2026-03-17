@@ -10,7 +10,20 @@ export async function loader({
     request,
   });
 
-  response.headers.set('Cache-Control', `max-age=${60 * 60 * 24}`);
+  // Append custom static pages sitemap to the index
+  const body = await response.text();
+  const url = new URL(request.url);
+  const customSitemapEntry = `<sitemap><loc>${url.origin}/sitemap/custom/1.xml</loc></sitemap>`;
+  const updatedBody = body.replace(
+    '</sitemapindex>',
+    `${customSitemapEntry}\n</sitemapindex>`,
+  );
 
-  return response;
+  return new Response(updatedBody, {
+    headers: {
+      'Content-Type': 'application/xml',
+      'Cache-Control': `max-age=${60 * 60 * 24}`,
+      'xml-charset': 'UTF-8',
+    },
+  });
 }

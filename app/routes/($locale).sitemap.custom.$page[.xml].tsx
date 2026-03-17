@@ -1,0 +1,50 @@
+import type {Route} from './+types/sitemap.custom.$page[.xml]';
+
+/**
+ * Static pages not managed by Shopify CMS that need to be
+ * included in the sitemap for Google indexing.
+ */
+const STATIC_PAGES = [
+  {url: '/', changeFreq: 'daily', priority: 1.0},
+  {url: '/about', changeFreq: 'monthly', priority: 0.7},
+  {url: '/about/our-story', changeFreq: 'monthly', priority: 0.6},
+  {url: '/about/why-tokens-matter', changeFreq: 'monthly', priority: 0.6},
+  {url: '/about/testimonials', changeFreq: 'weekly', priority: 0.6},
+  {url: '/contact', changeFreq: 'monthly', priority: 0.5},
+  {url: '/support', changeFreq: 'monthly', priority: 0.5},
+  {url: '/support/faq', changeFreq: 'monthly', priority: 0.5},
+  {url: '/support/shipping-returns', changeFreq: 'monthly', priority: 0.5},
+  {url: '/resources', changeFreq: 'weekly', priority: 0.6},
+  {url: '/resources/glossary', changeFreq: 'monthly', priority: 0.5},
+  {url: '/resources/milestone-calculator', changeFreq: 'monthly', priority: 0.5},
+  {url: '/resources/articles', changeFreq: 'weekly', priority: 0.6},
+  {url: '/reviews', changeFreq: 'weekly', priority: 0.6},
+  {url: '/newsletter', changeFreq: 'monthly', priority: 0.4},
+] as const;
+
+export async function loader({request}: Route.LoaderArgs) {
+  const url = new URL(request.url);
+  const origin = url.origin;
+
+  const urlEntries = STATIC_PAGES.map(
+    (page) =>
+      `  <url>
+    <loc>${origin}${page.url}</loc>
+    <changefreq>${page.changeFreq}</changefreq>
+    <priority>${page.priority}</priority>
+  </url>`,
+  ).join('\n');
+
+  const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${urlEntries}
+</urlset>`;
+
+  return new Response(sitemap, {
+    headers: {
+      'Content-Type': 'application/xml',
+      'Cache-Control': `max-age=${60 * 60 * 24}`,
+      'xml-charset': 'UTF-8',
+    },
+  });
+}

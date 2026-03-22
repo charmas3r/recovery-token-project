@@ -150,3 +150,156 @@ export async function uploadImagesToShopify(
 
   return resourceUrls;
 }
+
+// ---------------------------------------------------------------------------
+// Single-file upload with Shopify File GID return
+// ---------------------------------------------------------------------------
+
+export interface ShopifyFileUploadResult {
+  url: string;
+  fileId: string;
+}
+
+/**
+ * Upload a single image (from a File object or a remote URL) to Shopify's
+ * staged-uploads flow, then register it as a Shopify File via fileCreate.
+ * Returns both the CDN resource URL and the Shopify File GID.
+ */
+export async function uploadImageToShopifyFiles(
+  input: File | {url: string; filename: string},
+  env: Env,
+): Promise<ShopifyFileUploadResult> {
+  let file: File;
+  if ('url' in input) {
+    const res = await fetch(input.url);
+    if (!res.ok) throw new Error(`Failed to fetch image from ${input.url}`);
+    const blob = await res.blob();
+    file = new File([blob], input.filename, {type: blob.type || 'image/png'});
+  } else {
+    file = input;
+  }
+
+  const urls = await uploadImagesToShopify([file], env);
+  if (!urls.length) throw new Error('Upload failed: no URL returned');
+
+  const fileId = await registerFileInShopify(urls[0], file.name, env);
+  return {url: urls[0], fileId};
+}
+
+/**
+ * Register a staged-upload resource URL as a Shopify File (fileCreate mutation).
+ * Returns the Shopify File GID.
+ */
+async function registerFileInShopify(
+  resourceUrl: string,
+  filename: string,
+  env: Env,
+): Promise<string> {
+  const mutation = `#graphql
+    mutation fileCreate($files: [FileCreateInput!]!) {
+      fileCreate(files: $files) {
+        files {
+          id
+          ... on MediaImage {
+            id
+            image {
+              url
+            }
+          }
+        }
+        userErrors {
+          field
+          message
+        }
+      }
+    }
+  `;
+
+  const domain = env.PUBLIC_STORE_DOMAIN.replace(/^https?:\/\//, '');
+  const res = await fetch(
+    `https://${domain}/admin/api/2024-10/graphql.json`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Shopify-Access-Token': env.SHOPIFY_ADMIN_API_TOKEN!,
+      },
+      body: JSON.stringify({
+        query: mutation,
+        variables: {
+          files: [{
+            alt: `Custom token design: ${filename}`,
+            contentType: 'IMAGE',
+            originalSource: resourceUrl,
+          }],
+        },
+      }),
+    },
+  );
+
+  const json = (await res.json()) as any;
+  const fileData = json?.data?.fileCreate;
+
+  if (fileData?.userErrors?.length) {
+    throw new Error(`Shopify file create error: ${fileData.userErrors[0].message}`);
+  }
+
+  return fileData.files[0].id;
+}
+
+// ---------------------------------------------------------------------------
+// Batch resolver: Shopify File GIDs → CDN URLs
+// ---------------------------------------------------------------------------
+
+/**
+ * Given an array of Shopify File GIDs, resolve them to their CDN URLs.
+ * Returns a map of { [gid]: url }.
+ */
+export async function resolveShopifyFileIds(
+  ids: string[],
+  env: Env,
+): Promise<Record<string, string>> {
+  if (!ids.length) return {};
+
+  const query = `#graphql
+    query ResolveFiles($ids: [ID!]!) {
+      nodes(ids: $ids) {
+        ... on MediaImage {
+          id
+          image {
+            url
+          }
+        }
+        ... on GenericFile {
+          id
+          url
+        }
+      }
+    }
+  `;
+
+  const domain = env.PUBLIC_STORE_DOMAIN.replace(/^https?:\/\//, '');
+  const res = await fetch(
+    `https://${domain}/admin/api/2024-10/graphql.json`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Shopify-Access-Token': env.SHOPIFY_ADMIN_API_TOKEN!,
+      },
+      body: JSON.stringify({query, variables: {ids}}),
+    },
+  );
+
+  const json = (await res.json()) as any;
+  const result: Record<string, string> = {};
+
+  for (const node of json?.data?.nodes ?? []) {
+    if (node?.id) {
+      const url = node.image?.url ?? node.url;
+      if (url) result[node.id] = url;
+    }
+  }
+
+  return result;
+}

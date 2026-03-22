@@ -37,18 +37,18 @@ Each wizard step is its own nested route under a shared layout. The layout route
 | Step | Route File | Purpose | Session Writes |
 |------|-----------|---------|----------------|
 | 1. Occasion | `we-design.occasion.tsx` | Multiple choice: Sobriety milestone, Memorial, Custom gift, Organization/Group | `customToken.occasion` |
-| 2. Design Description | `we-design.description.tsx` | Free text description + up to 5 inspiration image uploads (5MB each, JPEG/PNG/WebP) | `customToken.description`, `customToken.inspirationImageUrls[]` |
+| 2. Design Description | `we-design.description.tsx` | Free text description + up to 5 inspiration image uploads (5MB each, JPEG/PNG/WebP) | `customToken.description`, `customToken.inspirationImageIds[]` |
 | 3. Material | `we-design.material.tsx` | Brass vs Color — maps to Shopify product variant | `customToken.material`, `customToken.variantId` |
 | 4. Engraving | `we-design.engraving.tsx` | Name, date, custom text — reuses existing EngravingForm patterns | `customToken.engraving{name, years, cleanDate, note}` |
-| 5. Review | `we-design.review.tsx` | Summary of all selections. Email confirmation note. CartForm submission. | Adds to cart, clears session, fires Klaviyo event |
+| 5. Review | `we-design.review.tsx` | Summary of all selections. Collects contact email for design follow-up. CartForm submission. | `customToken.contactEmail`. Adds to cart, clears session, fires Klaviyo event |
 
 ### "You Design It" Flow — 5 Steps
 
 | Step | Route File | Purpose | Session Writes |
 |------|-----------|---------|----------------|
-| 1. Describe | `you-design.describe.tsx` | Guided prompt: theme, symbols, text, style. Optional reference image upload. | `customToken.designPrompt`, `customToken.referenceImageUrls[]` |
-| 2. AI Preview | `you-design.preview.tsx` | System amends prompt, generates 4 token design previews. Customer picks favorite. | `customToken.previewImageUrls[]`, `customToken.selectedPreviewUrl` |
-| 3. Refine | `you-design.refine.tsx` | Shows selected design. Customer types refinements. Re-generates. Max 3 rounds. | `customToken.refinementHistory[]`, `customToken.finalDesignUrl` |
+| 1. Describe | `you-design.describe.tsx` | Guided prompt: theme, symbols, text, style. Optional reference image upload. | `customToken.designPrompt`, `customToken.referenceImageIds[]` |
+| 2. AI Preview | `you-design.preview.tsx` | System amends prompt, generates 4 token design previews (uploaded to Shopify Files immediately). Customer picks favorite. | `customToken.previewImageIds[]`, `customToken.selectedPreviewId` |
+| 3. Refine | `you-design.refine.tsx` | Shows selected design. Customer types refinements. Re-generates. Max 3 rounds. | `customToken.refinementPrompts[]`, `customToken.finalDesignId` |
 | 4. Material | `you-design.material.tsx` | Same material selection — shared MaterialSelector component | `customToken.material`, `customToken.variantId` |
 | 5. Review | `you-design.review.tsx` | Shows final AI design preview, material, summary. CartForm submission. | Uploads final image to Shopify Files, adds to cart, clears session, fires Klaviyo event |
 
@@ -158,13 +158,29 @@ DALL-E 3 generates one image per API call. For the initial 4-preview batch, 4 ca
 
 ### Cost Protection
 
-- **Per-session cap:** 7 generations (4 initial + 3 refinements)
-- **Daily global cap:** Configurable via `AI_MAX_GENERATIONS_PER_DAY` env var
+- **Per-session cap:** 7 generations (4 initial + 3 refinements). Tracked in the cookie session via `generationCount`.
+- **Daily global cap:** Configurable via `AI_MAX_GENERATIONS_PER_DAY` env var. The counter is stored as a Shopify shop metafield (`custom_token.daily_generation_count`) with a date key. Each generation increments it via the Admin API `metafieldsSet` mutation (same pattern as the existing recovery circle metafields). The metafield is read in the AI adapter before generating and checked against the cap. If the count exceeds the cap, generation is refused. The date key resets the counter daily.
 - **Estimated cost per session:** ~$0.28 (7 images at ~$0.04 each for DALL-E 3 1024x1024)
 
 ---
 
 ## Session State
+
+### Storage Strategy
+
+The Hydrogen session uses cookie-based storage with a ~4KB limit. The `CustomTokenSession` data — including multiple image URLs, refinement history, and text fields — can exceed this limit. To avoid this:
+
+**Approach: Store image URLs as Shopify File IDs, not full URLs.** When images are uploaded (inspiration, AI-generated previews), immediately upload them to Shopify Files via staged uploads and store only the short file ID in the session (e.g., `gid://shopify/MediaImage/12345`). Resolve to full CDN URLs at read time in the loader. This keeps each URL reference to ~40 bytes instead of ~150+ bytes.
+
+Additionally, the session stores only the data needed for the current and future steps. Text fields (`description`, `designPrompt`) are capped at reasonable lengths by validation (see Validation Schemas). The `refinementHistory` stores only the prompt text (not the full result URL — the result URL is the `finalDesignUrl` or `selectedPreviewUrl`).
+
+**Estimated session size budget:**
+- Path + material + variantId + occasion + metadata: ~200 bytes
+- Description or designPrompt (capped at 500 chars): ~500 bytes
+- Up to 5 image file IDs (~40 bytes each): ~200 bytes
+- Engraving fields: ~200 bytes
+- Refinement prompts (3 x ~200 chars): ~600 bytes
+- **Total: ~1.7KB** — well within 4KB limit
 
 ### Data Shape
 
@@ -180,7 +196,8 @@ interface CustomTokenSession {
   // "We Design" fields
   occasion?: string;
   description?: string;
-  inspirationImageUrls?: string[];
+  inspirationImageIds?: string[];   // Shopify File IDs (resolved to URLs in loader)
+  contactEmail?: string;            // For design follow-up communication
   engraving?: {
     name?: string;
     years?: string;
@@ -190,11 +207,11 @@ interface CustomTokenSession {
 
   // "You Design" fields
   designPrompt?: string;
-  referenceImageUrls?: string[];
-  previewImageUrls?: string[];
-  selectedPreviewUrl?: string;
-  refinementHistory?: { prompt: string; resultUrl: string }[];
-  finalDesignUrl?: string;
+  referenceImageIds?: string[];     // Shopify File IDs (resolved to URLs in loader)
+  previewImageIds?: string[];       // Shopify File IDs (resolved to URLs in loader)
+  selectedPreviewId?: string;       // Shopify File ID of chosen design
+  refinementPrompts?: string[];     // Just the prompt text (max 3)
+  finalDesignId?: string;           // Shopify File ID of final approved design
 
   // Metadata
   generationCount?: number;
@@ -283,8 +300,8 @@ This follows the existing fire-and-forget pattern used for circle member adds.
 All images (inspiration uploads and AI-generated designs) are stored via Shopify's Admin API staged uploads pipeline. This reuses the existing `shopify-uploads.server.ts` infrastructure.
 
 - **Inspiration images:** Uploaded during the description step, URLs stored in session
-- **AI-generated previews:** Temporary URLs from the AI provider during the session. Only the final approved design is uploaded to Shopify Files.
-- **Final design:** Uploaded to Shopify Files on cart add, URL stored as a line item property
+- **AI-generated previews:** All generated previews are immediately uploaded to Shopify Files via staged uploads after generation. This avoids DALL-E temporary URL expiration (~1-2 hours) and ensures previews remain visible if a customer pauses mid-wizard. Shopify File IDs are stored in the session (not full URLs) to stay within cookie size limits.
+- **Final design:** Already in Shopify Files from the preview/refine step. The Shopify File CDN URL is stored as a line item property on cart add.
 
 ---
 
@@ -332,7 +349,7 @@ Set via Shopify admin: **Hydrogen > Store > Settings > Environments** or `shopif
 - [ ] Hero CTA and product page CTAs enabled
 - [ ] Error states tested (API failure, rate limit exceeded)
 - [ ] PostHog analytics events tracked
-- [ ] CSP headers updated for OpenAI API domain (`api.openai.com`)
+- [ ] CSP headers verified (AI calls are server-side; no client-side CSP changes needed since all images are served from Shopify CDN)
 - [ ] Merge `feature/custom-tokens` to `main`
 
 ---
@@ -346,6 +363,7 @@ New schemas to add to `app/lib/validation.ts`:
 - `customTokenDesignPromptSchema` — Guided prompt fields (theme, symbols, text, style)
 - `customTokenRefinementSchema` — Refinement prompt text (max length)
 - `customTokenMaterialSchema` — Enum of material options
+- `customTokenContactEmailSchema` — Valid email for design follow-up ("We Design" review step)
 
 ---
 

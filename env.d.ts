@@ -24,5 +24,11 @@ declare module '@shopify/oxygen-workers-types' {
     // PostHog Analytics (optional)
     VITE_PUBLIC_POSTHOG_KEY?: string;
     VITE_PUBLIC_POSTHOG_HOST?: string;
+
+    // AI Image Generation
+    AI_IMAGE_PROVIDER?: string;
+    OPENAI_API_KEY?: string;
+    AI_MAX_GENERATIONS_PER_SESSION?: string;
+    AI_MAX_GENERATIONS_PER_DAY?: string;
   }
 }

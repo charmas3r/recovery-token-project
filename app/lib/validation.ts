@@ -380,3 +380,41 @@ export function formatZodErrors(
   });
   return fieldErrors;
 }
+
+// ============================================================================
+// CUSTOM TOKEN SCHEMAS
+// ============================================================================
+
+export const customTokenOccasionSchema = z.enum([
+  'milestone',
+  'memorial',
+  'gift',
+  'organization',
+]);
+export type CustomTokenOccasion = z.infer<typeof customTokenOccasionSchema>;
+
+export const customTokenDescriptionSchema = z.object({
+  description: z.string().min(10, 'Please describe your design in at least 10 characters').max(500, 'Description must be under 500 characters'),
+});
+export type CustomTokenDescriptionData = z.infer<typeof customTokenDescriptionSchema>;
+
+export const customTokenDesignPromptSchema = z.object({
+  theme: z.string().min(3, 'Please describe a theme').max(200, 'Theme must be under 200 characters'),
+  symbols: z.string().max(200, 'Symbols must be under 200 characters').optional().default(''),
+  text: z.string().max(100, 'Text must be under 100 characters').optional().default(''),
+  style: z.string().max(200, 'Style must be under 200 characters').optional().default(''),
+});
+export type CustomTokenDesignPromptData = z.infer<typeof customTokenDesignPromptSchema>;
+
+export const customTokenRefinementSchema = z.object({
+  refinement: z.string().min(3, 'Please describe what to change').max(200, 'Refinement must be under 200 characters'),
+});
+export type CustomTokenRefinementData = z.infer<typeof customTokenRefinementSchema>;
+
+export const customTokenMaterialSchema = z.enum(['brass', 'color']);
+export type CustomTokenMaterial = z.infer<typeof customTokenMaterialSchema>;
+
+export const customTokenContactEmailSchema = z.object({
+  contactEmail: z.string().email('Please enter a valid email address'),
+});
+export type CustomTokenContactEmailData = z.infer<typeof customTokenContactEmailSchema>;

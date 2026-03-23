@@ -1,5 +1,5 @@
-import {Form, redirect, useActionData, useLoaderData} from 'react-router';
-import {useEffect, useRef} from 'react';
+import {Form, redirect, useActionData, useLoaderData, useFetcher} from 'react-router';
+import {useState, useEffect} from 'react';
 import type {Route} from './+types/($locale).custom-token.you-design.review';
 import {
   getCustomTokenSession,
@@ -92,7 +92,7 @@ export async function action({request, context}: Route.ActionArgs) {
   clearCustomTokenSession(context.session as AppSession);
 
   return Response.json(
-    {attributes, variantId: session.variantId},
+    {success: true, attributes, variantId: session.variantId},
     {headers: {'Set-Cookie': await context.session.commit()}},
   );
 }
@@ -100,6 +100,8 @@ export async function action({request, context}: Route.ActionArgs) {
 export default function YouDesignReview() {
   const {session, finalDesignUrl} = useLoaderData<typeof loader>();
   const actionData = useActionData<typeof action>();
+  const cartFetcher = useFetcher();
+  const [addedToCart, setAddedToCart] = useState(false);
 
   const reviewItems = [
     {label: 'Design Description', value: session.designPrompt ?? ''},
@@ -126,13 +128,40 @@ export default function YouDesignReview() {
       : []),
   ].filter((item) => item.value);
 
-  // If action returned attributes, auto-submit to cart
-  if (actionData?.attributes && actionData?.variantId) {
+  // When action returns success, submit to cart via fetcher
+  useEffect(() => {
+    if (actionData?.success && actionData?.variantId && actionData?.attributes && !addedToCart) {
+      setAddedToCart(true);
+      cartFetcher.submit(
+        {
+          [CartForm.INPUT_NAME]: JSON.stringify({
+            action: CartForm.ACTIONS.LinesAdd,
+            inputs: {
+              lines: [{
+                merchandiseId: actionData.variantId,
+                quantity: 1,
+                attributes: actionData.attributes,
+              }],
+            },
+          }),
+        },
+        {method: 'POST', action: '/cart'},
+      );
+    }
+  }, [actionData, addedToCart, cartFetcher]);
+
+  if (addedToCart) {
     return (
-      <CartFormAutoSubmit
-        variantId={actionData.variantId}
-        attributes={actionData.attributes}
-      />
+      <div style={{textAlign: 'center', padding: '3rem 0'}}>
+        <p style={{color: '#fff', fontSize: '1.125rem', marginBottom: '1rem'}}>
+          {cartFetcher.state !== 'idle' ? 'Adding to cart...' : 'Added to cart!'}
+        </p>
+        {cartFetcher.state === 'idle' && (
+          <a href="/cart" style={{color: '#B8764F', fontSize: '0.875rem', textDecoration: 'underline'}}>
+            View Cart
+          </a>
+        )}
+      </div>
     );
   }
 
@@ -186,44 +215,5 @@ export default function YouDesignReview() {
         </Form>
       </div>
     </div>
-  );
-}
-
-function CartFormAutoSubmit({
-  variantId,
-  attributes,
-}: {
-  variantId: string;
-  attributes: Array<{key: string; value: string}>;
-}) {
-  const submittedRef = useRef(false);
-
-  return (
-    <CartForm
-      route="/cart"
-      action={CartForm.ACTIONS.LinesAdd}
-      inputs={{
-        lines: [{merchandiseId: variantId, quantity: 1, attributes}],
-      }}
-    >
-      {(fetcher) => {
-        useEffect(() => {
-          if (
-            fetcher.state === 'idle' &&
-            !fetcher.data &&
-            !submittedRef.current
-          ) {
-            submittedRef.current = true;
-            fetcher.submit(null);
-          }
-        }, [fetcher]);
-
-        return (
-          <div style={{textAlign: 'center', padding: '3rem 0'}}>
-            <p style={{color: '#fff', fontSize: '1.125rem'}}>Adding to cart...</p>
-          </div>
-        );
-      }}
-    </CartForm>
   );
 }

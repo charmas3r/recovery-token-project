@@ -1,5 +1,5 @@
-import {Form, redirect, useActionData, useLoaderData} from 'react-router';
-import {useState, useRef, useEffect} from 'react';
+import {Form, useActionData, useLoaderData, useFetcher} from 'react-router';
+import {useState, useEffect} from 'react';
 import type {Route} from './+types/($locale).custom-token.we-design.review';
 import {getCustomTokenSession, updateCustomTokenSession, clearCustomTokenSession, canProceedToStep} from '~/lib/custom-token-session';
 import {ReviewSummary} from '~/components/custom-token/ReviewSummary';
@@ -10,9 +10,9 @@ import type {AppSession} from '~/lib/session';
 export async function loader({context}: Route.LoaderArgs) {
   const session = getCustomTokenSession(context.session as AppSession);
   if (!session || session.path !== 'we-design' || !canProceedToStep(session, 'review')) {
-    return redirect('/custom-token/we-design/engraving');
+    return {redirect: '/custom-token/we-design/engraving'};
   }
-  return {session};
+  return {session, redirect: null};
 }
 
 export async function action({request, context}: Route.ActionArgs) {
@@ -20,7 +20,7 @@ export async function action({request, context}: Route.ActionArgs) {
   const contactEmail = (formData.get('contactEmail') as string)?.trim();
 
   if (!contactEmail || !contactEmail.includes('@')) {
-    return {error: 'Please enter a valid email address so we can send design proofs'};
+    return {error: 'Please enter a valid email address so we can send design proofs', success: false};
   }
 
   const session = getCustomTokenSession(context.session as AppSession)!;
@@ -67,9 +67,9 @@ export async function action({request, context}: Route.ActionArgs) {
   // Clear wizard session
   clearCustomTokenSession(context.session as AppSession);
 
-  // Return attributes for client-side CartForm submission
+  // Return attributes and variantId for client-side cart submission
   return Response.json(
-    {attributes, variantId: session.variantId},
+    {success: true, attributes, variantId: session.variantId},
     {headers: {'Set-Cookie': await context.session.commit()}},
   );
 }
@@ -90,7 +90,9 @@ const inputStyle: React.CSSProperties = {
 export default function WeDesignReview() {
   const {session} = useLoaderData<typeof loader>();
   const actionData = useActionData<typeof action>();
+  const cartFetcher = useFetcher();
   const [email, setEmail] = useState(session.contactEmail ?? '');
+  const [addedToCart, setAddedToCart] = useState(false);
 
   const reviewItems = [
     {label: 'Occasion', value: session.occasion ?? ''},
@@ -101,13 +103,40 @@ export default function WeDesignReview() {
     ...(session.engraving?.cleanDate ? [{label: 'Engraving Clean Date', value: session.engraving.cleanDate}] : []),
   ].filter((item) => item.value);
 
-  // If action returned attributes, submit to cart
-  if (actionData?.attributes && actionData?.variantId) {
+  // When action returns success, submit to cart via fetcher
+  useEffect(() => {
+    if (actionData?.success && actionData?.variantId && actionData?.attributes && !addedToCart) {
+      setAddedToCart(true);
+      cartFetcher.submit(
+        {
+          [CartForm.INPUT_NAME]: JSON.stringify({
+            action: CartForm.ACTIONS.LinesAdd,
+            inputs: {
+              lines: [{
+                merchandiseId: actionData.variantId,
+                quantity: 1,
+                attributes: actionData.attributes,
+              }],
+            },
+          }),
+        },
+        {method: 'POST', action: '/cart'},
+      );
+    }
+  }, [actionData, addedToCart, cartFetcher]);
+
+  if (addedToCart) {
     return (
-      <CartFormAutoSubmit
-        variantId={actionData.variantId}
-        attributes={actionData.attributes}
-      />
+      <div style={{textAlign: 'center', padding: '3rem 0'}}>
+        <p style={{color: '#fff', fontSize: '1.125rem', marginBottom: '1rem'}}>
+          {cartFetcher.state !== 'idle' ? 'Adding to cart...' : 'Added to cart!'}
+        </p>
+        {cartFetcher.state === 'idle' && (
+          <a href="/cart" style={{color: '#B8764F', fontSize: '0.875rem', textDecoration: 'underline'}}>
+            View Cart
+          </a>
+        )}
+      </div>
     );
   }
 
@@ -121,7 +150,7 @@ export default function WeDesignReview() {
           Review & Order
         </h2>
         <p style={{fontSize: '1rem', color: 'rgba(255,255,255,0.5)', marginTop: '0.5rem'}}>
-          Review your custom token details. We'll follow up at your email with design proofs.
+          Review your custom token details. We&apos;ll follow up at your email with design proofs.
         </p>
       </div>
 
@@ -153,32 +182,5 @@ export default function WeDesignReview() {
         </Form>
       </div>
     </div>
-  );
-}
-
-function CartFormAutoSubmit({variantId, attributes}: {variantId: string; attributes: Array<{key: string; value: string}>}) {
-  const submittedRef = useRef(false);
-
-  return (
-    <CartForm
-      route="/cart"
-      action={CartForm.ACTIONS.LinesAdd}
-      inputs={{lines: [{merchandiseId: variantId, quantity: 1, attributes}]}}
-    >
-      {(fetcher) => {
-        useEffect(() => {
-          if (fetcher.state === 'idle' && !fetcher.data && !submittedRef.current) {
-            submittedRef.current = true;
-            fetcher.submit(null);
-          }
-        }, [fetcher]);
-
-        return (
-          <div style={{textAlign: 'center', padding: '3rem 0'}}>
-            <p style={{color: '#fff', fontSize: '1.125rem'}}>Adding to cart...</p>
-          </div>
-        );
-      }}
-    </CartForm>
   );
 }

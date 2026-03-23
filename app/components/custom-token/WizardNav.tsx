@@ -1,5 +1,4 @@
 import {Link} from 'react-router';
-import {Button} from '~/components/ui/Button';
 
 interface WizardNavProps {
   backTo?: string;
@@ -9,6 +8,8 @@ interface WizardNavProps {
 }
 
 export function WizardNav({backTo, nextLabel = 'Continue', isSubmitting = false, disabled = false}: WizardNavProps) {
+  const isDisabled = disabled || isSubmitting;
+
   return (
     <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '2rem'}}>
       {backTo ? (
@@ -23,14 +24,28 @@ export function WizardNav({backTo, nextLabel = 'Continue', isSubmitting = false,
       ) : (
         <div />
       )}
-      <Button
+      <button
         type="submit"
-        variant="primary"
-        className="!bg-accent !text-white"
-        disabled={disabled || isSubmitting}
+        disabled={isDisabled}
+        style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '0.75rem 1.5rem',
+          borderRadius: '0.75rem',
+          border: 'none',
+          background: '#B8764F',
+          color: '#000000',
+          fontWeight: 600,
+          fontSize: '0.875rem',
+          cursor: isDisabled ? 'not-allowed' : 'pointer',
+          opacity: isDisabled ? 0.4 : 1,
+          transition: 'opacity 0.2s',
+          minHeight: '44px',
+        }}
       >
         {isSubmitting ? 'Saving...' : nextLabel}
-      </Button>
+      </button>
     </div>
   );
 }

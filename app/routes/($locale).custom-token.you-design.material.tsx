@@ -47,7 +47,7 @@ export async function loader({context}: Route.LoaderArgs) {
   );
 
   const variants = product?.variants?.nodes ?? [];
-  const materialOptions = variants
+  let materialOptions = variants
     .filter((v: any) => v.availableForSale)
     .map((v: any) => ({
       id: v.id,
@@ -62,6 +62,26 @@ export async function loader({context}: Route.LoaderArgs) {
         ? 'Classic polished brass with silver engraving'
         : 'Vibrant color enamel with detailed design',
     }));
+
+  // Fallback options if product not yet created in Shopify
+  if (materialOptions.length === 0) {
+    materialOptions = [
+      {
+        id: 'placeholder-brass',
+        label: 'Brass',
+        value: 'brass' as const,
+        price: '$49.99',
+        description: 'Classic polished brass with silver engraving',
+      },
+      {
+        id: 'placeholder-color',
+        label: 'Color',
+        value: 'color' as const,
+        price: '$59.99',
+        description: 'Vibrant color enamel with detailed design',
+      },
+    ];
+  }
 
   return {materialOptions, selectedMaterial: session.material};
 }

@@ -339,6 +339,7 @@ export default function Homepage() {
       <ProductShowcase />
       <FeaturedProducts products={data.recommendedProducts} reviewSummaries={data.reviewSummaries} />
       <BrandStory />
+      <CustomTokenCTA />
       <CustomerReviewsSection reviews={data.storeReviews} />
       <FinalCTA collection={data.featuredCollection} />
     </div>
@@ -1198,6 +1199,35 @@ function ArrowRightIcon() {
       <path d="M5 12h14" />
       <path d="m12 5 7 7-7 7" />
     </svg>
+  );
+}
+
+/**
+ * Custom Token CTA - Invite visitors to design their own token
+ */
+function CustomTokenCTA() {
+  return (
+    <section className="py-12 md:py-16 bg-black">
+      <div className="container-standard">
+        <FadeUp>
+          <Link
+            to="/custom-token"
+            className="block rounded-2xl border border-white/[0.08] hover:border-accent/50 p-xl transition-all group"
+            style={{background: 'linear-gradient(180deg, #111 0%, #0A0A0A 40%, #080808 100%)'}}
+          >
+            <span className="inline-block text-accent text-caption uppercase tracking-[0.25em] font-semibold mb-sm">
+              New
+            </span>
+            <h3 className="text-white font-display text-xl font-bold mb-sm group-hover:text-accent transition-colors">
+              Create a Custom Token
+            </h3>
+            <p className="text-white/50 text-sm">
+              Design a one-of-a-kind recovery token — we&apos;ll bring your vision to life.
+            </p>
+          </Link>
+        </FadeUp>
+      </div>
+    </section>
   );
 }
 

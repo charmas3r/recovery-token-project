@@ -9,23 +9,35 @@ interface WizardProgressProps {
 
 export function WizardProgress({steps, currentStep, completedSteps, basePath}: WizardProgressProps) {
   return (
-    <nav aria-label="Wizard progress" className="mb-xl">
-      <ol className="flex items-center gap-sm">
+    <nav aria-label="Wizard progress" style={{marginBottom: '2rem'}}>
+      <ol style={{display: 'flex', alignItems: 'center', gap: '0.5rem', listStyle: 'none', margin: 0, padding: 0}}>
         {steps.map((step, i) => {
           const isCompleted = completedSteps.includes(step);
           const isCurrent = step === currentStep;
           const isAccessible = isCompleted || isCurrent;
           return (
-            <li key={step} className="flex items-center gap-sm">
+            <li key={step} style={{display: 'flex', alignItems: 'center', gap: '0.5rem'}}>
               {i > 0 && (
-                <div className={`h-px w-8 ${isCompleted ? 'bg-accent' : 'bg-white/[0.08]'}`} />
+                <div style={{height: '1px', width: '2rem', background: isCompleted ? '#B8764F' : 'rgba(255,255,255,0.08)'}} />
               )}
               {isAccessible && !isCurrent ? (
                 <Link
                   to={`${basePath}/${step}`}
-                  className={`flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold transition-colors ${
-                    isCompleted ? 'bg-accent text-white' : 'border border-white/[0.15] text-white'
-                  }`}
+                  style={{
+                    display: 'flex',
+                    height: '2rem',
+                    width: '2rem',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    borderRadius: '9999px',
+                    fontSize: '0.75rem',
+                    fontWeight: 700,
+                    transition: 'colors 0.2s',
+                    textDecoration: 'none',
+                    ...(isCompleted
+                      ? {background: '#B8764F', color: '#fff'}
+                      : {border: '1px solid rgba(255,255,255,0.15)', color: '#fff'}),
+                  }}
                   aria-label={`Step ${i + 1}: ${step}`}
                   aria-current={isCurrent ? 'step' : undefined}
                 >
@@ -33,9 +45,19 @@ export function WizardProgress({steps, currentStep, completedSteps, basePath}: W
                 </Link>
               ) : (
                 <div
-                  className={`flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold ${
-                    isCurrent ? 'border-2 border-accent text-accent' : 'border border-white/[0.08] text-white/40'
-                  }`}
+                  style={{
+                    display: 'flex',
+                    height: '2rem',
+                    width: '2rem',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    borderRadius: '9999px',
+                    fontSize: '0.75rem',
+                    fontWeight: 700,
+                    ...(isCurrent
+                      ? {border: '2px solid #B8764F', color: '#B8764F'}
+                      : {border: '1px solid rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.4)'}),
+                  }}
                   aria-label={`Step ${i + 1}: ${step}`}
                   aria-current={isCurrent ? 'step' : undefined}
                 >

@@ -1,0 +1,171 @@
+<h2>Section 2: Route Structure & Wizard Flows</h2>
+<p class="subtitle">File layout, step progression, and session state management</p>
+
+<div class="split">
+  <!-- We Design Flow -->
+  <div class="mockup">
+    <div class="mockup-header">"We Design It" Flow — 5 Steps</div>
+    <div class="mockup-body" style="padding: 20px; font-size: 13px;">
+
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div style="width: 28px; height: 28px; border-radius: 50%; background: #B8764F; color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; flex-shrink: 0;">1</div>
+          <div style="flex: 1; background: rgba(255,255,255,0.05); border-radius: 8px; padding: 10px;">
+            <strong style="color: white;">Occasion</strong><br>
+            <span style="color: rgba(255,255,255,0.4); font-size: 12px;">Route: <code>we-design.occasion.tsx</code></span><br>
+            <span style="color: rgba(255,255,255,0.5); font-size: 12px;">Multiple choice: Sobriety milestone, Memorial, Custom gift, Organization/Group</span><br>
+            <span style="color: rgba(184,118,79,0.8); font-size: 11px;">Session writes: <code>customToken.occasion</code></span>
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div style="width: 28px; height: 28px; border-radius: 50%; background: #B8764F; color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; flex-shrink: 0;">2</div>
+          <div style="flex: 1; background: rgba(255,255,255,0.05); border-radius: 8px; padding: 10px;">
+            <strong style="color: white;">Design Description</strong><br>
+            <span style="color: rgba(255,255,255,0.4); font-size: 12px;">Route: <code>we-design.description.tsx</code></span><br>
+            <span style="color: rgba(255,255,255,0.5); font-size: 12px;">Free text description + up to 5 inspiration image uploads</span><br>
+            <span style="color: rgba(184,118,79,0.8); font-size: 11px;">Session writes: <code>customToken.description</code>, <code>customToken.inspirationImageUrls[]</code></span>
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div style="width: 28px; height: 28px; border-radius: 50%; background: #B8764F; color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; flex-shrink: 0;">3</div>
+          <div style="flex: 1; background: rgba(255,255,255,0.05); border-radius: 8px; padding: 10px;">
+            <strong style="color: white;">Material</strong><br>
+            <span style="color: rgba(255,255,255,0.4); font-size: 12px;">Route: <code>we-design.material.tsx</code></span><br>
+            <span style="color: rgba(255,255,255,0.5); font-size: 12px;">Brass vs Color options — maps to Shopify product variant</span><br>
+            <span style="color: rgba(184,118,79,0.8); font-size: 11px;">Session writes: <code>customToken.material</code>, <code>customToken.variantId</code></span>
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div style="width: 28px; height: 28px; border-radius: 50%; background: #B8764F; color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; flex-shrink: 0;">4</div>
+          <div style="flex: 1; background: rgba(255,255,255,0.05); border-radius: 8px; padding: 10px;">
+            <strong style="color: white;">Engraving Details</strong><br>
+            <span style="color: rgba(255,255,255,0.4); font-size: 12px;">Route: <code>we-design.engraving.tsx</code></span><br>
+            <span style="color: rgba(255,255,255,0.5); font-size: 12px;">Name, date, custom text — reuses existing EngravingForm patterns</span><br>
+            <span style="color: rgba(184,118,79,0.8); font-size: 11px;">Session writes: <code>customToken.engraving{name,years,cleanDate,note}</code></span>
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div style="width: 28px; height: 28px; border-radius: 50%; background: #B8764F; color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; flex-shrink: 0;">5</div>
+          <div style="flex: 1; background: rgba(255,255,255,0.05); border-radius: 8px; padding: 10px;">
+            <strong style="color: white;">Review & Add to Cart</strong><br>
+            <span style="color: rgba(255,255,255,0.4); font-size: 12px;">Route: <code>we-design.review.tsx</code></span><br>
+            <span style="color: rgba(255,255,255,0.5); font-size: 12px;">Summary of all selections. Email confirmation note. CartForm submission with line item properties.</span><br>
+            <span style="color: rgba(184,118,79,0.8); font-size: 11px;">Action: adds to cart, clears session, triggers Klaviyo event</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- You Design Flow -->
+  <div class="mockup">
+    <div class="mockup-header">"You Design It" Flow — 5 Steps</div>
+    <div class="mockup-body" style="padding: 20px; font-size: 13px;">
+
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div style="width: 28px; height: 28px; border-radius: 50%; background: #7C3AED; color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; flex-shrink: 0;">1</div>
+          <div style="flex: 1; background: rgba(255,255,255,0.05); border-radius: 8px; padding: 10px;">
+            <strong style="color: white;">Describe Your Design</strong><br>
+            <span style="color: rgba(255,255,255,0.4); font-size: 12px;">Route: <code>you-design.describe.tsx</code></span><br>
+            <span style="color: rgba(255,255,255,0.5); font-size: 12px;">Guided prompt: theme, symbols, text, style. Optional reference image upload.</span><br>
+            <span style="color: rgba(184,118,79,0.8); font-size: 11px;">Session writes: <code>customToken.designPrompt</code>, <code>customToken.referenceImageUrls[]</code></span>
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div style="width: 28px; height: 28px; border-radius: 50%; background: #7C3AED; color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; flex-shrink: 0;">2</div>
+          <div style="flex: 1; background: rgba(255,255,255,0.05); border-radius: 8px; padding: 10px;">
+            <strong style="color: white;">AI Preview — Initial Options</strong><br>
+            <span style="color: rgba(255,255,255,0.4); font-size: 12px;">Route: <code>you-design.preview.tsx</code></span><br>
+            <span style="color: rgba(255,255,255,0.5); font-size: 12px;">System amends prompt → generates 4 token design previews. Customer picks favorite.</span><br>
+            <span style="color: rgba(184,118,79,0.8); font-size: 11px;">Action: calls AI adapter, stores images. Session writes: <code>customToken.selectedPreviewUrl</code></span>
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div style="width: 28px; height: 28px; border-radius: 50%; background: #7C3AED; color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; flex-shrink: 0;">3</div>
+          <div style="flex: 1; background: rgba(255,255,255,0.05); border-radius: 8px; padding: 10px;">
+            <strong style="color: white;">Refine Design</strong><br>
+            <span style="color: rgba(255,255,255,0.4); font-size: 12px;">Route: <code>you-design.refine.tsx</code></span><br>
+            <span style="color: rgba(255,255,255,0.5); font-size: 12px;">Shows selected design. Customer can type refinements ("make eagle larger"). Re-generates. Max 3 refinement rounds.</span><br>
+            <span style="color: rgba(184,118,79,0.8); font-size: 11px;">Action: calls AI adapter with refinement. Session writes: <code>customToken.finalDesignUrl</code></span>
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div style="width: 28px; height: 28px; border-radius: 50%; background: #7C3AED; color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; flex-shrink: 0;">4</div>
+          <div style="flex: 1; background: rgba(255,255,255,0.05); border-radius: 8px; padding: 10px;">
+            <strong style="color: white;">Material</strong><br>
+            <span style="color: rgba(255,255,255,0.4); font-size: 12px;">Route: <code>you-design.material.tsx</code></span><br>
+            <span style="color: rgba(255,255,255,0.5); font-size: 12px;">Same material selection as "We Design" — shared component</span><br>
+            <span style="color: rgba(184,118,79,0.8); font-size: 11px;">Session writes: <code>customToken.material</code>, <code>customToken.variantId</code></span>
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div style="width: 28px; height: 28px; border-radius: 50%; background: #7C3AED; color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; flex-shrink: 0;">5</div>
+          <div style="flex: 1; background: rgba(255,255,255,0.05); border-radius: 8px; padding: 10px;">
+            <strong style="color: white;">Review & Add to Cart</strong><br>
+            <span style="color: rgba(255,255,255,0.4); font-size: 12px;">Route: <code>you-design.review.tsx</code></span><br>
+            <span style="color: rgba(255,255,255,0.5); font-size: 12px;">Shows final design preview, material, summary. CartForm submission with design image URL in line item properties.</span><br>
+            <span style="color: rgba(184,118,79,0.8); font-size: 11px;">Action: adds to cart, uploads final image to Shopify files, clears session, triggers Klaviyo</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- File Structure -->
+<div class="mockup" style="margin-top: 24px;">
+  <div class="mockup-header">Route File Structure</div>
+  <div class="mockup-body" style="padding: 20px;">
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; font-size: 13px;">
+
+      <div>
+        <div style="color: #B8764F; font-weight: 700; margin-bottom: 8px; text-transform: uppercase; font-size: 11px; letter-spacing: 0.1em;">Routes</div>
+        <pre style="color: rgba(255,255,255,0.7); background: rgba(255,255,255,0.03); padding: 12px; border-radius: 8px; overflow-x: auto; font-size: 12px; line-height: 1.7;">app/routes/
+├── ($locale).custom-token.tsx          ← Layout: progress bar, session
+├── ($locale).custom-token._index.tsx   ← Path selector landing
+│
+├── ($locale).custom-token.we-design.occasion.tsx
+├── ($locale).custom-token.we-design.description.tsx
+├── ($locale).custom-token.we-design.material.tsx
+├── ($locale).custom-token.we-design.engraving.tsx
+├── ($locale).custom-token.we-design.review.tsx
+│
+├── ($locale).custom-token.you-design.describe.tsx
+├── ($locale).custom-token.you-design.preview.tsx
+├── ($locale).custom-token.you-design.refine.tsx
+├── ($locale).custom-token.you-design.material.tsx
+└── ($locale).custom-token.you-design.review.tsx</pre>
+      </div>
+
+      <div>
+        <div style="color: #7C3AED; font-weight: 700; margin-bottom: 8px; text-transform: uppercase; font-size: 11px; letter-spacing: 0.1em;">Shared Components & Services</div>
+        <pre style="color: rgba(255,255,255,0.7); background: rgba(255,255,255,0.03); padding: 12px; border-radius: 8px; overflow-x: auto; font-size: 12px; line-height: 1.7;">app/components/custom-token/
+├── WizardProgress.tsx       ← Step indicator bar
+├── WizardNav.tsx            ← Back/Next buttons
+├── MaterialSelector.tsx     ← Shared brass/color picker
+├── DesignPreviewGrid.tsx    ← 4-up AI preview display
+├── DesignRefiner.tsx        ← Refinement prompt + preview
+├── ImageUploader.tsx        ← Drag-drop inspiration uploads
+└── ReviewSummary.tsx        ← Order summary card
+
+app/lib/ai/
+├── types.ts                 ← ImageGenerationProvider interface
+├── adapter.ts               ← Factory: reads env → returns provider
+├── openai.ts                ← OpenAI/DALL-E implementation
+├── prompt-engine.ts         ← System prompt templates
+└── [future-provider].ts     ← Drop in new providers here
+
+app/lib/
+├── custom-token-session.ts  ← Session read/write helpers
+└── validation.ts            ← (extend with custom token schemas)

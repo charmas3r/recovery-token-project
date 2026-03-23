@@ -1,0 +1,100 @@
+<h2>Section 1: System Architecture</h2>
+<p class="subtitle">How all the pieces connect — routes, services, storage, and admin workflow</p>
+
+<div class="mockup">
+  <div class="mockup-header">System Architecture Overview</div>
+  <div class="mockup-body" style="padding: 24px; font-size: 13px; line-height: 1.8;">
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-bottom: 24px;">
+
+      <!-- Customer Layer -->
+      <div style="border: 1px solid rgba(184,118,79,0.4); border-radius: 12px; padding: 16px; background: rgba(184,118,79,0.05);">
+        <div style="color: #B8764F; font-weight: 700; margin-bottom: 12px; text-transform: uppercase; font-size: 11px; letter-spacing: 0.1em;">Customer Layer</div>
+
+        <div style="background: rgba(255,255,255,0.05); border-radius: 8px; padding: 10px; margin-bottom: 8px;">
+          <strong style="color: white;">Hero CTA</strong><br>
+          <span style="color: rgba(255,255,255,0.5);">Homepage → /custom-token</span>
+        </div>
+        <div style="background: rgba(255,255,255,0.05); border-radius: 8px; padding: 10px; margin-bottom: 8px;">
+          <strong style="color: white;">Product Page CTA</strong><br>
+          <span style="color: rgba(255,255,255,0.5);">PDP → /custom-token</span>
+        </div>
+        <div style="background: rgba(255,255,255,0.05); border-radius: 8px; padding: 10px; margin-bottom: 8px;">
+          <strong style="color: white;">Path Selector</strong><br>
+          <span style="color: rgba(255,255,255,0.5);">"We Design" / "You Design"</span>
+        </div>
+      </div>
+
+      <!-- Wizard Layer -->
+      <div style="border: 1px solid rgba(0,198,255,0.3); border-radius: 12px; padding: 16px; background: rgba(0,198,255,0.03);">
+        <div style="color: #00C6FF; font-weight: 700; margin-bottom: 12px; text-transform: uppercase; font-size: 11px; letter-spacing: 0.1em;">Wizard Routes</div>
+
+        <div style="background: rgba(255,255,255,0.05); border-radius: 8px; padding: 10px; margin-bottom: 8px;">
+          <strong style="color: white;">"We Design" Flow</strong><br>
+          <span style="color: rgba(255,255,255,0.5);">occasion → description → material → engraving → review</span>
+        </div>
+        <div style="background: rgba(255,255,255,0.05); border-radius: 8px; padding: 10px; margin-bottom: 8px;">
+          <strong style="color: white;">"You Design" Flow</strong><br>
+          <span style="color: rgba(255,255,255,0.5);">describe → preview → refine → material → review</span>
+        </div>
+        <div style="background: rgba(255,255,255,0.05); border-radius: 8px; padding: 10px;">
+          <strong style="color: white;">Shared Layout</strong><br>
+          <span style="color: rgba(255,255,255,0.5);">Progress bar, back nav, session state</span>
+        </div>
+      </div>
+
+      <!-- Service Layer -->
+      <div style="border: 1px solid rgba(124,58,237,0.4); border-radius: 12px; padding: 16px; background: rgba(124,58,237,0.03);">
+        <div style="color: #7C3AED; font-weight: 700; margin-bottom: 12px; text-transform: uppercase; font-size: 11px; letter-spacing: 0.1em;">Service Layer</div>
+
+        <div style="background: rgba(255,255,255,0.05); border-radius: 8px; padding: 10px; margin-bottom: 8px;">
+          <strong style="color: white;">AI Image Adapter</strong><br>
+          <span style="color: rgba(255,255,255,0.5);">Provider-agnostic interface<br>Day 1: OpenAI / DALL-E</span>
+        </div>
+        <div style="background: rgba(255,255,255,0.05); border-radius: 8px; padding: 10px; margin-bottom: 8px;">
+          <strong style="color: white;">Prompt Engine</strong><br>
+          <span style="color: rgba(255,255,255,0.5);">Amends customer input with token design parameters</span>
+        </div>
+        <div style="background: rgba(255,255,255,0.05); border-radius: 8px; padding: 10px;">
+          <strong style="color: white;">Shopify File Storage</strong><br>
+          <span style="color: rgba(255,255,255,0.5);">Admin API staged uploads for generated & uploaded images</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Checkout & Fulfillment -->
+    <div style="border: 1px solid rgba(255,255,147,0.3); border-radius: 12px; padding: 16px; background: rgba(255,255,147,0.03);">
+      <div style="color: #FFFF93; font-weight: 700; margin-bottom: 12px; text-transform: uppercase; font-size: 11px; letter-spacing: 0.1em;">Checkout → Fulfillment</div>
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;">
+        <div style="background: rgba(255,255,255,0.05); border-radius: 8px; padding: 10px; text-align: center;">
+          <strong style="color: white;">Cart Add</strong><br>
+          <span style="color: rgba(255,255,255,0.5); font-size: 12px;">Line item properties carry all design data</span>
+        </div>
+        <div style="background: rgba(255,255,255,0.05); border-radius: 8px; padding: 10px; text-align: center;">
+          <strong style="color: white;">Checkout</strong><br>
+          <span style="color: rgba(255,255,255,0.5); font-size: 12px;">Standard Shopify checkout flow</span>
+        </div>
+        <div style="background: rgba(255,255,255,0.05); border-radius: 8px; padding: 10px; text-align: center;">
+          <strong style="color: white;">Klaviyo Email</strong><br>
+          <span style="color: rgba(255,255,255,0.5); font-size: 12px;">Admin notified with design brief + images</span>
+        </div>
+        <div style="background: rgba(255,255,255,0.05); border-radius: 8px; padding: 10px; text-align: center;">
+          <strong style="color: white;">Fulfillment</strong><br>
+          <span style="color: rgba(255,255,255,0.5); font-size: 12px;">Admin engraves design, ships token</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div style="margin-top: 24px; padding: 16px; border-radius: 12px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);">
+  <h3 style="color: white; margin-bottom: 8px;">Key Architecture Decisions</h3>
+  <ul style="color: rgba(255,255,255,0.6); font-size: 14px; line-height: 1.8; padding-left: 20px;">
+    <li><strong style="color: white;">Session-based wizard state</strong> — Each step's action writes to the Hydrogen session. Steps read from session in their loader. Survives page refresh.</li>
+    <li><strong style="color: white;">Layout route for shared UI</strong> — <code>($locale).custom-token.tsx</code> is a layout route providing progress bar, back navigation, and the session context. Child routes render each step.</li>
+    <li><strong style="color: white;">AI adapter in <code>app/lib/ai/</code></strong> — Interface defined once, implementations per provider. System prompt template lives alongside. Swap providers by changing an env var.</li>
+    <li><strong style="color: white;">Line item properties for order data</strong> — Design path, description, material choice, image URLs, and engraving details all stored as cart line attributes. Visible in Shopify admin order view.</li>
+    <li><strong style="color: white;">Klaviyo event on order creation</strong> — Shopify webhook triggers Klaviyo flow that emails admin a formatted design brief with all customer selections and image links.</li>
+  </ul>
+</div>

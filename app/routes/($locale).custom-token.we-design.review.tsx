@@ -74,6 +74,19 @@ export async function action({request, context}: Route.ActionArgs) {
   );
 }
 
+const inputStyle: React.CSSProperties = {
+  width: '100%',
+  borderRadius: '0.75rem',
+  border: '1px solid rgba(255,255,255,0.08)',
+  background: 'rgba(255,255,255,0.03)',
+  padding: '0.5rem 1rem',
+  color: '#fff',
+  outline: 'none',
+  fontFamily: 'inherit',
+  fontSize: '0.875rem',
+  boxSizing: 'border-box',
+};
+
 export default function WeDesignReview() {
   const {session} = useLoaderData<typeof loader>();
   const actionData = useActionData<typeof action>();
@@ -112,12 +125,12 @@ export default function WeDesignReview() {
         </p>
       </div>
 
-      <div className="space-y-lg">
+      <div style={{display: 'flex', flexDirection: 'column', gap: '1.5rem'}}>
         <ReviewSummary path="we-design" items={reviewItems} />
 
-        <Form method="post" className="space-y-lg">
+        <Form method="post" style={{display: 'flex', flexDirection: 'column', gap: '1.5rem'}}>
           <div>
-            <label htmlFor="contactEmail" className="block text-white text-sm font-medium mb-sm">
+            <label htmlFor="contactEmail" style={{display: 'block', color: '#fff', fontSize: '0.875rem', fontWeight: 500, marginBottom: '0.5rem'}}>
               Contact Email (for design follow-up)
             </label>
             <input
@@ -128,12 +141,12 @@ export default function WeDesignReview() {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="your@email.com"
               required
-              className="w-full rounded-xl border border-white/[0.08] bg-white/[0.03] px-md py-sm text-white placeholder:text-white/30 focus:border-accent focus:outline-none"
+              style={inputStyle}
             />
           </div>
 
           {actionData?.error && (
-            <p className="text-red-400 text-sm">{actionData.error}</p>
+            <p style={{color: '#f87171', fontSize: '0.875rem'}}>{actionData.error}</p>
           )}
 
           <WizardNav backTo="/custom-token/we-design/engraving" nextLabel="Add to Cart" />
@@ -161,8 +174,8 @@ function CartFormAutoSubmit({variantId, attributes}: {variantId: string; attribu
         }, [fetcher]);
 
         return (
-          <div className="text-center py-2xl">
-            <p className="text-white text-lg">Adding to cart...</p>
+          <div style={{textAlign: 'center', padding: '3rem 0'}}>
+            <p style={{color: '#fff', fontSize: '1.125rem'}}>Adding to cart...</p>
           </div>
         );
       }}

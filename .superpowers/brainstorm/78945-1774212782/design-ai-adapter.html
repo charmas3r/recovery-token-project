@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Custom Token — AI Adapter & Prompt Engine</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; background: #111; color: rgba(255,255,255,0.8); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; }
+    body { padding: 32px; overflow-y: auto; }
+    h2 { color: #fff; font-size: 28px; margin-bottom: 6px; }
+    h3 { color: #fff; font-size: 16px; margin-bottom: 6px; }
+    h4 { color: rgba(255,255,255,0.6); font-size: 13px; margin-bottom: 4px; }
+    .subtitle { color: rgba(255,255,255,0.4); font-size: 15px; margin-bottom: 28px; }
+    code { background: rgba(255,255,255,0.08); padding: 2px 6px; border-radius: 4px; font-size: 12px; color: rgba(255,255,255,0.6); }
+    pre { background: rgba(255,255,255,0.03); padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 12.5px; line-height: 1.7; color: rgba(255,255,255,0.75); }
+    .panel { border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; overflow: hidden; margin-bottom: 20px; }
+    .panel-header { padding: 12px 16px; font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.5); background: rgba(255,255,255,0.04); border-bottom: 1px solid rgba(255,255,255,0.06); letter-spacing: 0.03em; }
+    .panel-body { padding: 20px; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    @media (max-width: 900px) { .grid-2 { grid-template-columns: 1fr; } }
+    .label { font-weight: 700; text-transform: uppercase; font-size: 11px; letter-spacing: 0.1em; margin-bottom: 8px; }
+    .accent { color: #B8764F; }
+    .purple { color: #7C3AED; }
+    .cyan { color: #00C6FF; }
+    .note { background: rgba(184,118,79,0.08); border: 1px solid rgba(184,118,79,0.2); border-radius: 8px; padding: 14px; margin-top: 16px; font-size: 13px; color: rgba(255,255,255,0.6); }
+    .note strong { color: #B8764F; }
+    .keyword { color: #ff79c6; }
+    .type { color: #8be9fd; }
+    .string { color: #f1fa8c; }
+    .comment { color: rgba(255,255,255,0.3); }
+    .fn { color: #50fa7b; }
+  </style>
+</head>
+<body>
+  <h2>Section 3: AI Adapter & Prompt Engine</h2>
+  <p class="subtitle">Provider-agnostic image generation with token-specific prompt engineering</p>
+
+  <!-- Interface -->
+  <div class="panel">
+    <div class="panel-header">Provider Interface — app/lib/ai/types.ts</div>
+    <div class="panel-body">
+<pre><span class="comment">// Every AI image provider implements this interface.</span>
+<span class="comment">// Swap providers by changing AI_IMAGE_PROVIDER env var.</span>
+
+<span class="keyword">export interface</span> <span class="type">GenerateImageRequest</span> {
+  prompt: <span class="type">string</span>;          <span class="comment">// Already amended by prompt engine</span>
+  count: <span class="type">number</span>;           <span class="comment">// Number of images (1-4)</span>
+  size: <span class="string">'1024x1024'</span>;      <span class="comment">// Square for token design</span>
+  style?: <span class="string">'natural'</span> | <span class="string">'vivid'</span>;
+}
+
+<span class="keyword">export interface</span> <span class="type">GenerateImageResult</span> {
+  images: {
+    url: <span class="type">string</span>;            <span class="comment">// Temporary URL from provider</span>
+    revisedPrompt?: <span class="type">string</span>; <span class="comment">// Provider's revised prompt (if any)</span>
+  }[];
+  provider: <span class="type">string</span>;          <span class="comment">// 'openai' | 'stability' | etc.</span>
+  model: <span class="type">string</span>;             <span class="comment">// 'dall-e-3' | 'sd-xl' | etc.</span>
+  cost?: <span class="type">number</span>;             <span class="comment">// Estimated cost in cents (for logging)</span>
+}
+
+<span class="keyword">export interface</span> <span class="type">ImageGenerationProvider</span> {
+  <span class="fn">generate</span>(req: <span class="type">GenerateImageRequest</span>): <span class="type">Promise</span>&lt;<span class="type">GenerateImageResult</span>&gt;;
+  <span class="fn">healthCheck</span>(): <span class="type">Promise</span>&lt;<span class="type">boolean</span>&gt;;
+}</pre>
+    </div>
+  </div>
+
+  <!-- Adapter Factory -->
+  <div class="panel">
+    <div class="panel-header">Adapter Factory — app/lib/ai/adapter.ts</div>
+    <div class="panel-body">
+<pre><span class="comment">// Factory reads env var to determine which provider to use.</span>
+<span class="comment">// Adding a new provider = new file + new case here.</span>
+
+<span class="keyword">import</span> { <span class="type">OpenAIProvider</span> } <span class="keyword">from</span> <span class="string">'./openai'</span>;
+<span class="comment">// import { StabilityProvider } from './stability';</span>
+<span class="comment">// import { ReplicateProvider } from './replicate';</span>
+
+<span class="keyword">export function</span> <span class="fn">createImageProvider</span>(env: Env): <span class="type">ImageGenerationProvider</span> {
+  <span class="keyword">const</span> provider = env.AI_IMAGE_PROVIDER || <span class="string">'openai'</span>;
+
+  <span class="keyword">switch</span> (provider) {
+    <span class="keyword">case</span> <span class="string">'openai'</span>:
+      <span class="keyword">return new</span> <span class="type">OpenAIProvider</span>(env.OPENAI_API_KEY);
+    <span class="comment">// case 'stability':</span>
+    <span class="comment">//   return new StabilityProvider(env.STABILITY_API_KEY);</span>
+    <span class="keyword">default</span>:
+      <span class="keyword">throw new</span> Error(<span class="string">`Unknown AI provider: ${provider}`</span>);
+  }
+}</pre>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <!-- Prompt Engine -->
+    <div class="panel">
+      <div class="panel-header">Prompt Engine — app/lib/ai/prompt-engine.ts</div>
+      <div class="panel-body">
+        <p class="label accent">Purpose</p>
+        <p style="font-size: 13px; color: rgba(255,255,255,0.6); margin-bottom: 16px;">
+          Takes the customer's raw description and wraps it in token-specific design parameters.
+          The customer never sees or controls these additions — they just describe what they want.
+        </p>
+<pre><span class="keyword">const</span> SYSTEM_PREFIX = <span class="string">`
+Design a circular recovery/sobriety token coin.
+The design must work as a physical engraved coin:
+- Circular composition, fits within a circle border
+- High contrast suitable for metal engraving
+- Clean lines, no photographic elements
+- Front face design (text/symbols centered)
+- Metallic coin aesthetic
+`</span>;
+
+<span class="keyword">const</span> STYLE_SUFFIX = <span class="string">`
+Style: detailed coin engraving illustration,
+metallic surface, raised relief design,
+professional commemorative coin aesthetic.
+Top-down view of a single coin on dark background.
+`</span>;
+
+<span class="keyword">export function</span> <span class="fn">buildTokenPrompt</span>(
+  customerPrompt: <span class="type">string</span>,
+  options?: {
+    occasion?: <span class="type">string</span>;
+    material?: <span class="string">'brass'</span> | <span class="string">'color'</span>;
+  }
+): <span class="type">string</span> {
+  <span class="keyword">const</span> materialHint = options?.material === <span class="string">'color'</span>
+    ? <span class="string">'Colorful enamel coin design.'</span>
+    : <span class="string">'Polished brass coin with silver engraving.'</span>;
+
+  <span class="keyword">return</span> [
+    SYSTEM_PREFIX,
+    materialHint,
+    <span class="string">`Customer's design vision: ${customerPrompt}`</span>,
+    STYLE_SUFFIX,
+  ].join(<span class="string">'\n'</span>);
+}</pre>
+      </div>
+    </div>
+
+    <!-- OpenAI Implementation -->
+    <div class="panel">
+      <div class="panel-header">OpenAI Implementation — app/lib/ai/openai.ts</div>
+      <div class="panel-body">
+        <p class="label purple">Day 1 Provider</p>
+        <p style="font-size: 13px; color: rgba(255,255,255,0.6); margin-bottom: 16px;">
+          Implements the interface using OpenAI's Images API (DALL-E 3).
+          Generates one image per call (DALL-E 3 limitation), so 4 previews = 4 parallel calls.
+        </p>
+<pre><span class="keyword">export class</span> <span class="type">OpenAIProvider</span> <span class="keyword">implements</span> <span class="type">ImageGenerationProvider</span> {
+  <span class="keyword">private</span> apiKey: <span class="type">string</span>;
+
+  <span class="keyword">constructor</span>(apiKey: <span class="type">string</span>) {
+    <span class="keyword">this</span>.apiKey = apiKey;
+  }
+
+  <span class="keyword">async</span> <span class="fn">generate</span>(req: <span class="type">GenerateImageRequest</span>) {
+    <span class="comment">// DALL-E 3 only does 1 image per call</span>
+    <span class="comment">// Parallel calls for count > 1</span>
+    <span class="keyword">const</span> promises = Array.from(
+      { length: req.count },
+      () => <span class="keyword">this</span>.<span class="fn">callOpenAI</span>(req)
+    );
+    <span class="keyword">const</span> results = <span class="keyword">await</span> Promise.<span class="fn">all</span>(promises);
+
+    <span class="keyword">return</span> {
+      images: results,
+      provider: <span class="string">'openai'</span>,
+      model: <span class="string">'dall-e-3'</span>,
+      cost: req.count * 4, <span class="comment">// ~$0.04 per 1024x1024</span>
+    };
+  }
+
+  <span class="keyword">private async</span> <span class="fn">callOpenAI</span>(req) {
+    <span class="keyword">const</span> res = <span class="keyword">await</span> <span class="fn">fetch</span>(
+      <span class="string">'https://api.openai.com/v1/images/generations'</span>,
+      { <span class="comment">/* standard OpenAI API call */</span> }
+    );
+    <span class="comment">// Returns { url, revisedPrompt }</span>
+  }
+
+  <span class="keyword">async</span> <span class="fn">healthCheck</span>() { <span class="comment">/* ... */</span> }
+}</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- Data Flow -->
+  <div class="panel">
+    <div class="panel-header">Image Generation Data Flow</div>
+    <div class="panel-body">
+      <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 13px;">
+        <div style="background: rgba(184,118,79,0.15); border: 1px solid rgba(184,118,79,0.3); border-radius: 8px; padding: 10px 14px; text-align: center;">
+          <strong style="color: #B8764F;">Customer Input</strong><br>
+          <span style="color: rgba(255,255,255,0.4); font-size: 11px;">"Eagle with banner,<br>5 years sober"</span>
+        </div>
+        <div style="color: rgba(255,255,255,0.3);">→</div>
+        <div style="background: rgba(124,58,237,0.15); border: 1px solid rgba(124,58,237,0.3); border-radius: 8px; padding: 10px 14px; text-align: center;">
+          <strong style="color: #7C3AED;">Prompt Engine</strong><br>
+          <span style="color: rgba(255,255,255,0.4); font-size: 11px;">Adds coin parameters,<br>material hints, style</span>
+        </div>
+        <div style="color: rgba(255,255,255,0.3);">→</div>
+        <div style="background: rgba(0,198,255,0.15); border: 1px solid rgba(0,198,255,0.3); border-radius: 8px; padding: 10px 14px; text-align: center;">
+          <strong style="color: #00C6FF;">AI Adapter</strong><br>
+          <span style="color: rgba(255,255,255,0.4); font-size: 11px;">OpenAI DALL-E 3<br>4 parallel calls</span>
+        </div>
+        <div style="color: rgba(255,255,255,0.3);">→</div>
+        <div style="background: rgba(255,255,147,0.15); border: 1px solid rgba(255,255,147,0.3); border-radius: 8px; padding: 10px 14px; text-align: center;">
+          <strong style="color: #FFFF93;">Temp URLs</strong><br>
+          <span style="color: rgba(255,255,255,0.4); font-size: 11px;">4 preview images<br>from OpenAI CDN</span>
+        </div>
+        <div style="color: rgba(255,255,255,0.3);">→</div>
+        <div style="background: rgba(52,199,89,0.15); border: 1px solid rgba(52,199,89,0.3); border-radius: 8px; padding: 10px 14px; text-align: center;">
+          <strong style="color: #34c759;">Shopify Files</strong><br>
+          <span style="color: rgba(255,255,255,0.4); font-size: 11px;">Final design uploaded<br>via staged uploads</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Env Vars -->
+  <div class="panel">
+    <div class="panel-header">New Environment Variables</div>
+    <div class="panel-body">
+<pre><span class="comment"># AI Image Generation</span>
+AI_IMAGE_PROVIDER=<span class="string">"openai"</span>           <span class="comment"># Which provider to use</span>
+OPENAI_API_KEY=<span class="string">"sk-..."</span>              <span class="comment"># Production API key</span>
+OPENAI_API_KEY_PREVIEW=<span class="string">"sk-..."</span>      <span class="comment"># Lower-limit key for preview deploys</span>
+
+<span class="comment"># Rate Limiting</span>
+AI_MAX_GENERATIONS_PER_SESSION=<span class="string">"7"</span>  <span class="comment"># 4 initial + 3 refinements</span>
+AI_MAX_GENERATIONS_PER_DAY=<span class="string">"100"</span>    <span class="comment"># Global daily cap (cost protection)</span></pre>
+    </div>
+  </div>
+
+  <div class="note">
+    <strong>Cost Protection:</strong> With DALL-E 3 at ~$0.04/image, a full "You Design" session (4 previews + 3 refinements = 7 images) costs ~$0.28.
+    The per-session cap of 7 generations prevents abuse. The daily global cap prevents runaway costs during preview/testing.
+    Both are configurable via env vars — no code change needed to adjust.
+  </div>
+</body>
+</html>

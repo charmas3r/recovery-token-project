@@ -175,7 +175,7 @@ export default function YouDesignReview() {
         </p>
       </div>
 
-      <div className="space-y-lg">
+      <div style={{display: 'flex', flexDirection: 'column', gap: '1.5rem'}}>
         <ReviewSummary path="you-design" items={reviewItems} />
 
         <Form method="post">
@@ -219,8 +219,8 @@ function CartFormAutoSubmit({
         }, [fetcher]);
 
         return (
-          <div className="text-center py-2xl">
-            <p className="text-white text-lg">Adding to cart...</p>
+          <div style={{textAlign: 'center', padding: '3rem 0'}}>
+            <p style={{color: '#fff', fontSize: '1.125rem'}}>Adding to cart...</p>
           </div>
         );
       }}

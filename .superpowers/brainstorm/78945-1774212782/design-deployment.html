@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Custom Token — Deployment & Preview Strategy</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; background: #111; color: rgba(255,255,255,0.8); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; }
+    body { padding: 32px; overflow-y: auto; }
+    h2 { color: #fff; font-size: 28px; margin-bottom: 6px; }
+    h3 { color: #fff; font-size: 16px; margin-bottom: 6px; }
+    .subtitle { color: rgba(255,255,255,0.4); font-size: 15px; margin-bottom: 28px; }
+    code { background: rgba(255,255,255,0.08); padding: 2px 6px; border-radius: 4px; font-size: 12px; color: rgba(255,255,255,0.6); }
+    pre { background: rgba(255,255,255,0.03); padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 12.5px; line-height: 1.7; color: rgba(255,255,255,0.75); }
+    .panel { border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; overflow: hidden; margin-bottom: 20px; }
+    .panel-header { padding: 12px 16px; font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.5); background: rgba(255,255,255,0.04); border-bottom: 1px solid rgba(255,255,255,0.06); letter-spacing: 0.03em; }
+    .panel-body { padding: 20px; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+    @media (max-width: 900px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
+    .label { font-weight: 700; text-transform: uppercase; font-size: 11px; letter-spacing: 0.1em; margin-bottom: 8px; }
+    .accent { color: #B8764F; }
+    .purple { color: #7C3AED; }
+    .cyan { color: #00C6FF; }
+    .green { color: #34c759; }
+    .note { background: rgba(184,118,79,0.08); border: 1px solid rgba(184,118,79,0.2); border-radius: 8px; padding: 14px; font-size: 13px; color: rgba(255,255,255,0.6); margin-bottom: 20px; }
+    .note strong { color: #B8764F; }
+    .keyword { color: #ff79c6; }
+    .string { color: #f1fa8c; }
+    .comment { color: rgba(255,255,255,0.3); }
+    .fn { color: #50fa7b; }
+    .step-box { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 16px; }
+    .step-box h3 { margin-bottom: 8px; }
+    .step-box ul { padding-left: 18px; font-size: 13px; color: rgba(255,255,255,0.5); }
+    .step-box ul li { margin-bottom: 4px; }
+    .step-num-inline { display: inline-block; width: 22px; height: 22px; border-radius: 50%; background: #B8764F; color: white; text-align: center; font-size: 11px; font-weight: 700; line-height: 22px; margin-right: 6px; }
+    .flow-row { display: flex; align-items: stretch; gap: 8px; flex-wrap: wrap; font-size: 13px; margin-bottom: 16px; }
+    .flow-box { border-radius: 8px; padding: 12px 14px; flex: 1; min-width: 140px; }
+    .flow-arrow { color: rgba(255,255,255,0.3); display: flex; align-items: center; font-size: 18px; }
+  </style>
+</head>
+<body>
+  <h2>Section 5: Deployment & Preview Strategy</h2>
+  <p class="subtitle">Feature branch workflow, Oxygen preview deployments, and go-live checklist</p>
+
+  <!-- How Oxygen Preview Works -->
+  <div class="panel">
+    <div class="panel-header">Oxygen Preview Deployments — Already Configured</div>
+    <div class="panel-body">
+      <p style="font-size: 14px; color: rgba(255,255,255,0.6); margin-bottom: 16px;">
+        Your existing GitHub Actions workflow (<code>.github/workflows/oxygen-deployment-*.yml</code>) deploys on push to <strong style="color: white;">any branch</strong>.
+        Every push to <code>feature/custom-tokens</code> automatically creates a preview deployment with a unique URL.
+      </p>
+
+      <div class="flow-row">
+        <div class="flow-box" style="background: rgba(184,118,79,0.12); border: 1px solid rgba(184,118,79,0.3);">
+          <strong style="color: #B8764F;">Push to Branch</strong><br>
+          <span style="color: rgba(255,255,255,0.5); font-size: 12px;"><code>git push origin feature/custom-tokens</code></span>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box" style="background: rgba(124,58,237,0.12); border: 1px solid rgba(124,58,237,0.3);">
+          <strong style="color: #7C3AED;">GitHub Actions</strong><br>
+          <span style="color: rgba(255,255,255,0.5); font-size: 12px;"><code>npx shopify hydrogen deploy</code><br>Builds & deploys to Oxygen</span>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box" style="background: rgba(0,198,255,0.12); border: 1px solid rgba(0,198,255,0.3);">
+          <strong style="color: #00C6FF;">Preview URL</strong><br>
+          <span style="color: rgba(255,255,255,0.5); font-size: 12px;">Unique URL per deployment<br>Shareable for review/demo</span>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box" style="background: rgba(52,199,89,0.12); border: 1px solid rgba(52,199,89,0.3);">
+          <strong style="color: #34c759;">Merge → Production</strong><br>
+          <span style="color: rgba(255,255,255,0.5); font-size: 12px;">Merge to <code>main</code> when approved<br>Deploys to production URL</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- What You Need To Set Up -->
+  <div class="panel">
+    <div class="panel-header">Setup Required for Preview Deployments</div>
+    <div class="panel-body">
+      <div class="grid-3">
+        <div class="step-box">
+          <h3><span class="step-num-inline">1</span>Shopify Product</h3>
+          <ul>
+            <li>Create "Custom Token" product in Shopify admin</li>
+            <li>Two variants: "We Design It" and "You Design It"</li>
+            <li>Set pricing per variant</li>
+            <li>Add product description for landing page</li>
+          </ul>
+        </div>
+        <div class="step-box">
+          <h3><span class="step-num-inline">2</span>Environment Variables</h3>
+          <ul>
+            <li>Add to Oxygen environment settings:</li>
+            <li><code>OPENAI_API_KEY</code> — production key</li>
+            <li><code>OPENAI_API_KEY_PREVIEW</code> — limited key</li>
+            <li><code>AI_IMAGE_PROVIDER=openai</code></li>
+            <li><code>AI_MAX_GENERATIONS_PER_SESSION=7</code></li>
+            <li><code>AI_MAX_GENERATIONS_PER_DAY=100</code></li>
+          </ul>
+        </div>
+        <div class="step-box">
+          <h3><span class="step-num-inline">3</span>Klaviyo Flow</h3>
+          <ul>
+            <li>Create "Custom Token Order" event in Klaviyo</li>
+            <li>Build email template with design brief fields</li>
+            <li>Set admin as recipient</li>
+            <li>Include image URL links in template</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Preview vs Production -->
+  <div class="panel">
+    <div class="panel-header">Preview vs Production Environment Differences</div>
+    <div class="panel-body">
+<pre><span class="comment"># Preview environment (feature branches)</span>
+OPENAI_API_KEY=<span class="string">"sk-preview-..."</span>       <span class="comment"># Lower rate limits</span>
+AI_MAX_GENERATIONS_PER_DAY=<span class="string">"20"</span>       <span class="comment"># Tight cap for demos</span>
+KLAVIYO_PRIVATE_API_KEY=<span class="string">"..."</span>         <span class="comment"># Same key (or test key)</span>
+
+<span class="comment"># Production environment (main branch)</span>
+OPENAI_API_KEY=<span class="string">"sk-prod-..."</span>          <span class="comment"># Full rate limits</span>
+AI_MAX_GENERATIONS_PER_DAY=<span class="string">"500"</span>      <span class="comment"># Higher cap</span>
+KLAVIYO_PRIVATE_API_KEY=<span class="string">"..."</span>         <span class="comment"># Production key</span></pre>
+
+      <div class="note" style="margin-top: 16px;">
+        <strong>Tip:</strong> Oxygen lets you set environment variables per deployment environment in the Shopify admin under
+        <strong>Hydrogen > Your Store > Settings > Environments</strong>. Preview branches automatically use the preview environment variables.
+        You can also set them via <code>shopify hydrogen env push</code>.
+      </div>
+    </div>
+  </div>
+
+  <!-- Go-Live Checklist -->
+  <div class="panel">
+    <div class="panel-header">Go-Live Checklist</div>
+    <div class="panel-body">
+      <div class="grid-2">
+        <div>
+          <p class="label accent">Before Demo (Preview)</p>
+          <div style="font-size: 13px; color: rgba(255,255,255,0.6); line-height: 2;">
+            <div>☐ Custom Token product created in Shopify with both variants</div>
+            <div>☐ OpenAI preview API key set in Oxygen preview env</div>
+            <div>☐ All env vars configured for preview</div>
+            <div>☐ Klaviyo flow created and tested</div>
+            <div>☐ Test full "We Design" flow end-to-end</div>
+            <div>☐ Test full "You Design" flow with AI generation</div>
+            <div>☐ Verify cart line items show in Shopify order</div>
+            <div>☐ Verify Klaviyo admin email fires correctly</div>
+            <div>☐ Test on mobile</div>
+            <div>☐ Share preview URL for stakeholder review</div>
+          </div>
+        </div>
+        <div>
+          <p class="label green">Before Production (Merge to main)</p>
+          <div style="font-size: 13px; color: rgba(255,255,255,0.6); line-height: 2;">
+            <div>☐ All demo feedback addressed</div>
+            <div>☐ Production OpenAI key set in Oxygen prod env</div>
+            <div>☐ Rate limits tuned for expected traffic</div>
+            <div>☐ Hero CTA and product page CTAs enabled</div>
+            <div>☐ Error states tested (API failure, rate limit hit)</div>
+            <div>☐ Analytics events tracked (PostHog)</div>
+            <div>☐ CSP headers updated for OpenAI API domain</div>
+            <div>☐ Merge feature branch to main</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

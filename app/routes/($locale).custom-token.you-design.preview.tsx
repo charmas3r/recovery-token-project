@@ -175,12 +175,25 @@ export default function YouDesignPreview() {
       </div>
 
       {!hasImages && (
-        <generateFetcher.Form method="post" className="text-center py-xl">
+        <generateFetcher.Form method="post" style={{textAlign: 'center', padding: '2rem 0'}}>
           <input type="hidden" name="intent" value="generate" />
           <button
             type="submit"
             disabled={isGenerating}
-            className="rounded-2xl border border-accent bg-accent/10 px-xl py-lg text-accent font-bold text-lg hover:bg-accent/20 transition-colors disabled:opacity-50"
+            style={{
+              borderRadius: '1rem',
+              border: '1px solid #B8764F',
+              background: 'rgba(184,118,79,0.1)',
+              padding: '1.5rem 2rem',
+              color: '#B8764F',
+              fontWeight: 700,
+              fontSize: '1.125rem',
+              cursor: isGenerating ? 'default' : 'pointer',
+              transition: 'background 0.2s',
+              opacity: isGenerating ? 0.5 : 1,
+            }}
+            onMouseEnter={(e) => { if (!isGenerating) e.currentTarget.style.background = 'rgba(184,118,79,0.2)'; }}
+            onMouseLeave={(e) => { if (!isGenerating) e.currentTarget.style.background = 'rgba(184,118,79,0.1)'; }}
           >
             {isGenerating
               ? 'Generating designs... (this may take 15-30 seconds)'
@@ -199,13 +212,13 @@ export default function YouDesignPreview() {
       )}
 
       {(actionData?.error || generateFetcher.data?.error) && (
-        <p className="text-red-400 text-sm mt-md">
+        <p style={{color: '#f87171', fontSize: '0.875rem', marginTop: '1rem'}}>
           {actionData?.error || generateFetcher.data?.error}
         </p>
       )}
 
       {hasImages && (
-        <Form method="post" className="mt-lg">
+        <Form method="post" style={{marginTop: '1.5rem'}}>
           <input type="hidden" name="intent" value="select" />
           <input type="hidden" name="selectedPreviewId" value={selected} />
           <WizardNav

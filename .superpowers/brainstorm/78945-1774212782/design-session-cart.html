@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Custom Token — Session State & Cart Integration</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; background: #111; color: rgba(255,255,255,0.8); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; }
+    body { padding: 32px; overflow-y: auto; }
+    h2 { color: #fff; font-size: 28px; margin-bottom: 6px; }
+    h3 { color: #fff; font-size: 16px; margin-bottom: 6px; }
+    .subtitle { color: rgba(255,255,255,0.4); font-size: 15px; margin-bottom: 28px; }
+    code { background: rgba(255,255,255,0.08); padding: 2px 6px; border-radius: 4px; font-size: 12px; color: rgba(255,255,255,0.6); }
+    pre { background: rgba(255,255,255,0.03); padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 12.5px; line-height: 1.7; color: rgba(255,255,255,0.75); }
+    .panel { border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; overflow: hidden; margin-bottom: 20px; }
+    .panel-header { padding: 12px 16px; font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.5); background: rgba(255,255,255,0.04); border-bottom: 1px solid rgba(255,255,255,0.06); letter-spacing: 0.03em; }
+    .panel-body { padding: 20px; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    @media (max-width: 900px) { .grid-2 { grid-template-columns: 1fr; } }
+    .label { font-weight: 700; text-transform: uppercase; font-size: 11px; letter-spacing: 0.1em; margin-bottom: 8px; }
+    .accent { color: #B8764F; }
+    .purple { color: #7C3AED; }
+    .cyan { color: #00C6FF; }
+    .green { color: #34c759; }
+    .note { background: rgba(184,118,79,0.08); border: 1px solid rgba(184,118,79,0.2); border-radius: 8px; padding: 14px; margin-top: 16px; font-size: 13px; color: rgba(255,255,255,0.6); }
+    .note strong { color: #B8764F; }
+    .keyword { color: #ff79c6; }
+    .type { color: #8be9fd; }
+    .string { color: #f1fa8c; }
+    .comment { color: rgba(255,255,255,0.3); }
+    .fn { color: #50fa7b; }
+    .prop { color: #ffb86c; }
+    .flow-row { display: flex; align-items: stretch; gap: 8px; flex-wrap: wrap; font-size: 13px; margin-bottom: 16px; }
+    .flow-box { border-radius: 8px; padding: 12px 14px; flex: 1; min-width: 140px; }
+    .flow-arrow { color: rgba(255,255,255,0.3); display: flex; align-items: center; font-size: 18px; }
+  </style>
+</head>
+<body>
+  <h2>Section 4: Session State & Cart Integration</h2>
+  <p class="subtitle">How wizard data persists across steps and flows into checkout</p>
+
+  <!-- Session Shape -->
+  <div class="panel">
+    <div class="panel-header">Session Data Shape — app/lib/custom-token-session.ts</div>
+    <div class="panel-body">
+<pre><span class="comment">// Stored in Hydrogen session under 'customToken' key.</span>
+<span class="comment">// Each wizard step reads/writes specific fields.</span>
+<span class="comment">// Cleared on successful cart add.</span>
+
+<span class="keyword">export interface</span> <span class="type">CustomTokenSession</span> {
+  <span class="comment">// Path selection</span>
+  <span class="prop">path</span>: <span class="string">'we-design'</span> | <span class="string">'you-design'</span>;
+
+  <span class="comment">// Shared fields (both paths)</span>
+  <span class="prop">material</span>?: <span class="string">'brass'</span> | <span class="string">'color'</span>;
+  <span class="prop">variantId</span>?: <span class="type">string</span>;         <span class="comment">// Shopify variant GID</span>
+
+  <span class="comment">// "We Design" fields</span>
+  <span class="prop">occasion</span>?: <span class="type">string</span>;           <span class="comment">// 'milestone' | 'memorial' | 'gift' | 'organization'</span>
+  <span class="prop">description</span>?: <span class="type">string</span>;        <span class="comment">// Free text design description</span>
+  <span class="prop">inspirationImageUrls</span>?: <span class="type">string</span>[];  <span class="comment">// Shopify file URLs (up to 5)</span>
+  <span class="prop">engraving</span>?: {
+    <span class="prop">name</span>?: <span class="type">string</span>;
+    <span class="prop">years</span>?: <span class="type">string</span>;
+    <span class="prop">cleanDate</span>?: <span class="type">string</span>;
+    <span class="prop">note</span>?: <span class="type">string</span>;
+  };
+
+  <span class="comment">// "You Design" fields</span>
+  <span class="prop">designPrompt</span>?: <span class="type">string</span>;       <span class="comment">// Customer's design description</span>
+  <span class="prop">referenceImageUrls</span>?: <span class="type">string</span>[];   <span class="comment">// Optional reference uploads</span>
+  <span class="prop">previewImageUrls</span>?: <span class="type">string</span>[];    <span class="comment">// AI-generated preview URLs</span>
+  <span class="prop">selectedPreviewUrl</span>?: <span class="type">string</span>;    <span class="comment">// Customer's chosen design</span>
+  <span class="prop">refinementHistory</span>?: {            <span class="comment">// Refinement rounds (max 3)</span>
+    <span class="prop">prompt</span>: <span class="type">string</span>;
+    <span class="prop">resultUrl</span>: <span class="type">string</span>;
+  }[];
+  <span class="prop">finalDesignUrl</span>?: <span class="type">string</span>;      <span class="comment">// Final approved design (Shopify file URL)</span>
+
+  <span class="comment">// Metadata</span>
+  <span class="prop">generationCount</span>?: <span class="type">number</span>;    <span class="comment">// Track for rate limiting</span>
+  <span class="prop">startedAt</span>?: <span class="type">string</span>;          <span class="comment">// ISO timestamp</span>
+}
+
+<span class="comment">// Helper functions</span>
+<span class="keyword">export function</span> <span class="fn">getCustomTokenSession</span>(session: <span class="type">AppSession</span>): <span class="type">CustomTokenSession</span> | <span class="keyword">null</span>;
+<span class="keyword">export function</span> <span class="fn">updateCustomTokenSession</span>(session: <span class="type">AppSession</span>, data: <span class="type">Partial</span>&lt;<span class="type">CustomTokenSession</span>&gt;): <span class="keyword">void</span>;
+<span class="keyword">export function</span> <span class="fn">clearCustomTokenSession</span>(session: <span class="type">AppSession</span>): <span class="keyword">void</span>;
+<span class="keyword">export function</span> <span class="fn">getCompletedSteps</span>(session: <span class="type">CustomTokenSession</span>): <span class="type">string</span>[];
+<span class="keyword">export function</span> <span class="fn">canProceedToStep</span>(session: <span class="type">CustomTokenSession</span>, step: <span class="type">string</span>): <span class="type">boolean</span>;</pre>
+    </div>
+  </div>
+
+  <!-- Session Flow -->
+  <div class="panel">
+    <div class="panel-header">Session Lifecycle</div>
+    <div class="panel-body">
+      <div class="flow-row">
+        <div class="flow-box" style="background: rgba(184,118,79,0.12); border: 1px solid rgba(184,118,79,0.3);">
+          <strong style="color: #B8764F;">1. Created</strong><br>
+          <span style="color: rgba(255,255,255,0.5); font-size: 12px;">User picks "We Design" or "You Design" on landing page. Session initialized with <code>path</code> and <code>startedAt</code>.</span>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box" style="background: rgba(124,58,237,0.12); border: 1px solid rgba(124,58,237,0.3);">
+          <strong style="color: #7C3AED;">2. Progressive Fill</strong><br>
+          <span style="color: rgba(255,255,255,0.5); font-size: 12px;">Each step's action validates input, writes to session, redirects to next step. Layout route reads session for progress bar.</span>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box" style="background: rgba(0,198,255,0.12); border: 1px solid rgba(0,198,255,0.3);">
+          <strong style="color: #00C6FF;">3. Step Guards</strong><br>
+          <span style="color: rgba(255,255,255,0.5); font-size: 12px;">Each step's loader checks <code>canProceedToStep()</code>. If prerequisite steps aren't complete, redirects back. Prevents URL jumping.</span>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box" style="background: rgba(52,199,89,0.12); border: 1px solid rgba(52,199,89,0.3);">
+          <strong style="color: #34c759;">4. Cleared</strong><br>
+          <span style="color: rgba(255,255,255,0.5); font-size: 12px;">On successful cart add, session is cleared. If user abandons wizard, session expires naturally with the Hydrogen session TTL.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cart Integration -->
+  <div class="grid-2">
+    <div class="panel">
+      <div class="panel-header">Line Item Properties — "We Design" Order</div>
+      <div class="panel-body">
+<pre><span class="comment">// What gets attached to the cart line item</span>
+<span class="comment">// Visible to admin in Shopify order view</span>
+
+<span class="keyword">const</span> attributes = [
+  { <span class="prop">key</span>: <span class="string">'Custom Design Path'</span>,   <span class="prop">value</span>: <span class="string">'We Design It For You'</span> },
+  { <span class="prop">key</span>: <span class="string">'Occasion'</span>,             <span class="prop">value</span>: <span class="string">'Sobriety Milestone'</span> },
+  { <span class="prop">key</span>: <span class="string">'Design Description'</span>,    <span class="prop">value</span>: <span class="string">'Eagle with banner...'</span> },
+  { <span class="prop">key</span>: <span class="string">'Material'</span>,              <span class="prop">value</span>: <span class="string">'Brass'</span> },
+  { <span class="prop">key</span>: <span class="string">'Engraving Name'</span>,        <span class="prop">value</span>: <span class="string">'John D.'</span> },
+  { <span class="prop">key</span>: <span class="string">'Engraving Years'</span>,       <span class="prop">value</span>: <span class="string">'5'</span> },
+  { <span class="prop">key</span>: <span class="string">'Engraving Clean Date'</span>,  <span class="prop">value</span>: <span class="string">'2021-03-15'</span> },
+
+  <span class="comment">// Private (hidden from packing slip)</span>
+  { <span class="prop">key</span>: <span class="string">'_Engraving Note'</span>,       <span class="prop">value</span>: <span class="string">'Special request...'</span> },
+  { <span class="prop">key</span>: <span class="string">'_Inspiration Images'</span>,   <span class="prop">value</span>: <span class="string">'url1, url2, url3'</span> },
+  { <span class="prop">key</span>: <span class="string">'_Contact Email'</span>,        <span class="prop">value</span>: <span class="string">'john@example.com'</span> },
+];</pre>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header">Line Item Properties — "You Design" Order</div>
+      <div class="panel-body">
+<pre><span class="comment">// Customer-designed token — includes final image</span>
+
+<span class="keyword">const</span> attributes = [
+  { <span class="prop">key</span>: <span class="string">'Custom Design Path'</span>,   <span class="prop">value</span>: <span class="string">'You Design It'</span> },
+  { <span class="prop">key</span>: <span class="string">'Design Description'</span>,    <span class="prop">value</span>: <span class="string">'Eagle with banner...'</span> },
+  { <span class="prop">key</span>: <span class="string">'Material'</span>,              <span class="prop">value</span>: <span class="string">'Color'</span> },
+  { <span class="prop">key</span>: <span class="string">'Final Design Image'</span>,    <span class="prop">value</span>: <span class="string">'https://cdn.shopify...'</span> },
+
+  <span class="comment">// Private</span>
+  { <span class="prop">key</span>: <span class="string">'_Design Prompt'</span>,        <span class="prop">value</span>: <span class="string">'Original prompt text'</span> },
+  { <span class="prop">key</span>: <span class="string">'_Refinement History'</span>,   <span class="prop">value</span>: <span class="string">'JSON of refinements'</span> },
+  { <span class="prop">key</span>: <span class="string">'_Reference Images'</span>,     <span class="prop">value</span>: <span class="string">'url1, url2'</span> },
+  { <span class="prop">key</span>: <span class="string">'_AI Provider'</span>,          <span class="prop">value</span>: <span class="string">'openai/dall-e-3'</span> },
+  { <span class="prop">key</span>: <span class="string">'_Generation Cost'</span>,      <span class="prop">value</span>: <span class="string">'$0.28'</span> },
+];</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cart Add Flow -->
+  <div class="panel">
+    <div class="panel-header">Review Step → Cart Add → Admin Notification</div>
+    <div class="panel-body">
+      <div class="flow-row">
+        <div class="flow-box" style="background: rgba(184,118,79,0.12); border: 1px solid rgba(184,118,79,0.3);">
+          <strong style="color: #B8764F;">Review Page</strong><br>
+          <span style="color: rgba(255,255,255,0.5); font-size: 12px;">Shows full summary.<br>Customer confirms.<br>Submits CartForm.</span>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box" style="background: rgba(124,58,237,0.12); border: 1px solid rgba(124,58,237,0.3);">
+          <strong style="color: #7C3AED;">Review Action</strong><br>
+          <span style="color: rgba(255,255,255,0.5); font-size: 12px;">1. Upload final image to Shopify Files (if "You Design")<br>2. Build line item attributes from session<br>3. Return attributes to client</span>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box" style="background: rgba(0,198,255,0.12); border: 1px solid rgba(0,198,255,0.3);">
+          <strong style="color: #00C6FF;">CartForm Submit</strong><br>
+          <span style="color: rgba(255,255,255,0.5); font-size: 12px;">CartForm.ACTIONS.LinesAdd<br>with merchandiseId (variant)<br>+ all attributes</span>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box" style="background: rgba(255,255,147,0.12); border: 1px solid rgba(255,255,147,0.3);">
+          <strong style="color: #FFFF93;">Klaviyo Event</strong><br>
+          <span style="color: rgba(255,255,255,0.5); font-size: 12px;">Fire-and-forget POST<br>to Klaviyo with design<br>brief + image URLs</span>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box" style="background: rgba(52,199,89,0.12); border: 1px solid rgba(52,199,89,0.3);">
+          <strong style="color: #34c759;">Clear & Redirect</strong><br>
+          <span style="color: rgba(255,255,255,0.5); font-size: 12px;">Clear session.<br>Open cart drawer.<br>Show confirmation.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="note">
+    <strong>Pattern match:</strong> This follows the same approach as existing engraving data — line item attributes with underscore-prefixed private keys.
+    The Klaviyo notification is fire-and-forget (same as the existing circle-add pattern), so it doesn't block the cart add.
+    The admin sees public attributes in the order view, and the Klaviyo email provides a formatted design brief with clickable image links.
+  </div>
+</body>
+</html>

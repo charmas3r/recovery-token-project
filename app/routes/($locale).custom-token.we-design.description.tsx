@@ -63,6 +63,20 @@ export async function action({request, context}: Route.ActionArgs) {
   });
 }
 
+const inputStyle: React.CSSProperties = {
+  width: '100%',
+  borderRadius: '0.75rem',
+  border: '1px solid rgba(255,255,255,0.08)',
+  background: 'rgba(255,255,255,0.03)',
+  padding: '0.5rem 1rem',
+  color: '#fff',
+  outline: 'none',
+  fontFamily: 'inherit',
+  fontSize: '0.875rem',
+  resize: 'vertical',
+  boxSizing: 'border-box',
+};
+
 export default function WeDesignDescription() {
   const {description, inspirationImageUrls} = useLoaderData<typeof loader>();
   const actionData = useActionData<typeof action>();
@@ -84,9 +98,9 @@ export default function WeDesignDescription() {
         </p>
       </div>
 
-      <Form method="post" className="space-y-lg">
+      <Form method="post" style={{display: 'flex', flexDirection: 'column', gap: '1.5rem'}}>
         <div>
-          <label htmlFor="description" className="block text-white text-sm font-medium mb-sm">
+          <label htmlFor="description" style={{display: 'block', color: '#fff', fontSize: '0.875rem', fontWeight: 500, marginBottom: '0.5rem'}}>
             Design Description
           </label>
           <textarea
@@ -97,13 +111,13 @@ export default function WeDesignDescription() {
             placeholder="Describe what you'd like on your token — symbols, text, themes, style..."
             maxLength={500}
             rows={5}
-            className="w-full rounded-xl border border-white/[0.08] bg-white/[0.03] px-md py-sm text-white placeholder:text-white/30 focus:border-accent focus:outline-none"
+            style={inputStyle}
           />
-          <span className="text-white/30 text-xs">{text.length}/500</span>
+          <span style={{color: 'rgba(255,255,255,0.3)', fontSize: '0.75rem'}}>{text.length}/500</span>
         </div>
 
         <div>
-          <label className="block text-white text-sm font-medium mb-sm">
+          <label style={{display: 'block', color: '#fff', fontSize: '0.875rem', fontWeight: 500, marginBottom: '0.5rem'}}>
             Inspiration Images (optional)
           </label>
           <ImageUploader
@@ -120,7 +134,7 @@ export default function WeDesignDescription() {
         </div>
 
         {actionData?.error && (
-          <p className="text-red-400 text-sm">{actionData.error}</p>
+          <p style={{color: '#f87171', fontSize: '0.875rem'}}>{actionData.error}</p>
         )}
 
         <WizardNav backTo="/custom-token/we-design/occasion" />

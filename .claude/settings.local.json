@@ -75,7 +75,13 @@
       "Bash(rsvg-convert:*)",
       "WebFetch(domain:feedback.judge.me)",
       "mcp__playwright__browser_fill_form",
-      "Bash(npx shopify:*)"
+      "Bash(npx shopify:*)",
+      "Bash(git:*)",
+      "Bash(npm run:*)",
+      "Bash(npx react-router:*)",
+      "WebFetch(domain:coinplugz.com)",
+      "Bash(claude mcp:*)",
+      "Bash(/Users/esmith/.claude/plugins/cache/claude-plugins-official/superpowers/5.0.5/skills/brainstorming/scripts/start-server.sh --project-dir /Users/esmith/CursorProjects/hydrogen-storefront)"
     ]
   }
 }

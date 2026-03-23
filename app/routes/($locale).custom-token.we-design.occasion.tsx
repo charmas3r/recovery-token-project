@@ -56,20 +56,33 @@ export default function WeDesignOccasion() {
       </div>
 
       <Form method="post">
-        <div className="space-y-md">
+        <div style={{display: 'flex', flexDirection: 'column', gap: '1rem'}}>
           {OCCASIONS.map((occ) => (
             <label
               key={occ.value}
-              className={`block rounded-2xl border p-lg cursor-pointer transition-colors ${
-                sessionData?.occasion === occ.value
-                  ? 'border-accent bg-accent/10'
-                  : 'border-white/[0.08] hover:border-white/[0.15]'
-              }`}
               style={{
+                display: 'block',
+                borderRadius: '1rem',
+                border: sessionData?.occasion === occ.value
+                  ? '1px solid #B8764F'
+                  : '1px solid rgba(255,255,255,0.08)',
+                padding: '1.5rem',
+                cursor: 'pointer',
+                transition: 'border-color 0.2s',
                 background:
                   sessionData?.occasion === occ.value
-                    ? undefined
+                    ? 'rgba(184,118,79,0.1)'
                     : 'linear-gradient(180deg, #111 0%, #0A0A0A 40%, #080808 100%)',
+              }}
+              onMouseEnter={(e) => {
+                if (sessionData?.occasion !== occ.value) {
+                  e.currentTarget.style.borderColor = 'rgba(255,255,255,0.15)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (sessionData?.occasion !== occ.value) {
+                  e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)';
+                }
               }}
             >
               <input
@@ -79,14 +92,14 @@ export default function WeDesignOccasion() {
                 defaultChecked={sessionData?.occasion === occ.value}
                 className="sr-only"
               />
-              <h3 className="text-white font-bold">{occ.label}</h3>
-              <p className="text-white/50 text-sm mt-xs">{occ.description}</p>
+              <h3 style={{color: '#fff', fontWeight: 700}}>{occ.label}</h3>
+              <p style={{color: 'rgba(255,255,255,0.5)', fontSize: '0.875rem', marginTop: '0.25rem'}}>{occ.description}</p>
             </label>
           ))}
         </div>
 
         {actionData?.error && (
-          <p className="text-red-400 text-sm mt-md">{actionData.error}</p>
+          <p style={{color: '#f87171', fontSize: '0.875rem', marginTop: '1rem'}}>{actionData.error}</p>
         )}
 
         <WizardNav backTo="/custom-token" />

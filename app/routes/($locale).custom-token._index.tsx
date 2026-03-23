@@ -43,24 +43,34 @@ export default function CustomTokenLanding() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-lg">
+      <div style={{display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1.5rem'}}>
         {/* We Design It */}
         <Form method="post">
           <input type="hidden" name="path" value="we-design" />
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full text-left rounded-2xl border border-white/[0.08] hover:border-accent/50 p-xl transition-all group"
-            style={{background: 'linear-gradient(180deg, #111 0%, #0A0A0A 40%, #080808 100%)'}}
+            style={{
+              width: '100%',
+              textAlign: 'left',
+              borderRadius: '1rem',
+              border: '1px solid rgba(255,255,255,0.08)',
+              padding: '2rem',
+              transition: 'border-color 0.2s',
+              background: 'linear-gradient(180deg, #111 0%, #0A0A0A 40%, #080808 100%)',
+              cursor: 'pointer',
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.borderColor = 'rgba(184,118,79,0.5)')}
+            onMouseLeave={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')}
           >
-            <span className="inline-block text-accent text-caption uppercase tracking-[0.25em] font-semibold mb-sm">
+            <span style={{display: 'inline-block', color: '#B8764F', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.25em', fontWeight: 600, marginBottom: '0.5rem'}}>
               Option 1
             </span>
-            <h2 className="text-white font-display text-xl font-bold mb-sm group-hover:text-accent transition-colors">
+            <h2 style={{fontFamily: 'var(--font-display, serif)', fontSize: '1.25rem', fontWeight: 700, color: '#FFFFFF', marginBottom: '0.5rem'}}>
               We Design It For You
             </h2>
-            <p className="text-white/50 text-sm leading-relaxed">
-              Tell us about your vision and we'll create a custom design. Share inspiration images, describe what matters to you, and we'll handle the rest. We'll follow up via email with design proofs.
+            <p style={{fontSize: '0.875rem', lineHeight: 1.6, color: 'rgba(255,255,255,0.5)'}}>
+              Tell us about your vision and we&apos;ll create a custom design. Share inspiration images, describe what matters to you, and we&apos;ll handle the rest. We&apos;ll follow up via email with design proofs.
             </p>
           </button>
         </Form>
@@ -71,17 +81,27 @@ export default function CustomTokenLanding() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full text-left rounded-2xl border border-white/[0.08] hover:border-accent/50 p-xl transition-all group"
-            style={{background: 'linear-gradient(180deg, #111 0%, #0A0A0A 40%, #080808 100%)'}}
+            style={{
+              width: '100%',
+              textAlign: 'left',
+              borderRadius: '1rem',
+              border: '1px solid rgba(255,255,255,0.08)',
+              padding: '2rem',
+              transition: 'border-color 0.2s',
+              background: 'linear-gradient(180deg, #111 0%, #0A0A0A 40%, #080808 100%)',
+              cursor: 'pointer',
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.borderColor = 'rgba(184,118,79,0.5)')}
+            onMouseLeave={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')}
           >
-            <span className="inline-block text-accent text-caption uppercase tracking-[0.25em] font-semibold mb-sm">
+            <span style={{display: 'inline-block', color: '#B8764F', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.25em', fontWeight: 600, marginBottom: '0.5rem'}}>
               Option 2
             </span>
-            <h2 className="text-white font-display text-xl font-bold mb-sm group-hover:text-accent transition-colors">
+            <h2 style={{fontFamily: 'var(--font-display, serif)', fontSize: '1.25rem', fontWeight: 700, color: '#FFFFFF', marginBottom: '0.5rem'}}>
               You Design It
             </h2>
-            <p className="text-white/50 text-sm leading-relaxed">
-              Use our AI-powered design studio to create your token. Describe what you want, preview generated designs, and refine until it's perfect. See your design come to life in real time.
+            <p style={{fontSize: '0.875rem', lineHeight: 1.6, color: 'rgba(255,255,255,0.5)'}}>
+              Use our AI-powered design studio to create your token. Describe what you want, preview generated designs, and refine until it&apos;s perfect. See your design come to life in real time.
             </p>
           </button>
         </Form>

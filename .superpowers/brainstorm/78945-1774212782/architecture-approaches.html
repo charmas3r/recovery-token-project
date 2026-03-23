@@ -1,0 +1,135 @@
+<h2>Architecture Approaches — Custom Token Feature</h2>
+<p class="subtitle">How should the wizard, AI generation, and checkout integration be structured?</p>
+
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Route-Per-Step Wizard (Recommended)</h3>
+      <p>Each wizard step is its own nested route under <code>/custom-token</code>. State persists in the URL + session. Back/forward navigation works natively.</p>
+
+      <div style="margin-top: 12px; padding: 16px; background: rgba(255,255,255,0.03); border-radius: 8px; font-size: 14px;">
+        <strong style="color: #B8764F;">Routes:</strong><br>
+        <code style="color: rgba(255,255,255,0.6);">
+          /custom-token → landing (pick path)<br>
+          /custom-token/we-design/occasion<br>
+          /custom-token/we-design/description<br>
+          /custom-token/we-design/material<br>
+          /custom-token/we-design/engraving<br>
+          /custom-token/we-design/review<br>
+          /custom-token/you-design/describe<br>
+          /custom-token/you-design/preview<br>
+          /custom-token/you-design/refine<br>
+          /custom-token/you-design/material<br>
+          /custom-token/you-design/review
+        </code>
+      </div>
+
+      <div class="pros-cons" style="margin-top: 12px;">
+        <div class="pros">
+          <h4>Pros</h4>
+          <ul>
+            <li>Native browser back/forward</li>
+            <li>Each step has its own loader/action — clean separation</li>
+            <li>URL-shareable progress (bookmark mid-wizard)</li>
+            <li>Follows existing Hydrogen routing patterns</li>
+            <li>SEO-friendly (each step is indexable or not)</li>
+          </ul>
+        </div>
+        <div class="cons">
+          <h4>Cons</h4>
+          <ul>
+            <li>More route files to manage</li>
+            <li>State handoff between routes needs session or search params</li>
+            <li>Full page transitions between steps (mitigated by animations)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Single-Page Wizard (Client-Side State)</h3>
+      <p>One route (<code>/custom-token</code>) renders all steps. A React state machine manages step transitions. AI calls go through a single action endpoint.</p>
+
+      <div style="margin-top: 12px; padding: 16px; background: rgba(255,255,255,0.03); border-radius: 8px; font-size: 14px;">
+        <strong style="color: #B8764F;">Structure:</strong><br>
+        <code style="color: rgba(255,255,255,0.6);">
+          /custom-token → single route, all steps client-side<br>
+          /api/custom-token/generate → action for AI generation<br>
+          /api/custom-token/upload → action for image uploads<br>
+          State machine: idle → occasion → description → material → engraving → review
+        </code>
+      </div>
+
+      <div class="pros-cons" style="margin-top: 12px;">
+        <div class="pros">
+          <h4>Pros</h4>
+          <ul>
+            <li>Smooth step transitions (no page reload)</li>
+            <li>All state in one component tree — easy to pass between steps</li>
+            <li>Fewer files</li>
+            <li>Can animate between steps with Framer Motion</li>
+          </ul>
+        </div>
+        <div class="cons">
+          <h4>Cons</h4>
+          <ul>
+            <li>Browser back button breaks flow (needs manual handling)</li>
+            <li>Loses progress on page refresh unless saved to session</li>
+            <li>Large single component — harder to maintain</li>
+            <li>Doesn't follow existing route-per-page pattern</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Hybrid: Layout Route + Client Steps</h3>
+      <p>A parent layout route (<code>/custom-token</code>) manages shared state and progress UI. Two child routes for each path. Steps within each path are client-side with URL hash tracking.</p>
+
+      <div style="margin-top: 12px; padding: 16px; background: rgba(255,255,255,0.03); border-radius: 8px; font-size: 14px;">
+        <strong style="color: #B8764F;">Structure:</strong><br>
+        <code style="color: rgba(255,255,255,0.6);">
+          /custom-token → layout (progress bar, shared state)<br>
+          /custom-token/we-design#step=occasion → client steps<br>
+          /custom-token/you-design#step=describe → client steps<br>
+          Actions handled via useFetcher from shared layout
+        </code>
+      </div>
+
+      <div class="pros-cons" style="margin-top: 12px;">
+        <div class="pros">
+          <h4>Pros</h4>
+          <ul>
+            <li>Smooth transitions within a path</li>
+            <li>Shared layout for progress bar and nav</li>
+            <li>Two main routes — not too many, not too few</li>
+            <li>State scoped to each path's component</li>
+          </ul>
+        </div>
+        <div class="cons">
+          <h4>Cons</h4>
+          <ul>
+            <li>Hash-based steps are a workaround, not native routing</li>
+            <li>Still needs manual back-button handling within steps</li>
+            <li>Mixed pattern — some things are routes, some aren't</li>
+            <li>Harder to reason about than pure route or pure client approach</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div style="margin-top: 24px; padding: 20px; border: 1px solid rgba(184, 118, 79, 0.3); border-radius: 12px; background: rgba(184, 118, 79, 0.05);">
+  <h3 style="color: #B8764F; margin-bottom: 8px;">💡 Recommendation: Option A</h3>
+  <p style="color: rgba(255,255,255,0.7); font-size: 14px; line-height: 1.6;">
+    Route-per-step is the most Hydrogen-native approach. It leverages your existing loader/action patterns, gives you clean separation of concerns (each step validates independently), and browser navigation just works. The "more files" trade-off is worth it — each file is small and focused. Session storage handles state between steps cleanly.
+  </p>
+</div>

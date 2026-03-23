@@ -100,7 +100,7 @@ export default function WeDesignMaterial() {
         />
 
         {actionData?.error && (
-          <p className="text-red-400 text-sm mt-md">{actionData.error}</p>
+          <p style={{color: '#f87171', fontSize: '0.875rem', marginTop: '1rem'}}>{actionData.error}</p>
         )}
 
         <WizardNav backTo="/custom-token/we-design/description" />

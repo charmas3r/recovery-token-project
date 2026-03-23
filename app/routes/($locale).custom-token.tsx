@@ -23,7 +23,7 @@ export default function CustomTokenLayout() {
   const currentStep = pathSegments.length >= 3 ? pathSegments[pathSegments.length - 1] : '';
 
   return (
-    <div className="mx-auto max-w-3xl px-md py-2xl">
+    <div style={{maxWidth: '48rem', marginLeft: 'auto', marginRight: 'auto', paddingLeft: '1rem', paddingRight: '1rem', paddingTop: '3rem', paddingBottom: '3rem'}}>
       {sessionData?.path && currentStep && (
         <WizardProgress
           steps={getSteps(sessionData.path)}

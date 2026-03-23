@@ -32,6 +32,27 @@ export async function action({request, context}: Route.ActionArgs) {
   });
 }
 
+const labelStyle: React.CSSProperties = {
+  display: 'block',
+  color: '#fff',
+  fontSize: '0.875rem',
+  fontWeight: 500,
+  marginBottom: '0.5rem',
+};
+
+const inputStyle: React.CSSProperties = {
+  width: '100%',
+  borderRadius: '0.75rem',
+  border: '1px solid rgba(255,255,255,0.08)',
+  background: 'rgba(255,255,255,0.03)',
+  padding: '0.5rem 1rem',
+  color: '#fff',
+  outline: 'none',
+  fontFamily: 'inherit',
+  fontSize: '0.875rem',
+  boxSizing: 'border-box',
+};
+
 export default function WeDesignEngraving() {
   const {engraving} = useLoaderData<typeof loader>();
   const actionData = useActionData<typeof action>();
@@ -50,9 +71,9 @@ export default function WeDesignEngraving() {
         </p>
       </div>
 
-      <Form method="post" className="space-y-lg">
+      <Form method="post" style={{display: 'flex', flexDirection: 'column', gap: '1.5rem'}}>
         <div>
-          <label htmlFor="name" className="block text-white text-sm font-medium mb-sm">Name</label>
+          <label htmlFor="name" style={labelStyle}>Name</label>
           <input
             id="name"
             name="name"
@@ -60,13 +81,13 @@ export default function WeDesignEngraving() {
             maxLength={10}
             defaultValue={engraving.name}
             placeholder="e.g., John D."
-            className="w-full rounded-xl border border-white/[0.08] bg-white/[0.03] px-md py-sm text-white placeholder:text-white/30 focus:border-accent focus:outline-none"
+            style={inputStyle}
           />
-          <span className="text-white/30 text-xs">Max 10 characters</span>
+          <span style={{color: 'rgba(255,255,255,0.3)', fontSize: '0.75rem'}}>Max 10 characters</span>
         </div>
 
         <div>
-          <label htmlFor="years" className="block text-white text-sm font-medium mb-sm">Years</label>
+          <label htmlFor="years" style={labelStyle}>Years</label>
           <input
             id="years"
             name="years"
@@ -74,23 +95,23 @@ export default function WeDesignEngraving() {
             maxLength={3}
             defaultValue={engraving.years}
             placeholder="e.g., 5"
-            className="w-full rounded-xl border border-white/[0.08] bg-white/[0.03] px-md py-sm text-white placeholder:text-white/30 focus:border-accent focus:outline-none"
+            style={inputStyle}
           />
         </div>
 
         <div>
-          <label htmlFor="cleanDate" className="block text-white text-sm font-medium mb-sm">Clean Date</label>
+          <label htmlFor="cleanDate" style={labelStyle}>Clean Date</label>
           <input
             id="cleanDate"
             name="cleanDate"
             type="date"
             defaultValue={engraving.cleanDate}
-            className="w-full rounded-xl border border-white/[0.08] bg-white/[0.03] px-md py-sm text-white focus:border-accent focus:outline-none"
+            style={inputStyle}
           />
         </div>
 
         <div>
-          <label htmlFor="note" className="block text-white text-sm font-medium mb-sm">Special Note (optional, private)</label>
+          <label htmlFor="note" style={labelStyle}>Special Note (optional, private)</label>
           <textarea
             id="note"
             name="note"
@@ -98,12 +119,12 @@ export default function WeDesignEngraving() {
             rows={3}
             defaultValue={engraving.note}
             placeholder="Any special instructions for the engraver..."
-            className="w-full rounded-xl border border-white/[0.08] bg-white/[0.03] px-md py-sm text-white placeholder:text-white/30 focus:border-accent focus:outline-none"
+            style={{...inputStyle, resize: 'vertical'}}
           />
         </div>
 
         {actionData?.error && (
-          <p className="text-red-400 text-sm">{actionData.error}</p>
+          <p style={{color: '#f87171', fontSize: '0.875rem'}}>{actionData.error}</p>
         )}
 
         <WizardNav backTo="/custom-token/we-design/material" />

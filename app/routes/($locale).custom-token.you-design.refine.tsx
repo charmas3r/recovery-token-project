@@ -199,12 +199,12 @@ export default function YouDesignRefine() {
       />
 
       {(actionData?.error || refineFetcher.data?.error) && (
-        <p className="text-red-400 text-sm mt-md">
+        <p style={{color: '#f87171', fontSize: '0.875rem', marginTop: '1rem'}}>
           {actionData?.error || refineFetcher.data?.error}
         </p>
       )}
 
-      <Form method="post" className="mt-lg">
+      <Form method="post" style={{marginTop: '1.5rem'}}>
         <input type="hidden" name="intent" value="continue" />
         <WizardNav
           backTo="/custom-token/you-design/preview"

@@ -38,6 +38,27 @@ export async function action({request, context}: Route.ActionArgs) {
   });
 }
 
+const labelStyle: React.CSSProperties = {
+  display: 'block',
+  color: '#fff',
+  fontSize: '0.875rem',
+  fontWeight: 500,
+  marginBottom: '0.5rem',
+};
+
+const inputStyle: React.CSSProperties = {
+  width: '100%',
+  borderRadius: '0.75rem',
+  border: '1px solid rgba(255,255,255,0.08)',
+  background: 'rgba(255,255,255,0.03)',
+  padding: '0.5rem 1rem',
+  color: '#fff',
+  outline: 'none',
+  fontFamily: 'inherit',
+  fontSize: '0.875rem',
+  boxSizing: 'border-box',
+};
+
 export default function YouDesignDescribe() {
   const {designPrompt} = useLoaderData<typeof loader>();
   const actionData = useActionData<typeof action>();
@@ -81,12 +102,9 @@ export default function YouDesignDescribe() {
         </p>
       </div>
 
-      <Form method="post" className="space-y-lg">
+      <Form method="post" style={{display: 'flex', flexDirection: 'column', gap: '1.5rem'}}>
         <div>
-          <label
-            htmlFor="theme"
-            className="block text-white text-sm font-medium mb-sm"
-          >
+          <label htmlFor="theme" style={labelStyle}>
             Theme / Main Idea *
           </label>
           <textarea
@@ -95,15 +113,12 @@ export default function YouDesignDescribe() {
             rows={3}
             maxLength={200}
             placeholder='e.g., "An eagle soaring over mountains with a sunrise, representing freedom in recovery"'
-            className="w-full rounded-xl border border-white/[0.08] bg-white/[0.03] px-md py-sm text-white placeholder:text-white/30 focus:border-accent focus:outline-none"
+            style={{...inputStyle, resize: 'vertical'}}
           />
         </div>
 
         <div>
-          <label
-            htmlFor="symbols"
-            className="block text-white text-sm font-medium mb-sm"
-          >
+          <label htmlFor="symbols" style={labelStyle}>
             Symbols (optional)
           </label>
           <input
@@ -112,15 +127,12 @@ export default function YouDesignDescribe() {
             type="text"
             maxLength={200}
             placeholder='e.g., "eagle, mountains, sunrise, AA triangle"'
-            className="w-full rounded-xl border border-white/[0.08] bg-white/[0.03] px-md py-sm text-white placeholder:text-white/30 focus:border-accent focus:outline-none"
+            style={inputStyle}
           />
         </div>
 
         <div>
-          <label
-            htmlFor="text"
-            className="block text-white text-sm font-medium mb-sm"
-          >
+          <label htmlFor="text" style={labelStyle}>
             Text on Token (optional)
           </label>
           <input
@@ -129,15 +141,12 @@ export default function YouDesignDescribe() {
             type="text"
             maxLength={100}
             placeholder='e.g., "5 Years" or "One Day At A Time"'
-            className="w-full rounded-xl border border-white/[0.08] bg-white/[0.03] px-md py-sm text-white placeholder:text-white/30 focus:border-accent focus:outline-none"
+            style={inputStyle}
           />
         </div>
 
         <div>
-          <label
-            htmlFor="style"
-            className="block text-white text-sm font-medium mb-sm"
-          >
+          <label htmlFor="style" style={labelStyle}>
             Style Preference (optional)
           </label>
           <input
@@ -146,12 +155,12 @@ export default function YouDesignDescribe() {
             type="text"
             maxLength={200}
             placeholder='e.g., "minimalist", "ornate Victorian", "modern geometric"'
-            className="w-full rounded-xl border border-white/[0.08] bg-white/[0.03] px-md py-sm text-white placeholder:text-white/30 focus:border-accent focus:outline-none"
+            style={inputStyle}
           />
         </div>
 
         {actionData?.error && (
-          <p className="text-red-400 text-sm">{actionData.error}</p>
+          <p style={{color: '#f87171', fontSize: '0.875rem'}}>{actionData.error}</p>
         )}
 
         <WizardNav backTo="/custom-token" />

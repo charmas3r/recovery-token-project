@@ -12,31 +12,30 @@ interface ReviewSummaryProps {
 
 export function ReviewSummary({path, items, variantPrice}: ReviewSummaryProps) {
   return (
-    <div className="rounded-2xl border border-white/[0.08] overflow-hidden"
-      style={{background: 'linear-gradient(180deg, #111 0%, #0A0A0A 40%, #080808 100%)'}}>
-      <div className="px-lg py-md border-b border-white/[0.08]">
-        <span className="inline-block text-accent text-caption uppercase tracking-[0.25em] font-semibold">
+    <div style={{borderRadius: '1rem', border: '1px solid rgba(255,255,255,0.08)', overflow: 'hidden', background: 'linear-gradient(180deg, #111 0%, #0A0A0A 40%, #080808 100%)'}}>
+      <div style={{padding: '1rem 1.5rem', borderBottom: '1px solid rgba(255,255,255,0.08)'}}>
+        <span style={{display: 'inline-block', color: '#B8764F', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.25em', fontWeight: 600}}>
           {path === 'we-design' ? 'We Design It For You' : 'You Design It'}
         </span>
-        <h3 className="text-white font-bold text-lg mt-xs">Order Summary</h3>
+        <h3 style={{color: '#fff', fontWeight: 700, fontSize: '1.125rem', marginTop: '0.25rem'}}>Order Summary</h3>
       </div>
-      <div className="divide-y divide-white/[0.05]">
+      <div>
         {items.map((item, i) => (
-          <div key={i} className="px-lg py-md">
-            <dt className="text-white/40 text-xs uppercase tracking-wider mb-xs">{item.label}</dt>
+          <div key={i} style={{padding: '1rem 1.5rem', borderTop: i > 0 ? '1px solid rgba(255,255,255,0.05)' : undefined}}>
+            <dt style={{color: 'rgba(255,255,255,0.4)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.25rem'}}>{item.label}</dt>
             {item.type === 'image' ? (
-              <img src={item.value} alt={item.label} className="h-32 w-32 rounded-lg object-cover border border-white/[0.08]" />
+              <img src={item.value} alt={item.label} style={{height: '8rem', width: '8rem', borderRadius: '0.5rem', objectFit: 'cover', border: '1px solid rgba(255,255,255,0.08)'}} />
             ) : (
-              <dd className="text-white text-sm">{item.value}</dd>
+              <dd style={{color: '#fff', fontSize: '0.875rem', margin: 0}}>{item.value}</dd>
             )}
           </div>
         ))}
       </div>
       {variantPrice && (
-        <div className="px-lg py-md border-t border-white/[0.08]">
-          <div className="flex items-center justify-between">
-            <span className="text-white font-medium">Total</span>
-            <span className="text-accent font-bold text-lg">{variantPrice}</span>
+        <div style={{padding: '1rem 1.5rem', borderTop: '1px solid rgba(255,255,255,0.08)'}}>
+          <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+            <span style={{color: '#fff', fontWeight: 500}}>Total</span>
+            <span style={{color: '#B8764F', fontWeight: 700, fontSize: '1.125rem'}}>{variantPrice}</span>
           </div>
         </div>
       )}

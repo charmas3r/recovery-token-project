@@ -157,7 +157,7 @@ export default function YouDesignMaterial() {
           <p style={{color: '#f87171', fontSize: '0.875rem', marginTop: '1rem'}}>{actionData.error}</p>
         )}
 
-        <WizardNav backTo="/custom-token/you-design/describe" />
+        <WizardNav backTo="/custom-token/you-design/describe" disabled={!selected} />
       </Form>
     </div>
   );

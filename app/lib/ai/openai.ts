@@ -18,17 +18,45 @@ export class OpenAIProvider implements ImageGenerationProvider {
   }
 
   async generate(req: GenerateImageRequest): Promise<GenerateImageResult> {
-    // DALL-E 3 only generates 1 image per call — parallelize for count > 1
-    const promises = Array.from({length: req.count}, () =>
-      this.callDallE(req),
-    );
-    const images = await Promise.all(promises);
+    const res = await fetch(OPENAI_IMAGES_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${this.apiKey}`,
+      },
+      body: JSON.stringify({
+        model: 'gpt-image-1.5',
+        prompt: req.prompt,
+        n: req.count,
+        size: req.size,
+        quality: 'medium',
+      }),
+    });
+
+    if (!res.ok) {
+      if (res.status === 401) {
+        throw new Error('Image generation service is not configured correctly. Please contact support.');
+      }
+      if (res.status === 429) {
+        throw new Error('Image generation is temporarily unavailable due to high demand. Please try again in a few minutes.');
+      }
+      throw new Error(`Image generation failed (error ${res.status}). Please try again.`);
+    }
+
+    const data = (await res.json()) as {
+      data: Array<{url?: string; b64_json?: string; revised_prompt?: string}>;
+    };
+
+    const images: GeneratedImage[] = data.data.map((item) => ({
+      url: item.url ?? `data:image/png;base64,${item.b64_json}`,
+      revisedPrompt: item.revised_prompt,
+    }));
 
     return {
       images,
       provider: 'openai',
-      model: 'dall-e-3',
-      cost: req.count * 4, // ~$0.04 per 1024x1024 in cents
+      model: 'gpt-image-1.5',
+      cost: req.count * 4,
     };
   }
 
@@ -41,43 +69,5 @@ export class OpenAIProvider implements ImageGenerationProvider {
     } catch {
       return false;
     }
-  }
-
-  private async callDallE(req: GenerateImageRequest): Promise<GeneratedImage> {
-    const res = await fetch(OPENAI_IMAGES_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${this.apiKey}`,
-      },
-      body: JSON.stringify({
-        model: 'dall-e-3',
-        prompt: req.prompt,
-        n: 1,
-        size: req.size,
-        style: req.style ?? 'natural',
-        response_format: 'url',
-      }),
-    });
-
-    if (!res.ok) {
-      // Don't leak API keys or internal details to the client
-      if (res.status === 401) {
-        throw new Error('Image generation service is not configured correctly. Please contact support.');
-      }
-      if (res.status === 429) {
-        throw new Error('Image generation is temporarily unavailable due to high demand. Please try again in a few minutes.');
-      }
-      throw new Error(`Image generation failed (error ${res.status}). Please try again.`);
-    }
-
-    const data = (await res.json()) as {
-      data: Array<{url: string; revised_prompt?: string}>;
-    };
-
-    return {
-      url: data.data[0].url,
-      revisedPrompt: data.data[0].revised_prompt,
-    };
   }
 }

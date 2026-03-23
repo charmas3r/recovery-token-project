@@ -48,12 +48,10 @@ export async function loader({context}: Route.LoaderArgs) {
 
   const variants = product?.variants?.nodes ?? [];
   let materialOptions = variants
-    .filter((v: any) => v.availableForSale)
+    .filter((v: any) => v.availableForSale && v.title.includes('You Design'))
     .map((v: any) => ({
       id: v.id,
-      label: v.title.includes('You Design')
-        ? v.title.replace('You Design - ', '')
-        : v.title,
+      label: v.title.replace('You Design - ', ''),
       value: (v.title.toLowerCase().includes('brass')
         ? 'brass'
         : 'color') as 'brass' | 'color',

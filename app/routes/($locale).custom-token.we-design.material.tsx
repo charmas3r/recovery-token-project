@@ -39,10 +39,10 @@ export async function loader({context}: Route.LoaderArgs) {
 
   const variants = product?.variants?.nodes ?? [];
   let materialOptions = variants
-    .filter((v: any) => v.availableForSale)
+    .filter((v: any) => v.availableForSale && v.title.includes('We Design'))
     .map((v: any) => ({
       id: v.id,
-      label: v.title.includes('We Design') ? v.title.replace('We Design - ', '') : v.title,
+      label: v.title.replace('We Design - ', ''),
       value: (v.title.toLowerCase().includes('brass') ? 'brass' : 'color') as 'brass' | 'color',
       price: `$${parseFloat(v.price.amount).toFixed(2)}`,
       description: v.title.toLowerCase().includes('brass')

@@ -33,7 +33,7 @@ export interface CustomTokenSession {
 }
 
 const WE_DESIGN_STEPS = ['occasion', 'description', 'material', 'engraving', 'review'] as const;
-const YOU_DESIGN_STEPS = ['describe', 'preview', 'refine', 'material', 'review'] as const;
+const YOU_DESIGN_STEPS = ['describe', 'material', 'preview', 'refine', 'review'] as const;
 
 export function getCustomTokenSession(session: AppSession): CustomTokenSession | null {
   return session.get(SESSION_KEY) ?? null;
@@ -65,9 +65,9 @@ export function getCompletedSteps(data: CustomTokenSession): string[] {
     if (data.engraving) completed.push('engraving');
   } else {
     if (data.designPrompt) completed.push('describe');
+    if (data.material && data.variantId) completed.push('material');
     if (data.selectedPreviewId) completed.push('preview');
     if (data.finalDesignId) completed.push('refine');
-    if (data.material && data.variantId) completed.push('material');
   }
 
   return completed;

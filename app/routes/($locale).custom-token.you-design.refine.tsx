@@ -118,7 +118,7 @@ export async function action({request, context}: Route.ActionArgs) {
         finalDesignId: session.selectedPreviewId,
       });
     }
-    return redirect('/custom-token/you-design/material', {
+    return redirect('/custom-token/you-design/review', {
       headers: {'Set-Cookie': await context.session.commit()},
     });
   }
@@ -160,7 +160,7 @@ export default function YouDesignRefine() {
             marginBottom: '0.5rem',
           }}
         >
-          Step 3 of 5
+          Step 4 of 5
         </span>
         <h2
           style={{

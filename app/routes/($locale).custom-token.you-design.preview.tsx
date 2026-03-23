@@ -27,7 +27,7 @@ export async function loader({context}: Route.LoaderArgs) {
     session.path !== 'you-design' ||
     !canProceedToStep(session, 'preview')
   ) {
-    return redirect('/custom-token/you-design/describe');
+    return redirect('/custom-token/you-design/material');
   }
   return {
     previewImageIds: session.previewImageIds ?? [],
@@ -148,7 +148,7 @@ export default function YouDesignPreview() {
             marginBottom: '0.5rem',
           }}
         >
-          Step 2 of 5
+          Step 3 of 5
         </span>
         <h2
           style={{
@@ -222,7 +222,7 @@ export default function YouDesignPreview() {
           <input type="hidden" name="intent" value="select" />
           <input type="hidden" name="selectedPreviewId" value={selected} />
           <WizardNav
-            backTo="/custom-token/you-design/describe"
+            backTo="/custom-token/you-design/material"
             nextLabel="Refine This Design"
             disabled={!selected}
           />

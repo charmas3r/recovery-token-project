@@ -36,7 +36,7 @@ export async function loader({context}: Route.LoaderArgs) {
     session.path !== 'you-design' ||
     !canProceedToStep(session, 'material')
   ) {
-    return redirect('/custom-token/you-design/refine');
+    return redirect('/custom-token/you-design/describe');
   }
 
   const {product} = await context.storefront.query(
@@ -97,7 +97,7 @@ export async function action({request, context}: Route.ActionArgs) {
     material: material as 'brass' | 'color',
     variantId,
   });
-  return redirect('/custom-token/you-design/review', {
+  return redirect('/custom-token/you-design/preview', {
     headers: {'Set-Cookie': await context.session.commit()},
   });
 }
@@ -124,7 +124,7 @@ export default function YouDesignMaterial() {
             marginBottom: '0.5rem',
           }}
         >
-          Step 4 of 5
+          Step 2 of 5
         </span>
         <h2
           style={{
@@ -157,7 +157,7 @@ export default function YouDesignMaterial() {
           <p style={{color: '#f87171', fontSize: '0.875rem', marginTop: '1rem'}}>{actionData.error}</p>
         )}
 
-        <WizardNav backTo="/custom-token/you-design/refine" />
+        <WizardNav backTo="/custom-token/you-design/describe" />
       </Form>
     </div>
   );

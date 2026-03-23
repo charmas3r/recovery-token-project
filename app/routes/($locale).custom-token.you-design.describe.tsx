@@ -33,7 +33,7 @@ export async function action({request, context}: Route.ActionArgs) {
     .join('. ');
 
   updateCustomTokenSession(context.session as AppSession, {designPrompt});
-  return redirect('/custom-token/you-design/preview', {
+  return redirect('/custom-token/you-design/material', {
     headers: {'Set-Cookie': await context.session.commit()},
   });
 }

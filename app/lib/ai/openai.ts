@@ -61,8 +61,14 @@ export class OpenAIProvider implements ImageGenerationProvider {
     });
 
     if (!res.ok) {
-      const error = await res.text();
-      throw new Error(`OpenAI API error (${res.status}): ${error}`);
+      // Don't leak API keys or internal details to the client
+      if (res.status === 401) {
+        throw new Error('Image generation service is not configured correctly. Please contact support.');
+      }
+      if (res.status === 429) {
+        throw new Error('Image generation is temporarily unavailable due to high demand. Please try again in a few minutes.');
+      }
+      throw new Error(`Image generation failed (error ${res.status}). Please try again.`);
     }
 
     const data = (await res.json()) as {

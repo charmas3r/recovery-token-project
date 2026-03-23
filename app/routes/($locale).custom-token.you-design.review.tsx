@@ -209,7 +209,7 @@ export default function YouDesignReview() {
 
         <Form method="post">
           <WizardNav
-            backTo="/custom-token/you-design/material"
+            backTo="/custom-token/you-design/refine"
             nextLabel="Add to Cart"
           />
         </Form>

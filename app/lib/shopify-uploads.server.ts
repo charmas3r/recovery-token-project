@@ -195,7 +195,7 @@ async function registerFileInShopify(
   filename: string,
   env: Env,
 ): Promise<string> {
-  const mutation = `#graphql
+  const mutation = `
     mutation fileCreate($files: [FileCreateInput!]!) {
       fileCreate(files: $files) {
         files {
@@ -261,7 +261,7 @@ export async function resolveShopifyFileIds(
 ): Promise<Record<string, string>> {
   if (!ids.length) return {};
 
-  const query = `#graphql
+  const query = `
     query ResolveFiles($ids: [ID!]!) {
       nodes(ids: $ids) {
         ... on MediaImage {

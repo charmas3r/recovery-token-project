@@ -39,7 +39,7 @@ export async function checkAndIncrementDailyLimit(
 }
 
 async function readDailyCount(env: Env): Promise<DailyCount> {
-  const query = `#graphql
+  const query = `
     query ShopMetafield {
       shop {
         metafield(namespace: "${METAFIELD_NAMESPACE}", key: "${METAFIELD_KEY}") {
@@ -75,7 +75,7 @@ async function readDailyCount(env: Env): Promise<DailyCount> {
 }
 
 async function writeDailyCount(env: Env, data: DailyCount): Promise<void> {
-  const mutation = `#graphql
+  const mutation = `
     mutation MetafieldsSet($metafields: [MetafieldsSetInput!]!) {
       metafieldsSet(metafields: $metafields) {
         metafields { id }

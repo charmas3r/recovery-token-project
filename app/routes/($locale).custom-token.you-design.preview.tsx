@@ -12,11 +12,10 @@ import {
   updateCustomTokenSession,
   canProceedToStep,
 } from '~/lib/custom-token-session';
-import {DesignPreviewGrid} from '~/components/custom-token/DesignPreviewGrid';
 import {WizardNav} from '~/components/custom-token/WizardNav';
 import {createImageProvider} from '~/lib/ai/adapter';
 import {buildTokenPrompt} from '~/lib/ai/prompt-engine';
-import {uploadImageToShopifyFiles} from '~/lib/shopify-uploads.server';
+import {uploadImageToShopifyFiles, resolveShopifyFileIds} from '~/lib/shopify-uploads.server';
 import {checkAndIncrementDailyLimit} from '~/lib/ai/rate-limit.server';
 import type {AppSession} from '~/lib/session';
 
@@ -29,10 +28,20 @@ export async function loader({context}: Route.LoaderArgs) {
   ) {
     return redirect('/custom-token/you-design/material');
   }
+
+  // If we already have a preview, resolve its URL
+  let previewUrl = '';
+  const previewId = session.selectedPreviewId ?? session.previewImageIds?.[0];
+  if (previewId) {
+    const resolved = await resolveShopifyFileIds([previewId], context.env);
+    previewUrl = resolved[previewId] ?? '';
+  }
+
   return {
-    previewImageIds: session.previewImageIds ?? [],
-    selectedPreviewId: session.selectedPreviewId,
+    previewId: previewId ?? null,
+    previewUrl,
     designPrompt: session.designPrompt,
+    generationCount: session.generationCount ?? 0,
   };
 }
 
@@ -48,11 +57,11 @@ export async function action({request, context}: Route.ActionArgs) {
       context.env.AI_MAX_GENERATIONS_PER_SESSION || '7',
       10,
     );
-    if ((session.generationCount ?? 0) + 4 > sessionLimit) {
+    if ((session.generationCount ?? 0) + 1 > sessionLimit) {
       return {error: 'Generation limit reached for this session.'};
     }
 
-    const dailyCheck = await checkAndIncrementDailyLimit(context.env, 4);
+    const dailyCheck = await checkAndIncrementDailyLimit(context.env, 1);
     if (!dailyCheck.allowed) {
       return {
         error:
@@ -60,7 +69,7 @@ export async function action({request, context}: Route.ActionArgs) {
       };
     }
 
-    // Generate 4 previews
+    // Generate 1 preview
     const provider = createImageProvider(context.env);
     const prompt = buildTokenPrompt(session.designPrompt!, {
       material: session.material,
@@ -68,42 +77,33 @@ export async function action({request, context}: Route.ActionArgs) {
 
     let result;
     try {
-      result = await provider.generate({prompt, count: 4, size: '1024x1024'});
+      result = await provider.generate({prompt, count: 1, size: '1024x1024'});
     } catch (e: any) {
-      return {error: `Generation failed: ${e.message}. Please try again.`};
+      return {error: `Generation failed: ${e.message}`};
     }
 
-    // Upload all previews to Shopify Files
-    const uploadResults = await Promise.all(
-      result.images.map((img, i) =>
-        uploadImageToShopifyFiles(
-          img.b64Data
-            ? {b64Data: img.b64Data, filename: `custom-token-preview-${i + 1}.png`}
-            : {url: img.url, filename: `custom-token-preview-${i + 1}.png`},
-          context.env,
-        ),
-      ),
+    // Upload to Shopify Files
+    const img = result.images[0];
+    const uploadResult = await uploadImageToShopifyFiles(
+      img.b64Data
+        ? {b64Data: img.b64Data, filename: `custom-token-preview.png`}
+        : {url: img.url, filename: `custom-token-preview.png`},
+      context.env,
     );
 
-    const previewImageIds = uploadResults.map((r) => r.fileId);
     updateCustomTokenSession(context.session as AppSession, {
-      previewImageIds,
-      generationCount: (session.generationCount ?? 0) + 4,
+      previewImageIds: [uploadResult.fileId],
+      selectedPreviewId: uploadResult.fileId,
+      generationCount: (session.generationCount ?? 0) + 1,
     });
 
     return Response.json(
-      {previewImageIds, previewUrls: uploadResults.map((r) => r.url)},
+      {previewUrl: uploadResult.url, previewId: uploadResult.fileId},
       {headers: {'Set-Cookie': await context.session.commit()}},
     );
   }
 
-  if (intent === 'select') {
-    const selectedPreviewId = formData.get('selectedPreviewId') as string;
-    if (!selectedPreviewId) return {error: 'Please select a design'};
-
-    updateCustomTokenSession(context.session as AppSession, {
-      selectedPreviewId,
-    });
+  if (intent === 'continue') {
     return redirect('/custom-token/you-design/refine', {
       headers: {'Set-Cookie': await context.session.commit()},
     });
@@ -113,28 +113,24 @@ export async function action({request, context}: Route.ActionArgs) {
 }
 
 export default function YouDesignPreview() {
-  const {previewImageIds, selectedPreviewId, designPrompt} =
+  const {previewId, previewUrl: initialUrl, designPrompt, generationCount} =
     useLoaderData<typeof loader>();
   const actionData = useActionData<typeof action>();
   const generateFetcher = useFetcher();
-  const [selected, setSelected] = useState(selectedPreviewId ?? '');
-  const [images, setImages] = useState<Array<{url: string; id: string}>>([]);
+  const [previewUrl, setPreviewUrl] = useState(initialUrl);
 
   const isGenerating = generateFetcher.state !== 'idle';
-  const hasImages = images.length > 0 || previewImageIds.length > 0;
+  const hasPreview = !!previewUrl;
 
-  // Update images when generation completes
+  // Update preview when generation completes
   useEffect(() => {
-    if (generateFetcher.data?.previewUrls) {
-      const newImages = generateFetcher.data.previewUrls.map(
-        (url: string, i: number) => ({
-          url,
-          id: generateFetcher.data.previewImageIds[i],
-        }),
-      );
-      setImages(newImages);
+    if (generateFetcher.data?.previewUrl) {
+      setPreviewUrl(generateFetcher.data.previewUrl);
     }
   }, [generateFetcher.data]);
+
+  const sessionLimit = 7;
+  const canRegenerate = generationCount < sessionLimit && !isGenerating;
 
   return (
     <div>
@@ -161,7 +157,7 @@ export default function YouDesignPreview() {
             lineHeight: 1.2,
           }}
         >
-          {hasImages ? 'Choose your design' : 'Generate designs'}
+          {hasPreview ? 'Your token design' : 'Generate your design'}
         </h2>
         <p
           style={{
@@ -170,18 +166,18 @@ export default function YouDesignPreview() {
             marginTop: '0.5rem',
           }}
         >
-          {hasImages
-            ? 'Select the design you like best. You can refine it in the next step.'
-            : `We'll generate 4 token designs based on: "${designPrompt}"`}
+          {hasPreview
+            ? 'Happy with this? Continue to refine it, or regenerate for a new design.'
+            : `We'll generate a token design based on: "${designPrompt}"`}
         </p>
       </div>
 
-      {!hasImages && (
+      {/* Generate button (no preview yet) */}
+      {!hasPreview && !isGenerating && (
         <generateFetcher.Form method="post" style={{textAlign: 'center', padding: '2rem 0'}}>
           <input type="hidden" name="intent" value="generate" />
           <button
             type="submit"
-            disabled={isGenerating}
             style={{
               borderRadius: '1rem',
               border: '1px solid #B8764F',
@@ -190,43 +186,103 @@ export default function YouDesignPreview() {
               color: '#B8764F',
               fontWeight: 700,
               fontSize: '1.125rem',
-              cursor: isGenerating ? 'default' : 'pointer',
+              cursor: 'pointer',
               transition: 'background 0.2s',
-              opacity: isGenerating ? 0.5 : 1,
             }}
-            onMouseEnter={(e) => { if (!isGenerating) e.currentTarget.style.background = 'rgba(184,118,79,0.2)'; }}
-            onMouseLeave={(e) => { if (!isGenerating) e.currentTarget.style.background = 'rgba(184,118,79,0.1)'; }}
+            onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(184,118,79,0.2)'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(184,118,79,0.1)'; }}
           >
-            {isGenerating
-              ? 'Generating designs... (this may take 15-30 seconds)'
-              : 'Generate 4 Token Designs'}
+            Generate Token Design
           </button>
         </generateFetcher.Form>
       )}
 
-      {(hasImages || isGenerating) && (
-        <DesignPreviewGrid
-          images={images}
-          selectedId={selected}
-          onSelect={setSelected}
-          loading={isGenerating}
-        />
+      {/* Loading state */}
+      {isGenerating && (
+        <div style={{textAlign: 'center', padding: '3rem 0'}}>
+          <div style={{
+            width: '200px',
+            height: '200px',
+            borderRadius: '1rem',
+            border: '1px solid rgba(255,255,255,0.08)',
+            background: 'linear-gradient(180deg, #111 0%, #0A0A0A 40%, #080808 100%)',
+            margin: '0 auto 1rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+            <span style={{color: 'rgba(255,255,255,0.3)', fontSize: '0.875rem'}}>Generating...</span>
+          </div>
+          <p style={{color: 'rgba(255,255,255,0.5)', fontSize: '0.875rem'}}>
+            This may take 15-30 seconds
+          </p>
+        </div>
       )}
 
+      {/* Preview image */}
+      {hasPreview && !isGenerating && (
+        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.5rem'}}>
+          <div style={{
+            width: '100%',
+            maxWidth: '400px',
+            aspectRatio: '1',
+            borderRadius: '1rem',
+            overflow: 'hidden',
+            border: '2px solid rgba(184,118,79,0.3)',
+          }}>
+            <img
+              src={previewUrl}
+              alt="Generated token design"
+              style={{width: '100%', height: '100%', objectFit: 'cover'}}
+            />
+          </div>
+
+          {/* Regenerate button */}
+          {canRegenerate && (
+            <generateFetcher.Form method="post">
+              <input type="hidden" name="intent" value="generate" />
+              <button
+                type="submit"
+                style={{
+                  background: 'none',
+                  border: '1px solid rgba(255,255,255,0.15)',
+                  borderRadius: '0.5rem',
+                  padding: '0.5rem 1rem',
+                  color: 'rgba(255,255,255,0.5)',
+                  fontSize: '0.875rem',
+                  cursor: 'pointer',
+                  transition: 'border-color 0.2s, color 0.2s',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)';
+                  e.currentTarget.style.color = '#fff';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = 'rgba(255,255,255,0.15)';
+                  e.currentTarget.style.color = 'rgba(255,255,255,0.5)';
+                }}
+              >
+                Regenerate design
+              </button>
+            </generateFetcher.Form>
+          )}
+        </div>
+      )}
+
+      {/* Errors */}
       {(actionData?.error || generateFetcher.data?.error) && (
         <p style={{color: '#f87171', fontSize: '0.875rem', marginTop: '1rem'}}>
           {actionData?.error || generateFetcher.data?.error}
         </p>
       )}
 
-      {hasImages && (
+      {/* Continue to refine */}
+      {hasPreview && !isGenerating && (
         <Form method="post" style={{marginTop: '1.5rem'}}>
-          <input type="hidden" name="intent" value="select" />
-          <input type="hidden" name="selectedPreviewId" value={selected} />
+          <input type="hidden" name="intent" value="continue" />
           <WizardNav
             backTo="/custom-token/you-design/material"
-            nextLabel="Refine This Design"
-            disabled={!selected}
+            nextLabel="Continue to Refine"
           />
         </Form>
       )}

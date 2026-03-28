@@ -7,6 +7,7 @@ export interface GenerateImageRequest {
 
 export interface GeneratedImage {
   url: string;
+  b64Data?: string;  // Raw base64 data for direct upload (no data: prefix)
   revisedPrompt?: string;
 }
 

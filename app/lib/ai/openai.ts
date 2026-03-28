@@ -49,6 +49,7 @@ export class OpenAIProvider implements ImageGenerationProvider {
 
     const images: GeneratedImage[] = data.data.map((item) => ({
       url: item.url ?? `data:image/png;base64,${item.b64_json}`,
+      b64Data: item.b64_json ?? undefined,
       revisedPrompt: item.revised_prompt,
     }));
 

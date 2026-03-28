@@ -77,7 +77,9 @@ export async function action({request, context}: Route.ActionArgs) {
     const uploadResults = await Promise.all(
       result.images.map((img, i) =>
         uploadImageToShopifyFiles(
-          {url: img.url, filename: `custom-token-preview-${i + 1}.png`},
+          img.b64Data
+            ? {b64Data: img.b64Data, filename: `custom-token-preview-${i + 1}.png`}
+            : {url: img.url, filename: `custom-token-preview-${i + 1}.png`},
           context.env,
         ),
       ),

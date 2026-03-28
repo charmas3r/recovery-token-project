@@ -166,17 +166,26 @@ export interface ShopifyFileUploadResult {
  * Returns both the CDN resource URL and the Shopify File GID.
  */
 export async function uploadImageToShopifyFiles(
-  input: File | {url: string; filename: string},
+  input: File | {url: string; filename: string} | {b64Data: string; filename: string},
   env: Env,
 ): Promise<ShopifyFileUploadResult> {
   let file: File;
-  if ('url' in input) {
+  if (input instanceof File) {
+    file = input;
+  } else if ('b64Data' in input) {
+    // Convert base64 to File directly (works on all runtimes)
+    const binaryString = atob(input.b64Data);
+    const bytes = new Uint8Array(binaryString.length);
+    for (let i = 0; i < binaryString.length; i++) {
+      bytes[i] = binaryString.charCodeAt(i);
+    }
+    file = new File([bytes], input.filename, {type: 'image/png'});
+  } else {
+    // URL input — fetch and convert to File
     const res = await fetch(input.url);
     if (!res.ok) throw new Error(`Failed to fetch image from ${input.url}`);
     const blob = await res.blob();
     file = new File([blob], input.filename, {type: blob.type || 'image/png'});
-  } else {
-    file = input;
   }
 
   const urls = await uploadImagesToShopify([file], env);

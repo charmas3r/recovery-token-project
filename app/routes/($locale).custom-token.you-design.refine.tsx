@@ -90,11 +90,11 @@ export async function action({request, context}: Route.ActionArgs) {
       return {error: `Refinement failed: ${e.message}`};
     }
 
+    const img = result.images[0];
     const uploadResult = await uploadImageToShopifyFiles(
-      {
-        url: result.images[0].url,
-        filename: `custom-token-refined-${refinements.length + 1}.png`,
-      },
+      img.b64Data
+        ? {b64Data: img.b64Data, filename: `custom-token-refined-${refinements.length + 1}.png`}
+        : {url: img.url, filename: `custom-token-refined-${refinements.length + 1}.png`},
       context.env,
     );
 

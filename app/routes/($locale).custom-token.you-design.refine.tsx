@@ -87,7 +87,11 @@ export async function action({request, context}: Route.ActionArgs) {
     try {
       result = await provider.generate({prompt, count: 1, size: '1024x1024'});
     } catch (e: any) {
-      return {error: `Refinement failed: ${e.message}`};
+      const msg = e.message ?? '';
+      if (msg.startsWith('SAFETY_REJECTED:')) {
+        return {error: msg.replace('SAFETY_REJECTED: ', ''), safetyRejected: true};
+      }
+      return {error: msg.replace('SYSTEM_ERROR: ', '')};
     }
 
     const img = result.images[0];

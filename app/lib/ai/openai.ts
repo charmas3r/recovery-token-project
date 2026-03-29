@@ -36,19 +36,24 @@ export class OpenAIProvider implements ImageGenerationProvider {
     if (!res.ok) {
       const errorBody = await res.text().catch(() => 'unknown');
       console.error(`OpenAI API error (${res.status}):`, errorBody);
-      if (res.status === 401) {
-        throw new Error('Image generation service is not configured correctly. Please contact support.');
-      }
-      if (res.status === 429) {
-        throw new Error('Image generation is temporarily unavailable due to high demand. Please try again in a few minutes.');
-      }
-      // Include sanitized error detail for debugging (strip any API keys)
-      let detail = '';
+
+      // Parse error details
+      let errorCode = '';
       try {
         const parsed = JSON.parse(errorBody);
-        detail = parsed?.error?.message ?? '';
+        errorCode = parsed?.error?.code ?? '';
       } catch { /* ignore */ }
-      throw new Error(`Image generation failed (error ${res.status})${detail ? `: ${detail}` : ''}. Please try again.`);
+
+      if (res.status === 401) {
+        throw new Error('SYSTEM_ERROR: Image generation service is not configured correctly. Please contact support.');
+      }
+      if (res.status === 429) {
+        throw new Error('SYSTEM_ERROR: Image generation is temporarily unavailable due to high demand. Please try again in a few minutes.');
+      }
+      if (errorCode === 'safety_system' || errorCode === 'content_policy_violation' || errorBody.includes('safety system')) {
+        throw new Error('SAFETY_REJECTED: Your design description was flagged by our content filter. Please try rephrasing — avoid specific names, trademarked symbols, or language that could be misinterpreted. Focus on describing the visual elements you want on your coin.');
+      }
+      throw new Error('SYSTEM_ERROR: Image generation failed. Please try again.');
     }
 
     const data = (await res.json()) as {

@@ -79,7 +79,11 @@ export async function action({request, context}: Route.ActionArgs) {
     try {
       result = await provider.generate({prompt, count: 1, size: '1024x1024'});
     } catch (e: any) {
-      return {error: `Generation failed: ${e.message}`};
+      const msg = e.message ?? '';
+      if (msg.startsWith('SAFETY_REJECTED:')) {
+        return {error: msg.replace('SAFETY_REJECTED: ', ''), safetyRejected: true};
+      }
+      return {error: msg.replace('SYSTEM_ERROR: ', '')};
     }
 
     // Get the displayable URL (base64 data URL for immediate display)
@@ -281,9 +285,19 @@ export default function YouDesignPreview() {
 
       {/* Errors */}
       {(actionData?.error || generateFetcher.data?.error) && (
-        <p style={{color: '#f87171', fontSize: '0.875rem', marginTop: '1rem'}}>
-          {actionData?.error || generateFetcher.data?.error}
-        </p>
+        <div style={{marginTop: '1.5rem', padding: '1.25rem', borderRadius: '0.75rem', background: 'rgba(248,113,113,0.08)', border: '1px solid rgba(248,113,113,0.2)'}}>
+          <p style={{color: '#f87171', fontSize: '0.875rem', lineHeight: 1.6}}>
+            {actionData?.error || generateFetcher.data?.error}
+          </p>
+          {(actionData?.safetyRejected || generateFetcher.data?.safetyRejected) && (
+            <a
+              href="/custom-token/you-design/describe"
+              style={{display: 'inline-block', marginTop: '0.75rem', color: '#B8764F', fontSize: '0.875rem', textDecoration: 'underline'}}
+            >
+              Go back and edit your description
+            </a>
+          )}
+        </div>
       )}
 
       {/* Continue to refine */}

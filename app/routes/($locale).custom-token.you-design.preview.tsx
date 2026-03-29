@@ -82,23 +82,33 @@ export async function action({request, context}: Route.ActionArgs) {
       return {error: `Generation failed: ${e.message}`};
     }
 
-    // Upload to Shopify Files
+    // Get the displayable URL (base64 data URL for immediate display)
     const img = result.images[0];
-    const uploadResult = await uploadImageToShopifyFiles(
-      img.b64Data
-        ? {b64Data: img.b64Data, filename: `custom-token-preview.png`}
-        : {url: img.url, filename: `custom-token-preview.png`},
-      context.env,
-    );
+    const displayUrl = img.url; // data:image/png;base64,... or remote URL
+
+    // Upload to Shopify Files in background for storage
+    // (Shopify fileCreate is async — CDN URL won't be ready immediately)
+    let fileId = '';
+    try {
+      const uploadResult = await uploadImageToShopifyFiles(
+        img.b64Data
+          ? {b64Data: img.b64Data, filename: `custom-token-preview.png`}
+          : {url: img.url, filename: `custom-token-preview.png`},
+        context.env,
+      );
+      fileId = uploadResult.fileId;
+    } catch {
+      // Upload failed — we can still show the preview, just won't persist to Shopify Files
+    }
 
     updateCustomTokenSession(context.session as AppSession, {
-      previewImageIds: [uploadResult.fileId],
-      selectedPreviewId: uploadResult.fileId,
+      previewImageIds: fileId ? [fileId] : [],
+      selectedPreviewId: fileId || 'pending',
       generationCount: (session.generationCount ?? 0) + 1,
     });
 
     return Response.json(
-      {previewUrl: uploadResult.url, previewId: uploadResult.fileId},
+      {previewUrl: displayUrl, previewId: fileId},
       {headers: {'Set-Cookie': await context.session.commit()}},
     );
   }

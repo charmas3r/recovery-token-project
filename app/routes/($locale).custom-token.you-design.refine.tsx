@@ -91,21 +91,29 @@ export async function action({request, context}: Route.ActionArgs) {
     }
 
     const img = result.images[0];
-    const uploadResult = await uploadImageToShopifyFiles(
-      img.b64Data
-        ? {b64Data: img.b64Data, filename: `custom-token-refined-${refinements.length + 1}.png`}
-        : {url: img.url, filename: `custom-token-refined-${refinements.length + 1}.png`},
-      context.env,
-    );
+    const displayUrl = img.url; // data:image/png;base64,... for immediate display
+
+    let fileId = '';
+    try {
+      const uploadResult = await uploadImageToShopifyFiles(
+        img.b64Data
+          ? {b64Data: img.b64Data, filename: `custom-token-refined-${refinements.length + 1}.png`}
+          : {url: img.url, filename: `custom-token-refined-${refinements.length + 1}.png`},
+        context.env,
+      );
+      fileId = uploadResult.fileId;
+    } catch {
+      // Upload failed — still show the preview
+    }
 
     updateCustomTokenSession(context.session as AppSession, {
-      finalDesignId: uploadResult.fileId,
+      finalDesignId: fileId || 'pending',
       refinementPrompts: [...refinements, refinement],
       generationCount: (session.generationCount ?? 0) + 1,
     });
 
     return Response.json(
-      {newDesignUrl: uploadResult.url, newDesignId: uploadResult.fileId},
+      {newDesignUrl: displayUrl, newDesignId: fileId},
       {headers: {'Set-Cookie': await context.session.commit()}},
     );
   }

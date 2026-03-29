@@ -81,7 +81,7 @@ export async function action({request, context}: Route.ActionArgs) {
     }
 
     const provider = createImageProvider(context.env);
-    const prompt = buildRefinementPrompt(session.designPrompt!, refinement);
+    const prompt = buildRefinementPrompt(session.designPrompt!, refinement, session.material);
 
     let result;
     try {

@@ -50,27 +50,29 @@ export async function loader({context}: Route.LoaderArgs) {
         : 'Vibrant color enamel with detailed design',
     }));
 
-  // Fallback options if product not yet created in Shopify
+  // Fallback: try without path filter if no matches (variant titles may differ)
   if (materialOptions.length === 0) {
-    materialOptions = [
-      {
-        id: 'placeholder-brass',
-        label: 'Brass',
-        value: 'brass' as const,
-        price: '$49.99',
-        description: 'Classic polished brass with silver engraving',
-      },
-      {
-        id: 'placeholder-color',
-        label: 'Color',
-        value: 'color' as const,
-        price: '$59.99',
-        description: 'Vibrant color enamel with detailed design',
-      },
-    ];
+    materialOptions = variants
+      .filter((v: any) => v.availableForSale)
+      .map((v: any) => ({
+        id: v.id,
+        label: v.title,
+        value: (v.title.toLowerCase().includes('brass') ? 'brass' : 'color') as 'brass' | 'color',
+        price: `$${parseFloat(v.price.amount).toFixed(2)}`,
+        description: v.title.toLowerCase().includes('brass')
+          ? 'Classic polished brass with silver engraving'
+          : 'Vibrant color enamel with detailed design',
+      }));
   }
 
-  return {materialOptions, selectedMaterial: session.material};
+  // Debug info for troubleshooting
+  const debug = {
+    productFound: !!product,
+    totalVariants: variants.length,
+    variantTitles: variants.map((v: any) => v.title),
+  };
+
+  return {materialOptions, selectedMaterial: session.material, debug};
 }
 
 export async function action({request, context}: Route.ActionArgs) {
@@ -92,7 +94,7 @@ export async function action({request, context}: Route.ActionArgs) {
 }
 
 export default function WeDesignMaterial() {
-  const {materialOptions, selectedMaterial} = useLoaderData<typeof loader>();
+  const {materialOptions, selectedMaterial, debug} = useLoaderData<typeof loader>();
   const actionData = useActionData<typeof action>();
   const [selected, setSelected] = useState<{material: string; variantId: string} | null>(
     selectedMaterial ? {material: selectedMaterial, variantId: ''} : null,
@@ -125,6 +127,14 @@ export default function WeDesignMaterial() {
 
         <WizardNav backTo="/custom-token/we-design/description" disabled={!selected} />
       </Form>
+
+      {/* Temporary debug — remove after fixing */}
+      <details style={{marginTop: '2rem', fontSize: '0.75rem', color: 'rgba(255,255,255,0.3)'}}>
+        <summary>Debug info</summary>
+        <pre style={{marginTop: '0.5rem', whiteSpace: 'pre-wrap'}}>
+          {JSON.stringify({debug, materialOptions: materialOptions.map((o: any) => ({id: o.id, label: o.label})), selected}, null, 2)}
+        </pre>
+      </details>
     </div>
   );
 }

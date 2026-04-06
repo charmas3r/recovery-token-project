@@ -81,7 +81,8 @@
       "Bash(npx react-router:*)",
       "WebFetch(domain:coinplugz.com)",
       "Bash(claude mcp:*)",
-      "Bash(/Users/esmith/.claude/plugins/cache/claude-plugins-official/superpowers/5.0.5/skills/brainstorming/scripts/start-server.sh --project-dir /Users/esmith/CursorProjects/hydrogen-storefront)"
+      "Bash(/Users/esmith/.claude/plugins/cache/claude-plugins-official/superpowers/5.0.5/skills/brainstorming/scripts/start-server.sh --project-dir /Users/esmith/CursorProjects/hydrogen-storefront)",
+      "Read(//Users/esmith/CursorProjects/hydrogen-storefront/app/routes/**)"
     ]
   }
 }

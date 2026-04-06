@@ -46,7 +46,7 @@ export function ArticleContent({blocks}: ArticleContentProps) {
                 <h2
                   key={index}
                   id={block.id}
-                  className="font-display text-2xl md:text-[1.75rem] font-bold text-white mt-12 mb-4 scroll-mt-24"
+                  className="font-display text-2xl md:text-[1.75rem] font-bold text-white mt-14 mb-6 scroll-mt-24"
                 >
                   {block.text}
                 </h2>
@@ -56,7 +56,7 @@ export function ArticleContent({blocks}: ArticleContentProps) {
               <h3
                 key={index}
                 id={block.id}
-                className="font-display text-xl font-bold text-white mt-8 mb-3 scroll-mt-24"
+                className="font-display text-xl font-bold text-white mt-10 mb-4 scroll-mt-24"
               >
                 {block.text}
               </h3>
@@ -66,7 +66,7 @@ export function ArticleContent({blocks}: ArticleContentProps) {
             return (
               <p
                 key={index}
-                className="text-body text-white/50 leading-relaxed mb-4"
+                className="text-body text-white/50 leading-[1.8] mb-6"
               >
                 {renderInlineContent(block.content)}
               </p>
@@ -94,7 +94,7 @@ export function ArticleContent({blocks}: ArticleContentProps) {
               return (
                 <ol
                   key={index}
-                  className="my-4 pl-6 space-y-2 list-decimal text-body text-white/50 leading-relaxed"
+                  className="my-6 pl-6 space-y-3 list-decimal text-body text-white/50 leading-[1.8]"
                 >
                   {block.items.map((item, i) => (
                     <li key={i}>{item}</li>
@@ -105,7 +105,7 @@ export function ArticleContent({blocks}: ArticleContentProps) {
             return (
               <ul
                 key={index}
-                className="my-4 pl-6 space-y-2 list-disc text-body text-white/50 leading-relaxed"
+                className="my-6 pl-6 space-y-3 list-disc text-body text-white/50 leading-[1.8]"
               >
                 {block.items.map((item, i) => (
                   <li key={i}>{item}</li>

@@ -1085,7 +1085,7 @@ function FeaturedProducts({
             {([response, resolvedSummaries]) => (
               <StaggerContainer className="products-grid" staggerDelay={0.1}>
                 {response
-                  ? response.products.nodes.map((product) => {
+                  ? response.products.nodes.filter((product) => product.handle !== 'custom-token').map((product) => {
                       const productNumericId = extractProductId(product.id);
                       const summary = resolvedSummaries?.[productNumericId];
                       return (

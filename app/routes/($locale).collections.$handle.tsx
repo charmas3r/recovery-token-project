@@ -82,13 +82,17 @@ export default function Collection() {
         connection={collection.products}
         resourcesClassName="products-grid"
       >
-        {({node: product, index}) => (
-          <ProductItem
-            key={product.id}
-            product={product}
-            loading={index < 8 ? 'eager' : undefined}
-          />
-        )}
+        {({node: product, index}) => {
+          // Hide custom token product from collection grids — accessible via /custom-token CTA only
+          if (product.handle === 'custom-token') return null;
+          return (
+            <ProductItem
+              key={product.id}
+              product={product}
+              loading={index < 8 ? 'eager' : undefined}
+            />
+          );
+        }}
       </PaginatedResourceSection>
       <Analytics.CollectionView
         data={{

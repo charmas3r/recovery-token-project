@@ -1098,6 +1098,708 @@ registerSEOPage({
   schema: ['breadcrumb', 'faq', 'webPage'],
 });
 
+registerSEOPage({
+  slug: 'early-recovery-chips',
+  type: 'milestone',
+  title: 'Early Recovery Chips',
+  metaTitle: 'Early Recovery Chips — First Weeks of Sobriety | Coinplugz',
+  metaDescription:
+    'Honor the fragile, powerful first weeks of recovery. Shop early recovery chips for 1-week and other early sobriety milestones. Free shipping.',
+  canonicalPath: 'early-recovery-chips',
+  eyebrow: 'Early Recovery',
+  heroDescription:
+    'The first weeks of sobriety are the most fragile and the most powerful. Early recovery chips honor the courage it takes to keep going when everything feels uncertain — one day, one week at a time.',
+  primaryCTA: {label: 'Shop Early Recovery Chips', href: '/collections/all'},
+  featuredCollectionHandle: 'all',
+  relatedPageSlugs: ['sobriety-coins', 'recovery-gifts', '24-hour-chip', '30-day-sobriety-coin'],
+  sections: [
+    {
+      type: 'text',
+      heading: 'What Early Recovery Chips Represent',
+      body: "The first weeks of sobriety are unlike anything else in recovery. The body is healing, old patterns are losing their grip, and the future feels both terrifying and possible. Early recovery chips — for 1 week, 2 weeks, and other early milestones — exist because these days matter.\n\nEvery week you stay committed in early recovery is a genuine act of courage. These tokens exist to make that invisible struggle visible and celebrated.",
+    },
+    {
+      type: 'text',
+      heading: 'How to Celebrate Early Milestones',
+      body: "Early milestones deserve real celebration. A 1-week chip might seem small from the outside, but to the person holding it, it represents a week of choosing something different — often the hardest week of their life.\n\nGive a chip at a meeting, share one with a newcomer, or carry one as your own reminder. Whatever role you play in someone's early recovery, honoring these first weeks plants the seeds for everything that follows.",
+    },
+  ],
+  faq: [
+    {
+      question: 'What milestones are considered early recovery?',
+      answer:
+        'Early recovery typically covers the first 90 days of sobriety. Common early milestones include 24 hours, 1 week, 2 weeks, and 30 days. Each of these marks a meaningful turning point in the first stage of the recovery journey.',
+    },
+    {
+      question: 'Is there a chip for 1 week of sobriety?',
+      answer:
+        'Yes. Many programs recognize a 1-week or "one week" chip. While less universal than the 30-day or 90-day chips, the 1-week token is a meaningful symbol for someone in the earliest and often most difficult days of recovery.',
+    },
+    {
+      question: 'What color are early recovery chips?',
+      answer:
+        'Colors for early recovery chips vary by program and region. In AA tradition, the 24-hour chip is typically white (desire chip). Weekly chips, when used, come in various colors. The 30-day chip is traditionally red.',
+    },
+  ],
+  milestone: {
+    duration: '1 Week',
+    significance:
+      "The first weeks of recovery are where the story begins. These are the days when every hour is a victory and every morning is proof that it's possible. Early recovery chips exist to honor that fragile, extraordinary time — to say \"what you are doing right now matters more than you know.\"",
+    traditionalColor: 'Various',
+    prevMilestoneSlug: '24-hour-chip',
+    nextMilestoneSlug: '30-day-sobriety-coin',
+  },
+  schema: ['breadcrumb', 'faq', 'webPage'],
+});
+
+registerSEOPage({
+  slug: '30-day-sobriety-coin',
+  type: 'milestone',
+  title: '30 Day Sobriety Coin',
+  metaTitle: '30 Day Sobriety Coin — One Month Milestone | Coinplugz',
+  metaDescription:
+    'Celebrate 30 days sober with a premium recovery coin. The red 30-day chip marks one month of new beginnings and habits forming. Free shipping.',
+  canonicalPath: '30-day-sobriety-coin',
+  eyebrow: '30 Day Milestone',
+  heroDescription:
+    'Thirty days. One full month of choosing recovery every single day. The 30-day sobriety coin marks the end of the hardest chapter in early recovery and the beginning of something new.',
+  primaryCTA: {label: 'Shop 30 Day Coins', href: '/collections/all'},
+  featuredCollectionHandle: 'all',
+  relatedPageSlugs: [
+    'sobriety-coins',
+    'recovery-gifts',
+    'early-recovery-chips',
+    '60-day-sobriety-coin',
+  ],
+  sections: [
+    {
+      type: 'text',
+      heading: 'What 30 Days Means in Recovery',
+      body: "One month of sobriety is a major milestone. The first 30 days are often the most physically and emotionally demanding — withdrawal, cravings, and the upheaval of reshaping daily life. Reaching 30 days means you have walked through all of that and come out the other side.\n\nIn AA tradition, the 30-day chip is traditionally red — a bold color for a bold achievement. New habits are forming, a home group is taking shape, and the foundation of recovery is being laid, brick by brick.",
+    },
+    {
+      type: 'text',
+      heading: 'Celebrating a 30 Day Sobriety Anniversary',
+      body: "The 30-day mark is a natural time for reflection and celebration. Many people receive their 30-day chip at a meeting surrounded by the community that helped them get there.\n\nIf you're celebrating someone else's 30 days: a premium sobriety coin — perhaps engraved with their sobriety date — makes a deeply meaningful gift. It transforms a chip into a keepsake that honors the work they've already done.",
+    },
+  ],
+  faq: [
+    {
+      question: 'What color is the 30 day sobriety chip?',
+      answer:
+        'In AA tradition, the 30-day sobriety chip is traditionally red. The red chip is one of the most recognized early recovery tokens in the program.',
+    },
+    {
+      question: 'How significant is 30 days sober?',
+      answer:
+        'Very significant. The first 30 days are often the hardest in recovery — physically, emotionally, and socially. Reaching 30 days represents navigating the most intense phase of early recovery and establishing a foundation for what comes next.',
+    },
+    {
+      question: 'What should I give someone for 30 days sober?',
+      answer:
+        'A 30-day sobriety coin is a traditional and meaningful gift. A premium coin — especially with a custom engraving of their sobriety date — makes the milestone tangible and lasting. Keep it simple and sincere.',
+    },
+  ],
+  milestone: {
+    duration: '30 Days',
+    significance:
+      "Thirty days of sobriety is where the new life starts to take shape. You've moved through the storm of early withdrawal and the chaos of change. New habits are forming — in the morning routine, in the meetings, in the way you face the day. This coin marks the moment recovery becomes something you're building, not just surviving.",
+    traditionalColor: 'Red',
+    prevMilestoneSlug: 'early-recovery-chips',
+    nextMilestoneSlug: '60-day-sobriety-coin',
+  },
+  schema: ['breadcrumb', 'faq', 'webPage'],
+});
+
+registerSEOPage({
+  slug: '60-day-sobriety-coin',
+  type: 'milestone',
+  title: '60 Day Sobriety Coin',
+  metaTitle: '60 Day Sobriety Coin — Two Months of Recovery | Coinplugz',
+  metaDescription:
+    'Celebrate 60 days sober with a premium gold recovery coin. Two months of growing resilience and deeper recovery roots. Free shipping on all orders.',
+  canonicalPath: '60-day-sobriety-coin',
+  eyebrow: '60 Day Milestone',
+  heroDescription:
+    'Two months of sobriety. Sixty days of showing up, doing the work, and building something new. The 60-day coin marks a moment when resilience is growing and recovery is becoming part of who you are.',
+  primaryCTA: {label: 'Shop 60 Day Coins', href: '/collections/all'},
+  featuredCollectionHandle: 'all',
+  relatedPageSlugs: [
+    'sobriety-coins',
+    'recovery-gifts',
+    '30-day-sobriety-coin',
+    '90-day-sobriety-coin',
+  ],
+  sections: [
+    {
+      type: 'text',
+      heading: 'The Significance of 60 Days Sober',
+      body: "At 60 days, early recovery is shifting. The acute intensity of the first month has passed, and something more sustainable is growing in its place. The brain is continuing to heal, and many people begin to experience moments of genuine clarity and hope that were impossible to imagine at the start.\n\nThe 60-day chip in AA tradition is typically gold — a fitting color for a milestone that represents deepening strength and growing roots.",
+    },
+    {
+      type: 'text',
+      heading: 'Gift Ideas for 60 Days of Sobriety',
+      body: "Sixty days is a milestone many people celebrate quietly — it doesn't get the same spotlight as 90 days or a year, but that's exactly why honoring it matters. A premium 60-day coin says, \"I'm paying attention. Every month counts.\"\n\nFor sponsors, family members, or friends: a beautifully crafted coin — optionally engraved with their sobriety date — is a lasting reminder that their two months of work have not gone unnoticed.",
+    },
+  ],
+  faq: [
+    {
+      question: 'What color is the 60 day sobriety chip?',
+      answer:
+        'In AA tradition, the 60-day chip is typically gold, symbolizing growing strength and the value of two months of dedicated recovery.',
+    },
+    {
+      question: 'What changes at 60 days sober?',
+      answer:
+        "By 60 days, many people notice clearer thinking, more stable emotions, and improved physical health. The brain continues to heal, and recovery begins to feel less like white-knuckling and more like a way of life. It's often when hope starts to feel real.",
+    },
+    {
+      question: 'How do I celebrate 60 days of sobriety?',
+      answer:
+        'Share the milestone at a meeting, mark it with a 60-day chip, and spend time with the people who have supported your recovery. A special dinner, a reflective journal entry, or a call with your sponsor are all meaningful ways to honor two months of growth.',
+    },
+  ],
+  milestone: {
+    duration: '60 Days',
+    significance:
+      "At 60 days, something shifts. The frantic energy of early recovery begins to settle, and in its place, something steadier emerges. You are not just abstaining — you are adapting. Your brain is healing, your habits are changing, and recovery is becoming woven into the fabric of your daily life. This coin is proof of that quiet, profound transformation.",
+    traditionalColor: 'Gold',
+    prevMilestoneSlug: '30-day-sobriety-coin',
+    nextMilestoneSlug: '90-day-sobriety-coin',
+  },
+  schema: ['breadcrumb', 'faq', 'webPage'],
+});
+
+registerSEOPage({
+  slug: '6-month-sobriety-coin',
+  type: 'milestone',
+  title: '6 Month Sobriety Coin',
+  metaTitle: '6 Month Sobriety Coin — Half a Year of Recovery | Coinplugz',
+  metaDescription:
+    'Celebrate 6 months sober with a premium purple recovery coin. Half a year of dedication, healing, and transformation. Free shipping on all orders.',
+  canonicalPath: '6-month-sobriety-coin',
+  eyebrow: '6 Month Milestone',
+  heroDescription:
+    'Six months of sobriety is half a year of transformation. The 6-month coin marks a milestone where recovery has become a genuine way of life — and the future looks different than you ever imagined.',
+  primaryCTA: {label: 'Shop 6 Month Coins', href: '/collections/all'},
+  featuredCollectionHandle: 'all',
+  relatedPageSlugs: [
+    'sobriety-coins',
+    'recovery-gifts',
+    '90-day-sobriety-coin',
+    '9-month-sobriety-coin',
+  ],
+  sections: [
+    {
+      type: 'text',
+      heading: 'What Six Months of Sobriety Means',
+      body: "Reaching six months of sobriety means you have navigated half a year of life without substances. You've experienced seasons changing, stressful days, celebrations, and quiet ordinary evenings — and stayed the course through all of them.\n\nIn AA tradition, the 6-month chip is purple — a color associated with wisdom and dedication. By six months, many people have completed significant step work, deepened their relationships with sponsors and home groups, and begun to see real transformation in their daily lives.",
+    },
+    {
+      type: 'text',
+      heading: 'Celebrating Six Months of Dedication',
+      body: "The six-month mark is often recognized at meetings with particular warmth. It is no longer the first month, when everything is new and fragile — it is the deep middle, where dedication is proven day after day.\n\nFor a six-month gift: a premium purple-accented sobriety coin is a beautiful acknowledgment. Consider pairing it with a handwritten note — sometimes the words that accompany the coin mean just as much as the coin itself.",
+    },
+  ],
+  faq: [
+    {
+      question: 'What color is the 6 month sobriety chip?',
+      answer:
+        'In AA tradition, the 6-month chip is typically purple, representing wisdom, dedication, and the deep work of sustained recovery.',
+    },
+    {
+      question: 'Is 6 months sober a big milestone?',
+      answer:
+        'Absolutely. Six months represents a half-year of daily commitment, navigating every life situation without substances. It is a profound milestone that marks the transition from early recovery to a sustained and deepening way of life.',
+    },
+    {
+      question: 'What changes after 6 months of sobriety?',
+      answer:
+        'By six months, most people experience significant improvements in mental clarity, emotional regulation, physical health, and relationships. Many also report a growing sense of identity in sobriety — a feeling that this new life is genuinely theirs.',
+    },
+  ],
+  milestone: {
+    duration: '6 Months',
+    significance:
+      "Six months of sobriety is a testament to daily dedication. You have lived half a year differently — facing every challenge, every temptation, and every ordinary Tuesday without turning to substances. The life you are building now is real. This coin represents 180 days of choosing yourself and your future, one day at a time.",
+    traditionalColor: 'Purple',
+    prevMilestoneSlug: '90-day-sobriety-coin',
+    nextMilestoneSlug: '9-month-sobriety-coin',
+  },
+  schema: ['breadcrumb', 'faq', 'webPage'],
+});
+
+registerSEOPage({
+  slug: '9-month-sobriety-coin',
+  type: 'milestone',
+  title: '9 Month Sobriety Coin',
+  metaTitle: '9 Month Sobriety Coin — The Home Stretch to One Year | Coinplugz',
+  metaDescription:
+    'Celebrate 9 months sober with a premium dark blue recovery coin. The home stretch to one year — nine months of strength and transformation.',
+  canonicalPath: '9-month-sobriety-coin',
+  eyebrow: '9 Month Milestone',
+  heroDescription:
+    'Nine months of sobriety — the home stretch to one year. The 9-month coin recognizes the incredible depth of commitment it takes to carry recovery this far and keep going.',
+  primaryCTA: {label: 'Shop 9 Month Coins', href: '/collections/all'},
+  featuredCollectionHandle: 'all',
+  relatedPageSlugs: [
+    'sobriety-coins',
+    'recovery-gifts',
+    '6-month-sobriety-coin',
+    '1-year-sobriety-coin',
+  ],
+  sections: [
+    {
+      type: 'text',
+      heading: 'Nine Months: The Quiet Strength of Recovery',
+      body: "Nine months is a milestone that often passes without as much fanfare as the more talked-about anniversaries — but it shouldn't. Reaching nine months means you have sustained recovery through three full seasons. You have shown that sobriety is not a phase or a temporary fix; it is a life you are actively building.\n\nIn AA tradition, the 9-month chip is dark blue — steady, deep, and unwavering. The color suits the milestone perfectly.",
+    },
+    {
+      type: 'text',
+      heading: 'Gift Ideas for Nine Months Sober',
+      body: "The nine-month mark deserves recognition precisely because it's often overlooked. If you know someone approaching their nine-month anniversary, a premium sobriety coin — marked with their milestone — is a powerful way to say, \"I see how far you've come, and I'm not going to let this one pass uncelebrated.\"\n\nFor the person in recovery themselves: carrying a nine-month coin is a daily reminder that one year is within reach.",
+    },
+  ],
+  faq: [
+    {
+      question: 'What color is the 9 month sobriety chip?',
+      answer:
+        'In AA tradition, the 9-month chip is typically dark blue or navy, representing the depth and steadiness of sustained recovery.',
+    },
+    {
+      question: 'What should I expect at 9 months sober?',
+      answer:
+        'At nine months, many people experience a strong sense of identity in their sobriety, more stable emotional regulation, and a clearer vision for the future. The one-year milestone is in sight, which often brings both excitement and a renewed commitment to the daily work of recovery.',
+    },
+    {
+      question: 'Is there a chip for 9 months?',
+      answer:
+        'Yes. The 9-month chip is a recognized milestone in AA and other programs. It is typically dark blue and is presented at meetings to honor nine months of continuous sobriety.',
+    },
+  ],
+  milestone: {
+    duration: '9 Months',
+    significance:
+      "Nine months of sobriety is the home stretch — and it is no less demanding than the miles that came before. The one-year milestone glows on the horizon, but the work of today is just as important as it ever was. This coin represents the quiet, extraordinary strength it takes to keep showing up every day when the hardest days are behind you and the reward is almost within reach.",
+    traditionalColor: 'Dark Blue',
+    prevMilestoneSlug: '6-month-sobriety-coin',
+    nextMilestoneSlug: '1-year-sobriety-coin',
+  },
+  schema: ['breadcrumb', 'faq', 'webPage'],
+});
+
+registerSEOPage({
+  slug: '2-year-sobriety-coin',
+  type: 'milestone',
+  title: '2 Year Sobriety Coin',
+  metaTitle: '2 Year Sobriety Coin — Two Years of New Life | Coinplugz',
+  metaDescription:
+    'Celebrate 2 years of sobriety with a premium recovery coin. Two years of building a new life, one day at a time. Free shipping on all orders.',
+  canonicalPath: '2-year-sobriety-coin',
+  eyebrow: '2 Year Milestone',
+  heroDescription:
+    'Two years of sobriety. This is not survival anymore — this is a life you have built. The 2-year coin honors the deep, ongoing work of recovery and the person you have become.',
+  primaryCTA: {label: 'Shop 2 Year Coins', href: '/collections/all'},
+  featuredCollectionHandle: 'all',
+  relatedPageSlugs: [
+    'sobriety-coins',
+    'recovery-gifts',
+    '1-year-sobriety-coin',
+    '5-year-sobriety-coin',
+  ],
+  sections: [
+    {
+      type: 'text',
+      heading: 'What Two Years of Sobriety Means',
+      body: "Two years of sobriety means you have walked through two full cycles of life's seasons with clarity and commitment. You have built new relationships, navigated grief and celebration sober, and proven — to yourself above all — that recovery is not something that happened to you but something you are actively living.\n\nAt two years, the foundation of a new life is solid. The daily work continues, but the person doing that work has changed profoundly.",
+    },
+    {
+      type: 'text',
+      heading: 'How to Celebrate a 2-Year Sobriety Anniversary',
+      body: "Two years is a milestone worthy of real celebration. Share at a meeting, invite the people who have walked with you, and take time to genuinely reflect on how far you have come.\n\nA 2-year sobriety coin — especially a premium medallion engraved with the anniversary date — makes a lasting keepsake. Some people celebrate by doing service work or speaking at a meeting where newcomers need to hear that two years is possible.",
+    },
+  ],
+  faq: [
+    {
+      question: 'What does a 2 year sobriety coin look like?',
+      answer:
+        'Two-year sobriety coins are typically bronze medallions, following the annual milestone tradition in AA. They often feature the year prominently alongside the Serenity Prayer or AA triangle.',
+    },
+    {
+      question: 'How significant is 2 years of sobriety?',
+      answer:
+        'Very significant. Two years represents sustained, intentional recovery through every kind of life situation. Research shows that the longer someone maintains sobriety, the lower their risk of relapse — two years is a meaningful threshold in long-term recovery.',
+    },
+    {
+      question: 'What should I get someone for a 2 year sobriety anniversary?',
+      answer:
+        'A premium 2-year sobriety coin or medallion is the traditional and most meaningful gift. For a special touch, add a custom engraving with their sobriety date or a personal message. A heartfelt card accompanying the coin can make the moment even more memorable.',
+    },
+  ],
+  milestone: {
+    duration: '2 Years',
+    significance:
+      "Two years of sobriety is a testament to sustained courage. You have navigated two full years of life — its joys, its losses, its ordinary days — and you have done it with clear eyes and an open heart. The person who picked up a 24-hour chip is still here, transformed. This coin honors the life you have built and the strength you have found.",
+    traditionalColor: 'Bronze',
+    prevMilestoneSlug: '1-year-sobriety-coin',
+    nextMilestoneSlug: '5-year-sobriety-coin',
+  },
+  schema: ['breadcrumb', 'faq', 'webPage'],
+});
+
+registerSEOPage({
+  slug: '5-year-sobriety-coin',
+  type: 'milestone',
+  title: '5 Year Sobriety Coin',
+  metaTitle: '5 Year Sobriety Coin — Five Years of Enduring Strength | Coinplugz',
+  metaDescription:
+    'Celebrate 5 years of sobriety with a premium recovery coin. Five years is a testament to enduring strength and a life rebuilt from the inside out.',
+  canonicalPath: '5-year-sobriety-coin',
+  eyebrow: '5 Year Milestone',
+  heroDescription:
+    'Five years of sobriety. A testament to enduring strength and the extraordinary power of choosing recovery, day after day, year after year.',
+  primaryCTA: {label: 'Shop 5 Year Coins', href: '/collections/all'},
+  featuredCollectionHandle: 'all',
+  relatedPageSlugs: [
+    'sobriety-coins',
+    'recovery-gifts',
+    '2-year-sobriety-coin',
+    '10-year-sobriety-coin',
+  ],
+  sections: [
+    {
+      type: 'text',
+      heading: 'Five Years: A Life Rebuilt',
+      body: "Five years of sobriety is a milestone that carries extraordinary weight. At five years, recovery is no longer a chapter of your story — it is the foundation of your story. Relationships that once seemed beyond repair have healed. A career, a purpose, a sense of self — built, brick by brick, in the years since that first decision to change.\n\nFive years also means you have become, whether you sought it or not, a beacon for others. Newcomers look at five-year members and see proof that a different life is possible.",
+    },
+    {
+      type: 'text',
+      heading: 'Celebrating Five Years of Recovery',
+      body: "A five-year sobriety anniversary is a community celebration. Many people choose to speak at a meeting, sharing their story openly so others can hear what five years looks like.\n\nA premium 5-year sobriety medallion — heavy, beautifully crafted, and engraved with the anniversary date — is a lasting symbol of this achievement. Some people commission custom coins for major milestones like five years, making the token as unique as the journey it represents.",
+    },
+  ],
+  faq: [
+    {
+      question: 'What color is the 5 year sobriety coin?',
+      answer:
+        'Five-year sobriety coins are typically bronze, following the annual medallion tradition. Some programs or custom coins use special finishes for significant milestones like five years.',
+    },
+    {
+      question: 'Is 5 years sober a major milestone?',
+      answer:
+        'Yes — five years is considered a major long-term recovery milestone. Research on addiction recovery shows that sustained sobriety beyond five years significantly reduces the risk of relapse, and five years is widely celebrated as a transformative achievement in the recovery community.',
+    },
+    {
+      question: 'What is a good gift for 5 years of sobriety?',
+      answer:
+        'A premium 5-year sobriety medallion is the most traditional and meaningful gift. For this significant milestone, consider a custom-engraved coin with the sobriety date and a personal message, or a heavier, premium finish that distinguishes it from earlier milestone coins.',
+    },
+  ],
+  milestone: {
+    duration: '5 Years',
+    significance:
+      "Five years of sobriety is proof that the decision made at the very beginning — the desperate, hopeful decision to try — was the right one. You have lived a different life for half a decade. You have become someone your younger self could not have imagined. This coin represents five years of daily courage, accumulated into something remarkable.",
+    traditionalColor: 'Bronze',
+    prevMilestoneSlug: '2-year-sobriety-coin',
+    nextMilestoneSlug: '10-year-sobriety-coin',
+  },
+  schema: ['breadcrumb', 'faq', 'webPage'],
+});
+
+registerSEOPage({
+  slug: '10-year-sobriety-coin',
+  type: 'milestone',
+  title: '10 Year Sobriety Coin',
+  metaTitle: '10 Year Sobriety Coin — A Decade of Recovery | Coinplugz',
+  metaDescription:
+    'Celebrate 10 years of sobriety with a premium recovery coin. A full decade of recovery, growth, and transformation. Free shipping on all orders.',
+  canonicalPath: '10-year-sobriety-coin',
+  eyebrow: '10 Year Milestone',
+  heroDescription:
+    'Ten years of sobriety. A full decade of living differently, growing stronger, and showing the world — and yourself — what recovery really means.',
+  primaryCTA: {label: 'Shop 10 Year Coins', href: '/collections/all'},
+  featuredCollectionHandle: 'all',
+  relatedPageSlugs: [
+    'sobriety-coins',
+    'recovery-gifts',
+    '5-year-sobriety-coin',
+    '15-year-sobriety-coin',
+  ],
+  sections: [
+    {
+      type: 'text',
+      heading: 'What a Decade of Sobriety Represents',
+      body: "Ten years of sobriety is a milestone that transforms not just the person in recovery, but everyone around them. A decade of clear-eyed presence — at family gatherings, at work, at life's hardest moments — changes relationships in ways that cannot be overstated.\n\nAt ten years, recovery is no longer something you are doing. It is who you are. The coin you carry at year ten is not just a milestone marker — it is an artifact of an entire transformation.",
+    },
+    {
+      type: 'text',
+      heading: 'Honoring Ten Years of Recovery',
+      body: "A ten-year anniversary deserves to be marked with something exceptional. A premium sobriety medallion — heavy, detailed, perhaps custom-commissioned — is a fitting symbol for a decade of daily commitment.\n\nMany people use their ten-year anniversary as an opportunity for deep reflection: writing a letter to their earlier self, speaking at a meeting, or gathering the people who have been part of their recovery journey to celebrate together.",
+    },
+  ],
+  faq: [
+    {
+      question: 'What does a 10 year sobriety coin look like?',
+      answer:
+        'Ten-year sobriety coins are typically premium bronze medallions. Some feature Roman numerals for the decade milestone. Many people choose custom or premium coins for major milestones like ten years.',
+    },
+    {
+      question: 'How rare is 10 years of sobriety?',
+      answer:
+        "Reaching ten years of sobriety is a significant achievement. While exact statistics vary, long-term recovery sustained over a decade represents deep, sustained commitment. People with ten years of sobriety are often pillars of their recovery communities.",
+    },
+    {
+      question: 'What is a meaningful way to celebrate 10 years sober?',
+      answer:
+        'Share at a meeting and tell your story. Gather those who supported you along the way. Commission a custom sobriety coin. Write a reflection on who you were and who you have become. The most meaningful celebrations involve both honoring the journey and giving back to those still in their early days.',
+    },
+  ],
+  milestone: {
+    duration: '10 Years',
+    significance:
+      "A decade of sobriety is not just a number — it is a life. Ten years of mornings chosen differently, ten years of relationships rebuilt, ten years of being present for the people you love. This coin carries the weight of everything that has happened since the beginning, and everything that is still possible ahead.",
+    traditionalColor: 'Bronze',
+    prevMilestoneSlug: '5-year-sobriety-coin',
+    nextMilestoneSlug: '15-year-sobriety-coin',
+  },
+  schema: ['breadcrumb', 'faq', 'webPage'],
+});
+
+registerSEOPage({
+  slug: '15-year-sobriety-coin',
+  type: 'milestone',
+  title: '15 Year Sobriety Coin',
+  metaTitle: '15 Year Sobriety Coin — Living Proof | Coinplugz',
+  metaDescription:
+    'Celebrate 15 years of sobriety with a premium recovery coin. Fifteen years of living proof that recovery works and a new life is possible.',
+  canonicalPath: '15-year-sobriety-coin',
+  eyebrow: '15 Year Milestone',
+  heroDescription:
+    "Fifteen years of sobriety. Living proof — to yourself and to every newcomer who needs to see it — that recovery is not just possible, it's magnificent.",
+  primaryCTA: {label: 'Shop 15 Year Coins', href: '/collections/all'},
+  featuredCollectionHandle: 'all',
+  relatedPageSlugs: [
+    'sobriety-coins',
+    'recovery-gifts',
+    '10-year-sobriety-coin',
+    '20-year-sobriety-coin',
+  ],
+  sections: [
+    {
+      type: 'text',
+      heading: 'Fifteen Years: The Living Example',
+      body: "At fifteen years, sobriety has become something most people in recovery only dreamed about in their earliest days. You are the person newcomers see across the room at a meeting and think, \"Maybe I can do this too.\"\n\nFifteen years of recovery means you have navigated loss, health challenges, relationship changes, and the ordinary and extraordinary events of life — all while continuing to choose sobriety. That is not merely impressive. It is transformative for everyone who witnesses it.",
+    },
+    {
+      type: 'text',
+      heading: 'Celebrating 15 Years of Recovery',
+      body: "A fifteen-year sobriety anniversary is a moment to celebrate expansively. It is a milestone that calls for community — the people who have been alongside the journey and those who are just beginning their own.\n\nA premium 15-year sobriety coin is a worthy symbol for this milestone. Consider having it engraved not just with the anniversary date, but with a phrase or word that captures what fifteen years means to you.",
+    },
+  ],
+  faq: [
+    {
+      question: 'Is there a 15 year sobriety coin?',
+      answer:
+        'Yes. Fifteen-year sobriety coins are available as premium medallions and are a meaningful way to honor this significant long-term recovery milestone. Many people in recovery mark every year with a coin, and fifteen years deserves a particularly special one.',
+    },
+    {
+      question: 'What does 15 years of sobriety feel like?',
+      answer:
+        'Many people describe fifteen years of sobriety as a place where recovery feels deeply integrated into identity rather than something that requires constant vigilance. While the daily commitment continues, it is often accompanied by a profound sense of gratitude and purpose.',
+    },
+    {
+      question: 'How do you celebrate a 15 year sobriety anniversary?',
+      answer:
+        'Common celebrations include sharing at a meeting, hosting a dinner with recovery community members, receiving a special sobriety coin, and reflecting deeply on the journey. Some people take the occasion to do significant service work or mentor newcomers as a way of honoring their own milestone.',
+    },
+  ],
+  milestone: {
+    duration: '15 Years',
+    significance:
+      "Fifteen years of sobriety is living proof. Proof that the person who showed up desperate and hopeful at the beginning of this journey could become someone who has chosen recovery every day for fifteen years. This coin represents a decade and a half of daily courage — and the extraordinary life built in that time.",
+    traditionalColor: 'Bronze',
+    prevMilestoneSlug: '10-year-sobriety-coin',
+    nextMilestoneSlug: '20-year-sobriety-coin',
+  },
+  schema: ['breadcrumb', 'faq', 'webPage'],
+});
+
+registerSEOPage({
+  slug: '20-year-sobriety-coin',
+  type: 'milestone',
+  title: '20 Year Sobriety Coin',
+  metaTitle: '20 Year Sobriety Coin — Two Decades of Transformation | Coinplugz',
+  metaDescription:
+    'Celebrate 20 years of sobriety with a premium recovery coin. Two decades of transformation and a life that proves recovery is everything.',
+  canonicalPath: '20-year-sobriety-coin',
+  eyebrow: '20 Year Milestone',
+  heroDescription:
+    'Twenty years of sobriety. Two full decades of transformation — of becoming the person that recovery makes possible, and showing others what is possible for them.',
+  primaryCTA: {label: 'Shop 20 Year Coins', href: '/collections/all'},
+  featuredCollectionHandle: 'all',
+  relatedPageSlugs: [
+    'sobriety-coins',
+    'recovery-gifts',
+    '15-year-sobriety-coin',
+    '25-year-sobriety-coin',
+  ],
+  sections: [
+    {
+      type: 'text',
+      heading: 'Two Decades of a Different Life',
+      body: "Twenty years of sobriety represents an entire adult chapter lived in recovery. Children have been raised, careers have been built, communities have been served — all from the foundation of a life chosen differently each day.\n\nAt twenty years, the transformation is complete not in the sense that the work is done, but in the sense that who you are in recovery is who you simply are. The two are indistinguishable. The program, the principles, the daily practice — they are no longer tools. They are the architecture of your life.",
+    },
+    {
+      type: 'text',
+      heading: 'Marking Twenty Years of Sobriety',
+      body: "A twenty-year sobriety anniversary calls for extraordinary recognition. This is the kind of milestone that warrants a gathering — of family, of recovery community, of everyone who has been part of the journey in ways both seen and unseen.\n\nA premium 20-year sobriety medallion, custom-engraved and beautifully crafted, is a fitting physical symbol for an achievement of this magnitude. Some people mark twenty years with a letter, a celebration, and the commissioning of something truly unique.",
+    },
+  ],
+  faq: [
+    {
+      question: 'What is a 20 year sobriety coin?',
+      answer:
+        'A 20-year sobriety coin is a premium medallion commemorating two decades of continuous sobriety. It is typically a beautifully crafted bronze or custom-finish coin marking one of the most significant long-term recovery milestones.',
+    },
+    {
+      question: 'What should I say to someone with 20 years of sobriety?',
+      answer:
+        '"Thank you" is a powerful place to start. Someone with twenty years of sobriety has likely been a beacon for countless others. Acknowledging the impact of their journey — not just on themselves but on everyone who has witnessed it — is deeply meaningful.',
+    },
+    {
+      question: 'How do you celebrate 20 years sober?',
+      answer:
+        'Gather the people who matter. Share the story at a meeting. Commission a custom sobriety coin that matches the magnitude of the milestone. Write a reflection. Do service. Twenty years is worth celebrating as expansively as the journey itself.',
+    },
+  ],
+  milestone: {
+    duration: '20 Years',
+    significance:
+      "Twenty years of sobriety is the full transformation made manifest. Two decades of showing up, of doing the work, of being present for life in a way that was once unimaginable. This coin represents not just the years behind you, but the person those years have made — and the legacy that person is still building.",
+    traditionalColor: 'Bronze',
+    prevMilestoneSlug: '15-year-sobriety-coin',
+    nextMilestoneSlug: '25-year-sobriety-coin',
+  },
+  schema: ['breadcrumb', 'faq', 'webPage'],
+});
+
+registerSEOPage({
+  slug: '25-year-sobriety-coin',
+  type: 'milestone',
+  title: '25 Year Sobriety Coin',
+  metaTitle: '25 Year Sobriety Coin — A Quarter Century Legacy | Coinplugz',
+  metaDescription:
+    'Celebrate 25 years of sobriety with a premium recovery coin. A quarter century of recovery — a legacy that will outlast a lifetime.',
+  canonicalPath: '25-year-sobriety-coin',
+  eyebrow: '25 Year Milestone',
+  heroDescription:
+    'Twenty-five years of sobriety. A quarter century of recovery — a legacy of courage, transformation, and service that reaches far beyond one life.',
+  primaryCTA: {label: 'Shop 25 Year Coins', href: '/collections/all'},
+  featuredCollectionHandle: 'all',
+  relatedPageSlugs: [
+    'sobriety-coins',
+    'recovery-gifts',
+    '20-year-sobriety-coin',
+    'long-term-sobriety-coins',
+  ],
+  sections: [
+    {
+      type: 'text',
+      heading: 'A Quarter Century of Recovery',
+      body: "Twenty-five years of sobriety is a legacy. Not just a personal achievement — though it is profoundly that — but a living demonstration that recovery changes everything it touches. Over twenty-five years, a person in recovery ripples outward: as a parent, a sponsor, a colleague, a friend, a neighbor. The lives touched by one person's sobriety are incalculable.\n\nA quarter century of recovery is the fulfillment of the promise made on day one: that choosing sobriety was worth it.",
+    },
+    {
+      type: 'text',
+      heading: 'Honoring a 25-Year Sobriety Milestone',
+      body: "A twenty-five-year sobriety anniversary is among the most sacred milestones in recovery. It demands a celebration worthy of its weight — community, gratitude, and a physical symbol of the journey.\n\nA premium 25-year sobriety coin — custom engraved, beautifully crafted, and presented with intention — is a fitting artifact for a quarter century of living differently. This is the kind of milestone that deserves to be passed down, shared, and remembered.",
+    },
+  ],
+  faq: [
+    {
+      question: 'What does 25 years of sobriety mean?',
+      answer:
+        "Twenty-five years of sobriety represents a quarter century of daily commitment to recovery. It means navigating life's full spectrum — its joys and griefs, its ordinary and extraordinary moments — with clarity and purpose for twenty-five consecutive years.",
+    },
+    {
+      question: 'Is there a 25 year sobriety coin?',
+      answer:
+        'Yes. Twenty-five-year sobriety coins are significant milestone tokens, typically crafted as premium bronze or custom-finish medallions. For a milestone of this magnitude, many people opt for a custom-commissioned coin that matches the uniqueness of the achievement.',
+    },
+    {
+      question: 'What is a good gift for 25 years of sobriety?',
+      answer:
+        'A premium, custom-engraved 25-year sobriety medallion is the most meaningful traditional gift. For this milestone, consider pairing it with something personal — a letter, a gathering, or a donation in their honor to a recovery organization they care about.',
+    },
+  ],
+  milestone: {
+    duration: '25 Years',
+    significance:
+      "Twenty-five years of sobriety is a legacy measured not in days but in lives changed. A quarter century of choosing recovery has transformed not just the person who carries this coin, but everyone they have ever sponsored, supported, or simply shown up for. This coin is more than a milestone — it is the proof of a life fully, courageously lived.",
+    traditionalColor: 'Bronze',
+    prevMilestoneSlug: '20-year-sobriety-coin',
+    nextMilestoneSlug: 'long-term-sobriety-coins',
+  },
+  schema: ['breadcrumb', 'faq', 'webPage'],
+});
+
+registerSEOPage({
+  slug: 'long-term-sobriety-coins',
+  type: 'milestone',
+  title: 'Long-Term Sobriety Coins',
+  metaTitle: 'Long-Term Sobriety Coins — 30, 35, 40 & 50 Year Milestones | Coinplugz',
+  metaDescription:
+    'Shop long-term sobriety coins for 30, 35, 40, and 50+ year milestones. Premium recovery tokens for the most extraordinary recovery journeys.',
+  canonicalPath: 'long-term-sobriety-coins',
+  eyebrow: 'Long-Term Recovery',
+  heroDescription:
+    'Thirty, thirty-five, forty, fifty years. These are the milestones that redefine what is possible in recovery — lives so fully transformed that they become a foundation for entire communities.',
+  primaryCTA: {label: 'Shop Long-Term Coins', href: '/collections/all'},
+  featuredCollectionHandle: 'all',
+  relatedPageSlugs: [
+    'sobriety-coins',
+    'recovery-gifts',
+    '25-year-sobriety-coin',
+    'custom-sobriety-coins',
+  ],
+  sections: [
+    {
+      type: 'text',
+      heading: 'The Extraordinary Milestones of Long-Term Recovery',
+      body: "Thirty years. Forty years. Fifty years. These are milestones that most people entering recovery cannot imagine — and that is precisely why they matter so much. Long-term recovery coins for 30, 35, 40, and 50+ year anniversaries exist to celebrate what is possible when a person commits to sobriety for a lifetime.\n\nThe person receiving a 50-year sobriety coin has likely sponsored dozens of people through their recoveries. They have watched the program work through generations. They are, in the truest sense, a living legacy of what recovery can become.",
+    },
+    {
+      type: 'text',
+      heading: 'Honoring a Lifetime of Recovery',
+      body: "For milestones of 30 years and beyond, a standard coin is not enough. These are moments that call for custom medallions — crafted with the same care and intentionality that the recovery journey has demanded.\n\nAt Coinplugz, we offer custom sobriety coins for any milestone, including the rarest and most extraordinary. A 50-year sobriety medallion can be engraved with the date, a name, a message — anything that honors a journey of that magnitude. These coins often become family heirlooms, passed from one generation to the next as a symbol of what one person's courage made possible.",
+    },
+  ],
+  faq: [
+    {
+      question: 'Are there sobriety coins for 30 years or more?',
+      answer:
+        'Yes. Sobriety coins are available for 30, 35, 40, 45, 50 years, and beyond. For these extraordinary milestones, many people opt for custom-designed medallions that honor the uniqueness of decades of sustained recovery.',
+    },
+    {
+      question: 'What is a 50 year sobriety coin?',
+      answer:
+        'A 50-year sobriety coin marks a half century of continuous recovery — one of the rarest and most extraordinary milestones in the recovery community. These coins are often custom-crafted and serve as permanent keepsakes and family heirlooms.',
+    },
+    {
+      question: 'How do you celebrate 30 or more years of sobriety?',
+      answer:
+        'Long-term milestones are best celebrated with community — the people who have been part of the journey and the newcomers who need to see what is possible. A custom sobriety coin, a gathering of those who matter, and the opportunity to share the story openly are all meaningful ways to honor decades of recovery.',
+    },
+  ],
+  milestone: {
+    duration: '30+ Years',
+    significance:
+      "Long-term sobriety — 30, 40, 50 years — is something that transcends personal achievement. It is a gift to everyone who has ever sat across from this person at a meeting, everyone they have sponsored, every family member who got to keep them in their life. These coins are not just milestones. They are monuments to what recovery makes possible.",
+    traditionalColor: 'Bronze',
+    prevMilestoneSlug: '25-year-sobriety-coin',
+  },
+  schema: ['breadcrumb', 'faq', 'webPage'],
+});
+
 // ============================================================
 // GLOSSARY DETAIL PAGES
 // ============================================================

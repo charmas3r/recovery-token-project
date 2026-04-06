@@ -546,7 +546,7 @@ registerSEOPage({
   eyebrow: 'Custom Tokens',
   heroDescription:
     "Every recovery story is unique. Your token should be too. Design a custom sobriety coin with personalized engraving — a date, a name, a phrase that means something — and create a keepsake that no one else in the world has.",
-  primaryCTA: {label: 'Design Your Custom Coin', href: '/custom-token'},
+  primaryCTA: {label: 'Shop Custom Coins', href: '/collections/all'},
   featuredCollectionHandle: 'all',
   relatedPageSlugs: [
     'sobriety-coins',

@@ -10,6 +10,7 @@ import {Button} from '~/components/ui/Button';
 import {buildMeta} from '~/lib/meta';
 import {getJudgeMeClient} from '~/lib/judgeme.server';
 import {extractProductId} from '~/lib/judgeme';
+import {FEATURE_FLAGS} from '~/lib/feature-flags';
 import {AnimatePresence} from 'framer-motion';
 import {
   FadeUp,
@@ -339,7 +340,7 @@ export default function Homepage() {
       <ProductShowcase />
       <FeaturedProducts products={data.recommendedProducts} reviewSummaries={data.reviewSummaries} />
       <BrandStory />
-      <CustomTokenCTA />
+      {FEATURE_FLAGS.CUSTOM_TOKEN && <CustomTokenCTA />}
       <CustomerReviewsSection reviews={data.storeReviews} />
       <FinalCTA collection={data.featuredCollection} />
     </div>

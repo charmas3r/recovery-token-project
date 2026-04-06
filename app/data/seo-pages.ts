@@ -1893,3 +1893,808 @@ registerSEOPage({
   },
   schema: ['breadcrumb', 'definedTerm'],
 });
+
+// ============================================================
+// GLOSSARY PAGES — Recovery Basics
+// ============================================================
+
+registerSEOPage({
+  slug: 'resources/glossary/sobriety',
+  type: 'glossary',
+  title: 'Sobriety',
+  metaTitle: 'What Is Sobriety? — Definition & Meaning | Coinplugz',
+  metaDescription:
+    'Learn what sobriety means in the context of recovery — the state of being free from alcohol and drugs and living a substance-free life.',
+  canonicalPath: 'resources/glossary/sobriety',
+  eyebrow: 'Recovery Basics',
+  heroDescription:
+    'Sobriety is the ongoing state of being free from alcohol and drugs, embracing a life of clarity, accountability, and personal growth.',
+  primaryCTA: {label: 'Shop Recovery Tokens', href: '/collections/all'},
+  relatedPageSlugs: ['sobriety-coins', '1-year-sobriety-coin'],
+  sections: [],
+  faq: [
+    {
+      question: 'Is sobriety the same as abstinence?',
+      answer:
+        'Abstinence refers to not using substances, while sobriety typically implies a broader lifestyle change — addressing the emotional, mental, and spiritual dimensions of recovery.',
+    },
+  ],
+  glossary: {
+    definition: 'The state of being free from substance use and committed to a life of recovery.',
+    extendedContent:
+      "Sobriety is often used interchangeably with abstinence, but in the recovery community it carries a deeper meaning. While abstinence simply means not drinking or using drugs, sobriety describes a transformed way of living — one that addresses the underlying causes of addiction and embraces honesty, accountability, and growth.\n\nFor many people, sobriety begins on their last day of substance use, a date they celebrate as their \"sobriety date\" or \"sober birthday.\" From that day forward, they measure their journey in clean time, collecting sobriety coins or chips to mark meaningful milestones.\n\nSobriety is not just the absence of something — it is the presence of something greater. Recovery communities celebrate sobriety as a daily choice and a lifelong commitment, often guided by the principle of \"one day at a time.\"",
+    category: 'Recovery Basics',
+    relatedTermSlugs: ['clean-time', 'abstinence', 'recovery'],
+  },
+  schema: ['breadcrumb', 'definedTerm'],
+});
+
+registerSEOPage({
+  slug: 'resources/glossary/relapse',
+  type: 'glossary',
+  title: 'Relapse',
+  metaTitle: 'What Is a Relapse? — Definition & Meaning | Coinplugz',
+  metaDescription:
+    'Learn what relapse means in recovery — a return to substance use after a period of sobriety — and how to respond with compassion and renewed commitment.',
+  canonicalPath: 'resources/glossary/relapse',
+  eyebrow: 'Recovery Basics',
+  heroDescription:
+    'A relapse is a return to substance use after a period of sobriety, recognized in recovery as a setback rather than a failure.',
+  primaryCTA: {label: 'Shop Recovery Tokens', href: '/collections/all'},
+  relatedPageSlugs: ['sobriety-coins'],
+  sections: [],
+  faq: [
+    {
+      question: 'Does a relapse mean starting over from zero?',
+      answer:
+        'Many programs reset the sobriety clock after a relapse, but the progress and skills gained are never truly lost. Many long-term survivors experienced relapses on their path to lasting recovery.',
+    },
+  ],
+  glossary: {
+    definition:
+      'A return to substance use after a period of sobriety, often viewed as part of the recovery process rather than a final failure.',
+    extendedContent:
+      "Relapse is one of the most difficult experiences in recovery. Defined as a return to substance use after a period of abstinence, it is unfortunately common — studies suggest that 40–60% of people in recovery experience at least one relapse. Recovery programs teach that relapse does not mean failure; it is a signal to recommit, seek support, and adjust one's recovery plan.\n\nThe relapse process often begins long before the first drink or drug. Warning signs — known as \"emotional relapse\" or \"mental relapse\" — can include isolation, skipping meetings, romanticizing past use, and mounting stress without healthy coping tools. Recognizing these signs early is a key skill taught in recovery programs.\n\nWhen a relapse does occur, the response matters most. Reaching out to a sponsor, returning to meetings, and picking up a desire chip are important first steps. The recovery community emphasizes compassion over shame, understanding that lasting sobriety is built through persistence, not perfection.",
+    category: 'Recovery Basics',
+    relatedTermSlugs: ['sobriety', 'clean-time', 'sponsor'],
+  },
+  schema: ['breadcrumb', 'definedTerm'],
+});
+
+registerSEOPage({
+  slug: 'resources/glossary/recovery',
+  type: 'glossary',
+  title: 'Recovery',
+  metaTitle: 'What Is Recovery? — Definition & Meaning | Coinplugz',
+  metaDescription:
+    'Understand what recovery means in the context of addiction — the ongoing process of healing, growth, and building a fulfilling substance-free life.',
+  canonicalPath: 'resources/glossary/recovery',
+  eyebrow: 'Recovery Basics',
+  heroDescription:
+    'Recovery is the ongoing, active process of overcoming addiction and building a healthy, meaningful life free from substances.',
+  primaryCTA: {label: 'Shop Recovery Tokens', href: '/collections/all'},
+  relatedPageSlugs: ['sobriety-coins'],
+  sections: [],
+  faq: [],
+  glossary: {
+    definition:
+      'The ongoing process of healing from addiction through abstinence, personal growth, and community support.',
+    extendedContent:
+      "Recovery is not a destination — it is a journey. Unlike the simple act of stopping substance use, recovery encompasses the full arc of healing: physical detox, emotional processing, rebuilding relationships, and finding new meaning and purpose. It is recognized by health organizations worldwide as a lifelong process that unfolds differently for every person.\n\nRecovery programs like Alcoholics Anonymous, Narcotics Anonymous, SMART Recovery, and many others provide structured frameworks, peer support, and spiritual or behavioral tools to support this journey. Central to most programs is the idea that sustained recovery requires ongoing effort — attending meetings, doing step work, working with a sponsor, and practicing gratitude.\n\nPhysical sobriety is only the beginning. Long-term recovery involves addressing the root causes of addiction — trauma, mental health, social environment — and building a life that makes staying sober not just possible but genuinely appealing. Recovery coins and milestones play an important role in marking progress and keeping motivation alive.",
+    category: 'Recovery Basics',
+    relatedTermSlugs: ['sobriety', 'twelve-steps', 'clean-time'],
+  },
+  schema: ['breadcrumb', 'definedTerm'],
+});
+
+registerSEOPage({
+  slug: 'resources/glossary/abstinence',
+  type: 'glossary',
+  title: 'Abstinence',
+  metaTitle: 'What Is Abstinence? — Definition & Meaning | Coinplugz',
+  metaDescription:
+    'Learn what abstinence means in recovery — the complete avoidance of alcohol and drugs — and how it differs from broader concepts of sobriety.',
+  canonicalPath: 'resources/glossary/abstinence',
+  eyebrow: 'Recovery Basics',
+  heroDescription:
+    'Abstinence in recovery means completely avoiding alcohol and drugs, forming the foundation upon which a fuller life in sobriety is built.',
+  primaryCTA: {label: 'Shop Recovery Tokens', href: '/collections/all'},
+  relatedPageSlugs: ['sobriety-coins'],
+  sections: [],
+  faq: [],
+  glossary: {
+    definition: 'The complete avoidance of alcohol and drugs as the behavioral foundation of recovery.',
+    extendedContent:
+      "Abstinence is the behavioral cornerstone of most addiction recovery programs. It means choosing not to consume alcohol or drugs — a boundary that 12-step programs, treatment centers, and many clinicians view as necessary for lasting recovery from addiction.\n\nWhile abstinence describes the behavior, sobriety describes a broader lifestyle. A person can be abstinent without yet having addressed the emotional, mental, and relational patterns that drove their substance use. Full recovery generally requires both: the commitment to abstinence plus the inner work of sobriety.\n\nFor those in 12-step programs, abstinence is measured as clean time from a specific sobriety date. Each day of abstinence is celebrated, and milestones are marked with sobriety coins, chips, and key tags. The community aspect of abstinence — sharing the commitment publicly in meetings — is considered a key factor in its sustainability.",
+    category: 'Recovery Basics',
+    relatedTermSlugs: ['sobriety', 'clean-time', 'recovery'],
+  },
+  schema: ['breadcrumb', 'definedTerm'],
+});
+
+registerSEOPage({
+  slug: 'resources/glossary/triggers',
+  type: 'glossary',
+  title: 'Triggers',
+  metaTitle: 'What Are Triggers in Recovery? — Definition & Meaning | Coinplugz',
+  metaDescription:
+    'Learn what triggers are in addiction recovery — people, places, or situations that create urges to use — and how to manage them effectively.',
+  canonicalPath: 'resources/glossary/triggers',
+  eyebrow: 'Recovery Basics',
+  heroDescription:
+    'Triggers are people, places, emotions, or situations that create urges to use substances, and learning to manage them is central to sustained recovery.',
+  primaryCTA: {label: 'Shop Recovery Tokens', href: '/collections/all'},
+  relatedPageSlugs: ['sobriety-coins'],
+  sections: [],
+  faq: [
+    {
+      question: 'How do you deal with triggers in recovery?',
+      answer:
+        'Common strategies include calling a sponsor, attending a meeting, using the HALT check (Hungry, Angry, Lonely, Tired), practicing mindfulness, and using coping tools learned in step work or therapy.',
+    },
+  ],
+  glossary: {
+    definition:
+      'People, places, emotions, or situations that create cravings or urges to use alcohol or drugs.',
+    extendedContent:
+      "In recovery, a trigger is anything that activates a craving or urge to return to substance use. Triggers can be external — such as driving past a former bar, spending time with old using friends, or being in situations associated with past use — or internal, such as feelings of stress, loneliness, anger, or euphoria.\n\nUnderstanding one's personal triggers is a critical part of recovery work. Most treatment programs include exercises to identify triggers and develop specific, practiced responses — sometimes called a \"relapse prevention plan.\" Sponsors and therapists often help people build this awareness over time.\n\nA sobriety coin or recovery token can serve as a physical anchor in trigger moments. Many people in recovery hold their coin when they feel a craving, using it as a grounding tool and a reminder of everything they have worked for. The weight of the coin in the hand can be a powerful cue to pause, breathe, and choose sobriety.",
+    category: 'Recovery Basics',
+    relatedTermSlugs: ['relapse', 'sponsor', 'one-day-at-a-time'],
+    productLink: 'all',
+  },
+  schema: ['breadcrumb', 'definedTerm'],
+});
+
+// ============================================================
+// GLOSSARY PAGES — Milestones & Time
+// ============================================================
+
+registerSEOPage({
+  slug: 'resources/glossary/sobriety-date',
+  type: 'glossary',
+  title: 'Sobriety Date',
+  metaTitle: 'What Is a Sobriety Date? — Definition & Meaning | Coinplugz',
+  metaDescription:
+    "Learn what a sobriety date is in recovery — the last day a person used substances — and why it's treasured as a personal milestone.",
+  canonicalPath: 'resources/glossary/sobriety-date',
+  eyebrow: 'Milestones & Time',
+  heroDescription:
+    "A sobriety date is the date a person last used alcohol or drugs, marking the starting point from which all recovery milestones are measured.",
+  primaryCTA: {label: 'Shop Milestone Coins', href: '/collections/all'},
+  relatedPageSlugs: ['sobriety-coins', '1-year-sobriety-coin'],
+  sections: [],
+  faq: [
+    {
+      question: 'What happens to my sobriety date if I relapse?',
+      answer:
+        'Most 12-step programs recognize the new last-use date as the updated sobriety date if a relapse occurs. While this resets the count, many people choose to remember their previous sobriety date as well.',
+    },
+  ],
+  glossary: {
+    definition: 'The date a person last used alcohol or drugs, from which all sobriety milestones are counted.',
+    extendedContent:
+      "A sobriety date — sometimes called a \"clean date\" or \"birthday\" — is one of the most cherished pieces of information a person in recovery carries. It is the last day they used substances, and every milestone in their recovery is measured from that single day.\n\nIn 12-step programs, members often memorize their sobriety date the way others remember their wedding anniversary. It is shared at meetings, used to calculate clean time, and celebrated annually as a sober birthday. Some people tattoo their sobriety date as a permanent reminder of their commitment.\n\nSobriety dates are also the basis for the sobriety coin system. At 24 hours, 30 days, 60 days, 90 days, 6 months, 9 months, and each year thereafter, members receive a new coin marking the time elapsed since their sobriety date. These coins become treasured keepsakes that tell the story of a life rebuilt.",
+    category: 'Milestones & Time',
+    relatedTermSlugs: ['clean-time', 'sober-birthday', 'anniversary'],
+    productLink: 'all',
+  },
+  schema: ['breadcrumb', 'definedTerm'],
+});
+
+registerSEOPage({
+  slug: 'resources/glossary/anniversary',
+  type: 'glossary',
+  title: 'Sobriety Anniversary',
+  metaTitle: 'What Is a Sobriety Anniversary? — Definition & Meaning | Coinplugz',
+  metaDescription:
+    "Learn what a sobriety anniversary is in recovery — the yearly celebration of continuous sobriety — and how it's celebrated with coins and community.",
+  canonicalPath: 'resources/glossary/anniversary',
+  eyebrow: 'Milestones & Time',
+  heroDescription:
+    "A sobriety anniversary is the yearly celebration of continuous recovery, marking how many years have passed since a person's sobriety date.",
+  primaryCTA: {label: 'Shop Anniversary Coins', href: '/collections/all'},
+  relatedPageSlugs: ['sobriety-coins', '1-year-sobriety-coin'],
+  sections: [],
+  faq: [],
+  glossary: {
+    definition: "The yearly milestone celebrating continuous sobriety from a person's sobriety date.",
+    extendedContent:
+      "A sobriety anniversary — sometimes called a \"cake\" in AA because some groups present a cake — marks the completion of each full year of continuous recovery. It is one of the most celebrated moments in 12-step and other recovery programs, often observed at a home group meeting with applause, sharing, and the presentation of a commemorative coin or medallion.\n\nYearly anniversaries carry special weight because they represent sustained daily choices over hundreds of days. At a one-year anniversary, the member has already navigated a full cycle of seasons, holidays, stress, and joy without substances. At five, ten, or twenty-five years, the depth of that commitment becomes even more remarkable.\n\nSobriety anniversary coins are typically made in bronze, silver, or gold, often bearing the number of years and the Serenity Prayer. Many people keep every anniversary coin they have ever received, creating a tangible timeline of their recovery journey.",
+    category: 'Milestones & Time',
+    relatedTermSlugs: ['sobriety-date', 'sober-birthday', 'milestone'],
+    productLink: 'all',
+  },
+  schema: ['breadcrumb', 'definedTerm'],
+});
+
+registerSEOPage({
+  slug: 'resources/glossary/milestone',
+  type: 'glossary',
+  title: 'Recovery Milestone',
+  metaTitle: 'What Is a Recovery Milestone? — Definition & Meaning | Coinplugz',
+  metaDescription:
+    'Learn what recovery milestones are — significant achievements in sobriety measured by time — and how they are celebrated with coins and community.',
+  canonicalPath: 'resources/glossary/milestone',
+  eyebrow: 'Milestones & Time',
+  heroDescription:
+    'A recovery milestone is a significant time-based achievement in sobriety, celebrated as a marker of progress and commitment to recovery.',
+  primaryCTA: {label: 'Shop Milestone Coins', href: '/collections/all'},
+  relatedPageSlugs: ['sobriety-coins'],
+  sections: [],
+  faq: [
+    {
+      question: 'What are the standard recovery milestones?',
+      answer:
+        '24 hours, 30 days, 60 days, 90 days, 6 months, 9 months, 1 year, and each year thereafter are the most widely recognized milestones in 12-step programs.',
+    },
+  ],
+  glossary: {
+    definition:
+      'A significant achievement in recovery measured by time, typically marked with a sobriety coin or chip.',
+    extendedContent:
+      "Recovery milestones are the time-based markers that structure a person's sobriety journey. While any day sober is meaningful, certain benchmarks carry special significance — both in terms of the physical challenges overcome and the emotional growth achieved.\n\nThe first 24 hours is often considered the hardest milestone of all, requiring the courage to stop and ask for help. Thirty, 60, and 90 days mark the early recovery period when cravings are strongest and new coping tools are still being built. Six months and nine months acknowledge sustained commitment. One year is a watershed moment — a full trip around the sun without substances.\n\nBeyond one year, annual milestones mark each additional year of recovery. Long-term milestones — 5, 10, 15, 20, and 25 years — are often celebrated with large home group gatherings and premium commemorative medallions. These milestones serve not only to honor the individual but to inspire newcomers that lasting recovery is genuinely possible.",
+    category: 'Milestones & Time',
+    relatedTermSlugs: ['sobriety-date', 'anniversary', 'sobriety-coin'],
+    productLink: 'all',
+  },
+  schema: ['breadcrumb', 'definedTerm'],
+});
+
+registerSEOPage({
+  slug: 'resources/glossary/sober-birthday',
+  type: 'glossary',
+  title: 'Sober Birthday',
+  metaTitle: 'What Is a Sober Birthday? — Definition & Meaning | Coinplugz',
+  metaDescription:
+    'Learn what a sober birthday is in recovery — the annual celebration of a sobriety date — and how people in recovery honor this special day.',
+  canonicalPath: 'resources/glossary/sober-birthday',
+  eyebrow: 'Milestones & Time',
+  heroDescription:
+    "A sober birthday is the annual celebration of a person's sobriety date, often considered as significant as their actual birthday.",
+  primaryCTA: {label: 'Shop Sobriety Birthday Coins', href: '/collections/all'},
+  relatedPageSlugs: ['sobriety-coins', '1-year-sobriety-coin'],
+  sections: [],
+  faq: [],
+  glossary: {
+    definition: "The anniversary of a person's sobriety date, celebrated annually in the recovery community.",
+    extendedContent:
+      "In the recovery community, a sober birthday is treated with as much reverence as a person's biological birthday — often more. It marks the day a person was, in a sense, reborn: the day they chose recovery over addiction. For many people, their sober birthday becomes the most important date on their calendar.\n\nSober birthdays are typically celebrated at the person's home group meeting. Fellow members share memories of the person's journey, the celebrant speaks about what recovery has given them, and a commemorative coin or medallion is presented. In some groups, a cake with the number of years is shared with the group.\n\nGifting a sobriety coin on someone's sober birthday is one of the most meaningful gestures in the recovery community. Premium engraved medallions, personalized with the sobriety date and a meaningful message, have become popular ways to honor this milestone.",
+    category: 'Milestones & Time',
+    relatedTermSlugs: ['sobriety-date', 'anniversary', 'sobriety-coin'],
+    productLink: 'all',
+  },
+  schema: ['breadcrumb', 'definedTerm'],
+});
+
+// ============================================================
+// GLOSSARY PAGES — Tokens & Coins
+// ============================================================
+
+registerSEOPage({
+  slug: 'resources/glossary/medallion',
+  type: 'glossary',
+  title: 'Recovery Medallion',
+  metaTitle: 'What Is a Recovery Medallion? — Definition & Meaning | Coinplugz',
+  metaDescription:
+    'Learn what a recovery medallion is — a premium metal token marking a sobriety milestone — and how it differs from a standard AA chip.',
+  canonicalPath: 'resources/glossary/medallion',
+  eyebrow: 'Tokens & Coins',
+  heroDescription:
+    'A recovery medallion is a premium metal token awarded to mark significant sobriety milestones, often more elaborate than a standard chip.',
+  primaryCTA: {label: 'Shop Recovery Medallions', href: '/collections/all'},
+  relatedPageSlugs: ['sobriety-coins', 'aa-coins'],
+  sections: [],
+  faq: [],
+  glossary: {
+    definition:
+      'A premium recovery token, typically made of metal, awarded to mark significant sobriety milestones.',
+    extendedContent:
+      "Recovery medallions are the premium tier of sobriety tokens. While the term is sometimes used interchangeably with \"sobriety coin,\" it often refers specifically to heavier, more elaborately crafted tokens made from bronze, brass, zinc alloy, or precious metals. Medallions are typically awarded for longer-term milestones — one year and beyond — when the occasion calls for something more substantial.\n\nThe front of a medallion commonly displays the Roman numeral or number of years achieved, along with the Serenity Prayer or program-specific text. The reverse often features the AA triangle, NA logo, or a personalized message. The added weight and quality of a medallion give it a tangible presence that reinforces its significance.\n\nMany families choose to commission custom medallions for loved ones' major anniversaries — five, ten, twenty-five years — as a lasting keepsake. Premium medallions are also popular as gifts from sponsors to sponsees, symbolizing pride in the work done together.",
+    category: 'Tokens & Coins',
+    relatedTermSlugs: ['sobriety-coin', 'aa-chip', 'anniversary'],
+    productLink: 'all',
+  },
+  schema: ['breadcrumb', 'definedTerm'],
+});
+
+registerSEOPage({
+  slug: 'resources/glossary/desire-chip',
+  type: 'glossary',
+  title: 'Desire Chip',
+  metaTitle: 'What Is a Desire Chip? — Definition & Meaning | Coinplugz',
+  metaDescription:
+    'Learn what a desire chip is in AA recovery — the first chip picked up to declare the desire to stop drinking — and its significance in the sobriety journey.',
+  canonicalPath: 'resources/glossary/desire-chip',
+  eyebrow: 'Tokens & Coins',
+  heroDescription:
+    'A desire chip is the first chip a person picks up in AA, representing their desire to stop drinking and take the first step toward recovery.',
+  primaryCTA: {label: 'Shop Recovery Tokens', href: '/collections/all'},
+  relatedPageSlugs: ['aa-coins', 'sobriety-coins'],
+  sections: [],
+  faq: [
+    {
+      question: 'What color is the desire chip?',
+      answer:
+        'The desire chip is traditionally white, symbolizing a blank slate and a new beginning. It is sometimes called the surrender chip or 24-hour chip.',
+    },
+  ],
+  glossary: {
+    definition:
+      "The first chip picked up in Alcoholics Anonymous, representing a person's desire to stop drinking.",
+    extendedContent:
+      "The desire chip — also called the surrender chip, white chip, or 24-hour chip — is the most humble and arguably most courageous token in the sobriety coin system. It is offered at AA meetings to anyone who wants to stop drinking, no matter how many times they have tried before. Picking it up is an act of vulnerability and hope.\n\nThe chip is typically white, representing a clean slate and new beginning. When someone picks up a desire chip at a meeting, the group responds with a moment of recognition — applause, a handshake, or a hug — that communicates that they are not alone and that they are welcome exactly as they are.\n\nMany long-timers in recovery say that picking up their desire chip was the hardest and most important thing they ever did. Some carry their original white chip alongside their current milestone coin as a reminder of where they started. It is the coin that begins every sobriety story.",
+    category: 'Tokens & Coins',
+    relatedTermSlugs: ['aa-chip', 'sobriety-coin', 'sobriety-date'],
+    productLink: 'all',
+  },
+  schema: ['breadcrumb', 'definedTerm'],
+});
+
+registerSEOPage({
+  slug: 'resources/glossary/key-tag',
+  type: 'glossary',
+  title: 'Key Tag',
+  metaTitle: 'What Is a Recovery Key Tag? — Definition & Meaning | Coinplugz',
+  metaDescription:
+    "Learn what a recovery key tag is — Narcotics Anonymous's version of a sobriety chip, designed to attach to a keychain — and how it marks clean time milestones.",
+  canonicalPath: 'resources/glossary/key-tag',
+  eyebrow: 'Tokens & Coins',
+  heroDescription:
+    "A key tag is Narcotics Anonymous's version of a sobriety chip — a small tag designed to attach to a keychain and mark clean time milestones.",
+  primaryCTA: {label: 'Shop Recovery Tokens', href: '/collections/all'},
+  relatedPageSlugs: ['sobriety-coins', 'aa-coins'],
+  sections: [],
+  faq: [],
+  glossary: {
+    definition:
+      "Narcotics Anonymous's equivalent of a sobriety chip, designed to be attached to a keychain and carried daily.",
+    extendedContent:
+      "Key tags are the Narcotics Anonymous (NA) equivalent of the AA chip. Smaller and designed to attach to a keychain, they are distributed at NA meetings to members who reach specific clean time milestones. The keychain design means members carry their recovery symbol with them wherever they go — every time they reach for their keys, they are reminded of their commitment.\n\nNA key tags follow a color-coded system similar to AA chips. White represents the first 30 days, followed by orange (60 days), red (90 days), blue (6 months), yellow (9 months), green (1 year), and then specialty key tags for multi-year milestones. Some regional NA groups vary the color scheme.\n\nThe key tag system reflects NA's philosophy that clean time is earned one day at a time. The physical act of handing over a key tag at a meeting — one member to another — reinforces the community bonds that are central to sustained recovery.",
+    category: 'Tokens & Coins',
+    relatedTermSlugs: ['aa-chip', 'sobriety-coin', 'clean-time'],
+    productLink: 'all',
+  },
+  schema: ['breadcrumb', 'definedTerm'],
+});
+
+registerSEOPage({
+  slug: 'resources/glossary/challenge-coin',
+  type: 'glossary',
+  title: 'Challenge Coin',
+  metaTitle: 'What Is a Recovery Challenge Coin? — Definition & Meaning | Coinplugz',
+  metaDescription:
+    'Learn about challenge coins in recovery — military-tradition coins adapted to celebrate sobriety milestones with premium craftsmanship and personal meaning.',
+  canonicalPath: 'resources/glossary/challenge-coin',
+  eyebrow: 'Tokens & Coins',
+  heroDescription:
+    'A challenge coin is a premium, military-tradition coin adapted by the recovery community to celebrate sobriety milestones with quality and pride.',
+  primaryCTA: {label: 'Shop Challenge Coins', href: '/collections/all'},
+  relatedPageSlugs: ['sobriety-coins', 'aa-coins'],
+  sections: [],
+  faq: [
+    {
+      question: 'What is the challenge coin tradition?',
+      answer:
+        'Originating in the military, challenge coins are carried by members of a group as proof of membership and solidarity. In recovery, the tradition has been adapted to honor sobriety milestones with high-quality, custom-crafted coins.',
+    },
+  ],
+  glossary: {
+    definition:
+      'A premium, custom-crafted coin originating from military tradition, adapted to celebrate sobriety milestones.',
+    extendedContent:
+      "The challenge coin tradition traces its origins to the U.S. military, where coins bearing a unit's insignia were carried as proof of membership and used in social challenges — if you could not produce your coin, you bought a round; if you could, the challenger bought. The coins became symbols of belonging, achievement, and pride.\n\nThe recovery community has embraced this tradition, adapting challenge coins to celebrate sobriety milestones. Recovery challenge coins are typically larger, heavier, and more elaborately crafted than standard AA chips — often featuring detailed artwork, edge lettering, and multiple metal finishes. They are designed to be worthy of the achievement they represent.\n\nMany veterans in recovery find challenge coins especially meaningful, connecting their military identity with their recovery journey. Custom recovery challenge coins — engraved with a sobriety date, a name, or a personal message — have become popular gifts for major sobriety anniversaries.",
+    category: 'Tokens & Coins',
+    relatedTermSlugs: ['sobriety-coin', 'medallion', 'aa-chip'],
+    productLink: 'all',
+  },
+  schema: ['breadcrumb', 'definedTerm'],
+});
+
+// ============================================================
+// GLOSSARY PAGES — Support & Community
+// ============================================================
+
+registerSEOPage({
+  slug: 'resources/glossary/sponsor',
+  type: 'glossary',
+  title: 'Sponsor',
+  metaTitle: 'What Is a Sponsor in AA / NA? — Definition & Meaning | Coinplugz',
+  metaDescription:
+    'Learn what a sponsor is in 12-step recovery programs — an experienced member who guides a newcomer through the steps — and why sponsorship is central to recovery.',
+  canonicalPath: 'resources/glossary/sponsor',
+  eyebrow: 'Support & Community',
+  heroDescription:
+    'A sponsor is an experienced member of a recovery program who guides a newcomer through the 12 steps and provides one-on-one support.',
+  primaryCTA: {label: 'Shop Recovery Tokens', href: '/collections/all'},
+  relatedPageSlugs: ['sobriety-coins'],
+  sections: [],
+  faq: [
+    {
+      question: 'How do you get a sponsor in AA or NA?',
+      answer:
+        'Simply ask someone at a meeting whose recovery you admire. Most members with significant clean time are willing to sponsor, and no formal application is needed.',
+    },
+  ],
+  glossary: {
+    definition:
+      'An experienced recovery program member who guides a newcomer through the 12 steps and provides ongoing personal support.',
+    extendedContent:
+      "Sponsorship is one of the most distinctive and effective elements of 12-step recovery programs. A sponsor is someone with significant clean time who has completed the 12 steps and agrees to guide a newcomer — called a sponsee — through the same process. The relationship is one-on-one, deeply personal, and built on honesty and trust.\n\nThe sponsor-sponsee relationship is different from therapy or friendship, though it shares elements of both. A sponsor draws on their own recovery experience to help the sponsee navigate challenges, work through each step, and build a foundation for long-term sobriety. They are available by phone, meet regularly, and become a consistent presence in the sponsee's recovery.\n\nSponsorship is also reciprocal in a broader sense: sponsoring others is widely considered one of the most powerful ways to strengthen one's own recovery. Many people say that becoming a sponsor was when their recovery truly deepened. It is this chain — the sponsor who was once a sponsee — that has carried 12-step recovery across generations.",
+    category: 'Support & Community',
+    relatedTermSlugs: ['sponsee', 'twelve-steps', 'home-group'],
+  },
+  schema: ['breadcrumb', 'definedTerm'],
+});
+
+registerSEOPage({
+  slug: 'resources/glossary/sponsee',
+  type: 'glossary',
+  title: 'Sponsee',
+  metaTitle: 'What Is a Sponsee in Recovery? — Definition & Meaning | Coinplugz',
+  metaDescription:
+    'Learn what a sponsee is in 12-step recovery — a person being guided by a sponsor through the steps — and the role this relationship plays in sobriety.',
+  canonicalPath: 'resources/glossary/sponsee',
+  eyebrow: 'Support & Community',
+  heroDescription:
+    'A sponsee is a person in a 12-step recovery program who is being guided through the steps by a more experienced member called a sponsor.',
+  primaryCTA: {label: 'Shop Recovery Tokens', href: '/collections/all'},
+  relatedPageSlugs: ['sobriety-coins'],
+  sections: [],
+  faq: [],
+  glossary: {
+    definition:
+      'A person in a recovery program who is being guided through the 12 steps by a sponsor.',
+    extendedContent:
+      "Being a sponsee means entering into one of the most important relationships in recovery. A sponsee works directly with a sponsor — sharing their story honestly, completing each of the 12 steps, and learning to navigate life without substances. The sponsee-sponsor relationship is often described as the heart of 12-step recovery.\n\nBecoming someone's sponsee is an act of trust and vulnerability. Newcomers are encouraged to find a sponsor early — ideally within the first few weeks — because the structure and accountability that sponsorship provides dramatically improves outcomes. The sponsee is expected to call their sponsor regularly, attend meetings, and be honest about their struggles and temptations.\n\nOver time, the sponsee grows into greater autonomy and eventually may become a sponsor themselves, continuing the chain of recovery. Many people maintain lifelong relationships with former sponsors, finding that the bond forged in the difficult early work of the steps is among the most meaningful of their lives.",
+    category: 'Support & Community',
+    relatedTermSlugs: ['sponsor', 'twelve-steps', 'step-work'],
+  },
+  schema: ['breadcrumb', 'definedTerm'],
+});
+
+registerSEOPage({
+  slug: 'resources/glossary/home-group',
+  type: 'glossary',
+  title: 'Home Group',
+  metaTitle: 'What Is a Home Group in Recovery? — Definition & Meaning | Coinplugz',
+  metaDescription:
+    'Learn what a home group is in AA and NA — the regular meeting a member considers their primary recovery community — and why it matters for long-term sobriety.',
+  canonicalPath: 'resources/glossary/home-group',
+  eyebrow: 'Support & Community',
+  heroDescription:
+    'A home group is the specific recovery meeting a member regularly attends and considers their primary community, where milestones are celebrated.',
+  primaryCTA: {label: 'Shop Recovery Tokens', href: '/collections/all'},
+  relatedPageSlugs: ['sobriety-coins'],
+  sections: [],
+  faq: [],
+  glossary: {
+    definition:
+      "The specific meeting a recovery program member regularly attends and considers their primary recovery community.",
+    extendedContent:
+      "A home group is more than just a recurring meeting — it is a recovery family. In AA, NA, and other 12-step programs, members are encouraged to identify one meeting as their home group: the place they show up consistently, take on service responsibilities, and where their milestones are celebrated.\n\nHaving a home group provides accountability and continuity. When you are a \"home group member,\" others notice when you are absent. You are known by name, your history is known, and your sobriety anniversaries are celebrated by people who have watched you grow. This depth of connection is a powerful buffer against relapse.\n\nService is a key part of home group membership. Members take turns setting up chairs, making coffee, chairing meetings, and welcoming newcomers. This service orientation — giving back to the community that supported you — is considered an essential element of sustained recovery in 12-step philosophy.",
+    category: 'Support & Community',
+    relatedTermSlugs: ['fellowship', 'meeting', 'sponsor'],
+  },
+  schema: ['breadcrumb', 'definedTerm'],
+});
+
+registerSEOPage({
+  slug: 'resources/glossary/fellowship',
+  type: 'glossary',
+  title: 'Fellowship',
+  metaTitle: 'What Is Fellowship in Recovery? — Definition & Meaning | Coinplugz',
+  metaDescription:
+    'Learn what fellowship means in AA and NA recovery — the community of people supporting each other in sobriety — and why community is essential to lasting recovery.',
+  canonicalPath: 'resources/glossary/fellowship',
+  eyebrow: 'Support & Community',
+  heroDescription:
+    'Fellowship is the community of people in recovery who support one another, share their experiences, and build a sober life together.',
+  primaryCTA: {label: 'Shop Recovery Tokens', href: '/collections/all'},
+  relatedPageSlugs: ['sobriety-coins'],
+  sections: [],
+  faq: [],
+  glossary: {
+    definition:
+      'The community of people in a recovery program who support each other through shared experience, honesty, and mutual aid.',
+    extendedContent:
+      "Fellowship is the lifeblood of 12-step recovery. The word refers to the entire community of people in a program — AA, NA, Al-Anon, or others — who come together around shared experience and a common commitment to recovery. It is the network of relationships that makes long-term sobriety not just sustainable but genuinely joyful.\n\nThe fellowship provides what isolation cannot: perspective, accountability, humor, and hope. When a person in recovery faces a difficult day, the fellowship is there — in phone calls, coffee after meetings, and the simple act of sitting with others who understand. It is the antidote to the loneliness that often drives substance use.\n\nFellowship extends beyond meetings. Members support each other through job losses, health crises, and grief — and celebrate together at sober birthdays, weddings, and the birth of children born into a sober family. Sobriety coins are often presented within the fellowship, making them symbols not just of individual achievement but of communal support.",
+    category: 'Support & Community',
+    relatedTermSlugs: ['home-group', 'meeting', 'accountability'],
+  },
+  schema: ['breadcrumb', 'definedTerm'],
+});
+
+registerSEOPage({
+  slug: 'resources/glossary/meeting',
+  type: 'glossary',
+  title: 'Recovery Meeting',
+  metaTitle: 'What Is a Recovery Meeting? — Definition & Meaning | Coinplugz',
+  metaDescription:
+    'Learn what a recovery meeting is in AA and NA — a gathering where people in recovery share experiences and support each other — and what to expect.',
+  canonicalPath: 'resources/glossary/meeting',
+  eyebrow: 'Support & Community',
+  heroDescription:
+    'A recovery meeting is a regular gathering where people in recovery share their experiences, offer support, and practice the principles of their program.',
+  primaryCTA: {label: 'Shop Recovery Tokens', href: '/collections/all'},
+  relatedPageSlugs: ['sobriety-coins'],
+  sections: [],
+  faq: [
+    {
+      question: 'What happens at an AA or NA meeting?',
+      answer:
+        "Meetings typically open with a reading (like the Serenity Prayer or the 12 Traditions), include member sharing about their recovery experiences, celebrate milestones with coin presentations, and close with a group affirmation.",
+    },
+  ],
+  glossary: {
+    definition:
+      'A structured gathering of recovery program members to share experiences, offer support, and mark milestones together.',
+    extendedContent:
+      "Recovery meetings are the backbone of 12-step programs. Held in community centers, church basements, hospitals, and online, they provide a structured space where people in recovery gather to share their stories, celebrate milestones, and support one another. Meetings are open to anyone who wants to stop drinking or using, and no prior commitment is required to attend.\n\nA typical meeting includes a brief reading of program literature, a main speaker or open sharing period, announcements, and milestone celebrations. When a member reaches a sobriety milestone, they are invited to receive their chip or key tag in front of the group — a public acknowledgment of their achievement and a moment of community pride.\n\nThe variety of meetings is enormous: open meetings welcome anyone curious about recovery; closed meetings are for members only; speaker meetings feature one person sharing their story at length; step study meetings focus on one step at a time. Finding meetings that resonate is a personal process, and most members attend multiple meetings per week, especially in early recovery.",
+    category: 'Support & Community',
+    relatedTermSlugs: ['home-group', 'fellowship', 'aa-chip'],
+  },
+  schema: ['breadcrumb', 'definedTerm'],
+});
+
+registerSEOPage({
+  slug: 'resources/glossary/accountability',
+  type: 'glossary',
+  title: 'Accountability',
+  metaTitle: 'What Is Accountability in Recovery? — Definition & Meaning | Coinplugz',
+  metaDescription:
+    'Learn what accountability means in addiction recovery — taking responsibility for one\'s actions and commitments — and how it supports long-term sobriety.',
+  canonicalPath: 'resources/glossary/accountability',
+  eyebrow: 'Support & Community',
+  heroDescription:
+    "Accountability in recovery means taking honest responsibility for one's actions, commitments, and recovery choices, supported by a community that cares.",
+  primaryCTA: {label: 'Shop Recovery Tokens', href: '/collections/all'},
+  relatedPageSlugs: ['sobriety-coins'],
+  sections: [],
+  faq: [],
+  glossary: {
+    definition:
+      "Taking honest responsibility for one's recovery actions, commitments, and behavior, supported by a sponsor and community.",
+    extendedContent:
+      "Accountability is one of the most frequently cited factors in long-term recovery success. It means being honest about one's behavior, honoring commitments to the program, and allowing others — a sponsor, a home group, a therapist — to witness and support the recovery journey. In isolation, addiction thrives; in accountability, it withers.\n\nIn 12-step programs, accountability is built into the structure. Members report to their sponsors, share honestly at meetings, and take on service commitments that others depend on. The act of publicly picking up a sobriety coin is itself an act of accountability — declaring to a community that recovery matters and that milestones are worth celebrating.\n\nAccountability is not about shame or surveillance. It is about creating the conditions under which honesty can flourish. Research on addiction recovery consistently shows that social accountability — being known by others and mattering to others — is one of the strongest predictors of sustained sobriety.",
+    category: 'Support & Community',
+    relatedTermSlugs: ['sponsor', 'fellowship', 'home-group'],
+  },
+  schema: ['breadcrumb', 'definedTerm'],
+});
+
+// ============================================================
+// GLOSSARY PAGES — Programs & Methods
+// ============================================================
+
+registerSEOPage({
+  slug: 'resources/glossary/twelve-steps',
+  type: 'glossary',
+  title: 'Twelve Steps',
+  metaTitle: 'What Are the Twelve Steps? — Definition & Meaning | Coinplugz',
+  metaDescription:
+    'Learn what the 12 steps of recovery are — the foundational program of Alcoholics Anonymous — and how they guide people toward lasting sobriety.',
+  canonicalPath: 'resources/glossary/twelve-steps',
+  eyebrow: 'Programs & Methods',
+  heroDescription:
+    'The Twelve Steps are the core recovery program of Alcoholics Anonymous, providing a structured path from addiction to a life of sobriety and purpose.',
+  primaryCTA: {label: 'Shop Recovery Tokens', href: '/collections/all'},
+  relatedPageSlugs: ['sobriety-coins'],
+  sections: [],
+  faq: [
+    {
+      question: 'What are the 12 steps?',
+      answer:
+        'The 12 steps address admitting powerlessness over addiction, turning to a higher power, making a moral inventory, making amends, and carrying the message to others — guiding a full spiritual and behavioral transformation.',
+    },
+  ],
+  glossary: {
+    definition:
+      "The 12-step program originating in Alcoholics Anonymous that provides a structured path to recovery through spiritual principles and community.",
+    extendedContent:
+      "The Twelve Steps were first published in the AA Big Book in 1939, written by AA co-founder Bill Wilson. They describe a path from the depths of addiction to a life of sobriety, purpose, and service. The steps have since been adapted by Narcotics Anonymous, Overeaters Anonymous, Gamblers Anonymous, and dozens of other programs addressing various addictions and compulsive behaviors.\n\nThe steps are not a one-time checklist — they are a lifelong practice. Early steps focus on honesty and surrender: admitting powerlessness, believing that a higher power can restore sanity, and making a decision to turn one's life over. Middle steps involve personal inventory, confession, and character work. Later steps address making amends and carrying the message to others.\n\nCompleting the steps is often marked with a celebration — a chip, a meeting dedicated to the milestone, a gift from a sponsor. Step work is where the real internal transformation of recovery happens, and many members describe working the steps as the most important thing they ever did.",
+    category: 'Programs & Methods',
+    relatedTermSlugs: ['step-work', 'making-amends', 'sponsor'],
+  },
+  schema: ['breadcrumb', 'definedTerm'],
+});
+
+registerSEOPage({
+  slug: 'resources/glossary/higher-power',
+  type: 'glossary',
+  title: 'Higher Power',
+  metaTitle: 'What Is a Higher Power in Recovery? — Definition & Meaning | Coinplugz',
+  metaDescription:
+    'Learn what "higher power" means in 12-step recovery programs — a personal spiritual concept that supports surrender and long-term sobriety.',
+  canonicalPath: 'resources/glossary/higher-power',
+  eyebrow: 'Programs & Methods',
+  heroDescription:
+    'A higher power in 12-step recovery is a personal spiritual concept — any force greater than oneself — that supports the surrender and growth central to the program.',
+  primaryCTA: {label: 'Shop Recovery Tokens', href: '/collections/all'},
+  relatedPageSlugs: ['sobriety-coins'],
+  sections: [],
+  faq: [
+    {
+      question: 'Do I have to believe in God to work the 12 steps?',
+      answer:
+        'No. AA and NA explicitly allow members to define their higher power as they understand it — it can be the recovery group itself, nature, love, or any concept of a power greater than oneself.',
+    },
+  ],
+  glossary: {
+    definition:
+      "A personal spiritual concept — any force greater than oneself — used in 12-step programs to support surrender and recovery.",
+    extendedContent:
+      "The concept of a higher power is central to 12-step recovery, appearing in the second and third steps of AA and NA. Bill Wilson deliberately wrote these steps with language that allows for broad interpretation: \"a Power greater than ourselves\" and \"God as we understood Him.\" This flexibility was intentional — designed to be accessible to people of all faiths and no faith.\n\nIn practice, members' understandings of a higher power vary enormously. For some, it is the God of a traditional religion. For others, it is the group itself — the collective wisdom and love of the fellowship. For others still, it is nature, the universe, or a more abstract force. The only requirement is a willingness to believe that something beyond one's own willpower can help.\n\nThe higher power concept addresses a core paradox of addiction recovery: the very thinking that led to addiction cannot reliably recover from it. Surrendering to something larger — whether spiritual or communal — allows a new perspective to emerge. Many people in recovery say that finding their higher power was the turning point in their sobriety.",
+    category: 'Programs & Methods',
+    relatedTermSlugs: ['twelve-steps', 'serenity-prayer', 'big-book'],
+  },
+  schema: ['breadcrumb', 'definedTerm'],
+});
+
+registerSEOPage({
+  slug: 'resources/glossary/serenity-prayer',
+  type: 'glossary',
+  title: 'Serenity Prayer',
+  metaTitle: 'What Is the Serenity Prayer? — Definition & Meaning | Coinplugz',
+  metaDescription:
+    "Learn about the Serenity Prayer — the prayer recited at AA and NA meetings worldwide — its origin, meaning, and its connection to sobriety coins.",
+  canonicalPath: 'resources/glossary/serenity-prayer',
+  eyebrow: 'Programs & Methods',
+  heroDescription:
+    'The Serenity Prayer is the short prayer recited at AA and NA meetings worldwide, asking for serenity, courage, and wisdom — and inscribed on countless sobriety coins.',
+  primaryCTA: {label: 'Shop Serenity Prayer Coins', href: '/collections/all'},
+  relatedPageSlugs: ['sobriety-coins', 'aa-coins'],
+  sections: [],
+  faq: [
+    {
+      question: 'What is the full Serenity Prayer?',
+      answer:
+        '"God, grant me the serenity to accept the things I cannot change, courage to change the things I can, and wisdom to know the difference." The longer version continues with additional lines about living one day at a time.',
+    },
+  ],
+  glossary: {
+    definition:
+      "The short prayer — \"God, grant me the serenity to accept the things I cannot change...\" — recited at recovery meetings worldwide and inscribed on sobriety coins.",
+    extendedContent:
+      "\"God, grant me the serenity to accept the things I cannot change, courage to change the things I can, and wisdom to know the difference.\" These words, commonly attributed to theologian Reinhold Niebuhr, were adopted by Alcoholics Anonymous in the 1940s and have since become the most recognized words in the recovery world.\n\nThe Serenity Prayer is recited at the opening or close of virtually every AA and NA meeting worldwide. Its three requests — serenity, courage, and wisdom — capture three of the most important qualities needed in recovery: the acceptance of powerlessness over addiction, the courage to change behavior, and the discernment to know the difference.\n\nThe Serenity Prayer appears on the reverse side of most standard AA and NA sobriety coins. For many people in recovery, the prayer functions as a rapid grounding tool — a few seconds of recitation can interrupt a craving, calm a moment of anger, or restore perspective when life feels overwhelming. Carrying a coin bearing the prayer keeps these words accessible in any moment.",
+    category: 'Programs & Methods',
+    relatedTermSlugs: ['higher-power', 'twelve-steps', 'sobriety-coin'],
+    productLink: 'all',
+  },
+  schema: ['breadcrumb', 'definedTerm'],
+});
+
+registerSEOPage({
+  slug: 'resources/glossary/big-book',
+  type: 'glossary',
+  title: 'Big Book',
+  metaTitle: 'What Is the AA Big Book? — Definition & Meaning | Coinplugz',
+  metaDescription:
+    "Learn about the AA Big Book — Alcoholics Anonymous's foundational text, first published in 1939 — and its central role in 12-step recovery.",
+  canonicalPath: 'resources/glossary/big-book',
+  eyebrow: 'Programs & Methods',
+  heroDescription:
+    "The Big Book is the foundational text of Alcoholics Anonymous, first published in 1939, containing the 12 steps and personal stories of early members.",
+  primaryCTA: {label: 'Shop Recovery Tokens', href: '/collections/all'},
+  relatedPageSlugs: ['sobriety-coins'],
+  sections: [],
+  faq: [],
+  glossary: {
+    definition:
+      "Alcoholics Anonymous's foundational text, \"Alcoholics Anonymous,\" first published in 1939 and containing the 12 steps and early members' stories.",
+    extendedContent:
+      "The Big Book — formally titled \"Alcoholics Anonymous\" — is one of the bestselling books of the 20th century, with over 30 million copies sold worldwide. Written largely by AA co-founder Bill Wilson and first published in 1939, it contains the complete text of the 12 steps, explanations of AA's core philosophy, and personal stories from early members whose recoveries were nothing short of remarkable.\n\nThe book earned its nickname \"the Big Book\" from early AA members who joked that the publisher had used unusually thick paper — making the relatively short text feel substantial. The nickname stuck and became universal across the AA world.\n\nThe Big Book is used in step study meetings, sponsor-sponsee work, and personal reading. Sponsors often guide sponsees through it line by line, using the text as the basis for step work and discussion. For many people in recovery, the Big Book is a daily companion — read, underlined, and dog-eared from years of use. A well-worn Big Book, like a sobriety coin, is a visible record of a life transformed by recovery.",
+    category: 'Programs & Methods',
+    relatedTermSlugs: ['twelve-steps', 'step-work', 'higher-power'],
+  },
+  schema: ['breadcrumb', 'definedTerm'],
+});
+
+registerSEOPage({
+  slug: 'resources/glossary/step-work',
+  type: 'glossary',
+  title: 'Step Work',
+  metaTitle: 'What Is Step Work in Recovery? — Definition & Meaning | Coinplugz',
+  metaDescription:
+    'Learn what step work means in AA and NA recovery — the active process of working through the 12 steps with a sponsor — and why it is central to lasting sobriety.',
+  canonicalPath: 'resources/glossary/step-work',
+  eyebrow: 'Programs & Methods',
+  heroDescription:
+    'Step work is the active, guided process of working through the 12 steps of recovery — often with a sponsor — to address the root causes of addiction.',
+  primaryCTA: {label: 'Shop Recovery Tokens', href: '/collections/all'},
+  relatedPageSlugs: ['sobriety-coins'],
+  sections: [],
+  faq: [],
+  glossary: {
+    definition:
+      "The active process of working through the 12 steps of a recovery program, typically guided by a sponsor, to address the spiritual and behavioral roots of addiction.",
+    extendedContent:
+      "Step work is where the inner transformation of recovery happens. While attending meetings and accumulating clean time are essential, step work is the process by which a person actually confronts and addresses the patterns, beliefs, and wounds that underlie their addiction. Done with a sponsor over months or years, it is often described as the most challenging and most rewarding work of recovery.\n\nEach step builds on the last. Early steps involve surrender and spiritual opening. The fourth step — a thorough personal moral inventory — is often described as a turning point: a searching, fearless written examination of resentments, fears, and patterns. The fifth step involves reading that inventory aloud to a sponsor, releasing the burden of secrecy. Steps six through nine involve character work and making amends.\n\nThe decision to begin step work is often marked informally — a conversation with a sponsor, a commitment made at a meeting. Completing all twelve steps is a milestone celebrated in the fellowship, sometimes with a special coin or the gift of a Big Book. Members who finish their steps typically begin sponsoring others, continuing the cycle of recovery.",
+    category: 'Programs & Methods',
+    relatedTermSlugs: ['twelve-steps', 'sponsor', 'making-amends'],
+  },
+  schema: ['breadcrumb', 'definedTerm'],
+});
+
+registerSEOPage({
+  slug: 'resources/glossary/making-amends',
+  type: 'glossary',
+  title: 'Making Amends',
+  metaTitle: 'What Is Making Amends in Recovery? — Definition & Meaning | Coinplugz',
+  metaDescription:
+    'Learn what making amends means in AA recovery — steps 8 and 9 of the 12-step program — and how repairing harm caused supports lasting sobriety.',
+  canonicalPath: 'resources/glossary/making-amends',
+  eyebrow: 'Programs & Methods',
+  heroDescription:
+    'Making amends is steps 8 and 9 of the AA 12-step program — the process of identifying and repairing harm caused during active addiction.',
+  primaryCTA: {label: 'Shop Recovery Tokens', href: '/collections/all'},
+  relatedPageSlugs: ['sobriety-coins'],
+  sections: [],
+  faq: [
+    {
+      question: 'What is the difference between making amends and apologizing?',
+      answer:
+        'An apology is words; an amend is action. Making amends means changing behavior and repairing harm where possible — not just expressing remorse, but demonstrating it through changed conduct.',
+    },
+  ],
+  glossary: {
+    definition:
+      "Steps 8 and 9 of the AA 12-step program: making a list of people harmed and, where possible, directly repairing that harm.",
+    extendedContent:
+      "Making amends is widely considered one of the most transformative — and most feared — parts of the 12-step process. Step 8 asks members to make a list of all people they have harmed through their addiction. Step 9 asks them to make direct amends to those people wherever possible, \"except when to do so would injure them or others.\"\n\nThe amends process is not simply an apology. Sponsors guide sponsees to understand that amends means changed behavior — living differently, paying back debts where possible, and being willing to have difficult conversations with people who were hurt. The goal is to clean the slate of guilt and resentment that, left unaddressed, can drive relapse.\n\nNot all amends can be made directly. Some people may be deceased, untraceable, or would be harmed by contact. For these, \"living amends\" — sustained changes in behavior — are the appropriate response. Many people describe the amends process as profoundly freeing: releasing years of shame and guilt in exchange for honesty and accountability.",
+    category: 'Programs & Methods',
+    relatedTermSlugs: ['step-work', 'twelve-steps', 'accountability'],
+  },
+  schema: ['breadcrumb', 'definedTerm'],
+});
+
+registerSEOPage({
+  slug: 'resources/glossary/one-day-at-a-time',
+  type: 'glossary',
+  title: 'One Day at a Time',
+  metaTitle: 'What Does "One Day at a Time" Mean? — Definition | Coinplugz',
+  metaDescription:
+    'Learn what "one day at a time" means in recovery — the philosophy of focusing on today rather than the daunting prospect of lifelong sobriety.',
+  canonicalPath: 'resources/glossary/one-day-at-a-time',
+  eyebrow: 'Programs & Methods',
+  heroDescription:
+    '"One day at a time" is the foundational recovery philosophy of staying sober just for today — making the impossible feel achievable through focus on the present.',
+  primaryCTA: {label: 'Shop Recovery Tokens', href: '/collections/all'},
+  relatedPageSlugs: ['sobriety-coins'],
+  sections: [],
+  faq: [],
+  glossary: {
+    definition:
+      "A core recovery philosophy advising people to focus on staying sober just for today, rather than feeling overwhelmed by the prospect of lifelong abstinence.",
+    extendedContent:
+      "\"One day at a time\" is perhaps the most widely known phrase in recovery culture. It encapsulates a practical wisdom that has helped millions of people stay sober: instead of committing to never drink again forever — a commitment that can feel impossible — focus only on not drinking today. Tomorrow, make the same commitment. Recovery, it turns out, is built one 24-hour period at a time.\n\nThis philosophy addresses one of the most common obstacles in early recovery: catastrophizing about the future. The thought of never attending another happy hour, never celebrating with a drink again, or navigating every holiday sober for the rest of one's life can feel paralyzing. \"One day at a time\" cuts through that overwhelm by making the task manageable: just today.\n\nThe 24-hour period is also why the first sobriety chip — the desire chip — represents 24 hours rather than a month. AA recognized that for someone in the grip of addiction, committing to one full day was monumental enough. Each 24-hour coin awarded at meetings is a tangible reminder that recovery is built in the smallest possible increments, each one complete and worthy of celebration.",
+    category: 'Programs & Methods',
+    relatedTermSlugs: ['sobriety', 'clean-time', 'gratitude-list'],
+  },
+  schema: ['breadcrumb', 'definedTerm'],
+});
+
+registerSEOPage({
+  slug: 'resources/glossary/gratitude-list',
+  type: 'glossary',
+  title: 'Gratitude List',
+  metaTitle: 'What Is a Gratitude List in Recovery? — Definition & Meaning | Coinplugz',
+  metaDescription:
+    'Learn what a gratitude list is in recovery — the daily practice of listing things to be grateful for — and how it supports mental health and sobriety.',
+  canonicalPath: 'resources/glossary/gratitude-list',
+  eyebrow: 'Programs & Methods',
+  heroDescription:
+    'A gratitude list is a recovery practice of writing down things to be grateful for, countering the negative thinking patterns that can lead to relapse.',
+  primaryCTA: {label: 'Shop Recovery Tokens', href: '/collections/all'},
+  relatedPageSlugs: ['sobriety-coins'],
+  sections: [],
+  faq: [],
+  glossary: {
+    definition:
+      "A daily recovery practice of listing things one is grateful for, used to counter negative thinking and reinforce the positive aspects of sober living.",
+    extendedContent:
+      "A gratitude list is one of the simplest and most powerful tools in the recovery toolkit. The practice involves writing down — daily, if possible — the things in one's life that are worth appreciating. It can be as small as a good cup of coffee or as profound as a repaired relationship. The content matters less than the habit of looking for good.\n\nAddiction thrives on resentment, self-pity, and the sense that life is fundamentally unfair. Gratitude is the direct antidote. Sponsors frequently assign gratitude lists to sponsees who are struggling, knowing that shifting attention from what's wrong to what's right can interrupt a cycle of negative thinking before it escalates into craving or relapse.\n\nResearch in positive psychology supports what recovery communities have known for decades: regular gratitude practices improve mood, reduce depression, and increase resilience. For people in recovery, who are often rebuilding a life that was stripped bare by addiction, a gratitude list can help them see — often for the first time — how much has already been restored. Each sober day added to a gratitude list is, in its own way, a milestone worth celebrating.",
+    category: 'Programs & Methods',
+    relatedTermSlugs: ['one-day-at-a-time', 'recovery', 'accountability'],
+  },
+  schema: ['breadcrumb', 'definedTerm'],
+});

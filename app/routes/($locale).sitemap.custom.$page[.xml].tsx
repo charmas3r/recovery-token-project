@@ -1,4 +1,5 @@
 import type {Route} from './+types/sitemap.custom.$page[.xml]';
+import {getAllSEOPages} from '~/data/seo-pages';
 
 /**
  * Static pages not managed by Shopify CMS that need to be
@@ -22,11 +23,21 @@ const STATIC_PAGES = [
   {url: '/newsletter', changeFreq: 'monthly', priority: 0.4},
 ] as const;
 
+function getAllSitemapEntries() {
+  const seoPages = getAllSEOPages();
+  const seoEntries = seoPages.map((page) => ({
+    url: `/${page.canonicalPath}`,
+    changeFreq: 'weekly' as const,
+    priority: page.type === 'commercial' ? 0.8 : page.type === 'milestone' ? 0.7 : 0.6,
+  }));
+  return [...STATIC_PAGES, ...seoEntries];
+}
+
 export async function loader({request}: Route.LoaderArgs) {
   const url = new URL(request.url);
   const origin = url.origin;
 
-  const urlEntries = STATIC_PAGES.map(
+  const urlEntries = getAllSitemapEntries().map(
     (page) =>
       `  <url>
     <loc>${origin}${page.url}</loc>

@@ -18,6 +18,7 @@ import appStyles from '~/styles/app.css?url';
 import tailwindCss from './styles/tailwind.css?url';
 import {PageLayout} from './components/layout/PageLayout';
 import {PostHogAnalytics} from '~/components/analytics/PostHogAnalytics';
+import {JsonLd} from '~/components/seo/JsonLd';
 
 export type RootLoader = typeof loader;
 
@@ -207,6 +208,16 @@ export default function App() {
       shop={data.shop}
       consent={data.consent}
     >
+      <JsonLd
+        data={{
+          '@context': 'https://schema.org',
+          '@type': 'Organization',
+          name: 'Coinplugz',
+          url: 'https://coinplugz.com',
+          description: 'Premium hand-crafted recovery tokens celebrating sobriety milestones.',
+          logo: 'https://cdn.shopify.com/s/files/1/0980/8330/7822/files/og-image.webp?v=1773774508',
+        }}
+      />
       <PageLayout {...data}>
         <Outlet />
       </PageLayout>

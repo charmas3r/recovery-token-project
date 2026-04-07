@@ -8,5 +8,5 @@
 
 export const FEATURE_FLAGS = {
   /** Custom token designer (/custom-token) — hidden until launch-ready */
-  CUSTOM_TOKEN: false,
+  CUSTOM_TOKEN: true,
 } as const;

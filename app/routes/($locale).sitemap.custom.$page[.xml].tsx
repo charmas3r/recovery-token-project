@@ -1,5 +1,6 @@
 import type {Route} from './+types/sitemap.custom.$page[.xml]';
 import {getAllSEOPages} from '~/data/seo-pages';
+import {getAllArticles} from '~/lib/sanity.queries';
 
 /**
  * Static pages not managed by Shopify CMS that need to be
@@ -23,21 +24,29 @@ const STATIC_PAGES = [
   {url: '/newsletter', changeFreq: 'monthly', priority: 0.4},
 ] as const;
 
-function getAllSitemapEntries() {
+async function getAllSitemapEntries() {
   const seoPages = getAllSEOPages();
   const seoEntries = seoPages.map((page) => ({
     url: `/${page.canonicalPath}`,
     changeFreq: 'weekly' as const,
     priority: page.type === 'commercial' ? 0.8 : page.type === 'milestone' ? 0.7 : 0.6,
   }));
-  return [...STATIC_PAGES, ...seoEntries];
+
+  const articles = await getAllArticles();
+  const articleEntries = articles.map((article) => ({
+    url: `/resources/articles/${article.slug}`,
+    changeFreq: 'weekly' as const,
+    priority: 0.7,
+  }));
+
+  return [...STATIC_PAGES, ...seoEntries, ...articleEntries];
 }
 
 export async function loader({request}: Route.LoaderArgs) {
   const url = new URL(request.url);
   const origin = url.origin;
 
-  const urlEntries = getAllSitemapEntries().map(
+  const urlEntries = (await getAllSitemapEntries()).map(
     (page) =>
       `  <url>
     <loc>${origin}${page.url}</loc>

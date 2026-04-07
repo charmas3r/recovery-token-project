@@ -58,7 +58,8 @@ const ARTICLE_FIELDS = `
     altText,
     caption
   },
-  "relatedSlugs": relatedArticles[]->slug.current
+  "relatedSlugs": relatedArticles[]->slug.current,
+  "relatedTerms": relatedTerms[]->slug.current
 `;
 
 const ALL_ARTICLES_QUERY = `*[_type == "article"] | order(publishedAt asc) {
@@ -142,6 +143,7 @@ interface SanityArticle {
   keywords: string[];
   content: SanityContentBlock[];
   relatedSlugs: string[] | null;
+  relatedTerms: string[] | null;
 }
 
 interface SanityGlossaryTerm {
@@ -276,6 +278,9 @@ function adaptArticle(doc: SanityArticle): Article {
     keywords: doc.keywords || [],
     content: (doc.content || []).map(adaptContentBlock),
     relatedSlugs: doc.relatedSlugs || [],
+    ...(doc.relatedTerms && doc.relatedTerms.length > 0
+      ? {relatedTerms: doc.relatedTerms}
+      : {}),
   };
 }
 

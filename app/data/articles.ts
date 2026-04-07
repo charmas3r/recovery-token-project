@@ -47,4 +47,5 @@ export interface Article {
   keywords: string[];
   content: ContentBlock[];
   relatedSlugs: string[];
+  relatedTerms?: string[];
 }

@@ -5,7 +5,7 @@
  * reading progress, content blocks, and related articles.
  */
 
-import {useLoaderData} from 'react-router';
+import {useLoaderData, Link} from 'react-router';
 import type {MetaFunction} from 'react-router';
 import type {Route} from './+types/resources.articles.$slug';
 import {JsonLd} from '~/components/seo/JsonLd';
@@ -19,8 +19,10 @@ import {
   getArticleBySlug,
   getRelatedArticles,
   getHeadings,
+  getAllGlossaryTerms,
 } from '~/lib/sanity.queries';
 import type {Article} from '~/data/articles';
+import type {GlossaryTerm} from '~/data/glossary-terms';
 import {buildMeta} from '~/lib/meta';
 
 export const meta: MetaFunction<typeof loader> = ({data}) => {
@@ -46,16 +48,28 @@ export async function loader({params}: Route.LoaderArgs) {
   if (!article) {
     throw new Response('Not Found', {status: 404});
   }
-  const related = await getRelatedArticles(article);
+  const [related, allTerms] = await Promise.all([
+    getRelatedArticles(article),
+    article.relatedTerms?.length ? getAllGlossaryTerms() : Promise.resolve([]),
+  ]);
   const headings = getHeadings(article);
-  return {article, related, headings};
+
+  const relatedTerms = article.relatedTerms?.length
+    ? (allTerms as GlossaryTerm[]).filter((t) =>
+        article.relatedTerms!.includes(t.slug),
+      )
+    : [];
+
+  return {article, related, headings, relatedTerms};
 }
 
 export default function ArticlePage() {
-  const {article, related, headings} = useLoaderData<typeof loader>();
+  const {article, related, headings, relatedTerms} =
+    useLoaderData<typeof loader>();
   const typedArticle = article as Article;
   const typedRelated = related as Article[];
   const typedHeadings = headings as {id: string; text: string; level: 2 | 3}[];
+  const typedTerms = relatedTerms as GlossaryTerm[];
 
   const articleJsonLd = {
     '@context': 'https://schema.org',
@@ -139,6 +153,40 @@ export default function ArticlePage() {
           </div>
         </div>
       </section>
+
+      {/* Related Glossary Terms */}
+      {typedTerms.length > 0 && (
+        <section className="container-standard" style={{paddingTop: '3rem', paddingBottom: '3rem'}}>
+          <h2
+            className="font-display text-subsection text-white"
+            style={{marginBottom: '2rem'}}
+          >
+            Related Glossary Terms
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {typedTerms.map((term) => (
+              <Link
+                key={term.slug}
+                to={`/resources/glossary/${term.slug}`}
+                prefetch="intent"
+                className="group block rounded-2xl border border-white/[0.08] hover:border-white/[0.15] transition-all duration-300 hover:-translate-y-1"
+                style={{
+                  background:
+                    'linear-gradient(180deg, #111 0%, #0A0A0A 40%, #080808 100%)',
+                  padding: '1.5rem',
+                }}
+              >
+                <h3 className="text-white font-bold group-hover:text-accent transition-colors" style={{marginBottom: '0.5rem'}}>
+                  {term.name}
+                </h3>
+                <p className="text-white/50 text-sm line-clamp-2">
+                  {term.definition}
+                </p>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Related Articles */}
       <RelatedArticles articles={typedRelated} />

@@ -104,6 +104,7 @@ registerSEOPage({
   primaryCTA: {label: 'Shop All Coins', href: '/collections/all'},
   featuredCollectionHandle: 'all',
   relatedPageSlugs: [
+    'recovery-tokens',
     'aa-coins',
     'na-coins',
     'recovery-medallions',
@@ -162,6 +163,7 @@ registerSEOPage({
   primaryCTA: {label: 'Shop AA Coins', href: '/collections/all'},
   featuredCollectionHandle: 'all',
   relatedPageSlugs: [
+    'recovery-tokens',
     'sobriety-coins',
     'na-coins',
     'aa-chip-colors',
@@ -216,6 +218,7 @@ registerSEOPage({
   primaryCTA: {label: 'Shop Recovery Gifts', href: '/collections/all'},
   featuredCollectionHandle: 'all',
   relatedPageSlugs: [
+    'recovery-tokens',
     'sobriety-gifts-for-women',
     'sobriety-gifts-for-men',
     'sponsor-gifts',
@@ -269,6 +272,7 @@ registerSEOPage({
   primaryCTA: {label: 'Shop NA Coins', href: '/collections/all'},
   featuredCollectionHandle: 'all',
   relatedPageSlugs: [
+    'recovery-tokens',
     'sobriety-coins',
     'aa-coins',
     'recovery-medallions',
@@ -328,6 +332,7 @@ registerSEOPage({
   primaryCTA: {label: 'Shop Medallions', href: '/collections/all'},
   featuredCollectionHandle: 'all',
   relatedPageSlugs: [
+    'recovery-tokens',
     'sobriety-coins',
     'aa-coins',
     'bronze-sobriety-coins',
@@ -928,6 +933,85 @@ registerSEOPage({
       question: 'Can I use a Coinplugz coin in a Celebrate Recovery program?',
       answer:
         "Yes. Coinplugz recovery coins are meaningful across recovery programs and traditions. While some CR groups use program-specific coins, our premium recovery tokens are welcomed by CR members looking for a quality medallion to mark their milestones.",
+    },
+  ],
+  schema: ['breadcrumb', 'faq', 'webPage'],
+});
+
+registerSEOPage({
+  slug: 'recovery-tokens',
+  type: 'commercial',
+  title: 'Recovery Tokens',
+  metaTitle: 'Recovery Tokens — Premium Sobriety Milestone Coins | Coinplugz',
+  metaDescription:
+    'Shop premium recovery tokens for every sobriety milestone. Handcrafted coins celebrating 24 hours to 25+ years of recovery. The tradition that makes milestones real.',
+  canonicalPath: 'recovery-tokens',
+  eyebrow: 'Premium Collection',
+  heroDescription:
+    "Recovery tokens are the physical proof that milestones matter. From the 24-hour surrender chip to multi-decade anniversary coins, each handcrafted token carries the weight of every day you've chosen recovery. Hold yours and remember why you started.",
+  primaryCTA: {label: 'Shop All Recovery Tokens', href: '/collections/all'},
+  featuredCollectionHandle: 'all',
+  relatedPageSlugs: [
+    'sobriety-coins',
+    'aa-coins',
+    'na-coins',
+    'recovery-gifts',
+    '1-year-sobriety-coin',
+    'recovery-medallions',
+  ],
+  sections: [
+    {
+      type: 'text',
+      heading: 'What Are Recovery Tokens?',
+      body: "Recovery tokens are physical coins, chips, and medallions given to people in recovery from addiction to mark sobriety milestones. The tradition began in Alcoholics Anonymous in the 1940s, when members started handing out small tokens to celebrate clean time — 24 hours, 30 days, 90 days, 1 year, and beyond.\n\nToday, recovery tokens are used across AA, Narcotics Anonymous, Celebrate Recovery, SMART Recovery, and countless other programs worldwide. They go by many names — sobriety coins, AA chips, recovery medallions, clean-time tokens — but they all serve the same purpose: turning an invisible achievement into something you can hold in your hand.\n\nA recovery token isn't just a coin. It's a daily reminder that you chose sobriety today, a talisman to reach for when temptation hits, and a symbol of belonging to a community that understands what it took to get here.",
+    },
+    {type: 'productShowcase', heading: 'Shop Recovery Tokens', body: ''},
+    {
+      type: 'text',
+      heading: 'Why Premium Recovery Tokens Matter',
+      body: "The token you carry every day should feel like it means something. Mass-produced aluminum chips serve their purpose at meetings, but a premium recovery token — handcrafted from bronze, finished with care, weighted to feel substantial in your pocket — becomes something more.\n\nAt Coinplugz, every recovery token is designed to last a lifetime. We use premium materials and meticulous finishing because the milestone it represents deserves nothing less. When you pull your coin out in a quiet moment, the weight of it should match the weight of what you've accomplished.\n\nMany people in long-term recovery say their token is the most meaningful object they own. Not because of what it cost, but because of what it represents: every hard morning, every meeting attended, every day they chose to keep going.",
+    },
+    {
+      type: 'text',
+      heading: 'Recovery Token Milestones',
+      body: "Recovery tokens follow a milestone system rooted in decades of 12-step tradition. While colors and designs vary by program and region, the most recognized milestones include:\n\n24 hours (the surrender chip) — the most important token, representing the decision to begin. 30 days, 60 days, and 90 days mark the critical early months. 6 months and 9 months recognize sustained commitment. Then annual milestones begin — 1 year, 2 years, 5 years, 10 years, and beyond.\n\nEach milestone carries its own emotional weight. The 24-hour chip is raw courage. The 1-year coin is proof that it's possible. The 10-year medallion is a testament to a life rebuilt. At Coinplugz, we craft tokens for every one of these milestones because every single one deserves to be celebrated.",
+    },
+    {
+      type: 'text',
+      heading: 'How People Use Recovery Tokens',
+      body: "Recovery tokens aren't display pieces — they're daily companions. Most people carry their token in a pocket, wallet, or on a keychain. The act of reaching for it throughout the day creates a physical connection to recovery that no app or calendar reminder can replicate.\n\nAt meetings, receiving a token is a moment of community celebration. The person picks up their chip, the room applauds, and for that moment, the invisible work of staying sober becomes visible to everyone.\n\nMany people also give recovery tokens as gifts — sponsors to sponsees, family members to loved ones, friends supporting someone's journey. A recovery token says what's hard to put into words: I see you, I'm proud of you, and your sobriety matters.",
+    },
+  ],
+  faq: [
+    {
+      question: 'What is a recovery token?',
+      answer:
+        'A recovery token is a physical coin or medallion given to mark sobriety milestones in addiction recovery. Also called sobriety coins, AA chips, or recovery medallions, they originated in Alcoholics Anonymous in the 1940s and are now used across many recovery programs worldwide.',
+    },
+    {
+      question: 'What are recovery tokens used for?',
+      answer:
+        "Recovery tokens serve as tangible reminders of sobriety milestones. People carry them daily in pockets or on keychains as a physical connection to their recovery. They're also presented at meetings to celebrate milestones, given as gifts by sponsors and loved ones, and collected over the years as markers of a recovery journey.",
+    },
+    {
+      question: 'What milestones do recovery tokens celebrate?',
+      answer:
+        'Common recovery token milestones include 24 hours (the surrender chip), 30 days, 60 days, 90 days, 6 months, 9 months, and annual anniversaries from 1 year onward. Some programs also recognize 1 week and 18 months. At Coinplugz, we offer premium tokens for every milestone.',
+    },
+    {
+      question: 'Where can I buy recovery tokens?',
+      answer:
+        'You can buy recovery tokens at Coinplugz.com. We offer handcrafted, premium-quality sobriety coins and recovery medallions for every milestone. Our tokens are designed to be carried daily and built to last a lifetime. We ship worldwide with free shipping on qualifying orders.',
+    },
+    {
+      question: 'Do recovery tokens only work for AA?',
+      answer:
+        'No. While recovery tokens originated in Alcoholics Anonymous, they are used across Narcotics Anonymous, Celebrate Recovery, SMART Recovery, and many other programs. Anyone in recovery from addiction can carry a token — program affiliation is not required.',
+    },
+    {
+      question: 'What are recovery tokens made of?',
+      answer:
+        'Recovery tokens can be made from aluminum, bronze, brass, nickel, or precious metals. At Coinplugz, we use premium bronze and high-quality finishing for tokens that feel substantial and are built to last. Our handcrafted process ensures each token is worthy of the milestone it represents.',
     },
   ],
   schema: ['breadcrumb', 'faq', 'webPage'],

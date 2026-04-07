@@ -126,7 +126,7 @@ export function GlossaryDetailTemplate({
           >
             {sanityTerm.name}
           </h1>
-          <p className="text-lg text-white/60 leading-relaxed border-l-2 border-accent pl-4">
+          <p className="text-lg text-white/60 leading-relaxed border-l-2 border-accent" style={{paddingLeft: '1.5rem'}}>
             {sanityTerm.definition}
           </p>
         </div>
@@ -134,9 +134,9 @@ export function GlossaryDetailTemplate({
 
       {/* Extended Content */}
       <section className="container-standard py-12">
-        <div className="text-white/50 leading-relaxed max-w-3xl space-y-4">
+        <div className="text-white/50 leading-relaxed max-w-3xl">
           {glossary.extendedContent.split('\n\n').map((paragraph, idx) => (
-            <p key={idx}>{paragraph}</p>
+            <p key={idx} style={{marginBottom: '1.5rem'}}>{paragraph}</p>
           ))}
         </div>
       </section>

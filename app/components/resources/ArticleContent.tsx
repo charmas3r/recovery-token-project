@@ -66,7 +66,8 @@ export function ArticleContent({blocks}: ArticleContentProps) {
             return (
               <p
                 key={index}
-                className="text-body text-white/50 leading-[1.8] mb-6"
+                className="text-body text-white/50 leading-[1.8]"
+                style={{marginBottom: '1.5rem'}}
               >
                 {renderInlineContent(block.content)}
               </p>

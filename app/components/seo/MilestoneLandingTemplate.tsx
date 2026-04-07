@@ -203,9 +203,9 @@ export function MilestoneLandingTemplate({
                       {section.heading}
                     </h2>
                   )}
-                  <div className="text-white/50 leading-relaxed max-w-3xl space-y-4">
+                  <div className="text-white/50 leading-relaxed max-w-3xl">
                     {section.body.split('\n\n').map((paragraph, pIdx) => (
-                      <p key={pIdx}>{paragraph}</p>
+                      <p key={pIdx} style={{marginBottom: '1.5rem'}}>{paragraph}</p>
                     ))}
                   </div>
                 </section>

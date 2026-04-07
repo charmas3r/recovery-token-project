@@ -144,7 +144,7 @@ export function GlossaryDetailTemplate({
       {/* Related Products */}
       {products.length > 0 && (
         <section className="container-standard py-12">
-          <h2 className="font-display text-subsection text-white mb-8">
+          <h2 className="font-display text-subsection text-white" style={{marginBottom: '2rem'}}>
             Shop {sanityTerm.name}
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl">
@@ -181,7 +181,7 @@ export function GlossaryDetailTemplate({
       {/* Related Terms */}
       {relatedTermPages.length > 0 && (
         <section className="container-standard py-12">
-          <h2 className="font-display text-subsection text-white mb-8">
+          <h2 className="font-display text-subsection text-white" style={{marginBottom: '2rem'}}>
             Related Terms
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">

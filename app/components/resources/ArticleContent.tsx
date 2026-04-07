@@ -46,7 +46,8 @@ export function ArticleContent({blocks}: ArticleContentProps) {
                 <h2
                   key={index}
                   id={block.id}
-                  className="font-display text-2xl md:text-[1.75rem] font-bold text-white mt-14 mb-6 scroll-mt-24"
+                  className="font-display text-2xl md:text-[1.75rem] font-bold text-white scroll-mt-24"
+                  style={{marginTop: '3.5rem', marginBottom: '1.5rem'}}
                 >
                   {block.text}
                 </h2>
@@ -56,7 +57,8 @@ export function ArticleContent({blocks}: ArticleContentProps) {
               <h3
                 key={index}
                 id={block.id}
-                className="font-display text-xl font-bold text-white mt-10 mb-4 scroll-mt-24"
+                className="font-display text-xl font-bold text-white scroll-mt-24"
+                style={{marginTop: '2.5rem', marginBottom: '1rem'}}
               >
                 {block.text}
               </h3>
@@ -77,13 +79,14 @@ export function ArticleContent({blocks}: ArticleContentProps) {
             return (
               <blockquote
                 key={index}
-                className="my-6 pl-6 border-l-4 border-accent/40 italic"
+                className="border-l-4 border-accent/40 italic"
+                style={{marginTop: '1.5rem', marginBottom: '1.5rem', paddingLeft: '1.5rem'}}
               >
                 <p className="text-body-lg text-white/50 leading-relaxed">
                   {block.text}
                 </p>
                 {block.attribution && (
-                  <footer className="mt-2 text-body-sm text-white/40 not-italic">
+                  <footer className="text-body-sm text-white/40 not-italic" style={{marginTop: '0.5rem'}}>
                     — {block.attribution}
                   </footer>
                 )}
@@ -95,7 +98,8 @@ export function ArticleContent({blocks}: ArticleContentProps) {
               return (
                 <ol
                   key={index}
-                  className="my-6 pl-6 space-y-3 list-decimal text-body text-white/50 leading-[1.8]"
+                  className="list-decimal text-body text-white/50 leading-[1.8]"
+                  style={{marginTop: '1.5rem', marginBottom: '1.5rem', paddingLeft: '1.5rem', display: 'flex', flexDirection: 'column', gap: '0.75rem'}}
                 >
                   {block.items.map((item, i) => (
                     <li key={i}>{item}</li>
@@ -106,7 +110,8 @@ export function ArticleContent({blocks}: ArticleContentProps) {
             return (
               <ul
                 key={index}
-                className="my-6 pl-6 space-y-3 list-disc text-body text-white/50 leading-[1.8]"
+                className="list-disc text-body text-white/50 leading-[1.8]"
+                style={{marginTop: '1.5rem', marginBottom: '1.5rem', paddingLeft: '1.5rem', display: 'flex', flexDirection: 'column', gap: '0.75rem'}}
               >
                 {block.items.map((item, i) => (
                   <li key={i}>{item}</li>
@@ -119,7 +124,8 @@ export function ArticleContent({blocks}: ArticleContentProps) {
             return (
               <div
                 key={index}
-                className={`my-6 rounded-xl p-5 ${
+                style={{marginTop: '1.5rem', marginBottom: '1.5rem', padding: '1.25rem'}}
+                className={`rounded-xl ${
                   block.variant === 'tip'
                     ? 'bg-accent/10 border border-accent/20'
                     : 'bg-blue-500/10 border border-blue-500/20'
@@ -157,7 +163,7 @@ export function ArticleContent({blocks}: ArticleContentProps) {
 
           case 'image':
             return (
-              <figure key={index} className="my-8">
+              <figure key={index} style={{marginTop: '2rem', marginBottom: '2rem'}}>
                 <img
                   src={block.src}
                   alt={block.alt}
@@ -165,7 +171,7 @@ export function ArticleContent({blocks}: ArticleContentProps) {
                   className="w-full rounded-xl"
                 />
                 {block.caption && (
-                  <figcaption className="mt-3 text-center text-body-sm text-white/40 italic">
+                  <figcaption className="text-center text-body-sm text-white/40 italic" style={{marginTop: '0.75rem'}}>
                     {block.caption}
                   </figcaption>
                 )}

@@ -16,6 +16,14 @@ import {getSEOPage} from '~/data/seo-pages';
 import type {SEOPage} from '~/data/seo-pages';
 import type {GlossaryTerm} from '~/data/glossary-terms';
 
+interface RelatedArticle {
+  slug: string;
+  title: string;
+  excerpt: string;
+  category: string;
+  readTime: number;
+}
+
 interface GlossaryDetailTemplateProps {
   page: SEOPage;
   sanityTerm: GlossaryTerm;
@@ -34,12 +42,14 @@ interface GlossaryDetailTemplateProps {
       minVariantPrice: MoneyV2;
     };
   }>;
+  relatedArticles?: RelatedArticle[];
 }
 
 export function GlossaryDetailTemplate({
   page,
   sanityTerm,
   products,
+  relatedArticles = [],
 }: GlossaryDetailTemplateProps) {
   const glossary = page.glossary!;
 
@@ -176,6 +186,49 @@ export function GlossaryDetailTemplate({
         <div className="container-standard py-12">
           <SEOFaqAccordion items={page.faq} />
         </div>
+      )}
+
+      {/* Related Articles */}
+      {relatedArticles.length > 0 && (
+        <section className="container-standard" style={{paddingTop: '3rem', paddingBottom: '3rem'}}>
+          <h2
+            className="font-display text-subsection text-white"
+            style={{marginBottom: '2rem'}}
+          >
+            Articles About {sanityTerm.name}
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {relatedArticles.slice(0, 3).map((article) => (
+              <Link
+                key={article.slug}
+                to={`/resources/articles/${article.slug}`}
+                prefetch="intent"
+                className="group block rounded-2xl border border-white/[0.08] hover:border-white/[0.15] transition-all duration-300 hover:-translate-y-1"
+                style={{
+                  background:
+                    'linear-gradient(180deg, #111 0%, #0A0A0A 40%, #080808 100%)',
+                  padding: '1.5rem',
+                }}
+              >
+                <span
+                  className="text-accent uppercase tracking-wider font-semibold"
+                  style={{fontSize: '0.65rem', display: 'block', marginBottom: '0.5rem'}}
+                >
+                  {article.category} · {article.readTime} min read
+                </span>
+                <h3
+                  className="text-white font-bold group-hover:text-accent transition-colors"
+                  style={{marginBottom: '0.5rem'}}
+                >
+                  {article.title}
+                </h3>
+                <p className="text-white/50 text-sm line-clamp-2">
+                  {article.excerpt}
+                </p>
+              </Link>
+            ))}
+          </div>
+        </section>
       )}
 
       {/* Related Terms */}

@@ -24,19 +24,29 @@ const STATIC_PAGES = [
   {url: '/newsletter', changeFreq: 'monthly', priority: 0.4},
 ] as const;
 
-async function getAllSitemapEntries() {
+interface SitemapEntry {
+  url: string;
+  changeFreq: string;
+  priority: number;
+  lastmod?: string;
+}
+
+async function getAllSitemapEntries(): Promise<SitemapEntry[]> {
   const seoPages = getAllSEOPages();
-  const seoEntries = seoPages.map((page) => ({
+  const seoEntries: SitemapEntry[] = seoPages.map((page) => ({
     url: `/${page.canonicalPath}`,
-    changeFreq: 'weekly' as const,
+    changeFreq: 'weekly',
     priority: page.type === 'commercial' ? 0.8 : page.type === 'milestone' ? 0.7 : 0.6,
   }));
 
   const articles = await getAllArticles();
-  const articleEntries = articles.map((article) => ({
+  const articleEntries: SitemapEntry[] = articles.map((article) => ({
     url: `/resources/articles/${article.slug}`,
-    changeFreq: 'weekly' as const,
+    changeFreq: 'weekly',
     priority: 0.7,
+    lastmod: article.updatedAt
+      ? new Date(article.updatedAt).toISOString().split('T')[0]
+      : undefined,
   }));
 
   return [...STATIC_PAGES, ...seoEntries, ...articleEntries];
@@ -46,14 +56,16 @@ export async function loader({request}: Route.LoaderArgs) {
   const url = new URL(request.url);
   const origin = url.origin;
 
-  const urlEntries = (await getAllSitemapEntries()).map(
-    (page) =>
-      `  <url>
-    <loc>${origin}${page.url}</loc>
+  const urlEntries = (await getAllSitemapEntries())
+    .map(
+      (page) =>
+        `  <url>
+    <loc>${origin}${page.url}</loc>${page.lastmod ? `\n    <lastmod>${page.lastmod}</lastmod>` : ''}
     <changefreq>${page.changeFreq}</changefreq>
     <priority>${page.priority}</priority>
   </url>`,
-  ).join('\n');
+    )
+    .join('\n');
 
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

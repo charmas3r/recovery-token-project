@@ -9,7 +9,7 @@ import {useLoaderData} from 'react-router';
 import type {Route} from './+types/resources.glossary.$term';
 import {getSEOPage} from '~/data/seo-pages';
 import {buildMeta} from '~/lib/meta';
-import {getAllGlossaryTerms} from '~/lib/sanity.queries';
+import {getAllGlossaryTerms, getAllArticles} from '~/lib/sanity.queries';
 import {COLLECTION_WITH_PRODUCTS_QUERY} from '~/graphql/seo-queries';
 import {GlossaryDetailTemplate} from '~/components/seo/GlossaryDetailTemplate';
 
@@ -30,12 +30,20 @@ export async function loader({params, context}: Route.LoaderArgs) {
     throw new Response('Not Found', {status: 404});
   }
 
-  // Fetch base term from Sanity
-  const allTerms = await getAllGlossaryTerms();
+  // Fetch base term from Sanity + all articles for reverse lookup
+  const [allTerms, allArticles] = await Promise.all([
+    getAllGlossaryTerms(),
+    getAllArticles(),
+  ]);
   const sanityTerm = allTerms.find((t) => t.slug === termSlug);
   if (!sanityTerm) {
     throw new Response('Term not found', {status: 404});
   }
+
+  // Find articles that reference this glossary term
+  const relatedArticles = allArticles.filter(
+    (a) => a.relatedTerms?.includes(termSlug),
+  );
 
   // Fetch related products if linked
   let products: Array<Record<string, unknown>> = [];
@@ -50,17 +58,19 @@ export async function loader({params, context}: Route.LoaderArgs) {
     products = collection?.products?.nodes ?? [];
   }
 
-  return {page, sanityTerm, products};
+  return {page, sanityTerm, products, relatedArticles};
 }
 
 export default function GlossaryDetailPage() {
-  const {page, sanityTerm, products} = useLoaderData<typeof loader>();
+  const {page, sanityTerm, products, relatedArticles} =
+    useLoaderData<typeof loader>();
 
   return (
     <GlossaryDetailTemplate
       page={page}
       sanityTerm={sanityTerm as any}
       products={products as any}
+      relatedArticles={relatedArticles as any}
     />
   );
 }

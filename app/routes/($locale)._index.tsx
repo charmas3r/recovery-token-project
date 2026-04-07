@@ -26,6 +26,13 @@ import {
   HoverLift,
   motion,
 } from '~/components/ui/Animations';
+import {getSEOPage} from '~/data/seo-pages';
+import {
+  COLLECTION_WITH_PRODUCTS_QUERY,
+  PRODUCTS_BY_HANDLES_QUERY,
+} from '~/graphql/seo-queries';
+import {CommercialLandingTemplate} from '~/components/seo/CommercialLandingTemplate';
+import {MilestoneLandingTemplate} from '~/components/seo/MilestoneLandingTemplate';
 
 /**
  * Resend-style dark section card — subtle near-black card with
@@ -200,7 +207,13 @@ function ScrambleHeading() {
   );
 }
 
-export const meta: Route.MetaFunction = () => {
+export const meta: Route.MetaFunction = ({data}) => {
+  if (data?.seoPage) {
+    return buildMeta({
+      title: data.seoPage.metaTitle,
+      description: data.seoPage.metaDescription,
+    });
+  }
   return buildMeta({
     title: 'Coinplugz | Premium Recovery Tokens for Every Milestone',
     description:
@@ -209,6 +222,47 @@ export const meta: Route.MetaFunction = () => {
 };
 
 export async function loader(args: Route.LoaderArgs) {
+  // React Router v7 interprets single-segment paths like /recovery-tokens
+  // as locale="recovery-tokens" + _index. Detect SEO page slugs and serve them.
+  const {params, context} = args;
+  if (params.locale) {
+    const page = getSEOPage(params.locale);
+    if (page && page.type !== 'glossary') {
+      let products: Array<Record<string, unknown>> = [];
+
+      if (page.featuredCollectionHandle) {
+        const {collection} = await context.storefront.query(
+          COLLECTION_WITH_PRODUCTS_QUERY,
+          {
+            variables: {handle: page.featuredCollectionHandle, first: 4},
+            cache: context.storefront.CacheLong(),
+          },
+        );
+        products = collection?.products?.nodes ?? [];
+      } else if (
+        page.featuredProductHandles &&
+        page.featuredProductHandles.length > 0
+      ) {
+        const queryStr = page.featuredProductHandles
+          .map((h: string) => `handle:${h}`)
+          .join(' OR ');
+        const {products: result} = await context.storefront.query(
+          PRODUCTS_BY_HANDLES_QUERY,
+          {
+            variables: {
+              first: page.featuredProductHandles.length,
+              query: queryStr,
+            },
+            cache: context.storefront.CacheLong(),
+          },
+        );
+        products = result?.nodes ?? [];
+      }
+
+      return {seoPage: page, seoProducts: products};
+    }
+  }
+
   const deferredData = loadDeferredData(args);
   const criticalData = await loadCriticalData(args);
   return {...deferredData, ...criticalData};
@@ -333,6 +387,16 @@ async function fetchProductReviewSummaries(env: {
  */
 export default function Homepage() {
   const data = useLoaderData<typeof loader>();
+
+  // Render SEO landing page when the route matched an SEO slug
+  if ('seoPage' in data && data.seoPage) {
+    const {seoPage, seoProducts} = data as {seoPage: any; seoProducts: any};
+    if (seoPage.type === 'milestone') {
+      return <MilestoneLandingTemplate page={seoPage} products={seoProducts} />;
+    }
+    return <CommercialLandingTemplate page={seoPage} products={seoProducts} />;
+  }
+
   return (
     <div className="overflow-x-hidden">
       <HeroSection collection={data.featuredCollection} />

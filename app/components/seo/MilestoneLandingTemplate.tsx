@@ -143,7 +143,7 @@ export function MilestoneLandingTemplate({
               <Button
                 variant="primary"
                 size="lg"
-                className="!bg-accent !text-white"
+                className="!bg-accent !text-black"
               >
                 {page.primaryCTA.label}
               </Button>
@@ -274,7 +274,7 @@ export function MilestoneLandingTemplate({
             <Button
               variant="primary"
               size="lg"
-              className="!bg-accent !text-white"
+              className="!bg-accent !text-black"
             >
               {page.primaryCTA.label}
             </Button>

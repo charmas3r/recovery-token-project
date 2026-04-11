@@ -69,15 +69,15 @@ const SCRAMBLE_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123
 
 const HERO_WORDS = [
   {
-    word: 'Journey',
+    word: 'Story',
     gradient: 'linear-gradient(90deg, #00C6FF 0%, #0072FF 100%)',
   },
   {
-    word: 'Recovery',
+    word: 'Symbol',
     gradient: 'linear-gradient(90deg, #00F260 0%, #0575E6 100%)',
   },
   {
-    word: 'Milestone',
+    word: 'Legacy',
     gradient: 'linear-gradient(90deg, #7C3AED 0%, #C026D3 50%, #FF2D92 100%)',
   },
 ] as const;
@@ -189,7 +189,7 @@ function ScrambleHeading() {
         fontFeatureSettings: '"ss01", "ss04", "ss11"',
       }}
     >
-      Honor Every{' '}
+      Design Your Own{' '}
       <span
         ref={spanRef}
         className="block"
@@ -201,7 +201,7 @@ function ScrambleHeading() {
           backgroundClip: 'text',
         }}
       >
-        Milestone
+        Legacy
       </span>
     </h1>
   );
@@ -441,15 +441,16 @@ function HeroSection({
             {/* Subheading */}
             <HeroItem>
               <p className="text-lg lg:text-xl text-white/60 leading-relaxed lg:max-w-[32rem]">
-                Celebrate recovery journeys with hand-crafted tokens in every color.
-                Each piece tells a story of strength, hope, and transformation.
+                Create a one-of-a-kind token that tells your story. Choose the
+                metal, the symbols, and the words that matter — handcrafted to
+                last a lifetime.
               </p>
             </HeroItem>
 
             {/* CTA Buttons */}
             <HeroItem>
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mt-10">
-                <Link to="/collections/all">
+                <Link to="/custom-token">
                   <motion.div
                     whileHover={{scale: 1.02}}
                     whileTap={{scale: 0.98}}
@@ -460,18 +461,18 @@ function HeroSection({
                       size="lg"
                       className="w-full sm:w-auto !px-10"
                     >
-                      Shop Recovery Tokens
+                      Design It Yourself
                     </Button>
                   </motion.div>
                 </Link>
-                <Link to="/about">
+                <Link to="/custom-token">
                     <Button
                       variant="secondary"
                       size="lg"
                       className="w-full sm:w-auto"
                       as="span"
                     >
-                      Our Story
+                      Have Us Design It
                     </Button>
                 </Link>
               </div>

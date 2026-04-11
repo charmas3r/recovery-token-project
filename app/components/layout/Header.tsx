@@ -588,8 +588,34 @@ function MobileNav({
       >
         {/* Main menu panel */}
         <div style={{width: '50%', display: 'flex', flexDirection: 'column', minHeight: 0}}>
-          {/* Top Actions (Account, Cart, Order History, Search) */}
+          {/* Top Actions (Design CTA, Account, Cart, Order History, Search) */}
           <div style={{padding: '16px 24px 8px', flexShrink: 0}}>
+            {/* Custom Token CTA — primary conversion */}
+            <NavLink
+              to="/custom-token"
+              onClick={close}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px',
+                padding: '16px 20px',
+                marginBottom: '8px',
+                background: 'var(--color-accent, #B8764F)',
+                borderRadius: '12px',
+                color: '#000',
+                textDecoration: 'none',
+                fontFamily: navFont,
+                fontSize: '1rem',
+                fontWeight: 600,
+              }}
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 20h9" />
+                <path d="M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+              </svg>
+              Design Your Token
+            </NavLink>
             {/* Account & Cart row */}
             <div style={{display: 'flex', gap: '8px'}}>
               <NavLink
@@ -934,9 +960,16 @@ function HeaderCtas({
   cart,
 }: Pick<HeaderProps, 'isLoggedIn' | 'cart'>) {
   return (
-    <nav className="flex items-center gap-6" role="navigation">
+    <nav className="flex items-center gap-4" role="navigation">
+      <NavLink
+        prefetch="intent"
+        to="/custom-token"
+        className="hidden lg:inline-flex items-center justify-center h-9 px-4 rounded-full bg-accent text-black text-sm font-semibold hover:bg-accent/90 transition-colors"
+      >
+        Design Your Token
+      </NavLink>
       <HeaderMenuMobileToggle />
-      <div className="hidden lg:flex items-center gap-6">
+      <div className="hidden lg:flex items-center gap-5">
         <SearchToggle />
         <CartToggle cart={cart} />
         <NavLink

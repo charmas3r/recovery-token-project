@@ -207,17 +207,23 @@ function ScrambleHeading() {
   );
 }
 
-export const meta: Route.MetaFunction = ({data}) => {
+export const meta: Route.MetaFunction = ({data, params}) => {
+  // ($locale) is used as an SEO slug on the home route — when present, the
+  // canonical should be the slug path, not '/'.
+  const canonical = params.locale ? `/${params.locale}` : '/';
+
   if (data?.seoPage) {
     return buildMeta({
       title: data.seoPage.metaTitle,
       description: data.seoPage.metaDescription,
+      canonical,
     });
   }
   return buildMeta({
     title: 'Coinplugz | Premium Recovery Tokens for Every Milestone',
     description:
       'Premium hand-crafted recovery tokens celebrating sobriety milestones. Honor every step of your journey with tokens made to last a lifetime.',
+    canonical: '/',
   });
 };
 

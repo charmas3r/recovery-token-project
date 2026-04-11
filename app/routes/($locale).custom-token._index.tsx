@@ -2,6 +2,7 @@ import {Form, redirect, useNavigation} from 'react-router';
 import type {Route} from './+types/($locale).custom-token._index';
 import {updateCustomTokenSession, clearCustomTokenSession} from '~/lib/custom-token-session';
 import type {AppSession} from '~/lib/session';
+import {buildMeta} from '~/lib/meta';
 
 export async function action({request, context}: Route.ActionArgs) {
   const formData = await request.formData();
@@ -24,6 +25,15 @@ export async function action({request, context}: Route.ActionArgs) {
     headers: {'Set-Cookie': await session.commit()},
   });
 }
+
+export const meta: Route.MetaFunction = () => {
+  return buildMeta({
+    title: 'Create Your Own Token | Custom Recovery Tokens | Coinplugz',
+    description:
+      'Design a custom recovery token with our guided wizard — choose materials, engraving, and occasion for a one-of-a-kind sobriety milestone keepsake.',
+    canonical: '/custom-token',
+  });
+};
 
 export default function CustomTokenLanding() {
   const navigation = useNavigation();

@@ -1,4 +1,4 @@
-import {Await, useLoaderData, Link} from 'react-router';
+import {Await, useLoaderData, Link, Form} from 'react-router';
 import type {Route} from './+types/_index';
 import {Suspense, useState, useEffect, useCallback, useRef, useMemo} from 'react';
 import type {
@@ -450,13 +450,15 @@ function HeroSection({
             {/* CTA Buttons */}
             <HeroItem>
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mt-10">
-                <Link to="/custom-token">
+                <Form method="post" action="/custom-token">
+                  <input type="hidden" name="path" value="you-design" />
                   <motion.div
                     whileHover={{scale: 1.02}}
                     whileTap={{scale: 0.98}}
                     transition={{duration: 0.2}}
                   >
                     <Button
+                      type="submit"
                       variant="primary"
                       size="lg"
                       className="w-full sm:w-auto !px-10"
@@ -464,17 +466,18 @@ function HeroSection({
                       Design It Yourself
                     </Button>
                   </motion.div>
-                </Link>
-                <Link to="/custom-token">
-                    <Button
-                      variant="secondary"
-                      size="lg"
-                      className="w-full sm:w-auto"
-                      as="span"
-                    >
-                      Have Us Design It
-                    </Button>
-                </Link>
+                </Form>
+                <Form method="post" action="/custom-token">
+                  <input type="hidden" name="path" value="we-design" />
+                  <Button
+                    type="submit"
+                    variant="secondary"
+                    size="lg"
+                    className="w-full sm:w-auto"
+                  >
+                    Have Us Design It
+                  </Button>
+                </Form>
               </div>
             </HeroItem>
           </HeroContent>

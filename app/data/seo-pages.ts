@@ -22,6 +22,19 @@ export interface ContentSection {
   collectionHandle?: string;
 }
 
+/**
+ * Per-page copy override for the CustomTokenFeatureBlock component.
+ * Each field is optional; omitted fields fall back to the shared default copy
+ * defined in CustomTokenFeatureBlock.tsx.
+ */
+export interface CustomTokenBlockCopy {
+  eyebrow?: string;
+  headline?: string;
+  body?: string;
+  primaryCtaLabel?: string;
+  secondaryCtaLabel?: string;
+}
+
 export interface SEOPage {
   slug: string;
   type: SEOPageType;
@@ -73,13 +86,7 @@ export interface SEOPage {
    * Optional per-page override for the CustomTokenFeatureBlock copy.
    * Falls back to the shared default copy in CustomTokenFeatureBlock.tsx when omitted.
    */
-  customTokenBlock?: {
-    eyebrow?: string;
-    headline?: string;
-    body?: string;
-    primaryCtaLabel?: string;
-    secondaryCtaLabel?: string;
-  };
+  customTokenBlock?: CustomTokenBlockCopy;
 }
 
 // --- Data Store ---

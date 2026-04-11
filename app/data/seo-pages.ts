@@ -60,6 +60,26 @@ export interface SEOPage {
   };
 
   schema: SchemaType[];
+
+  /**
+   * Which template to render. Only consulted when `type === 'commercial'`.
+   * - undefined → CommercialLandingTemplate (legacy, all existing commercial pages)
+   * - 'generic-seo' → GenericSEOLandingTemplate (Tier A phrase-match pages)
+   * - 'custom-intent' → CustomIntentLandingTemplate (Tier B custom-flow-forward pages)
+   */
+  template?: 'generic-seo' | 'custom-intent';
+
+  /**
+   * Optional per-page override for the CustomTokenFeatureBlock copy.
+   * Falls back to the shared default copy in CustomTokenFeatureBlock.tsx when omitted.
+   */
+  customTokenBlock?: {
+    eyebrow?: string;
+    headline?: string;
+    body?: string;
+    primaryCtaLabel?: string;
+    secondaryCtaLabel?: string;
+  };
 }
 
 // --- Data Store ---

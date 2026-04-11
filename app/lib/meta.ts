@@ -1,4 +1,5 @@
 const SITE_NAME = 'Coinplugz';
+const SITE_URL = 'https://coinplugz.com';
 const DEFAULT_OG_IMAGE =
   'https://cdn.shopify.com/s/files/1/0980/8330/7822/files/og-image.webp?v=1773774508';
 const DEFAULT_DESCRIPTION =
@@ -12,8 +13,25 @@ interface BuildMetaOptions {
   ogImageHeight?: string;
   ogType?: string;
   url?: string;
+  canonical?: string;
   noIndex?: boolean;
   extra?: Array<Record<string, string>>;
+}
+
+/**
+ * Resolve an absolute URL from a root-relative path or pass-through an
+ * already-absolute URL. Strips a trailing slash except at the site root.
+ */
+function resolveUrl(value?: string): string | undefined {
+  if (!value) return undefined;
+  if (value.startsWith('http://') || value.startsWith('https://')) {
+    return value;
+  }
+  const path = value.startsWith('/') ? value : `/${value}`;
+  const full = `${SITE_URL}${path}`;
+  return full.length > SITE_URL.length + 1 && full.endsWith('/')
+    ? full.slice(0, -1)
+    : full;
 }
 
 export function buildMeta({
@@ -24,9 +42,13 @@ export function buildMeta({
   ogImageHeight = '630',
   ogType = 'website',
   url,
+  canonical,
   noIndex,
   extra = [],
 }: BuildMetaOptions) {
+  const absoluteUrl = resolveUrl(url);
+  const absoluteCanonical = resolveUrl(canonical) ?? absoluteUrl;
+
   const meta: Array<Record<string, string>> = [
     {title},
     {name: 'description', content: description},
@@ -43,8 +65,16 @@ export function buildMeta({
     {name: 'twitter:image', content: ogImage},
   ];
 
-  if (url) {
-    meta.push({property: 'og:url', content: url});
+  if (absoluteUrl) {
+    meta.push({property: 'og:url', content: absoluteUrl});
+  }
+
+  if (absoluteCanonical) {
+    meta.push({
+      tagName: 'link',
+      rel: 'canonical',
+      href: absoluteCanonical,
+    });
   }
 
   if (noIndex) {

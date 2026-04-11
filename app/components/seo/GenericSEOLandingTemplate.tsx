@@ -24,6 +24,7 @@ import {SEOFaqAccordion} from '~/components/seo/SEOFaqAccordion';
 import {SEORelatedPages} from '~/components/seo/SEORelatedPages';
 import {SEOTrustBar} from '~/components/seo/SEOTrustBar';
 import {CustomTokenFeatureBlock} from '~/components/seo/CustomTokenFeatureBlock';
+import {buildBreadcrumbList} from '~/lib/jsonld';
 import type {SEOPage} from '~/data/seo-pages';
 
 interface GenericSEOLandingTemplateProps {
@@ -51,24 +52,10 @@ export function GenericSEOLandingTemplate({
 }: GenericSEOLandingTemplateProps) {
   const breadcrumbItems = [{label: page.title}];
 
-  const breadcrumbSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      {
-        '@type': 'ListItem',
-        position: 1,
-        name: 'Home',
-        item: 'https://coinplugz.com/',
-      },
-      {
-        '@type': 'ListItem',
-        position: 2,
-        name: page.title,
-        item: `https://coinplugz.com/${page.canonicalPath}`,
-      },
-    ],
-  };
+  const breadcrumbSchema = buildBreadcrumbList([
+    {name: 'Home', path: '/'},
+    {name: page.title, path: `/${page.canonicalPath}`},
+  ]);
 
   const webPageSchema = {
     '@context': 'https://schema.org',
@@ -273,7 +260,7 @@ export function GenericSEOLandingTemplate({
               marginBottom: '1rem',
             }}
           >
-            Ready to shop {page.title.toLowerCase()}?
+            Ready to shop {page.title}?
           </h2>
           <p
             style={{

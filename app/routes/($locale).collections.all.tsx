@@ -1,8 +1,10 @@
 import type {Route} from './+types/collections.all';
-import {useLoaderData} from 'react-router';
+import {useLoaderData, Form} from 'react-router';
 import {getPaginationVariables, Image, Money} from '@shopify/hydrogen';
 import {PaginatedResourceSection} from '~/components/layout/PaginatedResourceSection';
 import {ProductItem} from '~/components/product/ProductItem';
+import {Button} from '~/components/ui/Button';
+import {FEATURE_FLAGS} from '~/lib/feature-flags';
 import type {CollectionItemFragment} from 'storefrontapi.generated';
 import {buildMeta} from '~/lib/meta';
 
@@ -57,20 +59,114 @@ export default function Collection() {
 
   return (
     <div className="collection">
-      <h1>Products</h1>
-      <PaginatedResourceSection<CollectionItemFragment>
-        connection={products}
-        resourcesClassName="products-grid"
-      >
-        {({node: product, index}) => (
-          <ProductItem
-            key={product.id}
-            product={product}
-            loading={index < 8 ? 'eager' : undefined}
-          />
-        )}
-      </PaginatedResourceSection>
+      {FEATURE_FLAGS.CUSTOM_TOKEN && <ShopHero />}
+      <div className="container-wide py-2xl">
+        <h1 className="font-display text-section text-white mb-lg">
+          All Products
+        </h1>
+        <PaginatedResourceSection<CollectionItemFragment>
+          connection={products}
+          resourcesClassName="products-grid"
+        >
+          {({node: product, index}) => (
+            <ProductItem
+              key={product.id}
+              product={product}
+              loading={index < 8 ? 'eager' : undefined}
+            />
+          )}
+        </PaginatedResourceSection>
+      </div>
     </div>
+  );
+}
+
+/**
+ * Compact custom-token conversion hero — sits above the products grid
+ * to capture visitors who didn't find what they wanted in the catalog.
+ * Two CTAs POST to /custom-token to seed session state, mirroring the
+ * landing page hero (commit a9a7c05).
+ */
+function ShopHero() {
+  return (
+    <section className="relative bg-black border-b border-white/[0.08]">
+      <div className="container-wide">
+        <div
+          style={{
+            textAlign: 'center',
+            maxWidth: '42rem',
+            marginLeft: 'auto',
+            marginRight: 'auto',
+            paddingTop: '4rem',
+            paddingBottom: '4rem',
+          }}
+        >
+          <span
+            style={{
+              display: 'inline-block',
+              color: '#B8764F',
+              fontSize: '0.75rem',
+              textTransform: 'uppercase',
+              letterSpacing: '0.25em',
+              fontWeight: 600,
+              marginBottom: '1rem',
+            }}
+          >
+            Custom Tokens
+          </span>
+          <h2
+            style={{
+              fontFamily: 'var(--font-display, serif)',
+              fontSize: '2.5rem',
+              fontWeight: 700,
+              color: '#FFFFFF',
+              lineHeight: 1.1,
+              marginBottom: '1rem',
+            }}
+          >
+            Don&apos;t see your milestone?
+          </h2>
+          <p
+            style={{
+              fontSize: '1.125rem',
+              lineHeight: 1.6,
+              color: 'rgba(255,255,255,0.5)',
+              maxWidth: '36rem',
+              marginLeft: 'auto',
+              marginRight: 'auto',
+              marginBottom: '2rem',
+            }}
+          >
+            Design a custom token — pick the metal, the symbols, and the
+            words that matter.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Form method="post" action="/custom-token">
+              <input type="hidden" name="path" value="you-design" />
+              <Button
+                type="submit"
+                variant="primary"
+                size="lg"
+                className="w-full sm:w-auto !px-10"
+              >
+                Design It Yourself
+              </Button>
+            </Form>
+            <Form method="post" action="/custom-token">
+              <input type="hidden" name="path" value="we-design" />
+              <Button
+                type="submit"
+                variant="secondary"
+                size="lg"
+                className="w-full sm:w-auto"
+              >
+                Have Us Design It
+              </Button>
+            </Form>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
 

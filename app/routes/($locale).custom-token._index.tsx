@@ -55,7 +55,7 @@ export default function CustomTokenLanding() {
 
       <div style={{display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1.5rem'}}>
         {/* We Design It */}
-        <Form method="post">
+        <Form method="post" action="?index">
           <input type="hidden" name="path" value="we-design" />
           <button
             type="submit"
@@ -86,7 +86,7 @@ export default function CustomTokenLanding() {
         </Form>
 
         {/* You Design It */}
-        <Form method="post">
+        <Form method="post" action="?index">
           <input type="hidden" name="path" value="you-design" />
           <button
             type="submit"

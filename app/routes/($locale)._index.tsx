@@ -456,7 +456,7 @@ function HeroSection({
             {/* CTA Buttons */}
             <HeroItem>
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mt-10">
-                <Form method="post" action="/custom-token">
+                <Form method="post" action="/custom-token?index">
                   <input type="hidden" name="path" value="you-design" />
                   <motion.div
                     whileHover={{scale: 1.02}}
@@ -473,7 +473,7 @@ function HeroSection({
                     </Button>
                   </motion.div>
                 </Form>
-                <Form method="post" action="/custom-token">
+                <Form method="post" action="/custom-token?index">
                   <input type="hidden" name="path" value="we-design" />
                   <Button
                     type="submit"

@@ -2809,3 +2809,74 @@ registerSEOPage({
   },
   schema: ['breadcrumb', 'definedTerm'],
 });
+
+// ============================================================
+// PHRASE-MATCH EXPANSION — TIER A (generic-seo template)
+// ============================================================
+
+registerSEOPage({
+  slug: 'milestone-tokens',
+  type: 'commercial',
+  template: 'generic-seo',
+  title: 'Milestone Tokens',
+  metaTitle: 'Milestone Tokens — Handcrafted Recovery Coins | Coinplugz',
+  metaDescription:
+    'Shop premium milestone tokens for every recovery achievement. Handcrafted coins marking 24 hours, 30 days, 1 year, and every milestone in between. Design your own.',
+  canonicalPath: 'milestone-tokens',
+  eyebrow: 'Mark Every Milestone',
+  heroDescription:
+    'Milestone tokens are the physical proof that the days you strung together actually happened. Handcrafted, weighted, and made to last — one for every milestone that mattered.',
+  primaryCTA: {label: 'Shop Milestone Tokens', href: '/collections/all'},
+  featuredCollectionHandle: 'all',
+  relatedPageSlugs: [
+    'recovery-tokens',
+    'sobriety-coins',
+    '1-year-sobriety-coin',
+    'custom-recovery-token',
+  ],
+  sections: [
+    {
+      type: 'text',
+      heading: 'What Are Milestone Tokens?',
+      body: "Milestone tokens are physical markers — coins, chips, or medallions — given to people in recovery to commemorate specific sobriety achievements. Unlike a generic keepsake, a milestone token is tied to a date: the day you reached 24 hours, 30 days, 90 days, a year, five years, and beyond. Every token corresponds to a moment you decided to keep going.\n\nThe term 'milestone token' is deliberately program-agnostic. AA calls them chips. NA uses medallions and key tags. Celebrate Recovery has its own designs. SMART Recovery doesn't formalize them at all. But the underlying idea is shared across every major recovery tradition: turn an invisible achievement into something you can hold in your hand, and the achievement feels real.\n\nAt Coinplugz, we make milestone tokens for every point in the journey — from the 24-hour surrender chip to 25-year anniversary medallions — and we make them out of premium materials because the days they represent are worth more than stamped aluminum.",
+    },
+    {
+      type: 'text',
+      heading: 'Every Milestone Deserves a Marker',
+      body: "The milestones that matter aren't always the ones you'd expect. The 1-year chip gets the celebrations, but ask anyone in long-term recovery and they'll tell you the 24-hour chip is the one that saved their life. The decision to start — in a church basement, on a couch, in a treatment center parking lot — is the hardest one they ever made. The token that marks that day becomes the most important thing they own.\n\nEarly recovery milestones land hardest: 30 days (the month you proved you could), 60 days (the month you proved the first month wasn't a fluke), 90 days (the quarter that starts to feel like who you are now). Then the half-year and nine-month tokens fill the long stretches where the meetings get quieter and the work gets harder. The 1-year medallion is the first real celebration — the proof you were building toward something.\n\nAnnual milestones after that — 2, 5, 10, 15, 20, 25 years — each carry their own weight. Some mark a quiet morning alone. Others mark the dinner where your family finally stopped waiting for the relapse. Every one of them deserves a token that feels as permanent as the work that earned it.",
+    },
+    {
+      type: 'text',
+      heading: 'Tokens, Chips, Coins, Medallions — What\'s the Difference?',
+      body: "The vocabulary varies by program and region, and the distinctions are mostly historical. 'Chip' comes from AA's earliest days in 1940s Cleveland, when the Clarence Snyder group handed out poker chips at meetings — the cheapest round tokens they could buy. AA kept the name. 'Coin' became popular as designs got more elaborate and manufacturers moved from stamped plastic to cast metal. 'Medallion' tends to describe larger, heavier annual coins — the ones you display rather than carry. 'Token' is the umbrella word that captures all of them.\n\nSome groups treat the terms as strictly different objects — NA, for example, distinguishes key tags (plastic, for shorter clean-time) from medallions (metal, for annual milestones). Other groups use the words interchangeably. When you're shopping for a milestone token, what matters isn't the label — it's whether the object feels substantial enough to carry the weight of what it represents.",
+    },
+  ],
+  faq: [
+    {
+      question: 'What is a milestone token in recovery?',
+      answer:
+        'A milestone token is a physical coin, chip, or medallion given to someone in recovery to mark a specific sobriety achievement — 24 hours, 30 days, 1 year, and so on. The tradition comes from AA but has spread across almost every recovery program. Milestone tokens turn an invisible accomplishment into something tangible you can hold.',
+    },
+    {
+      question: 'Are milestone tokens the same as AA chips?',
+      answer:
+        'AA chips are a type of milestone token. The word "token" is broader — it covers AA chips, NA medallions, Celebrate Recovery coins, and every other program-specific marker. If you\'re shopping for someone whose program you don\'t know, a generic premium milestone token works across every tradition.',
+    },
+    {
+      question: 'What milestones typically get tokens?',
+      answer:
+        'The most common milestone tokens are 24 hours, 30 days, 60 days, 90 days, 6 months, 9 months, and then annual anniversaries starting at 1 year. Some people also collect tokens for 18 months, 2 years, 5 years, 10 years, 15 years, 20 years, and 25 years. Every milestone that matters to you deserves one.',
+    },
+    {
+      question: 'Can I get a custom milestone token made?',
+      answer:
+        'Yes. Our custom token flow lets you design a one-of-a-kind milestone token with your own date, engraving, and imagery. You can either describe your vision and let us design it, or control every detail yourself. The custom flow is built for people who want their milestone marked by something truly personal.',
+    },
+    {
+      question: 'What material is best for a milestone token?',
+      answer:
+        'Bronze is the most traditional and durable choice — it develops a patina over time that many people find meaningful. Silver has a cleaner, more formal look and feels substantial in the hand. Gold is reserved for the most significant milestones — typically 10+ year anniversaries. For daily-carry tokens that need to survive pockets and keyrings, bronze is the most forgiving.',
+    },
+  ],
+  schema: ['breadcrumb', 'faq', 'webPage'],
+});

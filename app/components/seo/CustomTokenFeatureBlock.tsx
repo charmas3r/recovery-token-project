@@ -38,12 +38,12 @@ export function CustomTokenFeatureBlock({
   copy,
   className = '',
 }: CustomTokenFeatureBlockProps) {
-  const eyebrow = copy?.eyebrow ?? DEFAULT_COPY.eyebrow;
-  const headline = copy?.headline ?? DEFAULT_COPY.headline;
-  const body = copy?.body ?? DEFAULT_COPY.body;
-  const primaryCtaLabel = copy?.primaryCtaLabel ?? DEFAULT_COPY.primaryCtaLabel;
+  const eyebrow = copy?.eyebrow || DEFAULT_COPY.eyebrow;
+  const headline = copy?.headline || DEFAULT_COPY.headline;
+  const body = copy?.body || DEFAULT_COPY.body;
+  const primaryCtaLabel = copy?.primaryCtaLabel || DEFAULT_COPY.primaryCtaLabel;
   const secondaryCtaLabel =
-    copy?.secondaryCtaLabel ?? DEFAULT_COPY.secondaryCtaLabel;
+    copy?.secondaryCtaLabel || DEFAULT_COPY.secondaryCtaLabel;
 
   return (
     <section
@@ -178,7 +178,7 @@ export function CustomTokenFeatureBlock({
                 {primaryCtaLabel}
               </Button>
             </Link>
-            <Link to="/custom-token" prefetch="intent">
+            <Link to="/custom-token#how-it-works" prefetch="intent">
               <Button
                 variant="secondary"
                 size="lg"

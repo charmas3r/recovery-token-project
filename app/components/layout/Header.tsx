@@ -964,7 +964,8 @@ function HeaderCtas({
       <NavLink
         prefetch="intent"
         to="/custom-token"
-        className="hidden lg:inline-flex items-center justify-center h-9 px-4 rounded-full bg-accent text-black text-sm font-semibold hover:bg-accent/90 transition-colors"
+        className="hidden lg:inline-flex items-center justify-center h-9 px-4 rounded-full bg-accent text-sm font-semibold hover:bg-accent/90 transition-colors"
+        style={{color: '#000'}}
       >
         Design Your Token
       </NavLink>

@@ -2,6 +2,7 @@ import {Form, redirect, useNavigation} from 'react-router';
 import type {Route} from './+types/($locale).custom-token._index';
 import {updateCustomTokenSession, clearCustomTokenSession} from '~/lib/custom-token-session';
 import type {AppSession} from '~/lib/session';
+import {buildMeta} from '~/lib/meta';
 
 export async function action({request, context}: Route.ActionArgs) {
   const formData = await request.formData();
@@ -25,6 +26,15 @@ export async function action({request, context}: Route.ActionArgs) {
   });
 }
 
+export const meta: Route.MetaFunction = () => {
+  return buildMeta({
+    title: 'Create Your Own Token | Custom Recovery Tokens | Coinplugz',
+    description:
+      'Design a custom recovery token with our guided wizard — choose materials, engraving, and occasion for a one-of-a-kind sobriety milestone keepsake.',
+    canonical: '/custom-token',
+  });
+};
+
 export default function CustomTokenLanding() {
   const navigation = useNavigation();
   const isSubmitting = navigation.state === 'submitting';
@@ -45,7 +55,7 @@ export default function CustomTokenLanding() {
 
       <div style={{display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1.5rem'}}>
         {/* We Design It */}
-        <Form method="post">
+        <Form method="post" action="?index">
           <input type="hidden" name="path" value="we-design" />
           <button
             type="submit"
@@ -76,7 +86,7 @@ export default function CustomTokenLanding() {
         </Form>
 
         {/* You Design It */}
-        <Form method="post">
+        <Form method="post" action="?index">
           <input type="hidden" name="path" value="you-design" />
           <button
             type="submit"

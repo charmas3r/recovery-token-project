@@ -441,7 +441,7 @@ function HeroSection({
             {/* Subheading */}
             <HeroItem>
               <p className="text-lg lg:text-xl text-white/60 leading-relaxed lg:max-w-[32rem]">
-                Create a one-of-a-kind token that tells your story. Choose the
+                Create a one-of-a-kind token that tells a story. Choose the
                 metal, the symbols, and the words that matter — handcrafted to
                 last a lifetime.
               </p>

@@ -8,6 +8,7 @@ import {getAllArticles} from '~/lib/sanity.queries';
  */
 const STATIC_PAGES = [
   {url: '/', changeFreq: 'daily', priority: 1.0},
+  {url: '/custom-token', changeFreq: 'weekly', priority: 0.9},
   {url: '/about', changeFreq: 'monthly', priority: 0.7},
   {url: '/about/our-story', changeFreq: 'monthly', priority: 0.6},
   {url: '/about/why-tokens-matter', changeFreq: 'monthly', priority: 0.6},

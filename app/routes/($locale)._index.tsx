@@ -33,6 +33,8 @@ import {
 } from '~/graphql/seo-queries';
 import {CommercialLandingTemplate} from '~/components/seo/CommercialLandingTemplate';
 import {MilestoneLandingTemplate} from '~/components/seo/MilestoneLandingTemplate';
+import {GenericSEOLandingTemplate} from '~/components/seo/GenericSEOLandingTemplate';
+import {CustomIntentLandingTemplate} from '~/components/seo/CustomIntentLandingTemplate';
 
 /**
  * Resend-style dark section card — subtle near-black card with
@@ -399,6 +401,16 @@ export default function Homepage() {
     const {seoPage, seoProducts} = data as {seoPage: any; seoProducts: any};
     if (seoPage.type === 'milestone') {
       return <MilestoneLandingTemplate page={seoPage} products={seoProducts} />;
+    }
+    if (seoPage.template === 'generic-seo') {
+      return (
+        <GenericSEOLandingTemplate page={seoPage} products={seoProducts} />
+      );
+    }
+    if (seoPage.template === 'custom-intent') {
+      return (
+        <CustomIntentLandingTemplate page={seoPage} products={seoProducts} />
+      );
     }
     return <CommercialLandingTemplate page={seoPage} products={seoProducts} />;
   }

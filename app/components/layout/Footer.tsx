@@ -66,6 +66,27 @@ const FOOTER_COLUMNS = [
       {label: 'Terms of Service', to: '/policies/terms-of-service'},
     ],
   },
+  {
+    title: 'Custom Tokens',
+    links: [
+      {label: 'Start Designing', to: '/custom-token'},
+      {label: 'Custom Recovery Token', to: '/custom-recovery-token'},
+      {label: 'Custom AA Coins', to: '/custom-aa-coins'},
+      {label: 'Custom NA Coins', to: '/custom-na-coins'},
+      {label: 'Custom Sobriety Medallion', to: '/custom-sobriety-medallion'},
+      {label: 'Personalized Recovery Tokens', to: '/personalized-recovery-tokens'},
+    ],
+  },
+  {
+    title: 'Explore',
+    links: [
+      {label: 'Milestone Tokens', to: '/milestone-tokens'},
+      {label: 'AA Sobriety Coins', to: '/aa-sobriety-coins'},
+      {label: 'NA Sobriety Coins', to: '/na-sobriety-coins'},
+      {label: 'Sobriety Medallion', to: '/sobriety-medallion'},
+      {label: 'Recovery Chips', to: '/recovery-chips'},
+    ],
+  },
 ];
 
 function FooterContent({
@@ -164,7 +185,7 @@ function FooterContent({
           </div>
 
           {/* Right columns — link groups */}
-          <div className="lg:col-span-9 grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="lg:col-span-9 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
             {FOOTER_COLUMNS.map((column) => (
               <div key={column.title}>
                 <h3

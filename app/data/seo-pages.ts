@@ -2880,3 +2880,81 @@ registerSEOPage({
   ],
   schema: ['breadcrumb', 'faq', 'webPage'],
 });
+
+// ============================================================
+// PHRASE-MATCH EXPANSION — TIER B (custom-intent template)
+// ============================================================
+
+registerSEOPage({
+  slug: 'custom-recovery-token',
+  type: 'commercial',
+  template: 'custom-intent',
+  title: 'Custom Recovery Token',
+  metaTitle: 'Custom Recovery Token — Design Your Own Sobriety Coin | Coinplugz',
+  metaDescription:
+    'Design a one-of-a-kind custom recovery token. Choose engraving, material, and imagery — or tell us your story and we\'ll design it for you. Built for the milestones that matter most.',
+  canonicalPath: 'custom-recovery-token',
+  eyebrow: 'Make It Yours',
+  heroDescription:
+    "A custom recovery token turns your story into something you can hold. Your date, your imagery, your words — on a premium token built to last a lifetime. Two ways to create yours.",
+  primaryCTA: {label: 'Start Designing', href: '/custom-token'},
+  featuredCollectionHandle: 'all',
+  relatedPageSlugs: [
+    'milestone-tokens',
+    'personalized-recovery-tokens',
+    'recovery-tokens',
+    'custom-sobriety-coins',
+  ],
+  customTokenBlock: {
+    eyebrow: 'The Flagship Experience',
+    headline: "A recovery token that's truly yours — start to finish.",
+    body: "Every milestone is different. So is every story. Our custom token flow is built for the moments a stock design can't quite capture — the name you want engraved, the date only you know, the image that means something only to you. Two paths, one result: a token made for you alone.",
+    primaryCtaLabel: 'Start Designing',
+    secondaryCtaLabel: 'See the Process',
+  },
+  sections: [
+    {
+      type: 'text',
+      heading: 'Two Paths to Your Custom Recovery Token',
+      body: "When you start the custom token flow, you'll choose between two paths.\n\n**We Design It For You.** If you have a story but not a design, tell us the occasion, the person, the milestone, the words that matter. Our designers will translate your answers into a finished proof — usually within 2-3 business days — and send it to you by email. You review, suggest changes, and approve. Once you're happy, we cast and finish the token and ship it to you. This path is best for people who know what they want to say but don't want to pick every font and color.\n\n**You Design It Yourself.** If you have a clear vision — specific imagery, a layout in mind, fonts you love — the self-design path gives you control. You describe your design, refine it with our on-screen tools, preview the front and back, and approve before we produce it. This path is best for people who enjoy the design process and want to own every detail.\n\nBoth paths end the same way: a premium, handcrafted recovery token built from bronze, silver, or gold, weighted to feel substantial in your pocket, and made to last longer than the memories it marks.",
+    },
+    {
+      type: 'text',
+      heading: 'What You Can Customize',
+      body: "A custom recovery token isn't just a stock design with a date slapped on. You control everything that matters.\n\n**Engraving.** Names, dates, phrases, Roman numerals, the Serenity Prayer, a sponsor's initials, a spouse's handwriting. Front and back. Deep engraving that won't wear off.\n\n**Imagery.** Triangle and circle (AA), clean-time symbols (NA), a lighthouse, a mountain, a phoenix, a tree, your home group logo, a meaningful place. If you can describe it, we can design it.\n\n**Material and finish.** Bronze (traditional, develops a warm patina), silver (clean and formal), or gold (reserved for major milestones). Matte, polished, or antiqued finishes.\n\n**Size and weight.** Standard pocket-carry sized (same as AA chips) or larger commemorative sizes for display.\n\n**Edge and rim details.** Knurled, beaded, plain, or custom-etched rims.\n\nThe only thing you can't customize is the quality. Every token we ship meets the same premium standard.",
+    },
+    {
+      type: 'text',
+      heading: 'Who Custom Recovery Tokens Are For',
+      body: "Most people who order a custom recovery token are marking an occasion a stock design can't quite reach. Sponsors giving a 1-year medallion to a sponsee whose story they want to honor. Spouses commemorating a partner's 5-year sober anniversary. Parents celebrating a child's first year in recovery. People in long-term recovery building a personal collection that documents their own journey in a way no catalog can.\n\nThe custom flow also serves the practical case: group logos for home groups, retreat commemorative tokens, recovery center graduation coins, and memorial tokens for people lost to addiction. Whatever the reason, the custom path exists because some milestones deserve a token designed for that exact moment and nobody else's.",
+    },
+  ],
+  faq: [
+    {
+      question: 'How long does it take to get a custom recovery token?',
+      answer:
+        'Design proofs typically come back within 2-3 business days. Once you approve the design, production takes about a week. Total time from order to doorstep is usually 2-3 weeks — longer if you choose gold or request multiple rounds of revisions.',
+    },
+    {
+      question: 'How much does a custom recovery token cost?',
+      answer:
+        'Custom token pricing depends on material (bronze is most affordable, gold is the most premium), size, and complexity of the design. Start the custom flow to get a personalized quote — you\'ll see the price before you commit to anything.',
+    },
+    {
+      question: 'Can I see the design before I commit to buying?',
+      answer:
+        'Yes. Both custom paths produce a finished design proof that you review and approve before we start production. If the proof isn\'t quite right, you can request revisions. You only commit to the final product once you\'ve signed off on the design.',
+    },
+    {
+      question: "What's the difference between a custom token and a personalized token?",
+      answer:
+        'A personalized token is a stock design with your name or date engraved on it. A custom token is a design built from scratch to your specifications — imagery, layout, engraving, and all. Personalization is faster and cheaper. Custom gives you something genuinely one-of-a-kind.',
+    },
+    {
+      question: 'Can I order multiple identical custom tokens?',
+      answer:
+        "Yes. Custom designs can be produced in quantities from 1 to several hundred — useful for home groups, retreats, or gifting a matching set to people who shared a milestone. Quantity pricing becomes more favorable above 10 units.",
+    },
+  ],
+  schema: ['breadcrumb', 'faq', 'webPage'],
+});

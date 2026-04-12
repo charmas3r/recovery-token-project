@@ -19,6 +19,9 @@ export default defineConfig({
     assetsInlineLimit: 0,
   },
   ssr: {
+    // Sanity Studio is client-only (loaded via dynamic import in useEffect).
+    // Externalize it from the SSR bundle to avoid OOM during build.
+    external: ['sanity', 'sanity/*', '@sanity/vision', 'styled-components'],
     optimizeDeps: {
       /**
        * Include dependencies here if they throw CJS<>ESM errors.

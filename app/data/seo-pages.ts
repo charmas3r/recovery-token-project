@@ -3496,7 +3496,7 @@ registerSEOPage({
     'na-coins',
     'celebrate-recovery-coins',
     'sobriety-coins',
-    'milestone-tokens',
+    'custom-recovery-token',
   ],
   sections: [
     {

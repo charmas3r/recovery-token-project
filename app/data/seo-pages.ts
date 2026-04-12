@@ -3539,3 +3539,259 @@ registerSEOPage({
   ],
   schema: ['breadcrumb', 'faq', 'webPage'],
 });
+
+// ============================================================
+// PHRASE-MATCH EXPANSION — TIER B BATCH (custom-intent pages)
+// ============================================================
+
+registerSEOPage({
+  slug: 'custom-aa-coins',
+  type: 'commercial',
+  template: 'custom-intent',
+  title: 'Custom AA Coins',
+  metaTitle: 'Custom AA Coins — Design Your Own Alcoholics Anonymous Chip | Coinplugz',
+  metaDescription:
+    'Design a custom AA coin with your home group, sponsor name, anniversary date, or Serenity Prayer engraving. Two ways to create a one-of-a-kind AA coin that honors your story.',
+  canonicalPath: 'custom-aa-coins',
+  eyebrow: 'Design Your Own AA Coin',
+  heroDescription:
+    "A custom AA coin turns the traditions that kept you sober — your home group, your sponsor, your milestones — into something you can hold. Design yours in minutes.",
+  primaryCTA: {label: 'Start Designing', href: '/custom-token'},
+  featuredCollectionHandle: 'all',
+  relatedPageSlugs: [
+    'custom-recovery-token',
+    'aa-sobriety-coins',
+    'aa-sobriety-tokens',
+    'aa-coins',
+    'custom-sobriety-coins',
+  ],
+  sections: [
+    {
+      type: 'text',
+      heading: 'Ideas for a Custom AA Coin',
+      body: "Every AA group has its own character — the room, the regulars, the phrases that get repeated until they stick. A custom AA coin lets you put that character on something permanent.\n\nStart with your home group. The group name and city across the front, the meeting day and time along the rim. Members who have carried the same group for years often commission coins for anniversary nights — handed out to the room as a reminder that the group itself has a sobriety date, not just the individuals inside it.\n\nSponsor details are another common choice. A sponsor's initials and sobriety date engraved on the back of a coin create something the sponsee carries daily — a quiet acknowledgment of the person who picked up the phone every time. Some sponsors reverse it: they commission a coin for the sponsee's first anniversary, with the sponsee's name, date, and a line from the Big Book that mattered during their work together.\n\nAA's unofficial slogans engrave well because they're short and direct. 'One day at a time.' 'Easy does it.' 'Let go and let God.' 'Keep coming back — it works if you work it.' The short-form Serenity Prayer fits cleanly on the reverse of a standard-size coin, leaving the front open for the AA circle-and-triangle symbol and a sobriety date.\n\nRoman numerals are a popular way to display anniversary years — V for five, X for ten, XXV for twenty-five. They add a timeless, understated quality that pairs well with the triangle-and-circle.\n\nMeeting-room imagery is less common but worth considering. A lighthouse, a mountain range, a sunrise over a specific skyline — whatever your group looks out at or talks about. One group in Colorado commissioned coins with the outline of the peak visible from their meeting-room window. Another in coastal Maine used a lobster boat — not because it was spiritual, but because every member in that room had worked on one.",
+    },
+    {
+      type: 'text',
+      heading: 'Two Paths to a Custom AA Coin',
+      body: "You don't need to be a graphic designer to get a custom AA coin made. The custom flow gives you two ways in, and both end with the same result.\n\nThe first path is 'We Design It For You.' You tell us about the coin — the group, the milestone, the phrases, the person it's for. You don't need to sketch anything or choose fonts. Our team takes your description and turns it into a finished proof, usually within two to three business days. You review the proof by email, suggest changes if something isn't right, and approve when it's ready. This is the path most AA members choose because it's the fastest way from an idea to a real coin.\n\nThe second path is 'You Design It Yourself.' If you already know the layout you want — the AA circle-and-triangle on the front, the Serenity Prayer on the back, a specific font for the date, bronze with an antiqued finish — the self-design path gives you control over every element. You describe or upload your design, preview it, refine it, and approve before production begins.\n\nBoth paths produce the same coin: cast bronze, silver, or gold, deep-engraved, weighted to feel substantial, and finished to hold up to years of pocket carry. The difference is only how much of the creative work you want to do yourself.",
+    },
+    {
+      type: 'text',
+      heading: 'Custom Coins as Sponsor Gifts',
+      body: "Handing a sponsee a chip at their anniversary meeting is already one of the most meaningful moments in AA. A custom AA coin takes that moment further — because the coin itself tells the sponsee that someone sat down, thought about their story, and built something specifically for them.\n\nA stock coin says 'congratulations.' A custom coin says 'I know what this year cost you, and I wanted you to have something that proves it happened.' Sponsors who commission custom coins often include the sponsee's first name, their sobriety date, and a short phrase from their step work together — something only the two of them would recognize.\n\nThe coin becomes a private conversation between sponsor and sponsee, held in a pocket, carried through every meeting that follows. That's something a catalog can't replicate.",
+    },
+  ],
+  faq: [
+    {
+      question: 'Can I put my home group name on a custom AA coin?',
+      answer:
+        "Yes. Home group names, meeting locations, and meeting times are among the most popular engraving choices for custom AA coins. You can add them to the front, back, or around the edge of the coin. The custom flow lets you preview the placement before committing.",
+    },
+    {
+      question: 'Can a custom AA coin include the Serenity Prayer?',
+      answer:
+        "Yes. The short-form Serenity Prayer is one of the most-requested engravings on custom AA coins. The full prayer can also fit on larger medallions. You can combine the Serenity Prayer with a sobriety date, a name, and the AA circle-and-triangle symbol on a single coin.",
+    },
+    {
+      question: 'Is a custom AA coin appropriate as a sponsor gift?',
+      answer:
+        "Yes — custom AA coins are one of the most traditional and meaningful gifts a sponsor can give a sponsee. A custom coin lets the sponsor put the sponsee's name, their sobriety date, and a personal message on something they'll carry for the rest of their life. It's the kind of gift that gets remembered.",
+    },
+    {
+      question: "How do I design a custom AA coin if I'm not a designer?",
+      answer:
+        "Choose the 'We Design It For You' path in the custom flow. You describe what you want — the occasion, the group, the phrase, the symbolism — and our designers turn it into a finished proof. You review the proof, request changes if needed, and approve before we produce it. No design skills required.",
+    },
+  ],
+  schema: ['breadcrumb', 'faq', 'webPage'],
+});
+
+registerSEOPage({
+  slug: 'custom-na-coins',
+  type: 'commercial',
+  template: 'custom-intent',
+  title: 'Custom NA Coins',
+  metaTitle: 'Custom NA Coins — Design Your Own Narcotics Anonymous Medallion | Coinplugz',
+  metaDescription:
+    "Design a custom NA coin with the Service Symbol, 'Just for Today,' your clean date, or your home group. Build a one-of-a-kind Narcotics Anonymous medallion.",
+  canonicalPath: 'custom-na-coins',
+  eyebrow: 'Design Your Own NA Coin',
+  heroDescription:
+    "A custom NA coin puts the traditions of Narcotics Anonymous — the Service Symbol, 'Just for Today,' your clean date, your home group — on a token made for you alone.",
+  primaryCTA: {label: 'Start Designing', href: '/custom-token'},
+  featuredCollectionHandle: 'all',
+  relatedPageSlugs: [
+    'custom-recovery-token',
+    'na-sobriety-coins',
+    'na-sober-chips',
+    'na-coins',
+    'narcotics-anonymous-coins',
+  ],
+  sections: [
+    {
+      type: 'text',
+      heading: 'Ideas for a Custom NA Coin',
+      body: "Narcotics Anonymous has its own visual language — symbols, phrases, and traditions that mean something specific to the people who live them. A custom NA coin lets you put that language on metal and carry it with you.\n\nThe NA Service Symbol is where most designs start. The square with four points inside a circle represents self, society, service, and God-as-you-understand-God. It's the most recognizable emblem in NA, and it anchors a custom coin the way the circle-and-triangle anchors AA designs. You can place it front-center, pair it with your clean date below, and leave the reverse open for personal engraving.\n\n'Just for Today' is the phrase most closely associated with NA recovery. It appears in the daily meditation literature, it's recited at meetings, and it captures the NA approach to staying clean: not forever, not next year, just today. Engraved across the top arc of a coin with the clean date centered beneath it, the phrase turns a daily commitment into a permanent reminder.\n\nHome group details work just as well on NA coins as they do on AA coins, but NA groups often carry a different character — smaller, more tightly knit, meeting in church basements and community centers across neighborhoods that most people drive through without stopping. The group name, city, and founding year give a custom coin a local identity that connects it to a specific place and the people inside it.\n\nOther strong NA-specific engraving choices include 'Live and Let Live,' 'It works — how and why,' references to the NA Basic Text, the Twelve Traditions, and clean-date milestones in both numeric and Roman numeral formats. For home groups that want to commemorate their own anniversary, a batch of matching custom coins — one for every regular member — creates a shared keepsake that marks the group's history alongside each individual's recovery.\n\nCustom NA coins are also common as sponsor gifts, especially at the 1-year mark when an NA member transitions from plastic key tags to a metal medallion for the first time. That transition already carries weight. A custom medallion designed specifically for the person receiving it turns an already meaningful moment into one they'll remember in detail.",
+    },
+    {
+      type: 'text',
+      heading: 'Two Paths to a Custom NA Medallion',
+      body: "The custom flow is built for people in recovery, not for graphic designers. Whether you know exactly what you want or you just know how you want it to feel, there's a path that fits.\n\n'We Design It For You' is the hands-off path. You describe the coin: the milestone, the person, the NA symbols and phrases you want included, the material, and any imagery that matters — the Service Symbol, a geographic landmark, a line from the Basic Text. Our design team builds a proof from your description and sends it to you within two to three business days. You review, request changes, and approve. You never have to open a design tool or pick a typeface.\n\n'You Design It Yourself' is for members who already have a vision. Maybe you've sketched it on a napkin at a meeting. Maybe you've been thinking about it for months. This path lets you specify the layout, the symbol placement, the font, the finish, and the material. You describe or upload your design, preview it on screen, and approve before production begins.\n\nBoth paths produce the same quality medallion — cast in bronze, silver, or gold, deep-engraved, and finished to a standard that holds up to years of daily carry. The only difference is how much creative direction you want to provide.",
+    },
+    {
+      type: 'text',
+      heading: 'Custom Medallions for Major NA Milestones',
+      body: "In Narcotics Anonymous, the 1-year clean-time anniversary carries a weight that's hard to overstate. For the first twelve months, NA milestones are marked with plastic key tags — lightweight, color-coded, functional. At one year, the key tag gives way to a metal medallion. That physical shift from plastic to metal mirrors something the member already feels: the recovery has substance now. It's no longer fragile in the same way.\n\nA custom NA coin makes that transition permanent. Instead of a stock medallion pulled from a box, the member receives something designed for their story — their clean date, their group, their phrase, their symbol. The medallion becomes an anchor point for the years that follow.\n\nAnnual milestones after the first year — 2, 5, 10, 20 — are natural moments for custom coins as well. Each year adds to the story, and a custom medallion lets the design evolve with it. Some members build a collection over time, each coin marking a different chapter, each one distinct. The custom flow makes that kind of continuity possible without repeating the same design twice.",
+    },
+  ],
+  faq: [
+    {
+      question: 'Can I put the NA Service Symbol on a custom coin?',
+      answer:
+        "Yes. The NA Service Symbol — a square with four points inside a circle — is a popular element on custom NA coins. It can appear on the front or back, at any size, and can be combined with your clean date, your home group, or 'Just for Today.'",
+    },
+    {
+      question: "Can a custom NA coin say 'Just for Today'?",
+      answer:
+        "Yes. 'Just for Today' is one of the most-requested engravings on custom NA coins. It can appear as the main front-side text or as a subtle reverse-side engraving. Some members combine it with their clean date and home group for a complete personal coin.",
+    },
+    {
+      question: "What's the difference between a custom NA coin and a standard NA medallion?",
+      answer:
+        "A standard NA medallion comes in preset designs with fixed imagery and limited engraving options (usually just the clean-time number). A custom NA coin is designed from scratch to your specifications — your choice of imagery, layout, engraving, material, and finish. Custom coins are one-of-a-kind; standard medallions are mass-produced.",
+    },
+    {
+      question: 'Can I give a custom NA coin as a 1-year anniversary gift?',
+      answer:
+        "Yes — it's one of the most meaningful gift choices for an NA 1-year anniversary. The 1-year moment in NA is already significant because it marks the transition from plastic key tags to metal medallions. A custom medallion with the person's clean date, home group, and a personal message turns that transition into something they'll carry forever.",
+    },
+  ],
+  schema: ['breadcrumb', 'faq', 'webPage'],
+});
+
+registerSEOPage({
+  slug: 'custom-sobriety-medallion',
+  type: 'commercial',
+  template: 'custom-intent',
+  title: 'Custom Sobriety Medallion',
+  metaTitle: 'Custom Sobriety Medallion — Bronze, Silver, Gold | Coinplugz',
+  metaDescription:
+    'Design a custom sobriety medallion in bronze, silver, or gold. Deep engraving, custom imagery, and a premium finish for the milestones that matter most.',
+  canonicalPath: 'custom-sobriety-medallion',
+  eyebrow: 'Premium Custom',
+  heroDescription:
+    "A custom sobriety medallion is the most premium way to mark a major milestone — your material, your engraving, your design, your story. Built to last as a heirloom.",
+  primaryCTA: {label: 'Start Designing', href: '/custom-token'},
+  featuredCollectionHandle: 'all',
+  relatedPageSlugs: [
+    'custom-recovery-token',
+    'sobriety-medallion',
+    'gold-silver-medallions',
+    'bronze-sobriety-coins',
+    'custom-sobriety-coins',
+  ],
+  sections: [
+    {
+      type: 'text',
+      heading: 'What Makes a Custom Sobriety Medallion Different',
+      body: "A coin is built for your pocket. A medallion is built for the moment — and for the shelf, the display case, or the drawer you open when you need to remember why you started.\n\nCustom sobriety medallions are larger and heavier than standard custom coins. Where a coin measures roughly 39mm across and weighs enough to notice in your pocket, a medallion starts at 50mm or larger and carries real heft in your hand. That size difference isn't vanity — it's canvas. More surface area means deeper engraving, finer image detail, and room for text on the front, back, and edge without crowding.\n\nMost people who choose a custom medallion over a custom coin are marking a milestone that carries significant weight: five years, ten years, twenty-five years, or longer. The kind of milestone where the person receiving it has outlasted the doubt, the relapses they watched others go through, and the quiet stretches where nobody noticed they were still showing up. A medallion matches that gravity. It's not something you toss in a junk drawer — it's something you set on a nightstand or keep in a case, and it's still there when your grandchildren find it.\n\nCustom sobriety medallions also serve a ceremonial purpose that coins don't always fill. Recovery centers use them for graduation ceremonies. Home groups commission them for milestone nights where the entire room participates. Families order them for anniversaries where the milestone belongs to everyone who stayed, not just the person who got sober. The medallion format signals permanence and formality in a way a pocket-sized coin communicates differently.",
+    },
+    {
+      type: 'text',
+      heading: 'Choosing Material for Your Custom Medallion',
+      body: "Material isn't just an aesthetic choice on a custom sobriety medallion — it changes how the piece feels in your hand, how it ages over decades, and how the engraving reads under light.\n\nBronze is the traditional starting point. It's warm-toned, substantial, and affordable enough to order for milestone ceremonies without breaking a budget. Over years of handling, bronze develops a patina — a gradual darkening that deepens the engraved lines and gives the medallion a character it didn't have when it was new. Many people prefer the patina. It's visible evidence of time passing, which is the whole point.\n\nSilver is the formal choice. It holds a sharper edge than bronze, reflects light cleanly, and develops a gray patina slowly rather than a brown one. Engraving on silver reads with more contrast because the recessed lines stay darker than the polished surface. Silver medallions are often chosen for milestones in the 5-to-15-year range, or for occasions where the medallion will be displayed rather than pocket-carried.\n\nGold is reserved for the milestones where nothing else feels sufficient. It doesn't tarnish, it doesn't patina, and it catches light in a way that makes people look twice. Gold medallions are most commonly ordered for 10-year, 20-year, and 25-year-plus anniversaries — the milestones that represent a lifetime of sustained recovery. The weight of a gold medallion is noticeably different from bronze or silver, and for many people that physical weight is part of the meaning.\n\nWhichever material you choose, the engraving process is the same: deep-cut lines that hold detail for decades, not surface etching that wears smooth after a few years of handling.",
+    },
+    {
+      type: 'text',
+      heading: 'Engraving Options for Heirloom Medallions',
+      body: "A custom sobriety medallion is only as personal as the engraving on it. The medallion format gives you room to go further than a standard coin allows.\n\nFront-face engraving typically carries the primary imagery: a recovery symbol, a program emblem, or a custom illustration. The larger canvas means photographic detail is possible — portraits, landscapes, building outlines — at a fidelity that would be lost on a smaller coin.\n\nBack-face engraving is where most personal text lives: names, dates, dedications, short passages, and milestone numbers. A medallion back can hold 40-60 words comfortably, enough for a meaningful inscription without cramming.\n\nEdge engraving adds a third dimension. Dates, short phrases, or a continuous line of text around the rim turn the medallion into something you read by rotating it in your hand — a tactile experience that flat surfaces can't replicate.\n\nFont choices range from classic serifs that echo traditional coinage to clean modern typefaces for a contemporary look. For the most personal touch, we can digitize handwriting — a sponsor's note, a parent's message, a phrase written on a napkin at a meeting — and engrave it exactly as it was written. A custom sobriety medallion built this way becomes an artifact, not just a keepsake.",
+    },
+  ],
+  faq: [
+    {
+      question: "What's the difference between a custom sobriety coin and a custom medallion?",
+      answer:
+        "Size, weight, and intended use. A custom sobriety coin is pocket-sized and designed for daily carry. A custom sobriety medallion is larger, heavier, and typically intended for display or annual-milestone carry. Medallions are usually chosen for major anniversaries where the person wants a heirloom-quality piece rather than a daily-carry token.",
+    },
+    {
+      question: 'What material is best for a custom sobriety medallion?',
+      answer:
+        "For major milestones and heirloom pieces, silver and gold are the most premium choices. Gold is traditionally reserved for 10+ year anniversaries. Silver works for milestones at any level and holds sharp engraving beautifully. Bronze is the traditional and most affordable choice and develops a warm patina over decades of handling.",
+    },
+    {
+      question: 'Can I include a photo or logo on a custom sobriety medallion?',
+      answer:
+        "Yes. Custom medallions can include photo reproduction, logo recreation, and even digitized handwriting. The larger medallion size gives designers more room to work with than a standard coin, so image detail can be significantly higher.",
+    },
+    {
+      question: 'How long does a custom sobriety medallion take to produce?',
+      answer:
+        "Design proofs typically come back within 2-3 business days. Once you approve the design, medallion production takes 7-14 days depending on material (gold takes longer than bronze). Total time from order to delivery is usually 3-4 weeks.",
+    },
+  ],
+  schema: ['breadcrumb', 'faq', 'webPage'],
+});
+
+registerSEOPage({
+  slug: 'personalized-recovery-tokens',
+  type: 'commercial',
+  template: 'custom-intent',
+  title: 'Personalized Recovery Tokens',
+  metaTitle: 'Personalized Recovery Tokens — Engraved Sobriety Coins | Coinplugz',
+  metaDescription:
+    "Personalize a recovery token with your name, date, or short message. Simpler and faster than fully custom design — all the meaning, less of the process.",
+  canonicalPath: 'personalized-recovery-tokens',
+  eyebrow: 'Add Your Own Touch',
+  heroDescription:
+    "Personalized recovery tokens are stock designs with your name, date, or message engraved on them. Simpler than a custom design, still distinctly yours.",
+  primaryCTA: {label: 'Start Personalizing', href: '/custom-token'},
+  featuredCollectionHandle: 'all',
+  relatedPageSlugs: [
+    'custom-recovery-token',
+    'custom-sobriety-coins',
+    'recovery-tokens',
+    'milestone-tokens',
+    'sobriety-coins',
+  ],
+  sections: [
+    {
+      type: 'text',
+      heading: 'Personalized vs. Fully Custom',
+      body: "Not every milestone needs a coin designed from the ground up. Sometimes the right design already exists in the catalog — it just needs your name on it.\n\nPersonalized recovery tokens start with a stock design: a coin we've already crafted, with imagery and layout that's been refined and proven. You add your personal details — a name, a sobriety date, a short phrase, a Roman numeral milestone — and the engraving is applied to the existing design. The result is a coin that looks and feels premium, carries your personal information, and ships faster than a fully custom piece.\n\nFully custom tokens are different. With a custom token, nothing is predetermined. You choose the imagery, the layout, the material, the engraving placement — or you describe what you want and our team designs it from scratch. Custom is the right choice when the catalog doesn't capture what you need, or when the milestone calls for something nobody else has ever held.\n\nThe practical differences matter. Personalized recovery tokens typically ship within 7 to 10 days because the base design is already produced — only the engraving is new. Fully custom tokens take 2 to 3 weeks because the design phase, proof review, and production all happen in sequence. Personalization is also less expensive, since there's no design labor beyond the engraving itself.\n\nBoth options produce a coin you'll be proud to carry. Personalized recovery tokens are simply the faster, lighter path — the one that makes sense when the stock design already resonates and all it needs is your mark on it.",
+    },
+    {
+      type: 'text',
+      heading: 'What You Can Personalize',
+      body: "The personalization options are designed to be meaningful without being overwhelming. You're not redesigning a coin — you're adding the details that make an existing design yours.\n\nA name is the most common addition. Your first name, your full name, or a sponsor's initials engraved on the front or back of the coin. It transforms an anonymous token into something addressed directly to the person who carries it.\n\nA sobriety or clean date is the second most popular choice. The date goes on the back in most cases, formatted however you prefer: month-day-year, a spelled-out month, or just the year if you want to keep it understated.\n\nShort phrases work well when you want the coin to say something beyond a name and a date. There's room for roughly 20 characters — enough for 'One day at a time,' 'Just for today,' a sponsor's favorite saying, or a word that held you together on a hard night. Keep it concise and it engraves cleanly.\n\nRoman numeral milestones — I, V, X, XV, XX, XXV — add a classic, timeless feel. They pair naturally with the traditional coin aesthetic and read well at any size.\n\nYou choose from two to three font options depending on the stock design. Each font has been tested against the coin's existing imagery to make sure the engraving complements rather than competes. Front engraving, back engraving, or both — the personalization flow previews each option so you see the finished result before placing your order.",
+    },
+    {
+      type: 'text',
+      heading: 'When to Personalize vs. Go Fully Custom',
+      body: "The decision is simpler than it seems.\n\nPersonalize when a stock design already captures what you're looking for. Browse the catalog, find a coin whose imagery and style feel right, and add your name, date, or phrase. You'll have a finished, engraved coin in your hands within 7 to 10 days at a lower cost than a custom build. For most milestones — monthly anniversaries, early-year celebrations, gifts where you know the recipient's taste — personalization delivers exactly the right amount of individuality.\n\nGo fully custom when the catalog doesn't have what you need. Maybe the milestone calls for a specific image that doesn't exist in stock designs. Maybe the recipient's story is so particular that a generic template, even with their name on it, wouldn't do it justice. Maybe you want to control every element — the symbol placement, the font, the edge detail, the material. The custom path takes longer and costs more, but it produces something that exists nowhere else in the world.\n\nPersonalized recovery tokens are the middle path between off-the-shelf and one-of-a-kind. For many people, that middle path is exactly where the right coin lives.",
+    },
+  ],
+  faq: [
+    {
+      question: "What's the difference between personalized and custom recovery tokens?",
+      answer:
+        "Personalized tokens are stock designs with your name, date, or message engraved on them. Custom tokens are designed from scratch — you control every element including imagery, layout, material, and engraving. Personalization is faster and more affordable; custom is slower, more expensive, and genuinely one-of-a-kind.",
+    },
+    {
+      question: 'How long does personalization take?',
+      answer:
+        "Personalized recovery tokens typically ship within 7-10 days of order, compared to 2-3 weeks for a fully custom design. The shorter timeline is because the underlying design is already approved — only the engraving is new.",
+    },
+    {
+      question: 'What can I add to a personalized recovery token?',
+      answer:
+        "A personalized recovery token can include your name, your sobriety or clean date, a short phrase (up to about 20 characters), your milestone count in Roman numerals, or a sponsor's initials. Engraving can go on the front, back, or both. The engraving sits alongside the stock design's existing imagery.",
+    },
+    {
+      question: 'Can I change the material on a personalized token?',
+      answer:
+        "Yes. Most stock designs are offered in bronze, silver, and gold. You choose the material when you start the personalization flow. Note that changing material doesn't change the design — it still uses the same stock imagery. Only the engraving is unique to you.",
+    },
+  ],
+  schema: ['breadcrumb', 'faq', 'webPage'],
+});

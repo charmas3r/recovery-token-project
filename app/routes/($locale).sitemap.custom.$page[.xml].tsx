@@ -22,7 +22,7 @@ const STATIC_PAGES = [
   {url: '/resources/milestone-calculator', changeFreq: 'monthly', priority: 0.5},
   {url: '/resources/articles', changeFreq: 'weekly', priority: 0.6},
   {url: '/reviews', changeFreq: 'weekly', priority: 0.6},
-  {url: '/newsletter', changeFreq: 'monthly', priority: 0.4},
+  {url: '/review', changeFreq: 'monthly', priority: 0.5},
 ] as const;
 
 interface SitemapEntry {

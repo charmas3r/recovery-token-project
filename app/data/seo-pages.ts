@@ -2958,3 +2958,322 @@ registerSEOPage({
   ],
   schema: ['breadcrumb', 'faq', 'webPage'],
 });
+
+// ============================================================
+// PHRASE-MATCH EXPANSION — TIER A BATCH 1 (AA/NA phrase families)
+// ============================================================
+
+registerSEOPage({
+  slug: 'aa-sobriety-coins',
+  type: 'commercial',
+  template: 'generic-seo',
+  title: 'AA Sobriety Coins',
+  metaTitle: 'AA Sobriety Coins — Premium Handcrafted AA Chips | Coinplugz',
+  metaDescription:
+    'Shop premium AA sobriety coins for every milestone. Handcrafted coins in the traditional AA color system. Design your own for a truly personal touch.',
+  canonicalPath: 'aa-sobriety-coins',
+  eyebrow: 'Alcoholics Anonymous',
+  heroDescription:
+    "AA sobriety coins are the original milestone markers — handed out in meetings for over 80 years to celebrate clean time from 24 hours onward. Shop the collection or design your own.",
+  primaryCTA: {label: 'Shop AA Sobriety Coins', href: '/collections/all'},
+  featuredCollectionHandle: 'all',
+  relatedPageSlugs: [
+    'aa-coins',
+    'aa-sobriety-tokens',
+    'aa-sober-chips',
+    'sobriety-coins',
+    'custom-aa-coins',
+  ],
+  sections: [
+    {
+      type: 'text',
+      heading: 'What Are AA Sobriety Coins?',
+      body: "AA sobriety coins are physical milestone markers handed out at Alcoholics Anonymous meetings to recognize periods of continuous sobriety. The tradition follows a well-established ladder: 24 hours, 30 days, 60 days, 90 days, 6 months, 9 months, 1 year, and every annual anniversary after that. Each coin corresponds to a specific milestone, and receiving one in front of your group turns an internal accomplishment into a shared celebration.\n\nThe practice dates back to the early 1940s, when Clarence Snyder's Cleveland AA group began handing out inexpensive tokens to members who hit sobriety milestones. What started as a practical way to mark progress became one of the most enduring traditions in all of recovery. Today, AA sobriety coins are recognized worldwide — and the color each one carries tells people in the room exactly how far you've come.",
+    },
+    {
+      type: 'text',
+      heading: 'Colors and Meanings in AA Sobriety Coins',
+      body: "Every AA sobriety coin in the early milestone series carries a specific color, and that color is the first thing anyone in the room notices. The system isn't written into AA's official literature — the Big Book never mentions chips — but it's been practiced so consistently for so long that most members can recite the sequence from memory.\n\nWhite is where it begins. The white chip — sometimes called the desire chip or the surrender chip — is offered to anyone willing to try sobriety for the next 24 hours. There is no requirement beyond wanting to stop. Taking it is an act of honesty in a room full of people who understand exactly what that honesty costs.\n\nGold or yellow marks 30 days. It represents the first full month — the period where the physical withdrawal subsides but the emotional turbulence hasn't settled yet. Red arrives at 60 days, a quieter milestone that often catches people off guard because two months of sobriety starts to feel like a new way of living rather than a crisis being managed. Green at 90 days closes out the first quarter, the point most treatment programs target as the minimum foundation for sustained recovery.\n\nBlue marks 6 months — half a year of showing up, one day at a time, through holidays and hard conversations and mornings that used to start very differently. Purple at 9 months is the bridge between the early-recovery milestones and the 1-year anniversary. It fills a stretch that many people describe as the hardest: far enough from the wreckage to forget why they quit, not yet close enough to the anniversary to feel momentum pulling them forward.\n\nBronze marks 1 year. It's the dividing line between the early-color chips and the annual coins that follow. After the first year, annual milestones are typically distinguished by material — bronze, silver, gold — rather than by painted color. Some regions substitute different hues or add milestones like 18 months, but the core sequence above is what most groups in the United States follow. If your home group's palette differs slightly, that's normal. The colors are a convention, not a rule, and the meaning behind each one is more important than the exact shade.",
+    },
+    {
+      type: 'text',
+      heading: 'Why Premium Matters for AA Sobriety Coins',
+      body: "Most AA sobriety coins handed out at meetings are made from stamped aluminum or injection-molded plastic. They cost pennies to produce. They serve their purpose in the moment — the applause, the handshake, the brief flash of pride — but within months the paint chips, the edges wear smooth, and the coin becomes something you hesitate to show anyone.\n\nA premium handcrafted coin is built for a different timeline. Cast bronze holds its detail for decades. The weight in your pocket is noticeable — a constant, quiet reminder that the days you accumulated are real and worth protecting. Engraving stays legible after years of daily carry. The patina that develops over time becomes part of the coin's story, not a sign of deterioration.\n\nAA sobriety coins mark the hardest work most people will ever do. The object that represents that work should be built to outlast the doubt that occasionally follows.",
+    },
+  ],
+  faq: [
+    {
+      question: 'What do the colors on AA sobriety coins mean?',
+      answer:
+        "AA sobriety coin colors mark early milestones. The most common system: white (24 hours / desire chip), gold or yellow (30 days), red (60 days), green (90 days), blue (6 months), purple (9 months), and bronze (1 year). Annual coins beyond the first year are typically bronze, silver, or gold by material rather than paint. Colors vary by region and group, so your home group's tradition may differ slightly.",
+    },
+    {
+      question: 'What is the first AA sobriety coin called?',
+      answer:
+        'The first AA sobriety coin is the 24-hour chip, often called the "white chip" or "desire chip." It\'s given to anyone in the meeting who wants to try sobriety for the next 24 hours — no questions asked, no judgment. The white chip represents the surrender that makes everything else possible.',
+    },
+    {
+      question: 'Who gives out AA sobriety coins at meetings?',
+      answer:
+        "At most AA meetings, the chairperson or a designated member hands out sobriety coins. The person receiving the chip usually walks to the front of the room and shares briefly about their milestone. Some groups invite the person's sponsor to hand them the coin personally.",
+    },
+    {
+      question: 'Can I buy my own AA sobriety coin instead of getting one at a meeting?',
+      answer:
+        "Yes. Many people buy their own AA sobriety coins as keepsakes, gifts, or replacements for chips they've lost. There's no rule against it — AA sobriety coins are meaningful because of what they represent, not because of where you got them. Our handcrafted coins are made to last decades longer than the stamped aluminum ones handed out at most meetings.",
+    },
+  ],
+  schema: ['breadcrumb', 'faq', 'webPage'],
+});
+
+registerSEOPage({
+  slug: 'aa-sobriety-tokens',
+  type: 'commercial',
+  template: 'generic-seo',
+  title: 'AA Sobriety Tokens',
+  metaTitle: 'AA Sobriety Tokens — The Original Recovery Chips | Coinplugz',
+  metaDescription:
+    "Shop premium AA sobriety tokens. Discover the 1940s Cleveland origin story and carry the tradition that started it all. Handcrafted tokens for every milestone.",
+  canonicalPath: 'aa-sobriety-tokens',
+  eyebrow: 'AA Heritage',
+  heroDescription:
+    "AA sobriety tokens have a specific origin — the Clarence Snyder group in 1940s Cleveland, who first handed out poker chips at meetings to mark clean time. The word 'token' stuck. Here's where the tradition began.",
+  primaryCTA: {label: 'Shop AA Sobriety Tokens', href: '/collections/all'},
+  featuredCollectionHandle: 'all',
+  relatedPageSlugs: [
+    'aa-coins',
+    'aa-sobriety-coins',
+    'aa-sober-chips',
+    'alcoholics-anonymous-sobriety-coins',
+    'custom-aa-coins',
+  ],
+  sections: [
+    {
+      type: 'text',
+      heading: 'What Are AA Sobriety Tokens?',
+      body: "AA sobriety tokens are the milestone markers used across Alcoholics Anonymous to recognize periods of continuous sobriety — from the first 24 hours through decades of sustained recovery. The word 'token' is one of several names for the same tradition: some groups say chips, others say coins, still others say medallions. All of them describe a small, round object given to a member who has reached a specific milestone in their sobriety.\n\nWhat makes the word 'token' distinctive is its direct lineage to the objects that started the practice. AA sobriety tokens trace their origin to a particular group, a particular city, and a particular era — and understanding that history is part of understanding why these small objects carry such outsized weight in recovery culture.",
+    },
+    {
+      type: 'text',
+      heading: 'Where the Token Tradition Began',
+      body: "Alcoholics Anonymous was founded in Akron, Ohio, in 1935 by Bill Wilson and Dr. Bob Smith. By 1939, the fledgling movement had spread to Cleveland, where a member named Clarence Snyder helped establish one of the city's first AA groups. Snyder was a pragmatist and an organizer. He saw that the Akron meetings relied on informal accountability — members simply showed up and talked — and he wanted something more concrete. He wanted a way to mark the milestones that kept people coming back.\n\nSnyder's solution was cheap and practical: poker chips. He bought them in bulk, probably from a five-and-dime, and began handing them out at Cleveland meetings to members who hit sobriety milestones. The chips were small, round, easy to carry, and — crucially — visible to other members. When someone pulled a chip from a pocket during a meeting, everyone in the room knew what it meant without a word being spoken.\n\nThe word 'token' stuck because that's what poker chips were: tokens exchanged in a game. Snyder repurposed the object and the language. The chip was no longer a placeholder for money in a card game. It was a placeholder for something harder to hold onto — a day, a week, a month of choosing differently.\n\nBy the mid-1940s, the practice had spread from Cleveland to AA groups across the Midwest, then to the coasts. There was no official AA mandate — the Big Book, published in 1939, never mentions chips or tokens — but the tradition filled a need that the literature alone couldn't. Sobriety is invisible. The token made it visible. It gave people a way to measure progress without counting out loud, and it gave groups a reason to celebrate together at every meeting.\n\nOver the decades, the objects themselves evolved. Poker chips gave way to stamped aluminum. Aluminum gave way to enameled metal. Some groups moved to cast bronze and silver for annual milestones. But the concept never changed: a small object, given in recognition, carried daily as proof that the work is real. AA sobriety tokens still serve the exact same purpose Clarence Snyder intended when he bought that first bag of poker chips in a Cleveland general store.",
+    },
+    {
+      type: 'text',
+      heading: 'From Poker Chips to Premium Bronze',
+      body: "The original AA sobriety tokens were disposable by design. Snyder wasn't building keepsakes — he was solving a problem with whatever was cheap and available. Poker chips cost almost nothing, and they did the job. But the symbolism outgrew the material. People started carrying their tokens everywhere. They rubbed them smooth in their pockets. They held them during cravings. They showed them to their children.\n\nAs the tradition deepened, the materials caught up. Stamped aluminum replaced plastic. Enameled metal added color and detail. Cast bronze gave the tokens real weight — enough to feel in a coat pocket, enough to notice when you reach for your keys. The physical evolution mirrors the emotional one: what starts as a simple gesture of recognition becomes something you build a life around.\n\nOur handcrafted AA sobriety tokens are built in that same lineage. Premium bronze, deep engraving, a weight that registers in your hand. Clarence Snyder handed out poker chips because they were all he had. You deserve something built to last as long as the decision it represents.",
+    },
+  ],
+  faq: [
+    {
+      question: 'Where did AA sobriety tokens come from?',
+      answer:
+        "AA sobriety tokens trace back to Clarence Snyder's Cleveland AA group in the early 1940s. Snyder's group was one of the first to formalize milestone celebrations, and they used poker chips — the cheapest round tokens they could buy — to mark clean time. The practice spread across AA meetings throughout the 1940s and became the tradition we know today.",
+    },
+    {
+      question: 'Why are they called tokens and not chips?',
+      answer:
+        "The words 'token' and 'chip' both come from the original poker-chip tradition, and they're largely interchangeable. Some groups prefer 'token' because it evokes the idea of something given in recognition — a token of achievement. Others stick with 'chip' as a nod to the original object. In modern AA, both terms refer to the same milestone markers.",
+    },
+    {
+      question: 'Are AA sobriety tokens the same as AA chips?',
+      answer:
+        "Yes, functionally they're the same object with slightly different names. Some groups use 'chip' for smaller stamped-plastic meeting markers and 'token' for heavier cast-metal milestone coins, but the distinction is informal and varies by region.",
+    },
+    {
+      question: 'What milestones do AA sobriety tokens mark?',
+      answer:
+        "AA sobriety tokens mark the same milestones AA has recognized for decades: 24 hours, 30 days, 60 days, 90 days, 6 months, 9 months, 1 year, and every annual anniversary after that. Some groups also recognize 18 months as a formal milestone.",
+    },
+  ],
+  schema: ['breadcrumb', 'faq', 'webPage'],
+});
+
+registerSEOPage({
+  slug: 'aa-sober-chips',
+  type: 'commercial',
+  template: 'generic-seo',
+  title: 'AA Sober Chips',
+  metaTitle: 'AA Sober Chips — Premium Recovery Chips for Every Milestone | Coinplugz',
+  metaDescription:
+    "Shop premium AA sober chips for every milestone from 24 hours to 25+ years. The tradition of the white desire chip and the ritual of picking yours up.",
+  canonicalPath: 'aa-sober-chips',
+  eyebrow: 'The Meeting Room Tradition',
+  heroDescription:
+    "The moment you walk up to the front of the room and pick up your AA sober chip is the moment the milestone becomes real. Handcrafted chips that carry the weight of what you earned.",
+  primaryCTA: {label: 'Shop AA Sober Chips', href: '/collections/all'},
+  featuredCollectionHandle: 'all',
+  relatedPageSlugs: [
+    'aa-coins',
+    'aa-sobriety-coins',
+    'aa-sobriety-tokens',
+    '24-hour-chip',
+    'custom-aa-coins',
+  ],
+  sections: [
+    {
+      type: 'text',
+      heading: 'What Are AA Sober Chips?',
+      body: "AA sober chips are the milestone markers that Alcoholics Anonymous members receive at meetings to acknowledge specific periods of continuous sobriety. From the very first 24-hour chip to annual anniversary medallions, each one is given in front of the group — a public recognition of private work. The term 'chip' is the most common name for these objects within AA itself, rooted in the original poker chips that were used in the 1940s.\n\nWhat makes AA sober chips different from a trophy on a shelf or a certificate in a drawer is the way they're received. They aren't mailed to you. They aren't ordered online and unwrapped in private. They're handed to you in a room full of people who know exactly what it took to earn one. The ritual of picking up an AA sober chip is as important as the chip itself.",
+    },
+    {
+      type: 'text',
+      heading: 'The Ritual of Picking Up Your Chip',
+      body: "There's a moment in most AA meetings — usually near the beginning or the end — when the chairperson pauses and asks if anyone is celebrating a milestone. The room goes quiet. Sometimes nobody moves. Sometimes three people stand up at once. But when someone does rise from their chair and walk to the front of the room, something shifts. The meeting, which may have been running on autopilot, suddenly feels like it matters.\n\nThe white chip comes first in the sequence, and it's the most powerful. The chairperson holds it up and offers it to anyone who wants to try sobriety for just the next 24 hours. No conditions. No sobriety requirement. No questions. Taking a white chip is the closest thing AA has to a public vow, and it requires nothing except the willingness to try. When someone walks up — often shaking, sometimes crying, occasionally angry — the room responds with applause. Not polite applause. The kind that says: we know what this costs, and we're glad you're here.\n\nMilestone chips after the white one follow a more structured rhythm. Thirty days. Sixty days. Ninety days. Six months. Nine months. One year. The chairperson reads the milestone, the member walks up, and what happens next depends on the group. Some meetings invite the recipient to say a few words — their name, their milestone, maybe a sentence about what got them through. Others keep it brief: a handshake, a hug from a sponsor, a moment of eye contact that says more than any share could.\n\nThe sponsor's role in the ritual varies, but in many groups the sponsor is the one who physically places the chip in the person's hand. That gesture matters. The sponsor watched the work happen — the late-night phone calls, the white-knuckle Saturdays, the step work that unearthed things neither of them wanted to look at. Handing over the chip closes a loop: I believed you could do this, and here's proof you did.\n\nAnnual chips — the 1-year, the 5-year, the 10-year — bring a different energy. The whole meeting often knows who's receiving one. There's cake sometimes. There's laughter. The person sharing might talk for five minutes instead of one. The room listens differently because long-term sobriety is contagious — it reminds everyone that this actually works, that the daily grind of one-day-at-a-time eventually becomes a life you'd choose on purpose.",
+    },
+    {
+      type: 'text',
+      heading: 'Carrying the Chip Home',
+      body: "After the meeting ends and the folding chairs are stacked against the wall, the chip goes home with you. That's when it starts its second life — not as a ceremonial object, but as a daily companion.\n\nMost people carry their most recent chip in a front pocket or a wallet. They reach for it without thinking, the way you'd reach for a worry stone or a set of keys. The weight of it becomes a habit, and the habit becomes an anchor. People in early recovery describe pulling their chip out during a craving — rolling it between their fingers in a bar parking lot, gripping it during a phone call they almost didn't make, pressing it against their palm in a meeting where someone else's story hit too close.\n\nOlder chips migrate to nightstands, keychains, display cases, or the small boxes where people keep things too important to throw away but too personal to frame. Some people carry every chip they've ever earned. Others keep only two: the 24-hour chip and the most recent annual. AA sober chips end up in the places that matter — close at hand when things are hard, visible when you need reminding that the worst day sober is still better than the best day drunk.",
+    },
+  ],
+  faq: [
+    {
+      question: 'What is the white chip in AA?',
+      answer:
+        "The white chip — also called the 'desire chip' or '24-hour chip' — is the first AA sober chip. It's offered to anyone in the meeting who wants to try 24 hours of sobriety, whether it's their first day or their hundredth relapse. The only requirement for taking a white chip is the desire to stop drinking.",
+    },
+    {
+      question: 'Is there a ritual for receiving an AA sober chip?',
+      answer:
+        "Most AA meetings have a brief moment in every meeting when the chairperson asks who has a milestone. People with milestones walk up, receive their chip, often say their name and their clean-time count, and are met with applause. The format varies by group — some meetings invite a sponsor to hand over the chip personally, others keep it informal.",
+    },
+    {
+      question: "What do you do with AA sober chips after you get them?",
+      answer:
+        "Most people carry their most recent chip in a pocket or wallet as a daily reminder. Older chips often end up on a keychain, in a nightstand drawer, or in a display case for longer collections. Some people keep every chip they've earned; others carry only the 24-hour and the most recent annual.",
+    },
+    {
+      question: "Can I give someone an AA sober chip as a gift?",
+      answer:
+        "Yes, though the traditional giving happens at meetings. Giving an AA sober chip as a gift outside the meeting — from a sponsor to a sponsee, from a family member to someone in recovery, or as a keepsake replacement for a lost chip — is common and meaningful. A handcrafted premium chip can make a meaningful milestone gift.",
+    },
+  ],
+  schema: ['breadcrumb', 'faq', 'webPage'],
+});
+
+registerSEOPage({
+  slug: 'na-sobriety-coins',
+  type: 'commercial',
+  template: 'generic-seo',
+  title: 'NA Sobriety Coins',
+  metaTitle: 'NA Sobriety Coins — Narcotics Anonymous Medallions | Coinplugz',
+  metaDescription:
+    "Shop premium NA sobriety coins and medallions. Narcotics Anonymous uses its own chip tradition — here's how it differs from AA and where to find quality tokens.",
+  canonicalPath: 'na-sobriety-coins',
+  eyebrow: 'Narcotics Anonymous',
+  heroDescription:
+    "NA sobriety coins mark clean time in Narcotics Anonymous. NA has its own color system, its own key-tag tradition for early clean-time, and its own medallion tradition for annual milestones.",
+  primaryCTA: {label: 'Shop NA Sobriety Coins', href: '/collections/all'},
+  featuredCollectionHandle: 'all',
+  relatedPageSlugs: [
+    'na-coins',
+    'na-sober-chips',
+    'narcotics-anonymous-coins',
+    'aa-sobriety-coins',
+    'custom-na-coins',
+  ],
+  sections: [
+    {
+      type: 'text',
+      heading: 'What Are NA Sobriety Coins?',
+      body: "NA sobriety coins are the milestone markers used within Narcotics Anonymous to celebrate periods of continuous clean time. Like their AA counterparts, they represent specific achievements — 30 days, 90 days, 1 year, and beyond — and they're given out at meetings as a form of group recognition. But NA developed its own distinct system for marking milestones, and that system looks and works differently from what most people picture when they think of recovery chips.\n\nUnderstanding NA sobriety coins means understanding a two-tier tradition: plastic key tags for the early milestones and metal medallions for the annual ones. The two objects serve the same purpose but carry different weight, both literally and symbolically.",
+    },
+    {
+      type: 'text',
+      heading: 'How NA Sobriety Coins Differ From AA Chips',
+      body: "The most visible difference between NA and AA milestone markers is material. AA hands out metal chips at every milestone, from the 24-hour surrender chip onward. NA splits the timeline: early clean-time milestones get plastic key tags, and the first metal medallion doesn't arrive until the 1-year anniversary. That distinction shapes the entire experience of early recovery in NA. For the first twelve months, what you carry on your keychain is lightweight, inexpensive, and deliberately modest — a reminder that the work is still fresh.\n\nThe color sequences are also different, and they don't map neatly onto each other. NA's key-tag progression runs: white for the welcome tag (given to anyone expressing a desire to stop using, regardless of clean time), orange for 30 days, green for 60 days, red for 90 days, blue for 6 months, yellow for 9 months, and moonglow — a pearlescent cream-white — for 1 year. The moonglow tag is usually the last key tag a member receives. After that, annual milestones are marked with metal medallions, typically in bronze, silver, or gold depending on the year and the group's convention.\n\nNA was founded in 1953, nearly two decades after AA. By the time NA formalized its milestone traditions, AA's chip system was already well established. NA's founders made deliberate choices to differentiate: key tags instead of coins for early recovery, a different color palette, and a vocabulary that favors 'clean time' over 'sobriety' and 'medallion' over 'chip.' These aren't arbitrary distinctions. NA serves people recovering from addiction to any substance — not just alcohol — and the language and symbols reflect that broader scope.\n\nThe NA Service Symbol, a four-pointed stylized star set within a circle, appears on most official NA medallions and many key tags. It's the visual equivalent of AA's triangle-and-circle: an instantly recognizable emblem that tells anyone in the know which program you belong to. NA sobriety coins bearing the Service Symbol carry a particular significance for members who want their milestone marker rooted in the NA tradition specifically, not in a generic recovery design.",
+    },
+    {
+      type: 'text',
+      heading: 'Key Tags, Medallions, and Premium NA Sobriety Coins',
+      body: "Standard NA key tags are functional objects — small, plastic, punched with a hole for a keyring. They're designed to be carried and replaced as milestones progress. They do their job. But for many NA members, the transition from key tags to the 1-year metal medallion is one of the most meaningful moments in early recovery, precisely because the object finally feels permanent.\n\nPremium handcrafted NA sobriety coins extend that permanence to every milestone in the journey. Instead of a plastic tag that cracks after a few months on a keychain, a cast-bronze coin with the NA Service Symbol, a clean date, and deep engraving gives early milestones the same material weight that annual medallions carry. The 30-day milestone that changed everything for you deserves an object that lasts as long as the memory.\n\nWhether you're replacing a worn key tag, upgrading a 1-year medallion, or gifting a milestone marker to someone whose clean time you've watched accumulate day by day, a premium coin honors the NA tradition while giving it a form built to endure.",
+    },
+  ],
+  faq: [
+    {
+      question: 'What are NA sobriety coins called?',
+      answer:
+        "NA has two distinct milestone markers: key tags for shorter clean-time milestones (white/welcome, orange/30d, green/60d, red/90d, blue/6mo, yellow/9mo) and medallions for annual anniversaries (moonglow for 1 year, then annual colors or metal for subsequent years). Both are often called 'NA sobriety coins' in casual conversation even though key tags are technically plastic tags, not coins.",
+    },
+    {
+      question: 'How are NA sobriety coins different from AA chips?',
+      answer:
+        "The biggest difference is that NA uses key tags (plastic) for early clean-time and metal medallions only for annual milestones, while AA uses metal chips for every milestone from 24 hours forward. The color systems are also different — NA and AA use overlapping but not identical color conventions.",
+    },
+    {
+      question: 'What does moonglow mean in NA?',
+      answer:
+        "Moonglow is the traditional color for the 1-year NA medallion. It's a pearlescent cream-white color that stands out distinctly from AA's bronze 1-year chip. Moonglow marks the first major annual milestone in NA and is usually the first metal medallion a member receives (after a year of plastic key tags).",
+    },
+    {
+      question: "Can I use an NA sobriety coin if my program is different?",
+      answer:
+        "Yes. NA sobriety coins are meaningful across recovery traditions. Many people in cross-program recovery — AA, NA, Celebrate Recovery, SMART Recovery — choose medallions from whichever program resonates most. The coin is for you, not the program.",
+    },
+  ],
+  schema: ['breadcrumb', 'faq', 'webPage'],
+});
+
+registerSEOPage({
+  slug: 'na-sober-chips',
+  type: 'commercial',
+  template: 'generic-seo',
+  title: 'NA Sober Chips',
+  metaTitle: 'NA Sober Chips — Key Tags, Medallions, and Recovery Coins | Coinplugz',
+  metaDescription:
+    "Shop NA sober chips, key tags, and medallions. Learn how NA's clean-time tradition actually works — and find premium recovery coins for every milestone.",
+  canonicalPath: 'na-sober-chips',
+  eyebrow: 'Narcotics Anonymous',
+  heroDescription:
+    "The phrase 'NA sober chips' covers a tradition that uses both plastic key tags and metal medallions. Here's how the system works — and the premium handcrafted coins that honor the milestones NA celebrates.",
+  primaryCTA: {label: 'Shop NA Sober Chips', href: '/collections/all'},
+  featuredCollectionHandle: 'all',
+  relatedPageSlugs: [
+    'na-coins',
+    'na-sobriety-coins',
+    'narcotics-anonymous-coins',
+    'aa-sober-chips',
+    'custom-na-coins',
+  ],
+  sections: [
+    {
+      type: 'text',
+      heading: 'Are There NA Sober Chips?',
+      body: "If you're searching for NA sober chips, you're looking for the right thing under a slightly different name. Narcotics Anonymous doesn't use the word 'chip' in its official tradition — that term belongs to AA. But the concept is the same: physical objects given at meetings to mark clean-time milestones. NA calls them key tags for the first year and medallions for annual anniversaries. In everyday conversation, though, plenty of NA members and their families say 'NA sober chips' and mean exactly the right thing.\n\nThe terminology can be confusing if you're new to recovery or shopping for someone else. Here's how the system actually works — and what the objects look like at each stage of the journey.",
+    },
+    {
+      type: 'text',
+      heading: 'Key Tags, Medallions, and Chips in NA',
+      body: "NA's milestone system is built on two distinct objects that mark different phases of recovery. For the first year of clean time, members receive plastic key tags — small, lightweight tabs with a hole punched through one end so they can be clipped to a keyring. After the 1-year mark, the tradition shifts to metal medallions: heavier, more substantial coins that feel like something you'd keep in a display case or carry in a breast pocket.\n\nThe key-tag sequence follows a specific color order. White is the welcome tag — offered to anyone at any meeting who expresses a desire to stop using, regardless of whether they have a single day of clean time. Orange marks 30 days. Green marks 60 days. Red marks 90 days. Blue marks 6 months. Yellow marks 9 months. And moonglow — a distinctive pearlescent cream — marks 1 year, the transition point from key tags to medallions.\n\nOne important language note: NA uses 'clean time' rather than 'sobriety.' The distinction matters to members. Sobriety implies abstinence from alcohol specifically; clean time encompasses freedom from all mind-altering substances, which is NA's broader focus. When NA members talk about their milestones, they'll say 'I have two years clean,' not 'I have two years sober.' The key tags and medallions reflect that language — they mark clean time, not sobriety in the AA sense.\n\nAfter the 1-year moonglow tag, annual medallions arrive in metal. Most groups use bronze for the early annual milestones, with silver and gold reserved for longer accumulations of clean time — though the exact metal-to-year mapping varies by group and region. Some NA communities use colored enamel inlays on annual medallions to distinguish 2 years from 5 from 10. Others keep the palette simple and let the engraved number speak for itself.\n\nThe key-tag-to-medallion transition is one of the most significant moments in NA recovery. For twelve months, what you carry is plastic — functional, modest, easy to replace if it cracks on your keychain. Then at one year, someone hands you metal. The weight difference is immediate and unmistakable. That shift from plastic to metal mirrors the shift in recovery itself: from fragile early days to something that feels like it can hold.",
+    },
+    {
+      type: 'text',
+      heading: 'Premium Recovery Coins for NA Milestones',
+      body: "Standard key tags and meeting-issued medallions serve the tradition well, but they aren't built for permanence. Plastic key tags crack. Stamped-metal medallions lose their detail. For NA members who want a milestone marker that lasts as long as the clean time it represents, premium handcrafted recovery coins fill the gap.\n\nA premium NA sober chips collection might include cast-bronze coins for each key-tag milestone — 30 days through 9 months — bearing the NA Service Symbol, the distinctive four-pointed star within a double circle that identifies NA worldwide. Annual medallions in bronze, silver, or gold can carry a clean date, a personal engraving, or custom imagery that connects the coin to your story specifically.\n\nThe NA Service Symbol matters. For members who built their recovery inside NA — who worked the twelve steps with an NA sponsor, who found their home group in an NA meeting room — a generic recovery coin doesn't carry the same meaning. A coin bearing the Service Symbol says this is where I got clean, and these are the people who showed me how. Our custom token flow lets you include the symbol alongside whatever personal detail makes the milestone yours.",
+    },
+  ],
+  faq: [
+    {
+      question: 'Does NA use chips like AA?',
+      answer:
+        "Not exactly. NA's tradition uses plastic key tags for early clean-time milestones (white/welcome, orange/30d, green/60d, red/90d, blue/6mo, yellow/9mo, moonglow/1yr) and metal medallions for annual anniversaries after the first year. NA members sometimes call these 'chips' in casual speech, but technically NA has key tags and medallions rather than AA-style chips.",
+    },
+    {
+      question: 'What is a key tag in NA?',
+      answer:
+        "An NA key tag is a small plastic tag, usually with a hole for a keychain, given out at NA meetings to mark clean-time milestones before the 1-year anniversary. Key tags follow a color sequence: white (welcome / any clean-time desire), orange (30 days), green (60 days), red (90 days), blue (6 months), yellow (9 months), and moonglow (1 year — the transition to metal medallions).",
+    },
+    {
+      question: 'When does NA switch from key tags to medallions?',
+      answer:
+        "NA members typically receive their first metal medallion at 1 year of clean time. The 1-year medallion is traditionally moonglow-colored (pearlescent white). Annual medallions continue every year after that, usually in metal — bronze, silver, or gold — though some groups use colored enamel for specific annual milestones.",
+    },
+    {
+      question: "Can I buy an NA sober chip as a gift for someone?",
+      answer:
+        "Yes. Premium handcrafted NA medallions make meaningful gifts for sponsors, sponsees, family members, or yourself. Our custom token flow lets you design an NA medallion with the Service Symbol, a clean date, or a personal engraving.",
+    },
+  ],
+  schema: ['breadcrumb', 'faq', 'webPage'],
+});

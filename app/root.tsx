@@ -9,6 +9,7 @@ import {
   Scripts,
   ScrollRestoration,
   useRouteLoaderData,
+  useLocation,
 } from 'react-router';
 import type {Route} from './+types/root';
 import {FOOTER_QUERY, HEADER_QUERY} from '~/lib/fragments';
@@ -197,8 +198,14 @@ export function Layout({children}: {children?: React.ReactNode}) {
 
 export default function App() {
   const data = useRouteLoaderData<RootLoader>('root');
+  const location = useLocation();
+  const isStudio = location.pathname.startsWith('/studio');
 
   if (!data) {
+    return <Outlet />;
+  }
+
+  if (isStudio) {
     return <Outlet />;
   }
 

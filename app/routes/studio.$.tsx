@@ -21,6 +21,10 @@ export default function StudioPage() {
       <div
         style={{
           height: '100vh',
+          width: '100vw',
+          position: 'fixed',
+          top: 0,
+          left: 0,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -34,7 +38,20 @@ export default function StudioPage() {
     );
   }
 
-  return <Studio />;
+  return (
+    <div
+      style={{
+        height: '100vh',
+        width: '100vw',
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        overflow: 'auto',
+      }}
+    >
+      <Studio />
+    </div>
+  );
 }
 
 export function meta() {

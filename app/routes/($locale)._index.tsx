@@ -11,6 +11,8 @@ import {buildMeta} from '~/lib/meta';
 import {getJudgeMeClient} from '~/lib/judgeme.server';
 import {extractProductId} from '~/lib/judgeme';
 import {FEATURE_FLAGS} from '~/lib/feature-flags';
+import {getFeaturedToken} from '~/lib/sanity.queries';
+import type {FeaturedTokenData, FeaturedTokenFeatureCard} from '~/lib/sanity.queries';
 import {AnimatePresence} from 'framer-motion';
 import {
   FadeUp,
@@ -277,12 +279,14 @@ export async function loader(args: Route.LoaderArgs) {
 }
 
 async function loadCriticalData({context}: Route.LoaderArgs) {
-  const [{collections}] = await Promise.all([
+  const [{collections}, featuredToken] = await Promise.all([
     context.storefront.query(FEATURED_COLLECTION_QUERY),
+    getFeaturedToken(),
   ]);
 
   return {
     featuredCollection: collections.nodes[0],
+    featuredToken,
   };
 }
 
@@ -419,7 +423,7 @@ export default function Homepage() {
     <div className="overflow-x-hidden">
       <HeroSection collection={data.featuredCollection} />
       <PromoCarousel />
-      <ProductShowcase />
+      <ProductShowcase featuredToken={data.featuredToken} />
       <FeaturedProducts products={data.recommendedProducts} reviewSummaries={data.reviewSummaries} />
       <BrandStory />
       {FEATURE_FLAGS.CUSTOM_TOKEN && <CustomTokenCTA />}
@@ -738,10 +742,46 @@ function PromoCarousel() {
   );
 }
 
+/** Icon map — maps Sanity icon identifiers to SVG components */
+const ICON_MAP: Record<string, React.ReactNode> = {
+  diamond: <DiamondIcon />,
+  shieldCheck: <ShieldCheckIcon />,
+  heart: <HeartIcon />,
+  sparkles: <SparklesIcon />,
+  star: <StarIcon className="w-5 h-5" />,
+  trophy: <TrophyIcon />,
+  gift: <GiftIcon />,
+  leaf: <LeafIcon />,
+};
+
+/** Hardcoded fallback when no Sanity document exists yet */
+const FALLBACK_FEATURED_TOKEN: FeaturedTokenData = {
+  eyebrowText: 'Featured Token',
+  title: 'The Sunflower Token',
+  description:
+    'A symbol of hope and new beginnings. Each sunflower token is hand-cast in solid bronze, featuring intricate details that capture the flower\'s natural beauty.',
+  imageUrl:
+    'https://cdn.shopify.com/s/files/1/0752/2733/2779/files/sunflower-token-final-webp.webp?v=1769842039',
+  imageAlt: 'Sunflower Recovery Token',
+  productUrl:
+    'https://coinplugz.com/products/the-sun-flower-token?Customization=Years+Only',
+  buttonText: 'View Token Details',
+  leftFeatures: [
+    {icon: 'diamond', title: 'Solid Bronze', description: 'Each token is hand-cast in premium bronze for lasting quality.'},
+    {icon: 'shieldCheck', title: 'Intricate Detail', description: 'Every petal and detail is carefully crafted to perfection.'},
+  ],
+  rightFeatures: [
+    {icon: 'heart', title: 'Symbol of Hope', description: 'The sunflower represents new beginnings and growth.'},
+    {icon: 'sparkles', title: 'Gift Ready', description: 'Arrives in a premium gift box, perfect for gifting.'},
+  ],
+};
+
 /**
- * Product Showcase - Featured token with side feature cards
+ * Product Showcase - Featured token with side feature cards (Sanity-driven)
  */
-function ProductShowcase() {
+function ProductShowcase({featuredToken}: {featuredToken: FeaturedTokenData | null}) {
+  const token = featuredToken ?? FALLBACK_FEATURED_TOKEN;
+
   return (
     <section className="py-20 md:py-28 bg-black">
       <div className="container-standard">
@@ -759,17 +799,16 @@ function ProductShowcase() {
                 marginBottom: '1rem',
               }}
             >
-              Featured Token
+              {token.eyebrowText}
             </span>
             <h2
               className="font-display"
               style={{fontSize: 'clamp(1.875rem, 4vw, 3rem)', fontWeight: 700, color: '#fff', lineHeight: 1.1, marginBottom: '1.5rem'}}
             >
-              The Sunflower Token
+              {token.title}
             </h2>
             <p style={{fontSize: '1.125rem', lineHeight: 1.6, color: 'rgba(255,255,255,0.5)', maxWidth: '36rem', marginLeft: 'auto', marginRight: 'auto'}}>
-              A symbol of hope and new beginnings. Each sunflower token is hand-cast in
-              solid bronze, featuring intricate details that capture the flower's natural beauty.
+              {token.description}
             </p>
           </div>
 
@@ -777,18 +816,15 @@ function ProductShowcase() {
           <div className="grid lg:grid-cols-[1fr_auto_1fr] gap-8 lg:gap-12 items-center">
             {/* Left Features */}
             <div className="hidden lg:flex flex-col gap-4">
-              <FeatureCard
-                icon={<DiamondIcon />}
-                title="Solid Bronze"
-                description="Each token is hand-cast in premium bronze for lasting quality."
-                align="right"
-              />
-              <FeatureCard
-                icon={<ShieldCheckIcon />}
-                title="Intricate Detail"
-                description="Every petal and detail is carefully crafted to perfection."
-                align="right"
-              />
+              {token.leftFeatures.map((feature, i) => (
+                <FeatureCard
+                  key={`left-${i}`}
+                  icon={ICON_MAP[feature.icon] ?? <DiamondIcon />}
+                  title={feature.title}
+                  description={feature.description}
+                  align="right"
+                />
+              ))}
             </div>
 
             {/* Center Token */}
@@ -801,8 +837,8 @@ function ProductShowcase() {
                     style={{background: 'radial-gradient(circle, rgba(184,118,79,0.15) 0%, rgba(184,118,79,0.05) 40%, transparent 70%)'}}
                   />
                   <motion.img
-                    src="https://cdn.shopify.com/s/files/1/0752/2733/2779/files/sunflower-token-final-webp.webp?v=1769842039"
-                    alt="Sunflower Recovery Token"
+                    src={token.imageUrl}
+                    alt={token.imageAlt}
                     className="relative w-full h-auto object-contain drop-shadow-2xl"
                     whileHover={{scale: 1.03, rotate: 2}}
                     transition={{duration: 0.5}}
@@ -813,22 +849,32 @@ function ProductShowcase() {
 
             {/* Right Features */}
             <div className="hidden lg:flex flex-col gap-4">
-              <FeatureCard
-                icon={<HeartIcon />}
-                title="Symbol of Hope"
-                description="The sunflower represents new beginnings and growth."
-              />
-              <FeatureCard
-                icon={<SparklesIcon />}
-                title="Gift Ready"
-                description="Arrives in a premium gift box, perfect for gifting."
-              />
+              {token.rightFeatures.map((feature, i) => (
+                <FeatureCard
+                  key={`right-${i}`}
+                  icon={ICON_MAP[feature.icon] ?? <DiamondIcon />}
+                  title={feature.title}
+                  description={feature.description}
+                />
+              ))}
             </div>
+          </div>
+
+          {/* Mobile Features (stacked below image) */}
+          <div className="flex flex-col gap-4 mt-8 lg:hidden">
+            {[...token.leftFeatures, ...token.rightFeatures].map((feature, i) => (
+              <FeatureCard
+                key={`mobile-${i}`}
+                icon={ICON_MAP[feature.icon] ?? <DiamondIcon />}
+                title={feature.title}
+                description={feature.description}
+              />
+            ))}
           </div>
 
           {/* CTA */}
           <div className="flex justify-center mt-12">
-            <a href="https://coinplugz.com/products/the-sun-flower-token?Customization=Years+Only">
+            <a href={token.productUrl}>
               <motion.div
                 whileHover={{scale: 1.02}}
                 whileTap={{scale: 0.98}}
@@ -836,7 +882,7 @@ function ProductShowcase() {
                 className="inline-block"
               >
                 <Button variant="primary" size="lg">
-                  View Token Details
+                  {token.buttonText}
                 </Button>
               </motion.div>
             </a>
@@ -1839,6 +1885,28 @@ function SparklesIcon() {
       <path d="M19 17v4" />
       <path d="M3 5h4" />
       <path d="M17 19h4" />
+    </svg>
+  );
+}
+
+function TrophyIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" />
+      <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" />
+      <path d="M4 22h16" />
+      <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22" />
+      <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22" />
+      <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z" />
+    </svg>
+  );
+}
+
+function LeafIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M11 20A7 7 0 0 1 9.8 6.9C15.5 4.9 20 .5 20 .5s-1.5 4-3.5 8c1.5 1 2.5 3 2.5 5.5a7 7 0 0 1-7 7Z" />
+      <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12" />
     </svg>
   );
 }

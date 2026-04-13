@@ -336,6 +336,58 @@ export async function getAnnouncementBar(): Promise<AnnouncementBarData | null> 
   }
 }
 
+// --- Featured Token ---
+
+const FEATURED_TOKEN_QUERY = `*[_type == "featuredToken"][0] {
+  eyebrowText,
+  title,
+  description,
+  "imageUrl": image.asset->url,
+  imageAlt,
+  productUrl,
+  buttonText,
+  leftFeatures[] {
+    icon,
+    title,
+    description
+  },
+  rightFeatures[] {
+    icon,
+    title,
+    description
+  }
+}`;
+
+export interface FeaturedTokenFeatureCard {
+  icon: string;
+  title: string;
+  description: string;
+}
+
+export interface FeaturedTokenData {
+  eyebrowText: string;
+  title: string;
+  description: string;
+  imageUrl: string;
+  imageAlt: string;
+  productUrl: string;
+  buttonText: string;
+  leftFeatures: FeaturedTokenFeatureCard[];
+  rightFeatures: FeaturedTokenFeatureCard[];
+}
+
+export async function getFeaturedToken(): Promise<FeaturedTokenData | null> {
+  try {
+    const doc = await sanityClient.fetch<FeaturedTokenData | null>(
+      FEATURED_TOKEN_QUERY,
+    );
+    return doc;
+  } catch (error) {
+    console.error('Failed to fetch featured token:', error);
+    return null;
+  }
+}
+
 // --- Public API ---
 
 export async function getArticleBySlug(

@@ -14,6 +14,8 @@ export default async function handleRequest(
   reactRouterContext: EntryContext,
   context: HydrogenRouterContextProvider,
 ) {
+  const isStudioRoute = new URL(request.url).pathname.startsWith('/studio');
+
   const {nonce, header, NonceProvider} = createContentSecurityPolicy({
     shop: {
       checkoutDomain: context.env.PUBLIC_CHECKOUT_DOMAIN,
@@ -22,6 +24,15 @@ export default async function handleRequest(
     defaultSrc: [
       'https://us-assets.i.posthog.com',
       'https://us.i.posthog.com',
+      // Sanity Studio needs broad access to function
+      ...(isStudioRoute
+        ? ['https://*.sanity.io', 'https://*.apicdn.sanity.io']
+        : []),
+    ],
+    connectSrc: [
+      ...(isStudioRoute
+        ? ['https://*.sanity.io', 'https://*.apicdn.sanity.io']
+        : []),
     ],
     imgSrc: [
       'https://cdn.shopify.com',
@@ -30,6 +41,11 @@ export default async function handleRequest(
       'http://localhost:*',
       'data:',
       'blob:',
+      ...(isStudioRoute ? ['https://cdn.sanity.io'] : []),
+    ],
+    frameSrc: [...(isStudioRoute ? ['https://*.sanity.io'] : [])],
+    styleSrc: [
+      ...(isStudioRoute ? ["'unsafe-inline'"] : []),
     ],
   });
 

@@ -24,6 +24,7 @@ import {SEOFaqAccordion} from '~/components/seo/SEOFaqAccordion';
 import {SEORelatedPages} from '~/components/seo/SEORelatedPages';
 import {SEOTrustBar} from '~/components/seo/SEOTrustBar';
 import {CustomTokenFeatureBlock} from '~/components/seo/CustomTokenFeatureBlock';
+import {ReviewsCallout} from '~/components/reviews/ReviewsCallout';
 import {buildBreadcrumbList} from '~/lib/jsonld';
 import type {SEOPage} from '~/data/seo-pages';
 
@@ -158,6 +159,11 @@ export function GenericSEOLandingTemplate({
       {/* Trust Bar */}
       <div className="container-standard">
         <SEOTrustBar />
+      </div>
+
+      {/* Reviews Callout */}
+      <div className="container-standard pt-8">
+        <ReviewsCallout variant="banner" />
       </div>
 
       {/* Intro text */}

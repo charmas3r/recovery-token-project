@@ -136,6 +136,7 @@ export function HeaderMenu({
     })),
     {title: 'About', url: '/about', children: NAV_CHILDREN['About']},
     {title: 'Resources', url: '/resources', children: NAV_CHILDREN['Resources']},
+    {title: 'Reviews', url: '/reviews'},
     {title: 'Support', url: '/support', children: NAV_CHILDREN['Support']},
   ];
 
@@ -564,6 +565,7 @@ function MobileNav({
     ...cmsItems,
     {title: 'About', url: '/about', children: NAV_CHILDREN['About']},
     {title: 'Resources', url: '/resources', children: NAV_CHILDREN['Resources']},
+    {title: 'Reviews', url: '/reviews'},
     {title: 'Support', url: '/support', children: NAV_CHILDREN['Support']},
   ];
 

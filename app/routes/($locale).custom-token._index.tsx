@@ -3,6 +3,7 @@ import type {Route} from './+types/($locale).custom-token._index';
 import {updateCustomTokenSession, clearCustomTokenSession} from '~/lib/custom-token-session';
 import type {AppSession} from '~/lib/session';
 import {buildMeta} from '~/lib/meta';
+import {ReviewsCallout} from '~/components/reviews/ReviewsCallout';
 
 export async function action({request, context}: Route.ActionArgs) {
   const formData = await request.formData();
@@ -115,6 +116,10 @@ export default function CustomTokenLanding() {
             </p>
           </button>
         </Form>
+      </div>
+
+      <div style={{marginTop: '3rem'}}>
+        <ReviewsCallout variant="banner" />
       </div>
     </div>
   );

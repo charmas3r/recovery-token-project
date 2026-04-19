@@ -37,6 +37,7 @@ import {CommercialLandingTemplate} from '~/components/seo/CommercialLandingTempl
 import {MilestoneLandingTemplate} from '~/components/seo/MilestoneLandingTemplate';
 import {GenericSEOLandingTemplate} from '~/components/seo/GenericSEOLandingTemplate';
 import {CustomIntentLandingTemplate} from '~/components/seo/CustomIntentLandingTemplate';
+import {ReviewsCallout} from '~/components/reviews/ReviewsCallout';
 
 /**
  * Resend-style dark section card — subtle near-black card with
@@ -1564,10 +1565,11 @@ function CustomerReviewsSection({
         >
           Stories That Inspire
         </h2>
-        <p style={{fontSize: '1.125rem', lineHeight: 1.6, color: 'rgba(255,255,255,0.5)', maxWidth: '36rem', marginLeft: 'auto', marginRight: 'auto'}}>
+        <p style={{fontSize: '1.125rem', lineHeight: 1.6, color: 'rgba(255,255,255,0.5)', maxWidth: '36rem', marginLeft: 'auto', marginRight: 'auto', marginBottom: '2rem'}}>
           Real stories from real people celebrating milestones that matter.
           Every token carries a journey worth honoring.
         </p>
+        <ReviewsCallout variant="inline" />
       </div>
 
       {/* Marquee Carousel — full-width, no container */}

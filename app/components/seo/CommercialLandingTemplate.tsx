@@ -14,6 +14,7 @@ import {SEOProductCard} from '~/components/seo/SEOProductCard';
 import {SEOFaqAccordion} from '~/components/seo/SEOFaqAccordion';
 import {SEORelatedPages} from '~/components/seo/SEORelatedPages';
 import {SEOTrustBar} from '~/components/seo/SEOTrustBar';
+import {ReviewsCallout} from '~/components/reviews/ReviewsCallout';
 import type {SEOPage} from '~/data/seo-pages';
 
 interface CommercialLandingTemplateProps {
@@ -137,6 +138,11 @@ export function CommercialLandingTemplate({
       {/* Trust Bar */}
       <div className="container-standard">
         <SEOTrustBar />
+      </div>
+
+      {/* Reviews Callout */}
+      <div className="container-standard pt-8">
+        <ReviewsCallout variant="banner" />
       </div>
 
       {/* Content Sections */}

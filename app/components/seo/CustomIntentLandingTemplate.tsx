@@ -22,6 +22,7 @@ import {SEOProductCard} from '~/components/seo/SEOProductCard';
 import {SEOFaqAccordion} from '~/components/seo/SEOFaqAccordion';
 import {SEORelatedPages} from '~/components/seo/SEORelatedPages';
 import {CustomTokenFeatureBlock} from '~/components/seo/CustomTokenFeatureBlock';
+import {ReviewsCallout} from '~/components/reviews/ReviewsCallout';
 import {buildBreadcrumbList} from '~/lib/jsonld';
 import type {SEOPage} from '~/data/seo-pages';
 
@@ -134,6 +135,11 @@ export function CustomIntentLandingTemplate({
       {/* Custom Token Feature Block — directly below hero */}
       <div className="container-standard pb-16">
         <CustomTokenFeatureBlock copy={page.customTokenBlock} />
+      </div>
+
+      {/* Reviews Callout */}
+      <div className="container-standard pb-16">
+        <ReviewsCallout variant="banner" />
       </div>
 
       {/* Text sections — the two-paths explanation and distinctive content */}

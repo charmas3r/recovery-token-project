@@ -11,18 +11,8 @@ import {Breadcrumbs} from '~/components/ui/Breadcrumbs';
 import {JsonLd} from '~/components/seo/JsonLd';
 import {Button} from '~/components/ui/Button';
 import {buildMeta} from '~/lib/meta';
-
-interface Review {
-  id: string;
-  title: string;
-  body: string;
-  rating: number;
-  created_at: string;
-  reviewer: {
-    name: string;
-    verified: boolean;
-  };
-}
+import {getLocalReviews, getReviewStats} from '~/lib/reviews-data';
+import type {LocalReview as Review} from '~/lib/reviews-data';
 
 export const meta: Route.MetaFunction = () => {
   return buildMeta({
@@ -32,77 +22,10 @@ export const meta: Route.MetaFunction = () => {
   });
 };
 
-export async function loader({context}: Route.LoaderArgs) {
-  const reviewsData = await fetchStoreReviews(context.env);
-
-  let averageRating = 0;
-  let distribution = {5: 0, 4: 0, 3: 0, 2: 0, 1: 0};
-
-  if (reviewsData && reviewsData.reviews.length > 0) {
-    const total = reviewsData.reviews.length;
-    const sum = reviewsData.reviews.reduce((acc, r) => acc + r.rating, 0);
-    averageRating = Math.round((sum / total) * 10) / 10;
-
-    for (const review of reviewsData.reviews) {
-      const star = Math.min(5, Math.max(1, Math.round(review.rating))) as
-        | 1
-        | 2
-        | 3
-        | 4
-        | 5;
-      distribution[star]++;
-    }
-  }
-
-  return {
-    reviews: reviewsData?.reviews || [],
-    totalCount: reviewsData?.total || 0,
-    averageRating,
-    distribution,
-  };
-}
-
-async function fetchStoreReviews(env: {
-  PUBLIC_JUDGEME_SHOP_DOMAIN?: string;
-  PUBLIC_STORE_DOMAIN?: string;
-  JUDGEME_PUBLIC_TOKEN?: string;
-}) {
-  const shopDomain = env.PUBLIC_JUDGEME_SHOP_DOMAIN || env.PUBLIC_STORE_DOMAIN;
-
-  if (!env.JUDGEME_PUBLIC_TOKEN || !shopDomain) {
-    return null;
-  }
-
-  const params = new URLSearchParams({
-    shop_domain: shopDomain,
-    api_token: env.JUDGEME_PUBLIC_TOKEN,
-    per_page: '30',
-    page: '1',
-  });
-
-  try {
-    const response = await fetch(
-      `https://judge.me/api/v1/reviews?${params}`,
-    );
-
-    if (!response.ok) {
-      console.error(`Judge.me API error: ${response.status}`);
-      return null;
-    }
-
-    const data = (await response.json()) as {
-      reviews?: Review[];
-      total?: number;
-    };
-
-    return {
-      reviews: data.reviews || [],
-      total: data.total || 0,
-    };
-  } catch (error) {
-    console.error('Failed to fetch store reviews:', error);
-    return null;
-  }
+export async function loader(_args: Route.LoaderArgs) {
+  const reviews = getLocalReviews();
+  const {averageRating, totalCount, distribution} = getReviewStats();
+  return {reviews, totalCount, averageRating, distribution};
 }
 
 export default function ReviewsPage() {

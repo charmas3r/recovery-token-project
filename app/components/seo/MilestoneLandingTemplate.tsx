@@ -14,6 +14,7 @@ import {SEOProductCard} from '~/components/seo/SEOProductCard';
 import {SEOFaqAccordion} from '~/components/seo/SEOFaqAccordion';
 import {SEORelatedPages} from '~/components/seo/SEORelatedPages';
 import {SEOMilestoneNav} from '~/components/seo/SEOMilestoneNav';
+import {ReviewsCallout} from '~/components/reviews/ReviewsCallout';
 import type {SEOPage} from '~/data/seo-pages';
 
 interface MilestoneLandingTemplateProps {
@@ -151,6 +152,11 @@ export function MilestoneLandingTemplate({
           </div>
         </div>
       </section>
+
+      {/* Reviews Callout */}
+      <div className="container-standard pt-4">
+        <ReviewsCallout variant="banner" />
+      </div>
 
       {/* Milestone Significance */}
       <section className="container-standard py-12">

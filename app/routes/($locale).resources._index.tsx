@@ -24,7 +24,7 @@ import {buildMeta} from '~/lib/meta';
 
 export const meta: MetaFunction = () => {
   return buildMeta({
-    title: 'Recovery Resources — Coinplugz',
+    title: 'Recovery Resources — Custom Milestones',
     description:
       'Explore recovery articles, a comprehensive glossary, and an interactive milestone calculator. Free resources to support your recovery journey.',
   });
@@ -102,7 +102,7 @@ export default function ResourcesHubPage() {
     name: 'Recovery Resources',
     description:
       'Articles, glossary, and tools for the recovery community. Free resources to support your sobriety journey.',
-    url: 'https://coinplugz.com/resources',
+    url: 'https://custommilestones.com/resources',
   };
 
   const breadcrumbJsonLd = {
@@ -113,13 +113,13 @@ export default function ResourcesHubPage() {
         '@type': 'ListItem',
         position: 1,
         name: 'Home',
-        item: 'https://coinplugz.com/',
+        item: 'https://custommilestones.com/',
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: 'Resources',
-        item: 'https://coinplugz.com/resources',
+        item: 'https://custommilestones.com/resources',
       },
     ],
   };

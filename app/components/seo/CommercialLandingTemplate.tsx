@@ -50,13 +50,13 @@ export function CommercialLandingTemplate({
         '@type': 'ListItem',
         position: 1,
         name: 'Home',
-        item: 'https://coinplugz.com/',
+        item: 'https://custommilestones.com/',
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: page.title,
-        item: `https://coinplugz.com/${page.canonicalPath}`,
+        item: `https://custommilestones.com/${page.canonicalPath}`,
       },
     ],
   };
@@ -66,7 +66,7 @@ export function CommercialLandingTemplate({
     '@type': 'WebPage',
     name: page.title,
     description: page.metaDescription,
-    url: `https://coinplugz.com/${page.canonicalPath}`,
+    url: `https://custommilestones.com/${page.canonicalPath}`,
   };
 
   return (

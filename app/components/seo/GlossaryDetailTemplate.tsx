@@ -67,25 +67,25 @@ export function GlossaryDetailTemplate({
         '@type': 'ListItem',
         position: 1,
         name: 'Home',
-        item: 'https://coinplugz.com/',
+        item: 'https://custommilestones.com/',
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: 'Resources',
-        item: 'https://coinplugz.com/resources',
+        item: 'https://custommilestones.com/resources',
       },
       {
         '@type': 'ListItem',
         position: 3,
         name: 'Glossary',
-        item: 'https://coinplugz.com/resources/glossary',
+        item: 'https://custommilestones.com/resources/glossary',
       },
       {
         '@type': 'ListItem',
         position: 4,
         name: sanityTerm.name,
-        item: `https://coinplugz.com/${page.canonicalPath}`,
+        item: `https://custommilestones.com/${page.canonicalPath}`,
       },
     ],
   };
@@ -95,7 +95,7 @@ export function GlossaryDetailTemplate({
     '@type': 'DefinedTerm',
     name: sanityTerm.name,
     description: sanityTerm.definition,
-    inDefinedTermSet: 'https://coinplugz.com/resources/glossary',
+    inDefinedTermSet: 'https://custommilestones.com/resources/glossary',
   };
 
   const relatedTermPages = glossary.relatedTermSlugs

@@ -41,7 +41,7 @@ export const meta: Route.MetaFunction = ({data}) => {
   }
 
   return buildMeta({
-    title: `${product.title} | Coinplugz`,
+    title: `${product.title} | Custom Milestones`,
     description: product.description,
     ogImage: product.selectedOrFirstAvailableVariant?.image?.url || undefined,
     ogType: 'product',
@@ -499,7 +499,7 @@ export default function Product() {
     sku: selectedVariant?.sku,
     brand: {
       '@type': 'Brand',
-      name: vendor || 'Coinplugz',
+      name: vendor || 'Custom Milestones',
     },
     offers: {
       '@type': 'Offer',
@@ -508,7 +508,7 @@ export default function Product() {
       availability: selectedVariant?.availableForSale
         ? 'https://schema.org/InStock'
         : 'https://schema.org/OutOfStock',
-      url: `https://coinplugz.com/products/${product.handle}`,
+      url: `https://custommilestones.com/products/${product.handle}`,
     },
     aggregateRating: reviewsSummary && reviewsSummary.reviewCount > 0 ? {
       '@type': 'AggregateRating',

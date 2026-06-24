@@ -14,7 +14,7 @@ import {buildMeta} from '~/lib/meta';
 
 export const meta: MetaFunction = () => {
   return buildMeta({
-    title: 'Why Tokens Matter — Coinplugz',
+    title: 'Why Tokens Matter — Custom Milestones',
     description:
       'Discover the psychology and tradition behind recovery tokens. Learn why physical symbols help anchor abstract achievements and support long-term sobriety.',
   });
@@ -62,19 +62,19 @@ export default function WhyTokensMatterPage() {
         '@type': 'ListItem',
         position: 1,
         name: 'Home',
-        item: 'https://coinplugz.com/',
+        item: 'https://custommilestones.com/',
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: 'About',
-        item: 'https://coinplugz.com/about',
+        item: 'https://custommilestones.com/about',
       },
       {
         '@type': 'ListItem',
         position: 3,
         name: 'Why Tokens Matter',
-        item: 'https://coinplugz.com/about/why-tokens-matter',
+        item: 'https://custommilestones.com/about/why-tokens-matter',
       },
     ],
   };

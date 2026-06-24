@@ -29,7 +29,7 @@ export async function action({request, context}: Route.ActionArgs) {
 
 export const meta: Route.MetaFunction = () => {
   return buildMeta({
-    title: 'Create Your Own Token | Custom Recovery Tokens | Coinplugz',
+    title: 'Create Your Own Token | Custom Recovery Tokens | Custom Milestones',
     description:
       'Design a custom recovery token with our guided wizard — choose materials, engraving, and occasion for a one-of-a-kind sobriety milestone keepsake.',
     canonical: '/custom-token',

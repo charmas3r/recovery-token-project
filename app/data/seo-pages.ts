@@ -121,7 +121,7 @@ registerSEOPage({
   slug: 'sobriety-coins',
   type: 'commercial',
   title: 'Sobriety Coins',
-  metaTitle: 'Sobriety Coins — Premium Recovery Tokens | Coinplugz',
+  metaTitle: 'Sobriety Coins — Premium Recovery Tokens | Custom Milestones',
   metaDescription:
     'Shop handcrafted sobriety coins and recovery tokens. Premium quality chips celebrating every milestone from 24 hours to 25+ years. Free shipping.',
   canonicalPath: 'sobriety-coins',
@@ -148,7 +148,7 @@ registerSEOPage({
     {
       type: 'text',
       heading: 'Why Sobriety Coins Matter',
-      body: "The tradition of sobriety coins dates back to the 1940s, and their significance has only grown. A coin in your pocket is a constant companion — something to reach for in moments of temptation, something to hold during moments of gratitude.\n\nAt Coinplugz, we believe every milestone deserves to be celebrated with something beautiful. Our coins are handcrafted with premium materials, designed to be treasured for a lifetime.",
+      body: "The tradition of sobriety coins dates back to the 1940s, and their significance has only grown. A coin in your pocket is a constant companion — something to reach for in moments of temptation, something to hold during moments of gratitude.\n\nAt Custom Milestones, we believe every milestone deserves to be celebrated with something beautiful. Our coins are handcrafted with premium materials, designed to be treasured for a lifetime.",
     },
   ],
   faq: [
@@ -170,7 +170,7 @@ registerSEOPage({
     {
       question: 'What are sobriety coins made of?',
       answer:
-        'Sobriety coins are typically made from bronze, nickel, brass, or aluminum. Premium medallions may be gold or silver plated. At Coinplugz, we use high-quality materials and handcrafted processes for lasting durability.',
+        'Sobriety coins are typically made from bronze, nickel, brass, or aluminum. Premium medallions may be gold or silver plated. At Custom Milestones, we use high-quality materials and handcrafted processes for lasting durability.',
     },
   ],
   schema: ['breadcrumb', 'faq', 'webPage'],
@@ -180,7 +180,7 @@ registerSEOPage({
   slug: 'aa-coins',
   type: 'commercial',
   title: 'AA Coins & Medallions',
-  metaTitle: 'AA Coins & Medallions — Alcoholics Anonymous Chips | Coinplugz',
+  metaTitle: 'AA Coins & Medallions — Alcoholics Anonymous Chips | Custom Milestones',
   metaDescription:
     'Shop AA coins, chips, and medallions for every milestone. Premium Alcoholics Anonymous recovery tokens handcrafted to celebrate your sobriety journey.',
   canonicalPath: 'aa-coins',
@@ -208,7 +208,7 @@ registerSEOPage({
     {
       type: 'text',
       heading: 'AA Chips vs. AA Medallions',
-      body: 'In AA tradition, "chips" typically refer to the simpler, lightweight tokens given at meetings — often made of plastic or aluminum. "Medallions" are the premium, collectible versions — made from bronze, brass, or plated metals, often carried daily as a personal talisman.\n\nAt Coinplugz, all our AA coins are medallion-quality: handcrafted, weighty, and built to last a lifetime.',
+      body: 'In AA tradition, "chips" typically refer to the simpler, lightweight tokens given at meetings — often made of plastic or aluminum. "Medallions" are the premium, collectible versions — made from bronze, brass, or plated metals, often carried daily as a personal talisman.\n\nAt Custom Milestones, all our AA coins are medallion-quality: handcrafted, weighty, and built to last a lifetime.',
     },
   ],
   faq: [
@@ -235,7 +235,7 @@ registerSEOPage({
   slug: 'recovery-gifts',
   type: 'commercial',
   title: 'Recovery Gifts',
-  metaTitle: 'Recovery Gifts — Meaningful Sobriety Gifts | Coinplugz',
+  metaTitle: 'Recovery Gifts — Meaningful Sobriety Gifts | Custom Milestones',
   metaDescription:
     'Find meaningful recovery gifts for someone celebrating sobriety. Handcrafted tokens, personalized coins, and milestone gifts that honor their journey.',
   canonicalPath: 'recovery-gifts',
@@ -279,7 +279,7 @@ registerSEOPage({
     {
       question: 'Can I engrave a personal message on a recovery token?',
       answer:
-        'Yes! At Coinplugz, we offer custom engraving so you can add a sobriety date, name, or personal message to make the gift truly unique.',
+        'Yes! At Custom Milestones, we offer custom engraving so you can add a sobriety date, name, or personal message to make the gift truly unique.',
     },
   ],
   schema: ['breadcrumb', 'faq', 'webPage'],
@@ -289,7 +289,7 @@ registerSEOPage({
   slug: 'na-coins',
   type: 'commercial',
   title: 'NA Coins & Key Tags',
-  metaTitle: 'NA Coins & Key Tags — Narcotics Anonymous Recovery Tokens | Coinplugz',
+  metaTitle: 'NA Coins & Key Tags — Narcotics Anonymous Recovery Tokens | Custom Milestones',
   metaDescription:
     'Shop NA coins and key tags for every clean-time milestone. Premium Narcotics Anonymous recovery tokens celebrating 30 days to decades of sobriety.',
   canonicalPath: 'na-coins',
@@ -349,7 +349,7 @@ registerSEOPage({
   slug: 'recovery-medallions',
   type: 'commercial',
   title: 'Recovery Medallions',
-  metaTitle: 'Recovery Medallions — Premium Sobriety Medallions | Coinplugz',
+  metaTitle: 'Recovery Medallions — Premium Sobriety Medallions | Custom Milestones',
   metaDescription:
     'Shop premium recovery medallions crafted from bronze, brass, and plated metals. Weighty, beautiful milestones tokens built to be carried for a lifetime.',
   canonicalPath: 'recovery-medallions',
@@ -377,7 +377,7 @@ registerSEOPage({
     {
       type: 'text',
       heading: 'Materials & Craftsmanship',
-      body: "Coinplugz medallions are cast from bronze, brass, or zinc alloy and finished with meticulous detail. Many feature die-struck reliefs — the Serenity Prayer, the AA triangle, Roman numerals for milestone years — pressed into the metal with sharp clarity that lasts decades.\n\nPremium options include gold plating, silver plating, and antique bronze finishes that develop a beautiful patina over time. Each medallion is inspected before shipping to ensure it meets the standard that milestones deserve.",
+      body: "Custom Milestones medallions are cast from bronze, brass, or zinc alloy and finished with meticulous detail. Many feature die-struck reliefs — the Serenity Prayer, the AA triangle, Roman numerals for milestone years — pressed into the metal with sharp clarity that lasts decades.\n\nPremium options include gold plating, silver plating, and antique bronze finishes that develop a beautiful patina over time. Each medallion is inspected before shipping to ensure it meets the standard that milestones deserve.",
     },
   ],
   faq: [
@@ -389,7 +389,7 @@ registerSEOPage({
     {
       question: 'What metal are recovery medallions made from?',
       answer:
-        'Most recovery medallions are made from bronze, brass, or zinc alloy. Premium versions are gold or silver plated. Coinplugz uses die-struck processes for crisp detail that holds up over years of daily carry.',
+        'Most recovery medallions are made from bronze, brass, or zinc alloy. Premium versions are gold or silver plated. Custom Milestones uses die-struck processes for crisp detail that holds up over years of daily carry.',
     },
     {
       question: 'How big are sobriety medallions?',
@@ -409,7 +409,7 @@ registerSEOPage({
   slug: 'sobriety-gifts-for-women',
   type: 'commercial',
   title: 'Sobriety Gifts for Women',
-  metaTitle: 'Sobriety Gifts for Women — Elegant Recovery Gifts | Coinplugz',
+  metaTitle: 'Sobriety Gifts for Women — Elegant Recovery Gifts | Custom Milestones',
   metaDescription:
     "Find beautiful sobriety gifts for the women in your life. Elegant, meaningful recovery tokens that celebrate her strength and honor her journey.",
   canonicalPath: 'sobriety-gifts-for-women',
@@ -463,7 +463,7 @@ registerSEOPage({
   slug: 'sobriety-gifts-for-men',
   type: 'commercial',
   title: 'Sobriety Gifts for Men',
-  metaTitle: 'Sobriety Gifts for Men — Meaningful Recovery Gifts | Coinplugz',
+  metaTitle: 'Sobriety Gifts for Men — Meaningful Recovery Gifts | Custom Milestones',
   metaDescription:
     "Find meaningful sobriety gifts for the men in your life. Handcrafted recovery tokens that honor a man's recovery milestone with substance and dignity.",
   canonicalPath: 'sobriety-gifts-for-men',
@@ -517,7 +517,7 @@ registerSEOPage({
   slug: 'sponsor-gifts',
   type: 'commercial',
   title: 'Sponsor & Sponsee Gifts',
-  metaTitle: 'Sponsor & Sponsee Gifts — Recovery Gifts for AA & NA | Coinplugz',
+  metaTitle: 'Sponsor & Sponsee Gifts — Recovery Gifts for AA & NA | Custom Milestones',
   metaDescription:
     'Shop meaningful gifts for sponsors and sponsees. Celebrate the relationship that changes lives with premium sobriety tokens and personalized recovery coins.',
   canonicalPath: 'sponsor-gifts',
@@ -571,7 +571,7 @@ registerSEOPage({
   slug: 'custom-sobriety-coins',
   type: 'commercial',
   title: 'Custom & Personalized Sobriety Coins',
-  metaTitle: 'Custom Sobriety Coins — Personalized Recovery Tokens | Coinplugz',
+  metaTitle: 'Custom Sobriety Coins — Personalized Recovery Tokens | Custom Milestones',
   metaDescription:
     'Design a custom sobriety coin with personalized engraving, dates, and messages. Create a one-of-a-kind recovery token that tells your unique story.',
   canonicalPath: 'custom-sobriety-coins',
@@ -592,7 +592,7 @@ registerSEOPage({
     {
       type: 'text',
       heading: 'What Can Be Personalized?',
-      body: "At Coinplugz, personalization goes beyond a name on the back. You can engrave a sobriety date, a meaningful quote, a first name, initials, or a short message that captures something specific to the recipient's journey.\n\nFor sponsors creating a gift for a sponsee, consider a phrase from your work together. For family members, a simple date and a few words. For yourself, whatever truth belongs on a coin you'll carry every day.",
+      body: "At Custom Milestones, personalization goes beyond a name on the back. You can engrave a sobriety date, a meaningful quote, a first name, initials, or a short message that captures something specific to the recipient's journey.\n\nFor sponsors creating a gift for a sponsee, consider a phrase from your work together. For family members, a simple date and a few words. For yourself, whatever truth belongs on a coin you'll carry every day.",
     },
     {type: 'productShowcase', heading: 'Custom Coin Options', body: ''},
     {
@@ -605,7 +605,7 @@ registerSEOPage({
     {
       question: 'Can I add a sobriety date to a recovery coin?',
       answer:
-        "Yes. At Coinplugz, you can engrave a specific date, name, or short message on your custom coin. Sobriety date engravings are one of our most popular personalizations — they transform a meaningful object into a one-of-a-kind keepsake.",
+        "Yes. At Custom Milestones, you can engrave a specific date, name, or short message on your custom coin. Sobriety date engravings are one of our most popular personalizations — they transform a meaningful object into a one-of-a-kind keepsake.",
     },
     {
       question: 'How long does a custom engraved coin take?',
@@ -620,7 +620,7 @@ registerSEOPage({
     {
       question: 'Can I design a fully custom coin from scratch?',
       answer:
-        "Yes — Coinplugz offers a custom token design experience where you can choose the material, finish, and personalization details to create a completely unique recovery medallion.",
+        "Yes — Custom Milestones offers a custom token design experience where you can choose the material, finish, and personalization details to create a completely unique recovery medallion.",
     },
   ],
   schema: ['breadcrumb', 'faq', 'webPage'],
@@ -630,7 +630,7 @@ registerSEOPage({
   slug: 'bronze-sobriety-coins',
   type: 'commercial',
   title: 'Bronze Sobriety Coins',
-  metaTitle: 'Bronze Sobriety Coins — Classic Recovery Medallions | Coinplugz',
+  metaTitle: 'Bronze Sobriety Coins — Classic Recovery Medallions | Custom Milestones',
   metaDescription:
     'Shop bronze sobriety coins and medallions. The classic recovery token material with deep tradition — weighty, durable, and beautiful for daily carry.',
   canonicalPath: 'bronze-sobriety-coins',
@@ -684,7 +684,7 @@ registerSEOPage({
   slug: 'gold-silver-medallions',
   type: 'commercial',
   title: 'Gold & Silver Recovery Medallions',
-  metaTitle: 'Gold & Silver Recovery Medallions — Premium Milestone Coins | Coinplugz',
+  metaTitle: 'Gold & Silver Recovery Medallions — Premium Milestone Coins | Custom Milestones',
   metaDescription:
     'Shop gold and silver plated recovery medallions for major milestones. Premium sobriety coins worthy of the most significant anniversaries in recovery.',
   canonicalPath: 'gold-silver-medallions',
@@ -711,7 +711,7 @@ registerSEOPage({
     {
       type: 'text',
       heading: 'Craftsmanship & Finish',
-      body: "Coinplugz gold and silver medallions are die-struck from quality base metals and electroplated to achieve a rich, even finish. The plating process creates a color depth and reflectivity that standard coins can't match — making them photogenic, gift-worthy, and striking on display.\n\nFor collectors of long-term recovery, having a gold medallion for a 5-year or 10-year milestone alongside the bronze coins of earlier years creates a beautiful progression of physical proof.",
+      body: "Custom Milestones gold and silver medallions are die-struck from quality base metals and electroplated to achieve a rich, even finish. The plating process creates a color depth and reflectivity that standard coins can't match — making them photogenic, gift-worthy, and striking on display.\n\nFor collectors of long-term recovery, having a gold medallion for a 5-year or 10-year milestone alongside the bronze coins of earlier years creates a beautiful progression of physical proof.",
     },
   ],
   faq: [
@@ -728,7 +728,7 @@ registerSEOPage({
     {
       question: 'Do gold plated coins wear over time?',
       answer:
-        "Gold plating can wear on high-contact areas over years of daily carry. Coinplugz uses a thick electroplating process to maximize durability. For coins intended primarily for display or special occasions, the finish will remain pristine for many years.",
+        "Gold plating can wear on high-contact areas over years of daily carry. Custom Milestones uses a thick electroplating process to maximize durability. For coins intended primarily for display or special occasions, the finish will remain pristine for many years.",
     },
   ],
   schema: ['breadcrumb', 'faq', 'webPage'],
@@ -738,7 +738,7 @@ registerSEOPage({
   slug: 'serenity-prayer-coins',
   type: 'commercial',
   title: 'Serenity Prayer Coins',
-  metaTitle: 'Serenity Prayer Coins — Recovery Medallions with the Serenity Prayer | Coinplugz',
+  metaTitle: 'Serenity Prayer Coins — Recovery Medallions with the Serenity Prayer | Custom Milestones',
   metaDescription:
     'Shop sobriety coins featuring the full Serenity Prayer. Handcrafted recovery medallions carrying the words that guide millions in recovery every day.',
   canonicalPath: 'serenity-prayer-coins',
@@ -797,7 +797,7 @@ registerSEOPage({
   slug: 'aa-chip-colors',
   type: 'commercial',
   title: 'AA Chip Colors & Meanings',
-  metaTitle: 'AA Chip Colors & Meanings — Complete Color Guide | Coinplugz',
+  metaTitle: 'AA Chip Colors & Meanings — Complete Color Guide | Custom Milestones',
   metaDescription:
     'The complete guide to AA chip colors and what each one means. White through bronze — learn the sobriety milestone color system used in AA meetings.',
   canonicalPath: 'aa-chip-colors',
@@ -856,7 +856,7 @@ registerSEOPage({
   slug: 'sobriety-coin-holders',
   type: 'commercial',
   title: 'Sobriety Coin Holders & Keychains',
-  metaTitle: 'Sobriety Coin Holders & Keychains — Recovery Token Accessories | Coinplugz',
+  metaTitle: 'Sobriety Coin Holders & Keychains — Recovery Token Accessories | Custom Milestones',
   metaDescription:
     'Shop coin holders, keychain cases, and display options for sobriety coins and recovery medallions. Keep your milestone token close and protected.',
   canonicalPath: 'sobriety-coin-holders',
@@ -910,7 +910,7 @@ registerSEOPage({
   slug: 'celebrate-recovery-coins',
   type: 'commercial',
   title: 'Celebrate Recovery Coins',
-  metaTitle: 'Celebrate Recovery Coins — CR Recovery Tokens | Coinplugz',
+  metaTitle: 'Celebrate Recovery Coins — CR Recovery Tokens | Custom Milestones',
   metaDescription:
     'Shop Celebrate Recovery coins and tokens. Premium recovery medallions for the CR program rooted in Christ-centered principles and community support.',
   canonicalPath: 'celebrate-recovery-coins',
@@ -937,7 +937,7 @@ registerSEOPage({
     {
       type: 'text',
       heading: 'The CR Coin Tradition',
-      body: "Like AA and NA, Celebrate Recovery uses coins and tokens to mark milestones in recovery — celebrating progress in community with the acknowledgment that healing is a journey, not an event.\n\nCR coins often carry scriptural references or Christ-centered phrases alongside the milestone markers, reflecting the program's foundation. Many CR members carry their coin as a daily reminder of both their commitment to sobriety and the faith that sustains it.\n\nAt Coinplugz, our recovery coins are welcomed across recovery programs and traditions — including Celebrate Recovery.",
+      body: "Like AA and NA, Celebrate Recovery uses coins and tokens to mark milestones in recovery — celebrating progress in community with the acknowledgment that healing is a journey, not an event.\n\nCR coins often carry scriptural references or Christ-centered phrases alongside the milestone markers, reflecting the program's foundation. Many CR members carry their coin as a daily reminder of both their commitment to sobriety and the faith that sustains it.\n\nAt Custom Milestones, our recovery coins are welcomed across recovery programs and traditions — including Celebrate Recovery.",
     },
   ],
   faq: [
@@ -957,9 +957,9 @@ registerSEOPage({
         "The primary difference is the spiritual foundation. AA uses a non-denominational concept of a 'higher power,' while Celebrate Recovery explicitly grounds its program in Jesus Christ and Christian Scripture. CR also addresses a broader range of struggles beyond chemical addiction, including codependency, eating disorders, and other behavioral issues.",
     },
     {
-      question: 'Can I use a Coinplugz coin in a Celebrate Recovery program?',
+      question: 'Can I use a Custom Milestones coin in a Celebrate Recovery program?',
       answer:
-        "Yes. Coinplugz recovery coins are meaningful across recovery programs and traditions. While some CR groups use program-specific coins, our premium recovery tokens are welcomed by CR members looking for a quality medallion to mark their milestones.",
+        "Yes. Custom Milestones recovery coins are meaningful across recovery programs and traditions. While some CR groups use program-specific coins, our premium recovery tokens are welcomed by CR members looking for a quality medallion to mark their milestones.",
     },
   ],
   schema: ['breadcrumb', 'faq', 'webPage'],
@@ -969,7 +969,7 @@ registerSEOPage({
   slug: 'recovery-tokens',
   type: 'commercial',
   title: 'Recovery Tokens',
-  metaTitle: 'Recovery Tokens — Premium Sobriety Milestone Coins | Coinplugz',
+  metaTitle: 'Recovery Tokens — Premium Sobriety Milestone Coins | Custom Milestones',
   metaDescription:
     'Shop premium recovery tokens for every sobriety milestone. Handcrafted coins celebrating 24 hours to 25+ years of recovery. The tradition that makes milestones real.',
   canonicalPath: 'recovery-tokens',
@@ -996,12 +996,12 @@ registerSEOPage({
     {
       type: 'text',
       heading: 'Why Premium Recovery Tokens Matter',
-      body: "The token you carry every day should feel like it means something. Mass-produced aluminum chips serve their purpose at meetings, but a premium recovery token — handcrafted from bronze, finished with care, weighted to feel substantial in your pocket — becomes something more.\n\nAt Coinplugz, every recovery token is designed to last a lifetime. We use premium materials and meticulous finishing because the milestone it represents deserves nothing less. When you pull your coin out in a quiet moment, the weight of it should match the weight of what you've accomplished.\n\nMany people in long-term recovery say their token is the most meaningful object they own. Not because of what it cost, but because of what it represents: every hard morning, every meeting attended, every day they chose to keep going.",
+      body: "The token you carry every day should feel like it means something. Mass-produced aluminum chips serve their purpose at meetings, but a premium recovery token — handcrafted from bronze, finished with care, weighted to feel substantial in your pocket — becomes something more.\n\nAt Custom Milestones, every recovery token is designed to last a lifetime. We use premium materials and meticulous finishing because the milestone it represents deserves nothing less. When you pull your coin out in a quiet moment, the weight of it should match the weight of what you've accomplished.\n\nMany people in long-term recovery say their token is the most meaningful object they own. Not because of what it cost, but because of what it represents: every hard morning, every meeting attended, every day they chose to keep going.",
     },
     {
       type: 'text',
       heading: 'Recovery Token Milestones',
-      body: "Recovery tokens follow a milestone system rooted in decades of 12-step tradition. While colors and designs vary by program and region, the most recognized milestones include:\n\n24 hours (the surrender chip) — the most important token, representing the decision to begin. 30 days, 60 days, and 90 days mark the critical early months. 6 months and 9 months recognize sustained commitment. Then annual milestones begin — 1 year, 2 years, 5 years, 10 years, and beyond.\n\nEach milestone carries its own emotional weight. The 24-hour chip is raw courage. The 1-year coin is proof that it's possible. The 10-year medallion is a testament to a life rebuilt. At Coinplugz, we craft tokens for every one of these milestones because every single one deserves to be celebrated.",
+      body: "Recovery tokens follow a milestone system rooted in decades of 12-step tradition. While colors and designs vary by program and region, the most recognized milestones include:\n\n24 hours (the surrender chip) — the most important token, representing the decision to begin. 30 days, 60 days, and 90 days mark the critical early months. 6 months and 9 months recognize sustained commitment. Then annual milestones begin — 1 year, 2 years, 5 years, 10 years, and beyond.\n\nEach milestone carries its own emotional weight. The 24-hour chip is raw courage. The 1-year coin is proof that it's possible. The 10-year medallion is a testament to a life rebuilt. At Custom Milestones, we craft tokens for every one of these milestones because every single one deserves to be celebrated.",
     },
     {
       type: 'text',
@@ -1023,12 +1023,12 @@ registerSEOPage({
     {
       question: 'What milestones do recovery tokens celebrate?',
       answer:
-        'Common recovery token milestones include 24 hours (the surrender chip), 30 days, 60 days, 90 days, 6 months, 9 months, and annual anniversaries from 1 year onward. Some programs also recognize 1 week and 18 months. At Coinplugz, we offer premium tokens for every milestone.',
+        'Common recovery token milestones include 24 hours (the surrender chip), 30 days, 60 days, 90 days, 6 months, 9 months, and annual anniversaries from 1 year onward. Some programs also recognize 1 week and 18 months. At Custom Milestones, we offer premium tokens for every milestone.',
     },
     {
       question: 'Where can I buy recovery tokens?',
       answer:
-        'You can buy recovery tokens at Coinplugz.com. We offer handcrafted, premium-quality sobriety coins and recovery medallions for every milestone. Our tokens are designed to be carried daily and built to last a lifetime. We ship worldwide with free shipping on qualifying orders.',
+        'You can buy recovery tokens at Custom Milestones.com. We offer handcrafted, premium-quality sobriety coins and recovery medallions for every milestone. Our tokens are designed to be carried daily and built to last a lifetime. We ship worldwide with free shipping on qualifying orders.',
     },
     {
       question: 'Do recovery tokens only work for AA?',
@@ -1038,7 +1038,7 @@ registerSEOPage({
     {
       question: 'What are recovery tokens made of?',
       answer:
-        'Recovery tokens can be made from aluminum, bronze, brass, nickel, or precious metals. At Coinplugz, we use premium bronze and high-quality finishing for tokens that feel substantial and are built to last. Our handcrafted process ensures each token is worthy of the milestone it represents.',
+        'Recovery tokens can be made from aluminum, bronze, brass, nickel, or precious metals. At Custom Milestones, we use premium bronze and high-quality finishing for tokens that feel substantial and are built to last. Our handcrafted process ensures each token is worthy of the milestone it represents.',
     },
   ],
   schema: ['breadcrumb', 'faq', 'webPage'],
@@ -1052,7 +1052,7 @@ registerSEOPage({
   slug: '24-hour-chip',
   type: 'milestone',
   title: '24 Hour Sobriety Chip',
-  metaTitle: '24 Hour Sobriety Chip — The First Step | Coinplugz',
+  metaTitle: '24 Hour Sobriety Chip — The First Step | Custom Milestones',
   metaDescription:
     'The 24 hour chip marks the most important day — day one. Shop premium 24-hour sobriety coins and desire chips that honor the courage to begin.',
   canonicalPath: '24-hour-chip',
@@ -1105,7 +1105,7 @@ registerSEOPage({
   slug: '1-year-sobriety-coin',
   type: 'milestone',
   title: '1 Year Sobriety Coin',
-  metaTitle: '1 Year Sobriety Coin — Celebrate 365 Days | Coinplugz',
+  metaTitle: '1 Year Sobriety Coin — Celebrate 365 Days | Custom Milestones',
   metaDescription:
     'Celebrate 1 year of sobriety with a premium recovery coin. Shop handcrafted one-year AA medallions and anniversary tokens. Free shipping.',
   canonicalPath: '1-year-sobriety-coin',
@@ -1159,7 +1159,7 @@ registerSEOPage({
   slug: '90-day-sobriety-coin',
   type: 'milestone',
   title: '90 Day Sobriety Coin',
-  metaTitle: '90 Day Sobriety Coin — 3 Months of Recovery | Coinplugz',
+  metaTitle: '90 Day Sobriety Coin — 3 Months of Recovery | Custom Milestones',
   metaDescription:
     'Celebrate 90 days sober with a premium recovery coin. The 90-day chip marks a major milestone in early recovery. Free shipping on all orders.',
   canonicalPath: '90-day-sobriety-coin',
@@ -1213,7 +1213,7 @@ registerSEOPage({
   slug: 'early-recovery-chips',
   type: 'milestone',
   title: 'Early Recovery Chips',
-  metaTitle: 'Early Recovery Chips — First Weeks of Sobriety | Coinplugz',
+  metaTitle: 'Early Recovery Chips — First Weeks of Sobriety | Custom Milestones',
   metaDescription:
     'Honor the fragile, powerful first weeks of recovery. Shop early recovery chips for 1-week and other early sobriety milestones. Free shipping.',
   canonicalPath: 'early-recovery-chips',
@@ -1267,7 +1267,7 @@ registerSEOPage({
   slug: '30-day-sobriety-coin',
   type: 'milestone',
   title: '30 Day Sobriety Coin',
-  metaTitle: '30 Day Sobriety Coin — One Month Milestone | Coinplugz',
+  metaTitle: '30 Day Sobriety Coin — One Month Milestone | Custom Milestones',
   metaDescription:
     'Celebrate 30 days sober with a premium recovery coin. The red 30-day chip marks one month of new beginnings and habits forming. Free shipping.',
   canonicalPath: '30-day-sobriety-coin',
@@ -1326,7 +1326,7 @@ registerSEOPage({
   slug: '60-day-sobriety-coin',
   type: 'milestone',
   title: '60 Day Sobriety Coin',
-  metaTitle: '60 Day Sobriety Coin — Two Months of Recovery | Coinplugz',
+  metaTitle: '60 Day Sobriety Coin — Two Months of Recovery | Custom Milestones',
   metaDescription:
     'Celebrate 60 days sober with a premium gold recovery coin. Two months of growing resilience and deeper recovery roots. Free shipping on all orders.',
   canonicalPath: '60-day-sobriety-coin',
@@ -1385,7 +1385,7 @@ registerSEOPage({
   slug: '6-month-sobriety-coin',
   type: 'milestone',
   title: '6 Month Sobriety Coin',
-  metaTitle: '6 Month Sobriety Coin — Half a Year of Recovery | Coinplugz',
+  metaTitle: '6 Month Sobriety Coin — Half a Year of Recovery | Custom Milestones',
   metaDescription:
     'Celebrate 6 months sober with a premium purple recovery coin. Half a year of dedication, healing, and transformation. Free shipping on all orders.',
   canonicalPath: '6-month-sobriety-coin',
@@ -1444,7 +1444,7 @@ registerSEOPage({
   slug: '9-month-sobriety-coin',
   type: 'milestone',
   title: '9 Month Sobriety Coin',
-  metaTitle: '9 Month Sobriety Coin — The Home Stretch to One Year | Coinplugz',
+  metaTitle: '9 Month Sobriety Coin — The Home Stretch to One Year | Custom Milestones',
   metaDescription:
     'Celebrate 9 months sober with a premium dark blue recovery coin. The home stretch to one year — nine months of strength and transformation.',
   canonicalPath: '9-month-sobriety-coin',
@@ -1503,7 +1503,7 @@ registerSEOPage({
   slug: '2-year-sobriety-coin',
   type: 'milestone',
   title: '2 Year Sobriety Coin',
-  metaTitle: '2 Year Sobriety Coin — Two Years of New Life | Coinplugz',
+  metaTitle: '2 Year Sobriety Coin — Two Years of New Life | Custom Milestones',
   metaDescription:
     'Celebrate 2 years of sobriety with a premium recovery coin. Two years of building a new life, one day at a time. Free shipping on all orders.',
   canonicalPath: '2-year-sobriety-coin',
@@ -1562,7 +1562,7 @@ registerSEOPage({
   slug: '5-year-sobriety-coin',
   type: 'milestone',
   title: '5 Year Sobriety Coin',
-  metaTitle: '5 Year Sobriety Coin — Five Years of Enduring Strength | Coinplugz',
+  metaTitle: '5 Year Sobriety Coin — Five Years of Enduring Strength | Custom Milestones',
   metaDescription:
     'Celebrate 5 years of sobriety with a premium recovery coin. Five years is a testament to enduring strength and a life rebuilt from the inside out.',
   canonicalPath: '5-year-sobriety-coin',
@@ -1621,7 +1621,7 @@ registerSEOPage({
   slug: '10-year-sobriety-coin',
   type: 'milestone',
   title: '10 Year Sobriety Coin',
-  metaTitle: '10 Year Sobriety Coin — A Decade of Recovery | Coinplugz',
+  metaTitle: '10 Year Sobriety Coin — A Decade of Recovery | Custom Milestones',
   metaDescription:
     'Celebrate 10 years of sobriety with a premium recovery coin. A full decade of recovery, growth, and transformation. Free shipping on all orders.',
   canonicalPath: '10-year-sobriety-coin',
@@ -1680,7 +1680,7 @@ registerSEOPage({
   slug: '15-year-sobriety-coin',
   type: 'milestone',
   title: '15 Year Sobriety Coin',
-  metaTitle: '15 Year Sobriety Coin — Living Proof | Coinplugz',
+  metaTitle: '15 Year Sobriety Coin — Living Proof | Custom Milestones',
   metaDescription:
     'Celebrate 15 years of sobriety with a premium recovery coin. Fifteen years of living proof that recovery works and a new life is possible.',
   canonicalPath: '15-year-sobriety-coin',
@@ -1739,7 +1739,7 @@ registerSEOPage({
   slug: '20-year-sobriety-coin',
   type: 'milestone',
   title: '20 Year Sobriety Coin',
-  metaTitle: '20 Year Sobriety Coin — Two Decades of Transformation | Coinplugz',
+  metaTitle: '20 Year Sobriety Coin — Two Decades of Transformation | Custom Milestones',
   metaDescription:
     'Celebrate 20 years of sobriety with a premium recovery coin. Two decades of transformation and a life that proves recovery is everything.',
   canonicalPath: '20-year-sobriety-coin',
@@ -1798,7 +1798,7 @@ registerSEOPage({
   slug: '25-year-sobriety-coin',
   type: 'milestone',
   title: '25 Year Sobriety Coin',
-  metaTitle: '25 Year Sobriety Coin — A Quarter Century Legacy | Coinplugz',
+  metaTitle: '25 Year Sobriety Coin — A Quarter Century Legacy | Custom Milestones',
   metaDescription:
     'Celebrate 25 years of sobriety with a premium recovery coin. A quarter century of recovery — a legacy that will outlast a lifetime.',
   canonicalPath: '25-year-sobriety-coin',
@@ -1857,7 +1857,7 @@ registerSEOPage({
   slug: 'long-term-sobriety-coins',
   type: 'milestone',
   title: 'Long-Term Sobriety Coins',
-  metaTitle: 'Long-Term Sobriety Coins — 30, 35, 40 & 50 Year Milestones | Coinplugz',
+  metaTitle: 'Long-Term Sobriety Coins — 30, 35, 40 & 50 Year Milestones | Custom Milestones',
   metaDescription:
     'Shop long-term sobriety coins for 30, 35, 40, and 50+ year milestones. Premium recovery tokens for the most extraordinary recovery journeys.',
   canonicalPath: 'long-term-sobriety-coins',
@@ -1881,7 +1881,7 @@ registerSEOPage({
     {
       type: 'text',
       heading: 'Honoring a Lifetime of Recovery',
-      body: "For milestones of 30 years and beyond, a standard coin is not enough. These are moments that call for custom medallions — crafted with the same care and intentionality that the recovery journey has demanded.\n\nAt Coinplugz, we offer custom sobriety coins for any milestone, including the rarest and most extraordinary. A 50-year sobriety medallion can be engraved with the date, a name, a message — anything that honors a journey of that magnitude. These coins often become family heirlooms, passed from one generation to the next as a symbol of what one person's courage made possible.",
+      body: "For milestones of 30 years and beyond, a standard coin is not enough. These are moments that call for custom medallions — crafted with the same care and intentionality that the recovery journey has demanded.\n\nAt Custom Milestones, we offer custom sobriety coins for any milestone, including the rarest and most extraordinary. A 50-year sobriety medallion can be engraved with the date, a name, a message — anything that honors a journey of that magnitude. These coins often become family heirlooms, passed from one generation to the next as a symbol of what one person's courage made possible.",
     },
   ],
   faq: [
@@ -1919,7 +1919,7 @@ registerSEOPage({
   slug: 'resources/glossary/sobriety-coin',
   type: 'glossary',
   title: 'Sobriety Coin',
-  metaTitle: 'What Is a Sobriety Coin? — Definition & History | Coinplugz',
+  metaTitle: 'What Is a Sobriety Coin? — Definition & History | Custom Milestones',
   metaDescription:
     'Learn what a sobriety coin is, its history in AA, and why recovery tokens matter. Comprehensive guide to sobriety coins, chips, and medallions.',
   canonicalPath: 'resources/glossary/sobriety-coin',
@@ -1933,7 +1933,7 @@ registerSEOPage({
     {
       question: 'Where can I get a sobriety coin?',
       answer:
-        'Sobriety coins can be received at AA or NA meetings, or purchased from specialty retailers like Coinplugz for personal milestones or as gifts.',
+        'Sobriety coins can be received at AA or NA meetings, or purchased from specialty retailers like Custom Milestones for personal milestones or as gifts.',
     },
   ],
   glossary: {
@@ -1951,7 +1951,7 @@ registerSEOPage({
   slug: 'resources/glossary/aa-chip',
   type: 'glossary',
   title: 'AA Chip',
-  metaTitle: 'What Is an AA Chip? — Colors, Meaning & Tradition | Coinplugz',
+  metaTitle: 'What Is an AA Chip? — Colors, Meaning & Tradition | Custom Milestones',
   metaDescription:
     "Learn what AA chips are, what the colors mean, and how they're used in Alcoholics Anonymous meetings to celebrate sobriety milestones.",
   canonicalPath: 'resources/glossary/aa-chip',
@@ -1983,7 +1983,7 @@ registerSEOPage({
   slug: 'resources/glossary/clean-time',
   type: 'glossary',
   title: 'Clean Time',
-  metaTitle: 'What Is Clean Time? — Definition & Meaning | Coinplugz',
+  metaTitle: 'What Is Clean Time? — Definition & Meaning | Custom Milestones',
   metaDescription:
     "Learn what clean time means in recovery, how it's calculated, and why celebrating clean time milestones matters for long-term sobriety.",
   canonicalPath: 'resources/glossary/clean-time',
@@ -2013,7 +2013,7 @@ registerSEOPage({
   slug: 'resources/glossary/sobriety',
   type: 'glossary',
   title: 'Sobriety',
-  metaTitle: 'What Is Sobriety? — Definition & Meaning | Coinplugz',
+  metaTitle: 'What Is Sobriety? — Definition & Meaning | Custom Milestones',
   metaDescription:
     'Learn what sobriety means in the context of recovery — the state of being free from alcohol and drugs and living a substance-free life.',
   canonicalPath: 'resources/glossary/sobriety',
@@ -2044,7 +2044,7 @@ registerSEOPage({
   slug: 'resources/glossary/relapse',
   type: 'glossary',
   title: 'Relapse',
-  metaTitle: 'What Is a Relapse? — Definition & Meaning | Coinplugz',
+  metaTitle: 'What Is a Relapse? — Definition & Meaning | Custom Milestones',
   metaDescription:
     'Learn what relapse means in recovery — a return to substance use after a period of sobriety — and how to respond with compassion and renewed commitment.',
   canonicalPath: 'resources/glossary/relapse',
@@ -2076,7 +2076,7 @@ registerSEOPage({
   slug: 'resources/glossary/recovery',
   type: 'glossary',
   title: 'Recovery',
-  metaTitle: 'What Is Recovery? — Definition & Meaning | Coinplugz',
+  metaTitle: 'What Is Recovery? — Definition & Meaning | Custom Milestones',
   metaDescription:
     'Understand what recovery means in the context of addiction — the ongoing process of healing, growth, and building a fulfilling substance-free life.',
   canonicalPath: 'resources/glossary/recovery',
@@ -2102,7 +2102,7 @@ registerSEOPage({
   slug: 'resources/glossary/abstinence',
   type: 'glossary',
   title: 'Abstinence',
-  metaTitle: 'What Is Abstinence? — Definition & Meaning | Coinplugz',
+  metaTitle: 'What Is Abstinence? — Definition & Meaning | Custom Milestones',
   metaDescription:
     'Learn what abstinence means in recovery — the complete avoidance of alcohol and drugs — and how it differs from broader concepts of sobriety.',
   canonicalPath: 'resources/glossary/abstinence',
@@ -2127,7 +2127,7 @@ registerSEOPage({
   slug: 'resources/glossary/triggers',
   type: 'glossary',
   title: 'Triggers',
-  metaTitle: 'What Are Triggers in Recovery? — Definition & Meaning | Coinplugz',
+  metaTitle: 'What Are Triggers in Recovery? — Definition & Meaning | Custom Milestones',
   metaDescription:
     'Learn what triggers are in addiction recovery — people, places, or situations that create urges to use — and how to manage them effectively.',
   canonicalPath: 'resources/glossary/triggers',
@@ -2164,7 +2164,7 @@ registerSEOPage({
   slug: 'resources/glossary/sobriety-date',
   type: 'glossary',
   title: 'Sobriety Date',
-  metaTitle: 'What Is a Sobriety Date? — Definition & Meaning | Coinplugz',
+  metaTitle: 'What Is a Sobriety Date? — Definition & Meaning | Custom Milestones',
   metaDescription:
     "Learn what a sobriety date is in recovery — the last day a person used substances — and why it's treasured as a personal milestone.",
   canonicalPath: 'resources/glossary/sobriety-date',
@@ -2196,7 +2196,7 @@ registerSEOPage({
   slug: 'resources/glossary/anniversary',
   type: 'glossary',
   title: 'Sobriety Anniversary',
-  metaTitle: 'What Is a Sobriety Anniversary? — Definition & Meaning | Coinplugz',
+  metaTitle: 'What Is a Sobriety Anniversary? — Definition & Meaning | Custom Milestones',
   metaDescription:
     "Learn what a sobriety anniversary is in recovery — the yearly celebration of continuous sobriety — and how it's celebrated with coins and community.",
   canonicalPath: 'resources/glossary/anniversary',
@@ -2222,7 +2222,7 @@ registerSEOPage({
   slug: 'resources/glossary/milestone',
   type: 'glossary',
   title: 'Recovery Milestone',
-  metaTitle: 'What Is a Recovery Milestone? — Definition & Meaning | Coinplugz',
+  metaTitle: 'What Is a Recovery Milestone? — Definition & Meaning | Custom Milestones',
   metaDescription:
     'Learn what recovery milestones are — significant achievements in sobriety measured by time — and how they are celebrated with coins and community.',
   canonicalPath: 'resources/glossary/milestone',
@@ -2255,7 +2255,7 @@ registerSEOPage({
   slug: 'resources/glossary/sober-birthday',
   type: 'glossary',
   title: 'Sober Birthday',
-  metaTitle: 'What Is a Sober Birthday? — Definition & Meaning | Coinplugz',
+  metaTitle: 'What Is a Sober Birthday? — Definition & Meaning | Custom Milestones',
   metaDescription:
     'Learn what a sober birthday is in recovery — the annual celebration of a sobriety date — and how people in recovery honor this special day.',
   canonicalPath: 'resources/glossary/sober-birthday',
@@ -2285,7 +2285,7 @@ registerSEOPage({
   slug: 'resources/glossary/medallion',
   type: 'glossary',
   title: 'Recovery Medallion',
-  metaTitle: 'What Is a Recovery Medallion? — Definition & Meaning | Coinplugz',
+  metaTitle: 'What Is a Recovery Medallion? — Definition & Meaning | Custom Milestones',
   metaDescription:
     'Learn what a recovery medallion is — a premium metal token marking a sobriety milestone — and how it differs from a standard AA chip.',
   canonicalPath: 'resources/glossary/medallion',
@@ -2312,7 +2312,7 @@ registerSEOPage({
   slug: 'resources/glossary/desire-chip',
   type: 'glossary',
   title: 'Desire Chip',
-  metaTitle: 'What Is a Desire Chip? — Definition & Meaning | Coinplugz',
+  metaTitle: 'What Is a Desire Chip? — Definition & Meaning | Custom Milestones',
   metaDescription:
     'Learn what a desire chip is in AA recovery — the first chip picked up to declare the desire to stop drinking — and its significance in the sobriety journey.',
   canonicalPath: 'resources/glossary/desire-chip',
@@ -2345,7 +2345,7 @@ registerSEOPage({
   slug: 'resources/glossary/key-tag',
   type: 'glossary',
   title: 'Key Tag',
-  metaTitle: 'What Is a Recovery Key Tag? — Definition & Meaning | Coinplugz',
+  metaTitle: 'What Is a Recovery Key Tag? — Definition & Meaning | Custom Milestones',
   metaDescription:
     "Learn what a recovery key tag is — Narcotics Anonymous's version of a sobriety chip, designed to attach to a keychain — and how it marks clean time milestones.",
   canonicalPath: 'resources/glossary/key-tag',
@@ -2372,7 +2372,7 @@ registerSEOPage({
   slug: 'resources/glossary/challenge-coin',
   type: 'glossary',
   title: 'Challenge Coin',
-  metaTitle: 'What Is a Recovery Challenge Coin? — Definition & Meaning | Coinplugz',
+  metaTitle: 'What Is a Recovery Challenge Coin? — Definition & Meaning | Custom Milestones',
   metaDescription:
     'Learn about challenge coins in recovery — military-tradition coins adapted to celebrate sobriety milestones with premium craftsmanship and personal meaning.',
   canonicalPath: 'resources/glossary/challenge-coin',
@@ -2409,7 +2409,7 @@ registerSEOPage({
   slug: 'resources/glossary/sponsor',
   type: 'glossary',
   title: 'Sponsor',
-  metaTitle: 'What Is a Sponsor in AA / NA? — Definition & Meaning | Coinplugz',
+  metaTitle: 'What Is a Sponsor in AA / NA? — Definition & Meaning | Custom Milestones',
   metaDescription:
     'Learn what a sponsor is in 12-step recovery programs — an experienced member who guides a newcomer through the steps — and why sponsorship is central to recovery.',
   canonicalPath: 'resources/glossary/sponsor',
@@ -2441,7 +2441,7 @@ registerSEOPage({
   slug: 'resources/glossary/sponsee',
   type: 'glossary',
   title: 'Sponsee',
-  metaTitle: 'What Is a Sponsee in Recovery? — Definition & Meaning | Coinplugz',
+  metaTitle: 'What Is a Sponsee in Recovery? — Definition & Meaning | Custom Milestones',
   metaDescription:
     'Learn what a sponsee is in 12-step recovery — a person being guided by a sponsor through the steps — and the role this relationship plays in sobriety.',
   canonicalPath: 'resources/glossary/sponsee',
@@ -2467,7 +2467,7 @@ registerSEOPage({
   slug: 'resources/glossary/home-group',
   type: 'glossary',
   title: 'Home Group',
-  metaTitle: 'What Is a Home Group in Recovery? — Definition & Meaning | Coinplugz',
+  metaTitle: 'What Is a Home Group in Recovery? — Definition & Meaning | Custom Milestones',
   metaDescription:
     'Learn what a home group is in AA and NA — the regular meeting a member considers their primary recovery community — and why it matters for long-term sobriety.',
   canonicalPath: 'resources/glossary/home-group',
@@ -2493,7 +2493,7 @@ registerSEOPage({
   slug: 'resources/glossary/fellowship',
   type: 'glossary',
   title: 'Fellowship',
-  metaTitle: 'What Is Fellowship in Recovery? — Definition & Meaning | Coinplugz',
+  metaTitle: 'What Is Fellowship in Recovery? — Definition & Meaning | Custom Milestones',
   metaDescription:
     'Learn what fellowship means in AA and NA recovery — the community of people supporting each other in sobriety — and why community is essential to lasting recovery.',
   canonicalPath: 'resources/glossary/fellowship',
@@ -2519,7 +2519,7 @@ registerSEOPage({
   slug: 'resources/glossary/meeting',
   type: 'glossary',
   title: 'Recovery Meeting',
-  metaTitle: 'What Is a Recovery Meeting? — Definition & Meaning | Coinplugz',
+  metaTitle: 'What Is a Recovery Meeting? — Definition & Meaning | Custom Milestones',
   metaDescription:
     'Learn what a recovery meeting is in AA and NA — a gathering where people in recovery share experiences and support each other — and what to expect.',
   canonicalPath: 'resources/glossary/meeting',
@@ -2551,7 +2551,7 @@ registerSEOPage({
   slug: 'resources/glossary/accountability',
   type: 'glossary',
   title: 'Accountability',
-  metaTitle: 'What Is Accountability in Recovery? — Definition & Meaning | Coinplugz',
+  metaTitle: 'What Is Accountability in Recovery? — Definition & Meaning | Custom Milestones',
   metaDescription:
     'Learn what accountability means in addiction recovery — taking responsibility for one\'s actions and commitments — and how it supports long-term sobriety.',
   canonicalPath: 'resources/glossary/accountability',
@@ -2581,7 +2581,7 @@ registerSEOPage({
   slug: 'resources/glossary/twelve-steps',
   type: 'glossary',
   title: 'Twelve Steps',
-  metaTitle: 'What Are the Twelve Steps? — Definition & Meaning | Coinplugz',
+  metaTitle: 'What Are the Twelve Steps? — Definition & Meaning | Custom Milestones',
   metaDescription:
     'Learn what the 12 steps of recovery are — the foundational program of Alcoholics Anonymous — and how they guide people toward lasting sobriety.',
   canonicalPath: 'resources/glossary/twelve-steps',
@@ -2613,7 +2613,7 @@ registerSEOPage({
   slug: 'resources/glossary/higher-power',
   type: 'glossary',
   title: 'Higher Power',
-  metaTitle: 'What Is a Higher Power in Recovery? — Definition & Meaning | Coinplugz',
+  metaTitle: 'What Is a Higher Power in Recovery? — Definition & Meaning | Custom Milestones',
   metaDescription:
     'Learn what "higher power" means in 12-step recovery programs — a personal spiritual concept that supports surrender and long-term sobriety.',
   canonicalPath: 'resources/glossary/higher-power',
@@ -2645,7 +2645,7 @@ registerSEOPage({
   slug: 'resources/glossary/serenity-prayer',
   type: 'glossary',
   title: 'Serenity Prayer',
-  metaTitle: 'What Is the Serenity Prayer? — Definition & Meaning | Coinplugz',
+  metaTitle: 'What Is the Serenity Prayer? — Definition & Meaning | Custom Milestones',
   metaDescription:
     "Learn about the Serenity Prayer — the prayer recited at AA and NA meetings worldwide — its origin, meaning, and its connection to sobriety coins.",
   canonicalPath: 'resources/glossary/serenity-prayer',
@@ -2678,7 +2678,7 @@ registerSEOPage({
   slug: 'resources/glossary/big-book',
   type: 'glossary',
   title: 'Big Book',
-  metaTitle: 'What Is the AA Big Book? — Definition & Meaning | Coinplugz',
+  metaTitle: 'What Is the AA Big Book? — Definition & Meaning | Custom Milestones',
   metaDescription:
     "Learn about the AA Big Book — Alcoholics Anonymous's foundational text, first published in 1939 — and its central role in 12-step recovery.",
   canonicalPath: 'resources/glossary/big-book',
@@ -2704,7 +2704,7 @@ registerSEOPage({
   slug: 'resources/glossary/step-work',
   type: 'glossary',
   title: 'Step Work',
-  metaTitle: 'What Is Step Work in Recovery? — Definition & Meaning | Coinplugz',
+  metaTitle: 'What Is Step Work in Recovery? — Definition & Meaning | Custom Milestones',
   metaDescription:
     'Learn what step work means in AA and NA recovery — the active process of working through the 12 steps with a sponsor — and why it is central to lasting sobriety.',
   canonicalPath: 'resources/glossary/step-work',
@@ -2730,7 +2730,7 @@ registerSEOPage({
   slug: 'resources/glossary/making-amends',
   type: 'glossary',
   title: 'Making Amends',
-  metaTitle: 'What Is Making Amends in Recovery? — Definition & Meaning | Coinplugz',
+  metaTitle: 'What Is Making Amends in Recovery? — Definition & Meaning | Custom Milestones',
   metaDescription:
     'Learn what making amends means in AA recovery — steps 8 and 9 of the 12-step program — and how repairing harm caused supports lasting sobriety.',
   canonicalPath: 'resources/glossary/making-amends',
@@ -2762,7 +2762,7 @@ registerSEOPage({
   slug: 'resources/glossary/one-day-at-a-time',
   type: 'glossary',
   title: 'One Day at a Time',
-  metaTitle: 'What Does "One Day at a Time" Mean? — Definition | Coinplugz',
+  metaTitle: 'What Does "One Day at a Time" Mean? — Definition | Custom Milestones',
   metaDescription:
     'Learn what "one day at a time" means in recovery — the philosophy of focusing on today rather than the daunting prospect of lifelong sobriety.',
   canonicalPath: 'resources/glossary/one-day-at-a-time',
@@ -2788,7 +2788,7 @@ registerSEOPage({
   slug: 'resources/glossary/gratitude-list',
   type: 'glossary',
   title: 'Gratitude List',
-  metaTitle: 'What Is a Gratitude List in Recovery? — Definition & Meaning | Coinplugz',
+  metaTitle: 'What Is a Gratitude List in Recovery? — Definition & Meaning | Custom Milestones',
   metaDescription:
     'Learn what a gratitude list is in recovery — the daily practice of listing things to be grateful for — and how it supports mental health and sobriety.',
   canonicalPath: 'resources/glossary/gratitude-list',
@@ -2819,7 +2819,7 @@ registerSEOPage({
   type: 'commercial',
   template: 'generic-seo',
   title: 'Milestone Tokens',
-  metaTitle: 'Milestone Tokens — Handcrafted Recovery Coins | Coinplugz',
+  metaTitle: 'Milestone Tokens — Handcrafted Recovery Coins | Custom Milestones',
   metaDescription:
     'Shop premium milestone tokens for every recovery achievement. Handcrafted coins marking 24 hours, 30 days, 1 year, and every milestone in between. Design your own.',
   canonicalPath: 'milestone-tokens',
@@ -2838,7 +2838,7 @@ registerSEOPage({
     {
       type: 'text',
       heading: 'What Are Milestone Tokens?',
-      body: "Milestone tokens are physical markers — coins, chips, or medallions — given to people in recovery to commemorate specific sobriety achievements. Unlike a generic keepsake, a milestone token is tied to a date: the day you reached 24 hours, 30 days, 90 days, a year, five years, and beyond. Every token corresponds to a moment you decided to keep going.\n\nThe term 'milestone token' is deliberately program-agnostic. AA calls them chips. NA uses medallions and key tags. Celebrate Recovery has its own designs. SMART Recovery doesn't formalize them at all. But the underlying idea is shared across every major recovery tradition: turn an invisible achievement into something you can hold in your hand, and the achievement feels real.\n\nAt Coinplugz, we make milestone tokens for every point in the journey — from the 24-hour surrender chip to 25-year anniversary medallions — and we make them out of premium materials because the days they represent are worth more than stamped aluminum.",
+      body: "Milestone tokens are physical markers — coins, chips, or medallions — given to people in recovery to commemorate specific sobriety achievements. Unlike a generic keepsake, a milestone token is tied to a date: the day you reached 24 hours, 30 days, 90 days, a year, five years, and beyond. Every token corresponds to a moment you decided to keep going.\n\nThe term 'milestone token' is deliberately program-agnostic. AA calls them chips. NA uses medallions and key tags. Celebrate Recovery has its own designs. SMART Recovery doesn't formalize them at all. But the underlying idea is shared across every major recovery tradition: turn an invisible achievement into something you can hold in your hand, and the achievement feels real.\n\nAt Custom Milestones, we make milestone tokens for every point in the journey — from the 24-hour surrender chip to 25-year anniversary medallions — and we make them out of premium materials because the days they represent are worth more than stamped aluminum.",
     },
     {
       type: 'text',
@@ -2890,7 +2890,7 @@ registerSEOPage({
   type: 'commercial',
   template: 'custom-intent',
   title: 'Custom Recovery Token',
-  metaTitle: 'Custom Recovery Token — Design Your Own Sobriety Coin | Coinplugz',
+  metaTitle: 'Custom Recovery Token — Design Your Own Sobriety Coin | Custom Milestones',
   metaDescription:
     'Design a one-of-a-kind custom recovery token. Choose engraving, material, and imagery — or tell us your story and we\'ll design it for you. Built for the milestones that matter most.',
   canonicalPath: 'custom-recovery-token',
@@ -2968,7 +2968,7 @@ registerSEOPage({
   type: 'commercial',
   template: 'generic-seo',
   title: 'AA Sobriety Coins',
-  metaTitle: 'AA Sobriety Coins — Premium Handcrafted AA Chips | Coinplugz',
+  metaTitle: 'AA Sobriety Coins — Premium Handcrafted AA Chips | Custom Milestones',
   metaDescription:
     'Shop premium AA sobriety coins for every milestone. Handcrafted coins in the traditional AA color system. Design your own for a truly personal touch.',
   canonicalPath: 'aa-sobriety-coins',
@@ -3031,7 +3031,7 @@ registerSEOPage({
   type: 'commercial',
   template: 'generic-seo',
   title: 'AA Sobriety Tokens',
-  metaTitle: 'AA Sobriety Tokens — The Original Recovery Chips | Coinplugz',
+  metaTitle: 'AA Sobriety Tokens — The Original Recovery Chips | Custom Milestones',
   metaDescription:
     "Shop premium AA sobriety tokens. Discover the 1940s Cleveland origin story and carry the tradition that started it all. Handcrafted tokens for every milestone.",
   canonicalPath: 'aa-sobriety-tokens',
@@ -3094,7 +3094,7 @@ registerSEOPage({
   type: 'commercial',
   template: 'generic-seo',
   title: 'AA Sober Chips',
-  metaTitle: 'AA Sober Chips — Premium Recovery Chips for Every Milestone | Coinplugz',
+  metaTitle: 'AA Sober Chips — Premium Recovery Chips for Every Milestone | Custom Milestones',
   metaDescription:
     "Shop premium AA sober chips for every milestone from 24 hours to 25+ years. The tradition of the white desire chip and the ritual of picking yours up.",
   canonicalPath: 'aa-sober-chips',
@@ -3157,7 +3157,7 @@ registerSEOPage({
   type: 'commercial',
   template: 'generic-seo',
   title: 'NA Sobriety Coins',
-  metaTitle: 'NA Sobriety Coins — Narcotics Anonymous Medallions | Coinplugz',
+  metaTitle: 'NA Sobriety Coins — Narcotics Anonymous Medallions | Custom Milestones',
   metaDescription:
     "Shop premium NA sobriety coins and medallions. Narcotics Anonymous uses its own chip tradition — here's how it differs from AA and where to find quality tokens.",
   canonicalPath: 'na-sobriety-coins',
@@ -3220,7 +3220,7 @@ registerSEOPage({
   type: 'commercial',
   template: 'generic-seo',
   title: 'NA Sober Chips',
-  metaTitle: 'NA Sober Chips — Key Tags, Medallions, and Recovery Coins | Coinplugz',
+  metaTitle: 'NA Sober Chips — Key Tags, Medallions, and Recovery Coins | Custom Milestones',
   metaDescription:
     "Shop NA sober chips, key tags, and medallions. Learn how NA's clean-time tradition actually works — and find premium recovery coins for every milestone.",
   canonicalPath: 'na-sober-chips',
@@ -3287,7 +3287,7 @@ registerSEOPage({
   type: 'commercial',
   template: 'generic-seo',
   title: 'Alcoholics Anonymous Sobriety Coins',
-  metaTitle: 'Alcoholics Anonymous Sobriety Coins — Premium Recovery Chips | Coinplugz',
+  metaTitle: 'Alcoholics Anonymous Sobriety Coins — Premium Recovery Chips | Custom Milestones',
   metaDescription:
     "Shop premium Alcoholics Anonymous sobriety coins. The full history of AA's chip tradition from 1935 Akron to today, and handcrafted coins for every milestone.",
   canonicalPath: 'alcoholics-anonymous-sobriety-coins',
@@ -3353,7 +3353,7 @@ registerSEOPage({
   type: 'commercial',
   template: 'generic-seo',
   title: 'Narcotics Anonymous Coins',
-  metaTitle: 'Narcotics Anonymous Coins — NA Medallions & Key Tags | Coinplugz',
+  metaTitle: 'Narcotics Anonymous Coins — NA Medallions & Key Tags | Custom Milestones',
   metaDescription:
     "Shop premium Narcotics Anonymous coins and medallions. The NA tradition since 1953, the key-tag system, and handcrafted recovery coins for every clean-time milestone.",
   canonicalPath: 'narcotics-anonymous-coins',
@@ -3419,7 +3419,7 @@ registerSEOPage({
   type: 'commercial',
   template: 'generic-seo',
   title: 'Sobriety Medallion',
-  metaTitle: 'Sobriety Medallion — Premium Handcrafted Recovery Medallions | Coinplugz',
+  metaTitle: 'Sobriety Medallion — Premium Handcrafted Recovery Medallions | Custom Milestones',
   metaDescription:
     'Shop a premium sobriety medallion for your milestone. Bronze, silver, and gold medallions with engraving options. Design your own or choose from handcrafted collections.',
   canonicalPath: 'sobriety-medallion',
@@ -3482,7 +3482,7 @@ registerSEOPage({
   type: 'commercial',
   template: 'generic-seo',
   title: 'Recovery Chips',
-  metaTitle: 'Recovery Chips — AA, NA, and Beyond | Coinplugz',
+  metaTitle: 'Recovery Chips — AA, NA, and Beyond | Custom Milestones',
   metaDescription:
     "Recovery chips span AA, NA, Celebrate Recovery, and SMART Recovery. Compare traditions, find premium handcrafted chips for every program, or design your own.",
   canonicalPath: 'recovery-chips',
@@ -3549,7 +3549,7 @@ registerSEOPage({
   type: 'commercial',
   template: 'custom-intent',
   title: 'Custom AA Coins',
-  metaTitle: 'Custom AA Coins — Design Your Own Alcoholics Anonymous Chip | Coinplugz',
+  metaTitle: 'Custom AA Coins — Design Your Own Alcoholics Anonymous Chip | Custom Milestones',
   metaDescription:
     'Design a custom AA coin with your home group, sponsor name, anniversary date, or Serenity Prayer engraving. Two ways to create a one-of-a-kind AA coin that honors your story.',
   canonicalPath: 'custom-aa-coins',
@@ -3612,7 +3612,7 @@ registerSEOPage({
   type: 'commercial',
   template: 'custom-intent',
   title: 'Custom NA Coins',
-  metaTitle: 'Custom NA Coins — Design Your Own Narcotics Anonymous Medallion | Coinplugz',
+  metaTitle: 'Custom NA Coins — Design Your Own Narcotics Anonymous Medallion | Custom Milestones',
   metaDescription:
     "Design a custom NA coin with the Service Symbol, 'Just for Today,' your clean date, or your home group. Build a one-of-a-kind Narcotics Anonymous medallion.",
   canonicalPath: 'custom-na-coins',
@@ -3675,7 +3675,7 @@ registerSEOPage({
   type: 'commercial',
   template: 'custom-intent',
   title: 'Custom Sobriety Medallion',
-  metaTitle: 'Custom Sobriety Medallion — Bronze, Silver, Gold | Coinplugz',
+  metaTitle: 'Custom Sobriety Medallion — Bronze, Silver, Gold | Custom Milestones',
   metaDescription:
     'Design a custom sobriety medallion in bronze, silver, or gold. Deep engraving, custom imagery, and a premium finish for the milestones that matter most.',
   canonicalPath: 'custom-sobriety-medallion',
@@ -3738,7 +3738,7 @@ registerSEOPage({
   type: 'commercial',
   template: 'custom-intent',
   title: 'Personalized Recovery Tokens',
-  metaTitle: 'Personalized Recovery Tokens — Engraved Sobriety Coins | Coinplugz',
+  metaTitle: 'Personalized Recovery Tokens — Engraved Sobriety Coins | Custom Milestones',
   metaDescription:
     "Personalize a recovery token with your name, date, or short message. Simpler and faster than fully custom design — all the meaning, less of the process.",
   canonicalPath: 'personalized-recovery-tokens',

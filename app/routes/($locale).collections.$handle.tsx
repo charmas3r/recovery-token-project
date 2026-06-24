@@ -9,8 +9,8 @@ import {buildMeta} from '~/lib/meta';
 
 export const meta: Route.MetaFunction = ({data}) => {
   const title = data?.collection?.title
-    ? `${data.collection.title} Collection | Coinplugz`
-    : 'Collection | Coinplugz';
+    ? `${data.collection.title} Collection | Custom Milestones`
+    : 'Collection | Custom Milestones';
   const description = data?.collection?.description || undefined;
   const ogImage = data?.collection?.image?.url || undefined;
   return buildMeta({title, description, ogImage});

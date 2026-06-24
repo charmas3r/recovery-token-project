@@ -14,7 +14,7 @@ import {buildMeta} from '~/lib/meta';
 
 export const meta: MetaFunction = () => {
   return buildMeta({
-    title: 'About Us — Coinplugz',
+    title: 'About Us — Custom Milestones',
     description:
       'Learn about our mission, discover why recovery tokens matter, and hear stories from our community. Premium tokens celebrating sobriety milestones.',
   });
@@ -59,13 +59,13 @@ export default function AboutHubPage() {
         '@type': 'ListItem',
         position: 1,
         name: 'Home',
-        item: 'https://coinplugz.com/',
+        item: 'https://custommilestones.com/',
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: 'About',
-        item: 'https://coinplugz.com/about',
+        item: 'https://custommilestones.com/about',
       },
     ],
   };

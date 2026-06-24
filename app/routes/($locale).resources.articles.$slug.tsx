@@ -27,7 +27,7 @@ import {buildMeta} from '~/lib/meta';
 
 export const meta: MetaFunction<typeof loader> = ({data}) => {
   if (!data?.article) {
-    return [{title: 'Article Not Found — Coinplugz'}];
+    return [{title: 'Article Not Found — Custom Milestones'}];
   }
   const article = data.article as Article;
   return buildMeta({
@@ -78,15 +78,15 @@ export default function ArticlePage() {
     description: typedArticle.metaDescription,
     datePublished: typedArticle.publishedAt,
     dateModified: typedArticle.updatedAt,
-    url: `https://coinplugz.com/resources/articles/${typedArticle.slug}`,
+    url: `https://custommilestones.com/resources/articles/${typedArticle.slug}`,
     publisher: {
       '@type': 'Organization',
-      name: 'Coinplugz',
-      url: 'https://coinplugz.com',
+      name: 'Custom Milestones',
+      url: 'https://custommilestones.com',
     },
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': `https://coinplugz.com/resources/articles/${typedArticle.slug}`,
+      '@id': `https://custommilestones.com/resources/articles/${typedArticle.slug}`,
     },
   };
 
@@ -98,25 +98,25 @@ export default function ArticlePage() {
         '@type': 'ListItem',
         position: 1,
         name: 'Home',
-        item: 'https://coinplugz.com/',
+        item: 'https://custommilestones.com/',
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: 'Resources',
-        item: 'https://coinplugz.com/resources',
+        item: 'https://custommilestones.com/resources',
       },
       {
         '@type': 'ListItem',
         position: 3,
         name: 'Articles',
-        item: 'https://coinplugz.com/resources/articles',
+        item: 'https://custommilestones.com/resources/articles',
       },
       {
         '@type': 'ListItem',
         position: 4,
         name: typedArticle.title,
-        item: `https://coinplugz.com/resources/articles/${typedArticle.slug}`,
+        item: `https://custommilestones.com/resources/articles/${typedArticle.slug}`,
       },
     ],
   };

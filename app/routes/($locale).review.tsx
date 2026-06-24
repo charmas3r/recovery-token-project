@@ -39,7 +39,7 @@ interface ActionData {
 
 export const meta: Route.MetaFunction = () => {
   return buildMeta({
-    title: 'Leave a Review — Coinplugz',
+    title: 'Leave a Review — Custom Milestones',
     description:
       'Share your experience with your recovery token and receive a 25% discount code for your next order.',
     noIndex: true,

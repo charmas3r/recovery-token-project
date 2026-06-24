@@ -26,7 +26,7 @@ import {buildMeta} from '~/lib/meta';
 
 export const meta: MetaFunction = () => {
   return buildMeta({
-    title: 'Recovery Token Articles — Coinplugz',
+    title: 'Recovery Token Articles — Custom Milestones',
     description:
       'Explore articles about recovery token history, craftsmanship, symbolism, and traditions. Learn about AA chips, sobriety coins, and the heritage behind every token.',
   });
@@ -116,13 +116,13 @@ export default function ArticlesHubPage() {
     name: 'Recovery Token Articles',
     description:
       'Articles about recovery token history, craftsmanship, symbolism, and traditions.',
-    url: 'https://coinplugz.com/resources/articles',
+    url: 'https://custommilestones.com/resources/articles',
     mainEntity: {
       '@type': 'ItemList',
       itemListElement: (articles as Article[]).map((article, index) => ({
         '@type': 'ListItem',
         position: index + 1,
-        url: `https://coinplugz.com/resources/articles/${article.slug}`,
+        url: `https://custommilestones.com/resources/articles/${article.slug}`,
         name: article.title,
       })),
     },
@@ -136,19 +136,19 @@ export default function ArticlesHubPage() {
         '@type': 'ListItem',
         position: 1,
         name: 'Home',
-        item: 'https://coinplugz.com/',
+        item: 'https://custommilestones.com/',
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: 'Resources',
-        item: 'https://coinplugz.com/resources',
+        item: 'https://custommilestones.com/resources',
       },
       {
         '@type': 'ListItem',
         position: 3,
         name: 'Articles',
-        item: 'https://coinplugz.com/resources/articles',
+        item: 'https://custommilestones.com/resources/articles',
       },
     ],
   };

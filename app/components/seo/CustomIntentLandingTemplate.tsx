@@ -61,7 +61,7 @@ export function CustomIntentLandingTemplate({
     '@type': 'WebPage',
     name: page.title,
     description: page.metaDescription,
-    url: `https://coinplugz.com/${page.canonicalPath}`,
+    url: `https://custommilestones.com/${page.canonicalPath}`,
   };
 
   const textSections = page.sections.filter((s) => s.type === 'text');

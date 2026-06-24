@@ -16,9 +16,9 @@ import type {LocalReview as Review} from '~/lib/reviews-data';
 
 export const meta: Route.MetaFunction = () => {
   return buildMeta({
-    title: 'Customer Reviews — Coinplugz',
+    title: 'Customer Reviews — Custom Milestones',
     description:
-      'Read real reviews from our community. See why thousands trust Coinplugz for meaningful sobriety milestone tokens.',
+      'Read real reviews from our community. See why thousands trust Custom Milestones for meaningful sobriety milestone tokens.',
   });
 };
 
@@ -42,13 +42,13 @@ export default function ReviewsPage() {
         '@type': 'ListItem',
         position: 1,
         name: 'Home',
-        item: 'https://coinplugz.com/',
+        item: 'https://custommilestones.com/',
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: 'Reviews',
-        item: 'https://coinplugz.com/reviews',
+        item: 'https://custommilestones.com/reviews',
       },
     ],
   };
@@ -57,8 +57,8 @@ export default function ReviewsPage() {
     ? {
         '@context': 'https://schema.org',
         '@type': 'Organization',
-        name: 'Coinplugz',
-        url: 'https://coinplugz.com',
+        name: 'Custom Milestones',
+        url: 'https://custommilestones.com',
         aggregateRating: {
           '@type': 'AggregateRating',
           ratingValue: averageRating.toString(),

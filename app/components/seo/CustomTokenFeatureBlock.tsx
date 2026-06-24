@@ -20,7 +20,7 @@ interface CustomTokenFeatureBlockProps {
 }
 
 const DEFAULT_COPY = {
-  eyebrow: 'The Coinplugz Difference',
+  eyebrow: 'The Custom Milestones Difference',
   headline: "Can't find exactly what you want? Create your own.",
   body:
     "Every recovery journey is different. That's why we built two ways to make a token that's truly yours — whether you want us to design it from your story, or you want to control every detail.",

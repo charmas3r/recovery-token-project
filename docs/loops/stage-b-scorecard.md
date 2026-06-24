@@ -35,5 +35,15 @@
 
 **CSP regression caught & fixed mid-implementation:** specifying `script-src` replaced Hydrogen's default (dropping `'self'`/localhost → first-party app scripts blocked, then PostHog helper scripts blocked). Both re-added to `script-src`. Lesson: when overriding a CSP directive in Hydrogen, re-list `'self'`, localhost, cdn.shopify.com, and any domain previously covered by the default-src fallback.
 
+## Iteration 2 — GA4 "no data" bug fix — 2026-06-24 (post-deploy diagnosis)
+
+After deploy with a real GA4 ID, GA4 showed "No data received." Live prod diagnosis: gtag.js loaded with the correct ID but **zero `/g/collect` hits**. Two bugs in `MarketingScripts.tsx`:
+1. The `gtag` stub pushed a **plain array** to `dataLayer`; gtag.js only executes `arguments` objects, so `js`/`config`/`event` silently no-op'd. → Fixed to canonical `arguments`-pushing function.
+2. **No Google Consent Mode signal** — hits withheld under the denied default. → Added `gtag('consent','update', granted)` on init (only reached after Shopify analytics consent).
+
+Meta Pixel left as-is (fbevents replays its queue via `.apply()`, which accepts arrays — not affected).
+
+**Verified locally** with the GA ID set + consent granted: `POST google-analytics.com/g/collect?...&tid=G-S0PFXMN7YZ&en=page_view&gcs=G111 → 204`. Data now flows; `gcs=G111` confirms consent-granted signaling.
+
 ## ✅ STAGE B IMPLEMENTED — orchestrator sign-off
 Consent-compliant GA4 + Meta Pixel + CSP fix. **Requires (ops):** set `PUBLIC_GA4_MEASUREMENT_ID` + `PUBLIC_META_PIXEL_ID` in `.env` (local) and Oxygen (prod); configure **Purchase** conversion on Shopify's side (Meta/Google sales channel). Recommended follow-up: gate the existing PostHog init on consent too (currently inits unconditionally).

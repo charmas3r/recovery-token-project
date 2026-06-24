@@ -76,15 +76,30 @@ export function MarketingScripts({
       if (nonce) s.nonce = nonce;
       document.head.appendChild(s);
       window.dataLayer = window.dataLayer || [];
-      window.gtag = (...args: unknown[]) => {
-        window.dataLayer!.push(args);
+      // Canonical gtag: it MUST push the `arguments` object. gtag.js ignores
+      // entries pushed as plain arrays, so commands silently no-op otherwise.
+      const gtag: (...args: unknown[]) => void = function () {
+        // eslint-disable-next-line prefer-rest-params
+        window.dataLayer!.push(arguments);
       };
-      window.gtag('js', new Date());
-      window.gtag('config', ga4MeasurementId);
+      window.gtag = gtag;
+      gtag('js', new Date());
+      // We only reach here once analytics consent is granted, so signal Google
+      // Consent Mode — otherwise collect hits are withheld under the denied
+      // default and GA4 receives no data.
+      gtag('consent', 'update', {
+        analytics_storage: 'granted',
+        ad_storage: 'granted',
+        ad_user_data: 'granted',
+        ad_personalization: 'granted',
+      });
+      gtag('config', ga4MeasurementId);
     }
 
     function initPixel() {
       if (window.fbq || !metaPixelId) return;
+      // Meta Pixel bootstrap. fbevents.js replays the queue via .apply(), which
+      // accepts arrays, so the rest-param form is fine here (unlike gtag).
       const n: FbqFn = ((...args: unknown[]) => {
         if (n.callMethod) {
           n.callMethod(...args);

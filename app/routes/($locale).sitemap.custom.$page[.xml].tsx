@@ -32,12 +32,25 @@ interface SitemapEntry {
   lastmod?: string;
 }
 
+/**
+ * Last meaningful content/site update (the Custom Milestones rebrand).
+ * Bump this when SEO page copy or static pages change so crawlers know to
+ * re-fetch. Articles carry their own `updatedAt`.
+ */
+const SITEMAP_LASTMOD = '2026-06-24';
+
 async function getAllSitemapEntries(): Promise<SitemapEntry[]> {
+  const staticEntries: SitemapEntry[] = STATIC_PAGES.map((page) => ({
+    ...page,
+    lastmod: SITEMAP_LASTMOD,
+  }));
+
   const seoPages = getAllSEOPages();
   const seoEntries: SitemapEntry[] = seoPages.map((page) => ({
     url: `/${page.canonicalPath}`,
     changeFreq: 'weekly',
     priority: page.type === 'commercial' ? 0.8 : page.type === 'milestone' ? 0.7 : 0.6,
+    lastmod: SITEMAP_LASTMOD,
   }));
 
   const articles = await getAllArticles();
@@ -47,10 +60,10 @@ async function getAllSitemapEntries(): Promise<SitemapEntry[]> {
     priority: 0.7,
     lastmod: article.updatedAt
       ? new Date(article.updatedAt).toISOString().split('T')[0]
-      : undefined,
+      : SITEMAP_LASTMOD,
   }));
 
-  return [...STATIC_PAGES, ...seoEntries, ...articleEntries];
+  return [...staticEntries, ...seoEntries, ...articleEntries];
 }
 
 export async function loader({request}: Route.LoaderArgs) {

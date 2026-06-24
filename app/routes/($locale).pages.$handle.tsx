@@ -1,13 +1,28 @@
-import {useLoaderData} from 'react-router';
+import {useLoaderData, redirect} from 'react-router';
 import type {Route} from './+types/($locale).pages.$handle';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
 import {buildMeta} from '~/lib/meta';
 
-export const meta: Route.MetaFunction = ({data}) => {
+/**
+ * Shopify online-store pages that duplicate a first-class custom route.
+ * These 301 to the canonical custom route so Google doesn't index both
+ * (e.g. /pages/contact and /contact serving the same content).
+ */
+const DUPLICATE_PAGE_REDIRECTS: Record<string, string> = {
+  contact: '/contact',
+};
+
+export const meta: Route.MetaFunction = ({data, location}) => {
   const title = data?.page?.title
     ? `${data.page.title} | Custom Milestones`
     : 'Custom Milestones';
-  return buildMeta({title});
+  // Self-referencing canonical so any remaining Shopify page declares its
+  // preferred URL and isn't treated as duplicate content.
+  return buildMeta({
+    title,
+    url: location.pathname,
+    canonical: location.pathname,
+  });
 };
 
 export async function loader(args: Route.LoaderArgs) {
@@ -27,6 +42,13 @@ export async function loader(args: Route.LoaderArgs) {
 async function loadCriticalData({context, request, params}: Route.LoaderArgs) {
   if (!params.handle) {
     throw new Error('Missing page handle');
+  }
+
+  // Redirect Shopify pages that duplicate a custom route (e.g. /pages/contact
+  // -> /contact) so only the canonical URL is crawled and indexed.
+  const duplicateTarget = DUPLICATE_PAGE_REDIRECTS[params.handle];
+  if (duplicateTarget) {
+    throw redirect(duplicateTarget, 301);
   }
 
   const [{page}] = await Promise.all([

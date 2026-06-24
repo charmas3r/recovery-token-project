@@ -9,11 +9,14 @@ export const meta: Route.MetaFunction = ({data, location}) => {
     return buildMeta({title: 'Custom Milestones', noIndex: true});
   }
   const {landing} = data;
+  // Paid/social ad-landing pages: keep them OUT of organic search so they don't
+  // compete with or duplicate the SEO pages. `url` is retained for og:url (social
+  // shares); noIndex emits robots noindex,nofollow. Not included in any sitemap.
   return buildMeta({
     title: landing.meta.title,
     description: landing.meta.description,
     url: location.pathname,
-    canonical: location.pathname,
+    noIndex: true,
   });
 };
 

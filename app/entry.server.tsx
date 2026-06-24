@@ -29,7 +29,34 @@ export default async function handleRequest(
         ? ['https://*.sanity.io', 'https://*.apicdn.sanity.io']
         : []),
     ],
+    scriptSrc: [
+      // Preserve first-party + Shopify scripts (specifying scriptSrc replaces
+      // Hydrogen's default, so 'self'/localhost/cdn must be re-listed; the
+      // nonce is still injected automatically).
+      "'self'",
+      'http://localhost:*',
+      'https://cdn.shopify.com',
+      // PostHog loads helper scripts at runtime; previously allowed via the
+      // default-src fallback, now needs to be explicit since we set script-src.
+      'https://us-assets.i.posthog.com',
+      'https://us.i.posthog.com',
+      // GA4 (gtag.js) + Meta Pixel (fbevents.js) loaders
+      'https://www.googletagmanager.com',
+      'https://www.google-analytics.com',
+      'https://connect.facebook.net',
+    ],
     connectSrc: [
+      // GA4 / Google Tag Manager beacons
+      'https://www.google-analytics.com',
+      'https://*.google-analytics.com',
+      'https://*.analytics.google.com',
+      'https://www.googletagmanager.com',
+      // Meta Pixel
+      'https://connect.facebook.net',
+      'https://www.facebook.com',
+      // PostHog (previously blocked by the connect-src override)
+      'https://us.i.posthog.com',
+      'https://us-assets.i.posthog.com',
       ...(isStudioRoute
         ? ['https://*.sanity.io', 'https://*.apicdn.sanity.io']
         : []),
@@ -38,6 +65,11 @@ export default async function handleRequest(
       'https://cdn.shopify.com',
       'https://res.cloudinary.com',
       'https://images.unsplash.com',
+      // GA4 + Meta Pixel tracking beacons (1x1 pixels)
+      'https://www.google-analytics.com',
+      'https://www.googletagmanager.com',
+      'https://www.facebook.com',
+      'https://connect.facebook.net',
       'http://localhost:*',
       'data:',
       'blob:',
@@ -45,7 +77,14 @@ export default async function handleRequest(
     ],
     frameSrc: [...(isStudioRoute ? ['https://*.sanity.io'] : [])],
     styleSrc: [
+      // Google Fonts stylesheet (loaded in root.tsx links())
+      'https://fonts.googleapis.com',
       ...(isStudioRoute ? ["'unsafe-inline'"] : []),
+    ],
+    fontSrc: [
+      // Google Fonts files
+      'https://fonts.gstatic.com',
+      'data:',
     ],
   });
 

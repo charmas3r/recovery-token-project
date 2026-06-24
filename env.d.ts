@@ -25,6 +25,10 @@ declare module '@shopify/oxygen-workers-types' {
     VITE_PUBLIC_POSTHOG_KEY?: string;
     VITE_PUBLIC_POSTHOG_HOST?: string;
 
+    // GA4 + Meta Pixel (optional; consent-gated, no-op when unset)
+    PUBLIC_GA4_MEASUREMENT_ID?: string;
+    PUBLIC_META_PIXEL_ID?: string;
+
     // AI Image Generation
     AI_IMAGE_PROVIDER?: string;
     OPENAI_API_KEY?: string;

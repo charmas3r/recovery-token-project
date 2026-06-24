@@ -19,6 +19,7 @@ import appStyles from '~/styles/app.css?url';
 import tailwindCss from './styles/tailwind.css?url';
 import {PageLayout} from './components/layout/PageLayout';
 import {PostHogAnalytics} from '~/components/analytics/PostHogAnalytics';
+import {MarketingScripts} from '~/components/analytics/MarketingScripts';
 import {JsonLd} from '~/components/seo/JsonLd';
 
 export type RootLoader = typeof loader;
@@ -106,6 +107,8 @@ export async function loader(args: Route.LoaderArgs) {
     publicStoreDomain: env.PUBLIC_STORE_DOMAIN,
     postHogKey: env.VITE_PUBLIC_POSTHOG_KEY,
     postHogHost: env.VITE_PUBLIC_POSTHOG_HOST,
+    ga4MeasurementId: env.PUBLIC_GA4_MEASUREMENT_ID,
+    metaPixelId: env.PUBLIC_META_PIXEL_ID,
     shop: getShopAnalytics({
       storefront,
       publicStorefrontId: env.PUBLIC_STOREFRONT_ID,
@@ -233,6 +236,10 @@ export default function App() {
             postHogHost={data.postHogHost}
           />
         )}
+        <MarketingScripts
+          ga4MeasurementId={data.ga4MeasurementId}
+          metaPixelId={data.metaPixelId}
+        />
       </Analytics.Provider>
     );
   }
@@ -262,6 +269,10 @@ export default function App() {
           postHogHost={data.postHogHost}
         />
       )}
+      <MarketingScripts
+        ga4MeasurementId={data.ga4MeasurementId}
+        metaPixelId={data.metaPixelId}
+      />
     </Analytics.Provider>
   );
 }

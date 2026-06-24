@@ -9,7 +9,7 @@ type BlogNode = BlogsQuery['blogs']['nodes'][0];
 
 export const meta: Route.MetaFunction = () => {
   return buildMeta({
-    title: 'Blog | Coinplugz',
+    title: 'Blog | Custom Milestones',
     description:
       'Stories, guides, and insights about recovery milestones and the journey of sobriety.',
   });

@@ -69,7 +69,7 @@ export const FAQ_ITEMS: FAQItem[] = [
     id: 'start-return',
     question: 'How do I start a return?',
     answer:
-      'To initiate a return, contact our support team at support@coinplugz.com with your order number. We will provide you with a prepaid return shipping label and instructions.',
+      'To initiate a return, contact our support team at support@custommilestones.com with your order number. We will provide you with a prepaid return shipping label and instructions.',
     category: 'Returns & Exchanges',
   },
   {

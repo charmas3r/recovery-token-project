@@ -74,15 +74,15 @@ const SCRAMBLE_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123
 
 const HERO_WORDS = [
   {
-    word: 'Story',
+    word: 'milestone',
     gradient: 'linear-gradient(90deg, #00C6FF 0%, #0072FF 100%)',
   },
   {
-    word: 'Symbol',
+    word: 'comeback',
     gradient: 'linear-gradient(90deg, #00F260 0%, #0575E6 100%)',
   },
   {
-    word: 'Legacy',
+    word: 'journey',
     gradient: 'linear-gradient(90deg, #7C3AED 0%, #C026D3 50%, #FF2D92 100%)',
   },
 ] as const;
@@ -194,7 +194,7 @@ function ScrambleHeading() {
         fontFeatureSettings: '"ss01", "ss04", "ss11"',
       }}
     >
-      Design Your Own{' '}
+      Mark their{' '}
       <span
         ref={spanRef}
         className="block"
@@ -206,7 +206,7 @@ function ScrambleHeading() {
           backgroundClip: 'text',
         }}
       >
-        Legacy
+        journey
       </span>
     </h1>
   );
@@ -225,9 +225,9 @@ export const meta: Route.MetaFunction = ({data, params}) => {
     });
   }
   return buildMeta({
-    title: 'Coinplugz | Premium Recovery Tokens for Every Milestone',
+    title: 'Custom Milestones | Personalized Recovery & Sobriety Gift Coins',
     description:
-      'Premium hand-crafted recovery tokens celebrating sobriety milestones. Honor every step of your journey with tokens made to last a lifetime.',
+      'Give someone you love a custom-engraved coin that marks their recovery milestone — handcrafted, made to keep forever, and arriving ready to give in a premium gift box.',
     canonical: '/',
   });
 };
@@ -424,6 +424,7 @@ export default function Homepage() {
     <div className="overflow-x-hidden">
       <HeroSection collection={data.featuredCollection} />
       <PromoCarousel />
+      <MilestoneOccasions />
       <ProductShowcase featuredToken={data.featuredToken} />
       <FeaturedProducts products={data.recommendedProducts} reviewSummaries={data.reviewSummaries} />
       <BrandStory />
@@ -453,24 +454,41 @@ function HeroSection({
       />
       <div className="container-wide relative z-10">
         <div className="grid lg:grid-cols-2 gap-4 lg:gap-12 items-center min-h-[60vh] pt-24 pb-6 lg:pt-28 lg:pb-8">
-          {/* Left Column - Content */}
-          <HeroContent className="order-2 lg:order-1 text-center lg:text-left w-full">
+          {/* Left Column - Content (leads on mobile so the primary CTA is above the fold) */}
+          <HeroContent className="order-1 lg:order-1 text-center lg:text-left w-full">
+
+            {/* Eyebrow — recovery-first, umbrella-aware */}
+            <HeroItem>
+              <span
+                style={{
+                  display: 'inline-block',
+                  color: '#B8764F',
+                  fontSize: '0.75rem',
+                  textTransform: 'uppercase' as const,
+                  letterSpacing: '0.25em',
+                  fontWeight: 600,
+                  marginBottom: '1.25rem',
+                }}
+              >
+                Recovery &amp; Sobriety Gifts · Custom Milestones
+              </span>
+            </HeroItem>
 
             {/* Main Heading — scrambling word cycle */}
             <HeroItem>
               <ScrambleHeading />
             </HeroItem>
 
-            {/* Subheading */}
+            {/* Subheading — gift moment, recipient as protagonist, Meta-safe */}
             <HeroItem>
               <p className="text-lg lg:text-xl text-white/60 leading-relaxed lg:max-w-[32rem]">
-                Create a one-of-a-kind token that tells a story. Choose the
-                metal, the symbols, and the words that matter — handcrafted to
-                last a lifetime.
+                Give someone you love a custom-engraved coin that honors how far
+                they&apos;ve come. Choose the words, the symbol, and the finish —
+                handcrafted to keep forever and ready to give.
               </p>
             </HeroItem>
 
-            {/* CTA Buttons */}
+            {/* CTA Buttons — primary = personalize/engrave funnel */}
             <HeroItem>
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mt-10">
                 <Form method="post" action="/custom-token?index">
@@ -484,36 +502,55 @@ function HeroSection({
                       type="submit"
                       variant="primary"
                       size="lg"
-                      className="w-full sm:w-auto !px-10"
+                      className="w-full sm:w-auto !px-10 !bg-accent !text-black"
                     >
-                      Design It Yourself
+                      Design their coin
                     </Button>
                   </motion.div>
                 </Form>
-                <Form method="post" action="/custom-token?index">
-                  <input type="hidden" name="path" value="we-design" />
+                <Link to="/collections/all" className="w-full sm:w-auto">
                   <Button
-                    type="submit"
                     variant="secondary"
                     size="lg"
-                    className="w-full sm:w-auto"
+                    className="w-full sm:w-auto !border-white/30 !text-white"
                   >
-                    Have Us Design It
+                    Shop ready-made milestones
                   </Button>
-                </Form>
+                </Link>
+              </div>
+            </HeroItem>
+
+            {/* Above-the-fold trust + gift reassurance */}
+            <HeroItem>
+              <div className="mt-8 flex flex-col sm:flex-row items-center lg:items-start gap-4 sm:gap-6">
+                <ReviewsCallout variant="inline" />
+                <span
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                    color: 'rgba(255,255,255,0.5)',
+                    fontSize: '0.875rem',
+                  }}
+                >
+                  <span style={{color: '#B8764F', display: 'inline-flex'}}>
+                    <GiftIcon />
+                  </span>
+                  Arrives in a premium gift box, ready to give
+                </span>
               </div>
             </HeroItem>
           </HeroContent>
 
-          {/* Right Column - Hero Video */}
-          <HeroImage className="order-1 lg:order-2 relative flex items-center justify-center w-full">
-            <div className="relative w-full max-w-[24rem] sm:max-w-[28rem] lg:max-w-[32rem] rounded-2xl overflow-hidden shadow-2xl shadow-white/5">
+          {/* Right Column - Hero Video (sits below copy/CTA on mobile, capped height) */}
+          <HeroImage className="order-2 lg:order-2 relative flex items-center justify-center w-full">
+            <div className="relative w-full max-w-[24rem] sm:max-w-[28rem] lg:max-w-[32rem] max-h-[34vh] lg:max-h-none rounded-2xl overflow-hidden shadow-2xl shadow-white/5">
               <video
                 autoPlay
                 loop
                 muted
                 playsInline
-                className="w-full h-auto object-cover aspect-square lg:aspect-[4/5]"
+                className="w-full h-full object-cover aspect-square lg:aspect-[4/5]"
               >
                 <source
                   src="https://cdn.shopify.com/videos/c/o/v/6bc264ca226f46458ac8959dfaa7c8f0.mp4"
@@ -765,7 +802,7 @@ const FALLBACK_FEATURED_TOKEN: FeaturedTokenData = {
     'https://cdn.shopify.com/s/files/1/0752/2733/2779/files/sunflower-token-final-webp.webp?v=1769842039',
   imageAlt: 'Sunflower Recovery Token',
   productUrl:
-    'https://coinplugz.com/products/the-sun-flower-token?Customization=Years+Only',
+    'https://custommilestones.com/products/the-sun-flower-token?Customization=Years+Only',
   buttonText: 'View Token Details',
   leftFeatures: [
     {icon: 'diamond', title: 'Solid Bronze', description: 'Each token is hand-cast in premium bronze for lasting quality.'},
@@ -776,6 +813,134 @@ const FALLBACK_FEATURED_TOKEN: FeaturedTokenData = {
     {icon: 'sparkles', title: 'Gift Ready', description: 'Arrives in a premium gift box, perfect for gifting.'},
   ],
 };
+
+/**
+ * Milestone Occasions — umbrella-aware strip. Recovery leads (accented,
+ * "most loved"); the broader milestone niches are discoverable but secondary.
+ * Keeps the brand legible as an umbrella without giving niches hero space.
+ */
+const MILESTONE_OCCASIONS = [
+  {
+    label: 'Recovery & Sobriety',
+    note: 'Most loved',
+    to: '/collections/all',
+    lead: true,
+    icon: <LeafIcon />,
+  },
+  {
+    label: 'Commemorative',
+    note: 'Any milestone',
+    to: '/collections/all',
+    lead: false,
+    icon: <SparklesIcon />,
+  },
+  {
+    label: 'Memorial & In Memory',
+    note: 'Keep them close',
+    to: '/collections/all',
+    lead: false,
+    icon: <HeartIcon />,
+  },
+  {
+    label: 'Retirement & Career',
+    note: 'A career honored',
+    to: '/collections/all',
+    lead: false,
+    icon: <TrophyIcon />,
+  },
+] as const;
+
+function MilestoneOccasions() {
+  return (
+    <section className="py-16 md:py-20 bg-black border-t border-white/[0.06]">
+      <div className="container-standard">
+        {/* Header — plain div + inline styles (centered text, CLAUDE.md rule) */}
+        <div
+          style={{
+            textAlign: 'center',
+            maxWidth: '42rem',
+            marginLeft: 'auto',
+            marginRight: 'auto',
+            marginBottom: '2.5rem',
+          }}
+        >
+          <span
+            style={{
+              display: 'inline-block',
+              color: '#B8764F',
+              fontSize: '0.75rem',
+              textTransform: 'uppercase' as const,
+              letterSpacing: '0.25em',
+              fontWeight: 600,
+              marginBottom: '1rem',
+            }}
+          >
+            One coin, every milestone
+          </span>
+          <h2
+            className="font-display"
+            style={{
+              fontSize: 'clamp(1.5rem, 3.5vw, 2.25rem)',
+              fontWeight: 700,
+              color: '#fff',
+              lineHeight: 1.15,
+            }}
+          >
+            Made for the moments that matter most
+          </h2>
+        </div>
+
+        <StaggerContainer
+          className="grid grid-cols-2 lg:grid-cols-4 gap-4"
+          staggerDelay={0.08}
+        >
+          {MILESTONE_OCCASIONS.map((occasion) => (
+            <StaggerItem key={occasion.label}>
+              <HoverLift lift={-4}>
+                <Link
+                  to={occasion.to}
+                  className="group flex flex-col gap-3 rounded-2xl border p-5 md:p-6 h-full transition-colors min-h-[44px]"
+                  style={{
+                    background:
+                      'linear-gradient(180deg, #111 0%, #0A0A0A 40%, #080808 100%)',
+                    borderColor: occasion.lead
+                      ? 'rgba(184,118,79,0.45)'
+                      : 'rgba(255,255,255,0.08)',
+                  }}
+                >
+                  <div
+                    className="w-10 h-10 rounded-lg flex items-center justify-center"
+                    style={{
+                      color: '#B8764F',
+                      background: 'rgba(255,255,255,0.05)',
+                    }}
+                  >
+                    {occasion.icon}
+                  </div>
+                  <div>
+                    <h3 className="font-display text-base font-bold text-white group-hover:text-accent transition-colors">
+                      {occasion.label}
+                    </h3>
+                    <p
+                      className="text-body-sm mt-1"
+                      style={{
+                        color: occasion.lead
+                          ? '#B8764F'
+                          : 'rgba(255,255,255,0.4)',
+                      }}
+                    >
+                      {occasion.note}
+                    </p>
+                  </div>
+                </Link>
+              </HoverLift>
+            </StaggerItem>
+          ))}
+        </StaggerContainer>
+      </div>
+    </section>
+  );
+}
 
 /**
  * Product Showcase - Featured token with side feature cards (Sanity-driven)
@@ -955,23 +1120,55 @@ function FeaturedProducts({
   return (
     <section className="py-20 md:py-28 bg-black border-t border-white/[0.06]">
       <div className="container-standard">
-        {/* Section Header */}
-        <FadeUp className="mb-12 md:mb-16">
-          <div className="text-center">
-            <span className="inline-block text-accent text-caption uppercase tracking-[0.25em] font-semibold mb-4">
-              Shop Tokens
-            </span>
-          </div>
-          <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight mb-4 text-center">
-            Find Your Perfect Token
+        {/* Section Header — plain div + inline styles (centered text, CLAUDE.md rule) */}
+        <div
+          style={{
+            textAlign: 'center',
+            maxWidth: '42rem',
+            marginLeft: 'auto',
+            marginRight: 'auto',
+            marginBottom: '3rem',
+          }}
+        >
+          <span
+            style={{
+              display: 'inline-block',
+              color: '#B8764F',
+              fontSize: '0.75rem',
+              textTransform: 'uppercase' as const,
+              letterSpacing: '0.25em',
+              fontWeight: 600,
+              marginBottom: '1rem',
+            }}
+          >
+            Ready to give
+          </span>
+          <h2
+            className="font-display"
+            style={{
+              fontSize: 'clamp(1.875rem, 4vw, 3rem)',
+              fontWeight: 700,
+              color: '#fff',
+              lineHeight: 1.1,
+              marginBottom: '1rem',
+            }}
+          >
+            Find the perfect coin for them
           </h2>
-          <div className="max-w-[36rem] mx-auto">
-            <p className="text-body-lg text-white/60 text-center">
-              Choose from our hand-crafted collection, available in classic bronze
-              or vibrant color-printed finishes.
-            </p>
-          </div>
-        </FadeUp>
+          <p
+            style={{
+              fontSize: '1.125rem',
+              lineHeight: 1.6,
+              color: 'rgba(255,255,255,0.6)',
+              maxWidth: '36rem',
+              marginLeft: 'auto',
+              marginRight: 'auto',
+            }}
+          >
+            Hand-crafted milestone coins that arrive ready to give — in classic
+            bronze or vibrant color-printed finishes.
+          </p>
+        </div>
 
         {/* Category Cards */}
         <StaggerContainer className="grid md:grid-cols-3 gap-6 lg:gap-8 mb-16" staggerDelay={0.15}>
@@ -1350,13 +1547,14 @@ function CustomTokenCTA() {
             style={{background: 'linear-gradient(180deg, #111 0%, #0A0A0A 40%, #080808 100%)'}}
           >
             <span className="inline-block text-accent text-caption uppercase tracking-[0.25em] font-semibold mb-sm">
-              New
+              Make it personal
             </span>
             <h3 className="text-white font-display text-xl font-bold mb-sm group-hover:text-accent transition-colors">
-              Create a Custom Token
+              Engrave a coin made just for them
             </h3>
             <p className="text-white/50 text-sm">
-              Design a one-of-a-kind recovery token — we&apos;ll bring your vision to life.
+              Add their name, their date, the words that matter — we&apos;ll handcraft a
+              one-of-a-kind keepsake they&apos;ll carry for years.
             </p>
           </Link>
         </FadeUp>
@@ -1423,12 +1621,12 @@ function BrandStory() {
             </h2>
             <p style={{fontSize: '1.125rem', lineHeight: 1.6, color: 'rgba(255,255,255,0.5)', marginBottom: '1.5rem'}}>
               Recovery is one of the most courageous journeys a person can take.
-              We believe every step forward—whether it's 24 hours or 25 years—deserves
-              to be honored with something meaningful and lasting.
+              When someone you love reaches a milestone—whether it&apos;s 24 hours or
+              25 years—they deserve to be honored with something meaningful and lasting.
             </p>
             <p style={{fontSize: '1.125rem', lineHeight: 1.6, color: 'rgba(255,255,255,0.5)', marginBottom: '2rem'}}>
-              Our hand-crafted bronze tokens serve as tangible reminders of strength,
-              hope, and the incredible resilience of the human spirit.
+              Our hand-crafted bronze tokens become a gift they hold onto—a tangible
+              reminder of their strength, your support, and just how far they&apos;ve come.
             </p>
 
             <StaggerContainer className="flex flex-wrap gap-8 mt-10" staggerDelay={0.1}>
@@ -1724,36 +1922,38 @@ function FinalCTA({
               marginBottom: '3.5rem',
             }}
           >
-            Your milestone deserves{' '}
+            Give them something{' '}
             <br className="hidden md:block" />
-            to be honored.
+            they&apos;ll keep forever.
           </h2>
         </FadeUp>
 
         <FadeUp>
-          <div className="flex items-center gap-3">
-            <Link to={collection ? `/collections/${collection.handle}` : '/collections'}>
-              <motion.div
-                className="flex items-center gap-2 px-6 py-3 rounded-lg border border-white/[0.12] text-sm font-medium text-white/80"
-                style={{background: 'rgba(255,255,255,0.06)'}}
-                whileHover={{background: 'rgba(255,255,255,0.1)', color: '#fff'}}
+          <div className="flex flex-col sm:flex-row items-center gap-3">
+            <Form method="post" action="/custom-token?index">
+              <input type="hidden" name="path" value="you-design" />
+              <motion.button
+                type="submit"
+                className="flex items-center gap-2 px-7 py-3 rounded-lg text-sm font-semibold text-black"
+                style={{background: '#FFFF93'}}
+                whileHover={{scale: 1.02, filter: 'brightness(1.08)'}}
                 whileTap={{scale: 0.97}}
                 transition={{duration: 0.15}}
               >
-                Shop Now
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="opacity-50">
+                Design their coin
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="opacity-70">
                   <path d="M6 3l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
-              </motion.div>
-            </Link>
-            <Link to="/contact">
+              </motion.button>
+            </Form>
+            <Link to={collection ? `/collections/${collection.handle}` : '/collections/all'}>
               <motion.div
                 className="flex items-center gap-2 px-6 py-3 text-sm font-medium"
                 style={{color: 'rgba(255,255,255,0.6)'}}
                 whileHover={{color: 'rgba(255,255,255,0.9)'}}
                 transition={{duration: 0.15}}
               >
-                Contact Us
+                Shop ready-made milestones
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="opacity-60">
                   <path d="M6 3l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>

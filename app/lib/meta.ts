@@ -1,5 +1,11 @@
-const SITE_NAME = 'Coinplugz';
-const SITE_URL = 'https://coinplugz.com';
+export const BRAND = {
+  name: 'Custom Milestones',
+  url: 'https://custommilestones.com',
+  email: 'support@custommilestones.com',
+} as const;
+
+const SITE_NAME = BRAND.name;
+const SITE_URL = BRAND.url;
 const DEFAULT_OG_IMAGE =
   'https://cdn.shopify.com/s/files/1/0980/8330/7822/files/og-image.webp?v=1773774508';
 const DEFAULT_DESCRIPTION =

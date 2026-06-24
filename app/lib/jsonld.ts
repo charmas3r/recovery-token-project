@@ -3,7 +3,7 @@
  * Pure functions — callers pipe the result into <JsonLd data={...} />.
  */
 
-const SITE_URL = 'https://coinplugz.com';
+const SITE_URL = 'https://custommilestones.com';
 
 export interface BreadcrumbItem {
   name: string;

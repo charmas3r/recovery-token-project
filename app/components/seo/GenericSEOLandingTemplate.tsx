@@ -63,7 +63,7 @@ export function GenericSEOLandingTemplate({
     '@type': 'WebPage',
     name: page.title,
     description: page.metaDescription,
-    url: `https://coinplugz.com/${page.canonicalPath}`,
+    url: `https://custommilestones.com/${page.canonicalPath}`,
   };
 
   // Split sections: first text section = intro (rendered mid-hero),

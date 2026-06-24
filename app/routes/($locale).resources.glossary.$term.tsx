@@ -14,7 +14,7 @@ import {COLLECTION_WITH_PRODUCTS_QUERY} from '~/graphql/seo-queries';
 import {GlossaryDetailTemplate} from '~/components/seo/GlossaryDetailTemplate';
 
 export const meta: Route.MetaFunction = ({data}) => {
-  if (!data?.page) return buildMeta({title: 'Not Found — Coinplugz'});
+  if (!data?.page) return buildMeta({title: 'Not Found — Custom Milestones'});
   return buildMeta({
     title: data.page.metaTitle,
     description: data.page.metaDescription,

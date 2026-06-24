@@ -20,7 +20,7 @@ import {buildMeta} from '~/lib/meta';
 
 export const meta: Route.MetaFunction = () => {
   return buildMeta({
-    title: 'Contact Us | Coinplugz',
+    title: 'Contact Us | Custom Milestones',
     description:
       'Have questions about recovery tokens or your order? We\'re here to help. Reach out to our supportive team.',
   });
@@ -294,11 +294,11 @@ export default function ContactPage() {
               Prefer email?
             </p>
             <a
-              href="mailto:support@coinplugz.com"
+              href="mailto:support@custommilestones.com"
               style={{fontSize: '1.125rem', color: '#FFFF93', fontWeight: 500}}
               className="hover:underline"
             >
-              support@coinplugz.com
+              support@custommilestones.com
             </a>
           </div>
 

@@ -10,7 +10,7 @@ import {buildMeta} from '~/lib/meta';
 
 export const meta: Route.MetaFunction = () => {
   return buildMeta({
-    title: 'All Products | Coinplugz',
+    title: 'All Products | Custom Milestones',
     description:
       'Browse our full collection of premium recovery tokens celebrating sobriety milestones.',
   });

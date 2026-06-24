@@ -206,6 +206,10 @@ export default function App() {
   const data = useRouteLoaderData<RootLoader>('root');
   const location = useLocation();
   const isStudio = location.pathname.startsWith('/studio');
+  // Ad-landing pages (/lp/*) run lean: minimal chrome, no global nav/footer.
+  // The template renders its own logo-only header + slim footer. Matches with
+  // or without the optional ($locale) path segment (e.g. /en-us/lp/...).
+  const isLanding = /(^|\/)lp\//.test(location.pathname);
 
   if (!data) {
     return <Outlet />;
@@ -213,6 +217,24 @@ export default function App() {
 
   if (isStudio) {
     return <Outlet />;
+  }
+
+  if (isLanding) {
+    return (
+      <Analytics.Provider
+        cart={data.cart}
+        shop={data.shop}
+        consent={data.consent}
+      >
+        <Outlet />
+        {data.postHogKey && (
+          <PostHogAnalytics
+            postHogKey={data.postHogKey}
+            postHogHost={data.postHogHost}
+          />
+        )}
+      </Analytics.Provider>
+    );
   }
 
   return (
@@ -225,8 +247,8 @@ export default function App() {
         data={{
           '@context': 'https://schema.org',
           '@type': 'Organization',
-          name: 'Coinplugz',
-          url: 'https://coinplugz.com',
+          name: 'Custom Milestones',
+          url: 'https://custommilestones.com',
           description: 'Premium hand-crafted recovery tokens celebrating sobriety milestones.',
           logo: 'https://cdn.shopify.com/s/files/1/0980/8330/7822/files/og-image.webp?v=1773774508',
         }}

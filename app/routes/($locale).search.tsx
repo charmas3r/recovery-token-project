@@ -16,7 +16,7 @@ import {buildMeta} from '~/lib/meta';
 
 export const meta: Route.MetaFunction = () => {
   return buildMeta({
-    title: 'Search | Coinplugz',
+    title: 'Search | Custom Milestones',
     description: 'Search for recovery tokens, collections, and resources.',
     noIndex: true,
   });

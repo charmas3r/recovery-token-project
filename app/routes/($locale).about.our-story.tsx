@@ -14,7 +14,7 @@ import {buildMeta} from '~/lib/meta';
 
 export const meta: MetaFunction = () => {
   return buildMeta({
-    title: 'Our Story — Coinplugz',
+    title: 'Our Story — Custom Milestones',
     description:
       'Discover our mission to create premium, handcrafted recovery tokens that honor sobriety milestones. Learn about our values, our beginning, and what sets us apart.',
   });
@@ -62,19 +62,19 @@ export default function OurStoryPage() {
         '@type': 'ListItem',
         position: 1,
         name: 'Home',
-        item: 'https://coinplugz.com/',
+        item: 'https://custommilestones.com/',
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: 'About',
-        item: 'https://coinplugz.com/about',
+        item: 'https://custommilestones.com/about',
       },
       {
         '@type': 'ListItem',
         position: 3,
         name: 'Our Story',
-        item: 'https://coinplugz.com/about/our-story',
+        item: 'https://custommilestones.com/about/our-story',
       },
     ],
   };
@@ -305,7 +305,7 @@ export default function OurStoryPage() {
                   color: 'rgba(255,255,255,0.5)',
                 }}
               >
-                Coinplugz was born from a simple observation: the
+                Custom Milestones was born from a simple observation: the
                 tokens available to celebrate sobriety milestones did not
                 reflect the magnitude of the achievement. Standard chips
                 and medallions served their purpose, but we believed people

@@ -32,7 +32,7 @@ import {buildMeta} from '~/lib/meta';
 
 export const meta: MetaFunction = () => {
   return buildMeta({
-    title: 'Recovery Glossary — Coinplugz',
+    title: 'Recovery Glossary — Custom Milestones',
     description:
       'Learn the meaning of sobriety coins, AA chips, clean time, and 30+ recovery terms. A comprehensive glossary for anyone on the recovery journey.',
   });
@@ -97,12 +97,12 @@ export default function GlossaryPage() {
     name: 'Recovery Glossary',
     description:
       'A comprehensive glossary of recovery and sobriety terms, including definitions for sobriety coins, AA chips, clean time, and more.',
-    url: 'https://coinplugz.com/resources/glossary',
+    url: 'https://custommilestones.com/resources/glossary',
     hasDefinedTerm: (terms as GlossaryTerm[]).map((term) => ({
       '@type': 'DefinedTerm',
       name: term.name,
       description: term.definition,
-      inDefinedTermSet: 'https://coinplugz.com/resources/glossary',
+      inDefinedTermSet: 'https://custommilestones.com/resources/glossary',
     })),
   };
 
@@ -114,19 +114,19 @@ export default function GlossaryPage() {
         '@type': 'ListItem',
         position: 1,
         name: 'Home',
-        item: 'https://coinplugz.com/',
+        item: 'https://custommilestones.com/',
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: 'Resources',
-        item: 'https://coinplugz.com/resources',
+        item: 'https://custommilestones.com/resources',
       },
       {
         '@type': 'ListItem',
         position: 3,
         name: 'Glossary',
-        item: 'https://coinplugz.com/resources/glossary',
+        item: 'https://custommilestones.com/resources/glossary',
       },
     ],
   };

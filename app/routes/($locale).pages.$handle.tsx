@@ -1,12 +1,12 @@
 import {useLoaderData} from 'react-router';
-import type {Route} from './+types/pages.$handle';
+import type {Route} from './+types/($locale).pages.$handle';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
 import {buildMeta} from '~/lib/meta';
 
 export const meta: Route.MetaFunction = ({data}) => {
   const title = data?.page?.title
-    ? `${data.page.title} | Coinplugz`
-    : 'Coinplugz';
+    ? `${data.page.title} | Custom Milestones`
+    : 'Custom Milestones';
   return buildMeta({title});
 };
 

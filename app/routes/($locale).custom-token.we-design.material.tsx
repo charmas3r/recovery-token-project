@@ -5,6 +5,7 @@ import {getCustomTokenSession, updateCustomTokenSession, canProceedToStep} from 
 import {WizardNav} from '~/components/custom-token/WizardNav';
 import {MaterialSelector} from '~/components/custom-token/MaterialSelector';
 import type {AppSession} from '~/lib/session';
+import {trackEvent} from '~/lib/ga4';
 
 // GraphQL query for the custom token product variants
 const CUSTOM_TOKEN_PRODUCT_QUERY = `#graphql
@@ -111,7 +112,10 @@ export default function WeDesignMaterial() {
         </h2>
       </div>
 
-      <Form method="post">
+      <Form
+        method="post"
+        onSubmit={() => trackEvent('custom_token_step', {path: 'we-design', step: 'material'})}
+      >
         <input type="hidden" name="material" value={selected?.material ?? ''} />
         <input type="hidden" name="variantId" value={selected?.variantId ?? ''} />
 

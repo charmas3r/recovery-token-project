@@ -8,6 +8,7 @@ import {
 import {WizardNav} from '~/components/custom-token/WizardNav';
 import type {CustomTokenOutletContext} from './($locale).custom-token';
 import type {AppSession} from '~/lib/session';
+import {trackEvent} from '~/lib/ga4';
 
 const OCCASIONS = [
   {value: 'milestone', label: 'Sobriety Milestone', description: 'Celebrate a recovery anniversary or milestone date'},
@@ -57,7 +58,10 @@ export default function WeDesignOccasion() {
         </p>
       </div>
 
-      <Form method="post">
+      <Form
+        method="post"
+        onSubmit={() => trackEvent('custom_token_step', {path: 'we-design', step: 'occasion'})}
+      >
         <input type="hidden" name="occasion" value={selected ?? ''} />
         <div style={{display: 'flex', flexDirection: 'column', gap: '1rem'}}>
           {OCCASIONS.map((occ) => {

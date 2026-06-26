@@ -11,6 +11,7 @@ import * as Dialog from '@radix-ui/react-dialog';
 import {clsx} from 'clsx';
 import {X, CheckCircle2, MessageCircleQuestion} from 'lucide-react';
 import {Button} from '~/components/ui';
+import {trackEvent} from '~/lib/ga4';
 
 interface AskQuestionModalProps {
   open: boolean;
@@ -46,6 +47,7 @@ export function AskQuestionModal({
   // Auto-close after success
   useEffect(() => {
     if (isSuccess) {
+      trackEvent('submit_question', {});
       const timer = setTimeout(() => handleOpenChange(false), 3000);
       return () => clearTimeout(timer);
     }

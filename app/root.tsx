@@ -19,6 +19,7 @@ import appStyles from '~/styles/app.css?url';
 import tailwindCss from './styles/tailwind.css?url';
 import {PageLayout} from './components/layout/PageLayout';
 import {PostHogAnalytics} from '~/components/analytics/PostHogAnalytics';
+import {GoogleAnalytics} from '~/components/analytics/GoogleAnalytics';
 import {MarketingScripts} from '~/components/analytics/MarketingScripts';
 import {JsonLd} from '~/components/seo/JsonLd';
 
@@ -236,6 +237,7 @@ export default function App() {
             postHogHost={data.postHogHost}
           />
         )}
+        <GoogleAnalytics ga4MeasurementId={data.ga4MeasurementId} />
         <MarketingScripts
           ga4MeasurementId={data.ga4MeasurementId}
           metaPixelId={data.metaPixelId}
@@ -269,6 +271,7 @@ export default function App() {
           postHogHost={data.postHogHost}
         />
       )}
+      <GoogleAnalytics ga4MeasurementId={data.ga4MeasurementId} />
       <MarketingScripts
         ga4MeasurementId={data.ga4MeasurementId}
         metaPixelId={data.metaPixelId}

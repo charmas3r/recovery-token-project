@@ -8,6 +8,7 @@ import {CUSTOMER_METAFIELDS_SET_MUTATION} from '~/graphql/customer-account/Custo
 import {parseWishlist, serializeWishlist, type Wishlist} from '~/lib/wishlist';
 import {Heart, X} from 'lucide-react';
 import {Button} from '~/components/ui/Button';
+import {trackEvent} from '~/lib/ga4';
 
 export const meta: Route.MetaFunction = () => {
   return [{title: 'My Wishlist | Custom Milestones'}];
@@ -203,7 +204,16 @@ function WishlistProductCard({product}: {product: any}) {
   return (
     <div className="relative group/card">
       <ProductItem product={product} />
-      <fetcher.Form method="POST" className="absolute top-3 right-3 z-10">
+      <fetcher.Form
+        method="POST"
+        className="absolute top-3 right-3 z-10"
+        onSubmit={() =>
+          trackEvent('remove_from_wishlist', {
+            item_id: product.handle,
+            item_name: product.title,
+          })
+        }
+      >
         <input type="hidden" name="formAction" value="remove" />
         <input type="hidden" name="productHandle" value={product.handle} />
         <button

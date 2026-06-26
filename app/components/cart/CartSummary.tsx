@@ -4,6 +4,7 @@ import {CartForm, Money, type OptimisticCart} from '@shopify/hydrogen';
 import {useEffect, useRef} from 'react';
 import {useFetcher} from 'react-router';
 import type {FetcherWithComponents} from 'react-router';
+import {ga4ItemsValue, toGa4Items, trackEvent} from '~/lib/ga4';
 
 type CartSummaryProps = {
   cart: OptimisticCart<CartApiQueryFragment | null>;
@@ -67,17 +68,50 @@ export function CartSummary({cart, layout}: CartSummaryProps) {
           </dd>
         </dl>
       )}
-      <CartCheckoutActions checkoutUrl={cart?.checkoutUrl} />
+      <CartCheckoutActions cart={cart} checkoutUrl={cart?.checkoutUrl} />
     </div>
   );
 }
 
-function CartCheckoutActions({checkoutUrl}: {checkoutUrl?: string}) {
+function CartCheckoutActions({
+  cart,
+  checkoutUrl,
+}: {
+  cart: CartSummaryProps['cart'];
+  checkoutUrl?: string;
+}) {
   if (!checkoutUrl) return null;
+
+  // Fire GA4 begin_checkout before the browser navigates off-domain to the
+  // Shopify checkout. Guarded via trackEvent (no-ops until analytics consent).
+  function handleCheckoutClick() {
+    const items = toGa4Items(
+      (cart?.lines?.nodes ?? []).map((line) => ({
+        id: line?.merchandise?.product?.id ?? line?.merchandise?.id,
+        title: line?.merchandise?.product?.title,
+        vendor: line?.merchandise?.product?.vendor,
+        price: line?.merchandise?.price,
+        variantId: line?.merchandise?.id,
+        variantTitle: line?.merchandise?.title,
+        quantity: line?.quantity,
+      })),
+    );
+    const currency = cart?.cost?.totalAmount?.currencyCode;
+    const totalAmount = cart?.cost?.totalAmount?.amount;
+    const value =
+      totalAmount != null
+        ? Number.parseFloat(String(totalAmount))
+        : ga4ItemsValue(items);
+    trackEvent('begin_checkout', {
+      items,
+      value: Number.isNaN(value) ? ga4ItemsValue(items) : value,
+      ...(currency ? {currency} : {}),
+    });
+  }
 
   return (
     <div>
-      <a href={checkoutUrl} target="_self">
+      <a href={checkoutUrl} target="_self" onClick={handleCheckoutClick}>
         <p>Continue to Checkout &rarr;</p>
       </a>
       <br />

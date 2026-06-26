@@ -9,6 +9,7 @@ import {
 import {WizardNav} from '~/components/custom-token/WizardNav';
 import {MaterialSelector} from '~/components/custom-token/MaterialSelector';
 import type {AppSession} from '~/lib/session';
+import {trackEvent} from '~/lib/ga4';
 
 const CUSTOM_TOKEN_PRODUCT_QUERY = `#graphql
   query CustomTokenProduct($handle: String!) {
@@ -134,7 +135,10 @@ export default function YouDesignMaterial() {
         </h2>
       </div>
 
-      <Form method="post">
+      <Form
+        method="post"
+        onSubmit={() => trackEvent('custom_token_step', {path: 'you-design', step: 'material'})}
+      >
         <input type="hidden" name="material" value={selected?.material ?? ''} />
         <input
           type="hidden"

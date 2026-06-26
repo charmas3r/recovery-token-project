@@ -22,6 +22,7 @@ import {
 } from '~/lib/shopify-uploads.server';
 import {checkAndIncrementDailyLimit} from '~/lib/ai/rate-limit.server';
 import type {AppSession} from '~/lib/session';
+import {trackEvent} from '~/lib/ga4';
 
 const MAX_REFINEMENTS = 3;
 
@@ -216,7 +217,11 @@ export default function YouDesignRefine() {
         </p>
       )}
 
-      <Form method="post" style={{marginTop: '1.5rem'}}>
+      <Form
+        method="post"
+        style={{marginTop: '1.5rem'}}
+        onSubmit={() => trackEvent('custom_token_step', {path: 'you-design', step: 'refine'})}
+      >
         <input type="hidden" name="intent" value="continue" />
         <WizardNav
           backTo="/custom-token/you-design/preview"

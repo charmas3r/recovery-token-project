@@ -6,6 +6,7 @@ import {ReviewSummary} from '~/components/custom-token/ReviewSummary';
 import {WizardNav} from '~/components/custom-token/WizardNav';
 import {CartForm} from '@shopify/hydrogen';
 import type {AppSession} from '~/lib/session';
+import {trackEvent} from '~/lib/ga4';
 
 export async function loader({context}: Route.LoaderArgs) {
   const session = getCustomTokenSession(context.session as AppSession);
@@ -107,6 +108,7 @@ export default function WeDesignReview() {
   useEffect(() => {
     if (actionData?.success && actionData?.variantId && actionData?.attributes && !addedToCart) {
       setAddedToCart(true);
+      trackEvent('custom_token_step', {path: 'we-design', step: 'review'});
       cartFetcher.submit(
         {
           [CartForm.INPUT_NAME]: JSON.stringify({

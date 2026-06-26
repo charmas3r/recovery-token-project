@@ -12,6 +12,7 @@ import {clsx} from 'clsx';
 import {X, CheckCircle2, Camera, Plus} from 'lucide-react';
 import {Button} from '~/components/ui';
 import {StarRatingInput} from './StarRatingInput';
+import {trackEvent} from '~/lib/ga4';
 import {
   QUALITY_OPTIONS,
   REVIEW_PHOTO_MAX_COUNT,
@@ -145,6 +146,7 @@ export function WriteReviewModal({
   // Auto-close after success
   useEffect(() => {
     if (isSuccess) {
+      trackEvent('submit_review', {});
       const timer = setTimeout(() => handleOpenChange(false), 3000);
       return () => clearTimeout(timer);
     }

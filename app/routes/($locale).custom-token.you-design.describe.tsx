@@ -3,6 +3,7 @@ import type {Route} from './+types/($locale).custom-token.you-design.describe';
 import {getCustomTokenSession, updateCustomTokenSession} from '~/lib/custom-token-session';
 import {WizardNav} from '~/components/custom-token/WizardNav';
 import type {AppSession} from '~/lib/session';
+import {trackEvent} from '~/lib/ga4';
 
 export async function loader({context}: Route.LoaderArgs) {
   const session = getCustomTokenSession(context.session as AppSession);
@@ -102,7 +103,11 @@ export default function YouDesignDescribe() {
         </p>
       </div>
 
-      <Form method="post" style={{display: 'flex', flexDirection: 'column', gap: '1.5rem'}}>
+      <Form
+        method="post"
+        style={{display: 'flex', flexDirection: 'column', gap: '1.5rem'}}
+        onSubmit={() => trackEvent('custom_token_step', {path: 'you-design', step: 'describe'})}
+      >
         <div>
           <label htmlFor="theme" style={labelStyle}>
             Theme / Main Idea *

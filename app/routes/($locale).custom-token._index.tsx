@@ -4,6 +4,7 @@ import {updateCustomTokenSession, clearCustomTokenSession} from '~/lib/custom-to
 import type {AppSession} from '~/lib/session';
 import {buildMeta} from '~/lib/meta';
 import {ReviewsCallout} from '~/components/reviews/ReviewsCallout';
+import {trackEvent} from '~/lib/ga4';
 
 export async function action({request, context}: Route.ActionArgs) {
   const formData = await request.formData();
@@ -61,6 +62,7 @@ export default function CustomTokenLanding() {
           <button
             type="submit"
             disabled={isSubmitting}
+            onClick={() => trackEvent('custom_token_start', {path: 'we-design'})}
             style={{
               width: '100%',
               textAlign: 'left',
@@ -92,6 +94,7 @@ export default function CustomTokenLanding() {
           <button
             type="submit"
             disabled={isSubmitting}
+            onClick={() => trackEvent('custom_token_start', {path: 'you-design'})}
             style={{
               width: '100%',
               textAlign: 'left',

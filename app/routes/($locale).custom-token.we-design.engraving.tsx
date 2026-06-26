@@ -3,6 +3,7 @@ import type {Route} from './+types/($locale).custom-token.we-design.engraving';
 import {getCustomTokenSession, updateCustomTokenSession, canProceedToStep} from '~/lib/custom-token-session';
 import {WizardNav} from '~/components/custom-token/WizardNav';
 import type {AppSession} from '~/lib/session';
+import {trackEvent} from '~/lib/ga4';
 
 export async function loader({context}: Route.LoaderArgs) {
   const session = getCustomTokenSession(context.session as AppSession);
@@ -71,7 +72,11 @@ export default function WeDesignEngraving() {
         </p>
       </div>
 
-      <Form method="post" style={{display: 'flex', flexDirection: 'column', gap: '1.5rem'}}>
+      <Form
+        method="post"
+        style={{display: 'flex', flexDirection: 'column', gap: '1.5rem'}}
+        onSubmit={() => trackEvent('custom_token_step', {path: 'we-design', step: 'engraving'})}
+      >
         <div>
           <label htmlFor="name" style={labelStyle}>Name</label>
           <input

@@ -1,11 +1,12 @@
 import {Await, Link} from 'react-router';
-import {Suspense, useId} from 'react';
+import {Suspense, useId, useEffect, useRef} from 'react';
+import {useAnalytics} from '@shopify/hydrogen';
 import type {
   CartApiQueryFragment,
   FooterQuery,
   HeaderQuery,
 } from 'storefrontapi.generated';
-import {Aside} from '~/components/layout/Aside';
+import {Aside, useAside} from '~/components/layout/Aside';
 import {Footer} from '~/components/layout/Footer';
 import {Header, HeaderMenu} from '~/components/layout/Header';
 import {CartMain} from '~/components/cart/CartMain';
@@ -100,17 +101,61 @@ function AnnouncementBar({data}: {data?: AnnouncementBarData | null}) {
 }
 
 function CartAside({cart}: {cart: PageLayoutProps['cart']}) {
+  // Ref lives here, in the STABLE aside component, so it survives the inner
+  // child remounting when the cart promise settles — otherwise the guard resets
+  // and cart_viewed fires more than once per open.
+  const firedForThisOpen = useRef(false);
   return (
     <Aside type="cart" heading="CART">
       <Suspense fallback={<p>Loading cart ...</p>}>
         <Await resolve={cart}>
-          {(cart) => {
-            return <CartMain cart={cart} layout="aside" />;
-          }}
+          {(cart) => (
+            <>
+              <CartMain cart={cart} layout="aside" />
+              <CartViewAnalytics cart={cart} firedRef={firedForThisOpen} />
+            </>
+          )}
         </Await>
       </Suspense>
     </Aside>
   );
+}
+
+/**
+ * Publishes Hydrogen's `cart_viewed` event (→ GA4 `view_cart`, and PostHog)
+ * exactly once each time the cart aside opens.
+ *
+ * Two traps this avoids: (1) `Aside` always renders its children (it toggles a
+ * CSS class, not mounting), so an unconditional `Analytics.CartView` would fire
+ * on every page load; (2) `Analytics.CartView`'s own effect re-fires as the cart
+ * data settles on open, which produced THREE `cart_viewed` events per open in
+ * testing. Publishing manually behind an open-transition ref guard gives a clean
+ * one-per-open, while still routing through Hydrogen so every subscriber
+ * (PostHog included) receives it.
+ */
+function CartViewAnalytics({
+  cart,
+  firedRef,
+}: {
+  cart: CartApiQueryFragment | null;
+  firedRef: React.MutableRefObject<boolean>;
+}) {
+  const {type} = useAside();
+  const {publish} = useAnalytics();
+  const open = type === 'cart';
+
+  useEffect(() => {
+    if (!open) {
+      firedRef.current = false; // reset so the next open fires once
+      return;
+    }
+    if (cart && !firedRef.current) {
+      firedRef.current = true;
+      publish('cart_viewed', {cart});
+    }
+  }, [open, cart, publish, firedRef]);
+
+  return null;
 }
 
 function SearchAside() {

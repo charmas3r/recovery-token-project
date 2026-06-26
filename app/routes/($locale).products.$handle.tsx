@@ -24,6 +24,7 @@ import type {RelatedProductsQuery} from 'storefrontapi.generated';
 import {CUSTOMER_METAFIELDS_QUERY} from '~/graphql/customer-account/CustomerMetafieldsQuery';
 import {parseRecoveryCircle} from '~/lib/recoveryCircle';
 import {parseWishlist, isInWishlist as checkIsInWishlist} from '~/lib/wishlist';
+import {trackEvent} from '~/lib/ga4';
 import {Heart, PenLine} from 'lucide-react';
 import {motion} from 'framer-motion';
 import {WriteReviewModal} from '~/components/reviews/WriteReviewModal';
@@ -578,6 +579,7 @@ export default function Product() {
                       resolvedData?.isLoggedIn ? (
                         <WishlistButton
                           productHandle={product.handle}
+                          productTitle={product.title}
                           isWishlisted={resolvedData.isWishlisted}
                         />
                       ) : null
@@ -694,7 +696,10 @@ export default function Product() {
             {
               id: product.id,
               title: product.title,
-              price: selectedVariant?.price.amount || '0',
+              // Pass the full Money object ({amount, currencyCode}) so GA4 can
+              // attach `currency` to view_item — a bare amount string leaves the
+              // event's value uncreditable for revenue reporting.
+              price: selectedVariant?.price ?? {amount: '0'},
               vendor: product.vendor,
               variantId: selectedVariant?.id || '',
               variantTitle: selectedVariant?.title || '',
@@ -712,9 +717,11 @@ export default function Product() {
  */
 function WishlistButton({
   productHandle,
+  productTitle,
   isWishlisted,
 }: {
   productHandle: string;
+  productTitle: string;
   isWishlisted: boolean;
 }) {
   const fetcher = useFetcher();
@@ -727,6 +734,10 @@ function WishlistButton({
   const handleClick = () => {
     const nextState = !isSaved;
     setOptimisticState(nextState);
+    trackEvent(nextState ? 'add_to_wishlist' : 'remove_from_wishlist', {
+      item_id: productHandle,
+      item_name: productTitle,
+    });
     fetcher.submit(
       {
         formAction: nextState ? 'add' : 'remove',

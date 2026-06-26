@@ -8,6 +8,7 @@
 import {useState} from 'react';
 import {Mail} from 'lucide-react';
 import {Button} from '~/components/ui/Button';
+import {trackEvent} from '~/lib/ga4';
 
 export function NewsletterCTA() {
   const [email, setEmail] = useState('');
@@ -17,6 +18,7 @@ export function NewsletterCTA() {
     e.preventDefault();
     if (email.trim()) {
       setSubmitted(true);
+      trackEvent('newsletter_signup', {location: 'article'});
     }
   }
 

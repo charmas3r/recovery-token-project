@@ -18,6 +18,7 @@ import {buildTokenPrompt} from '~/lib/ai/prompt-engine';
 import {uploadImageToShopifyFiles, resolveShopifyFileIds} from '~/lib/shopify-uploads.server';
 import {checkAndIncrementDailyLimit} from '~/lib/ai/rate-limit.server';
 import type {AppSession} from '~/lib/session';
+import {trackEvent} from '~/lib/ga4';
 
 export async function loader({context}: Route.LoaderArgs) {
   const session = getCustomTokenSession(context.session as AppSession);
@@ -302,7 +303,11 @@ export default function YouDesignPreview() {
 
       {/* Continue to refine */}
       {hasPreview && !isGenerating && (
-        <Form method="post" style={{marginTop: '1.5rem'}}>
+        <Form
+          method="post"
+          style={{marginTop: '1.5rem'}}
+          onSubmit={() => trackEvent('custom_token_step', {path: 'you-design', step: 'preview'})}
+        >
           <input type="hidden" name="intent" value="continue" />
           <WizardNav
             backTo="/custom-token/you-design/material"

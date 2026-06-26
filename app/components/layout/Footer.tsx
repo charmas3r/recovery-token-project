@@ -1,6 +1,7 @@
 import {Suspense, useState, useEffect} from 'react';
 import {Await, NavLink, Link, useFetcher} from 'react-router';
 import type {FooterQuery, HeaderQuery} from 'storefrontapi.generated';
+import {trackEvent} from '~/lib/ga4';
 
 interface FooterProps {
   footer: Promise<FooterQuery | null>;
@@ -109,6 +110,7 @@ function FooterContent({
   useEffect(() => {
     if (isSuccess) {
       setEmail('');
+      trackEvent('newsletter_signup', {location: 'footer'});
     }
   }, [isSuccess]);
 

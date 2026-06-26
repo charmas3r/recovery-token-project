@@ -6,6 +6,7 @@ import {WizardNav} from '~/components/custom-token/WizardNav';
 import {ImageUploader} from '~/components/custom-token/ImageUploader';
 import {uploadImageToShopifyFiles, resolveShopifyFileIds} from '~/lib/shopify-uploads.server';
 import type {AppSession} from '~/lib/session';
+import {trackEvent} from '~/lib/ga4';
 
 export async function loader({context}: Route.LoaderArgs) {
   const session = getCustomTokenSession(context.session as AppSession);
@@ -98,7 +99,11 @@ export default function WeDesignDescription() {
         </p>
       </div>
 
-      <Form method="post" style={{display: 'flex', flexDirection: 'column', gap: '1.5rem'}}>
+      <Form
+        method="post"
+        style={{display: 'flex', flexDirection: 'column', gap: '1.5rem'}}
+        onSubmit={() => trackEvent('custom_token_step', {path: 'we-design', step: 'description'})}
+      >
         <div>
           <label htmlFor="description" style={{display: 'block', color: '#fff', fontSize: '0.875rem', fontWeight: 500, marginBottom: '0.5rem'}}>
             Design Description

@@ -27,6 +27,7 @@ import {
 import {EngravingConfirmModal} from './EngravingConfirmModal';
 import {RecipientSelector, type RecipientSelection, type CircleAddData} from './RecipientSelector';
 import type {RecoveryCircleMember} from '~/lib/recoveryCircle';
+import {trackEvent} from '~/lib/ga4';
 
 export function ProductForm({
   productOptions,
@@ -188,8 +189,11 @@ export function ProductForm({
 
   // Handle modal confirmation
   const handleConfirmEngraving = useCallback(() => {
+    if (selectedVariant) {
+      trackEvent('personalization_applied', {item_id: selectedVariant.id});
+    }
     submitToCart();
-  }, [submitToCart]);
+  }, [submitToCart, selectedVariant]);
 
   return (
     <div className="space-y-6">

@@ -1,6 +1,6 @@
 import type {Route} from './+types/collections.all';
 import {useLoaderData, Form} from 'react-router';
-import {getPaginationVariables, Image, Money} from '@shopify/hydrogen';
+import {getPaginationVariables, Image, Money, Analytics} from '@shopify/hydrogen';
 import {PaginatedResourceSection} from '~/components/layout/PaginatedResourceSection';
 import {ProductItem} from '~/components/product/ProductItem';
 import {Button} from '~/components/ui/Button';
@@ -77,6 +77,14 @@ export default function Collection() {
           )}
         </PaginatedResourceSection>
       </div>
+      <Analytics.CollectionView
+        data={{
+          collection: {
+            id: 'all',
+            handle: 'all',
+          },
+        }}
+      />
     </div>
   );
 }

@@ -7,10 +7,11 @@
  * @see prd.md Section 8.5
  */
 
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import {Form, useActionData, useNavigation} from 'react-router';
 import type {Route} from './+types/contact';
 import {clsx} from 'clsx';
+import {trackEvent} from '~/lib/ga4';
 import {CheckCircle, AlertCircle} from 'lucide-react';
 import {Button} from '~/components/ui/Button';
 import {Input, Textarea, inputStyles, textareaStyles} from '~/components/ui/Input';
@@ -110,6 +111,14 @@ export default function ContactPage() {
   const handleBlur = (field: string) => {
     setTouched((prev) => ({...prev, [field]: true}));
   };
+
+  // Fire GA4 lead event once the contact form action reports success.
+  const isSuccess = actionData?.success;
+  useEffect(() => {
+    if (isSuccess) {
+      trackEvent('generate_lead', {});
+    }
+  }, [isSuccess]);
 
   // Show success state
   if (actionData?.success) {

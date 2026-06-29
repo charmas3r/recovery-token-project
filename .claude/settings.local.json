@@ -82,7 +82,16 @@
       "WebFetch(domain:coinplugz.com)",
       "Bash(claude mcp:*)",
       "Bash(/Users/esmith/.claude/plugins/cache/claude-plugins-official/superpowers/5.0.5/skills/brainstorming/scripts/start-server.sh --project-dir /Users/esmith/CursorProjects/hydrogen-storefront)",
-      "Read(//Users/esmith/CursorProjects/hydrogen-storefront/app/routes/**)"
+      "Read(//Users/esmith/CursorProjects/hydrogen-storefront/app/routes/**)",
+      "Bash(npx eslint:*)",
+      "Bash(cat)",
+      "Read(//tmp/**)",
+      "Bash(npx sanity:*)",
+      "Read(//Users/esmith/Downloads/**)",
+      "Bash(unzip -o \"https___coinplugz.com_-Coverage-Valid-2026-04-18.zip\" -d coinplugz_coverage)",
+      "Bash(wait lsof *)",
+      "Bash(gh run *)",
+      "WebFetch(domain:www.anthropic.com)"
     ]
   }
 }

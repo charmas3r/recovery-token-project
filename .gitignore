@@ -24,3 +24,4 @@ studio/.sanity/
 # Debug screenshots
 *.png
 !public/*.png
+!brand-assets/*.png

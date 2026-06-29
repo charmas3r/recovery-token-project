@@ -2548,10 +2548,27 @@ registerSEOPage({
     'Milestone tokens are the physical proof that the days you strung together actually happened. Handcrafted, weighted, and made to last — one for every milestone that mattered.',
   primaryCTA: {label: 'Shop Milestone Tokens', href: '/collections/all'},
   featuredCollectionHandle: 'all',
+  // This hub is the flat index for the entire milestone ladder. Every milestone
+  // page is listed here directly (not just via prev/next chaining) so they stay
+  // shallow for crawlers — the hub is linked from the footer on every page.
   relatedPageSlugs: [
+    '24-hour-chip',
+    'early-recovery-chips',
+    '30-day-sobriety-coin',
+    '60-day-sobriety-coin',
+    '90-day-sobriety-coin',
+    '6-month-sobriety-coin',
+    '9-month-sobriety-coin',
+    '1-year-sobriety-coin',
+    '2-year-sobriety-coin',
+    '5-year-sobriety-coin',
+    '10-year-sobriety-coin',
+    '15-year-sobriety-coin',
+    '20-year-sobriety-coin',
+    '25-year-sobriety-coin',
+    'long-term-sobriety-coins',
     'recovery-tokens',
     'sobriety-coins',
-    '1-year-sobriety-coin',
     'custom-recovery-token',
   ],
   sections: [
@@ -3153,6 +3170,7 @@ registerSEOPage({
     'gold-silver-medallions',
     'bronze-sobriety-coins',
     'custom-sobriety-medallion',
+    'sobriety-coin-holders',
     'milestone-tokens',
   ],
   sections: [

@@ -22,7 +22,9 @@ const STATIC_PAGES = [
   {url: '/resources/milestone-calculator', changeFreq: 'monthly', priority: 0.5},
   {url: '/resources/articles', changeFreq: 'weekly', priority: 0.6},
   {url: '/reviews', changeFreq: 'weekly', priority: 0.6},
-  {url: '/review', changeFreq: 'monthly', priority: 0.5},
+  // NOTE: /review is intentionally NOT listed. It's a noindex QR-code landing
+  // page reached from order inserts, not a crawlable/indexable page — including
+  // it in the sitemap conflicts with its noindex meta tag.
 ] as const;
 
 interface SitemapEntry {

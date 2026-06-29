@@ -1,4 +1,4 @@
-import {Await, useLoaderData, useFetcher, useSearchParams} from 'react-router';
+import {Await, useLoaderData, useFetcher, useSearchParams, redirect} from 'react-router';
 import type {Route} from './+types/products.$handle';
 import {Suspense, useState, useEffect, useMemo} from 'react';
 import {
@@ -85,6 +85,19 @@ async function loadCriticalData({context, params, request}: Route.LoaderArgs) {
 
   if (!handle) {
     throw new Error('Expected product handle to be defined');
+  }
+
+  // The `custom-token` product backs the /custom-token builder flow and has no
+  // standalone PDP — querying it 404s. Shopify still lists it in the product
+  // sitemap and product grids link to it, so 301 the dead PDP to the builder to
+  // preserve link equity instead of serving a 404. (Locale-prefix preserving.)
+  if (handle === 'custom-token') {
+    const url = new URL(request.url);
+    url.pathname = url.pathname.replace(
+      /\/products\/custom-token\/?$/,
+      '/custom-token',
+    );
+    throw redirect(url.pathname + url.search, 301);
   }
 
   // Fetch product and reviews summary in parallel

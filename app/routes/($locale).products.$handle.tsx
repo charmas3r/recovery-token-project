@@ -38,7 +38,7 @@ export const meta: Route.MetaFunction = ({data}) => {
   const product = data?.product;
 
   if (!product) {
-    return [{title: 'Product Not Found'}];
+    return buildMeta({title: 'Product Not Found'});
   }
 
   return buildMeta({

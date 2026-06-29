@@ -62,9 +62,8 @@ const FOOTER_COLUMNS = [
     title: 'Legal',
     links: [
       {label: 'Privacy Policy', to: '/policies/privacy-policy'},
-      {label: 'Refund Policy', to: '/policies/refund-policy'},
-      {label: 'Shipping Policy', to: '/policies/shipping-policy'},
-      {label: 'Terms of Service', to: '/policies/terms-of-service'},
+      {label: 'Refund Policy', to: '/support/shipping-returns'},
+      {label: 'Shipping Policy', to: '/support/shipping-returns'},
     ],
   },
   {
@@ -235,6 +234,22 @@ function FooterContent({
   );
 }
 
+/**
+ * Repoint footer policy links whose Shopify shop policies are unpublished
+ * (they 404). Shipping/Refund go to the live Shipping & Returns page; Terms of
+ * Service is dropped (returns null) until a real policy exists.
+ */
+const POLICY_URL_REMAP: Record<string, string | null> = {
+  '/policies/refund-policy': '/support/shipping-returns',
+  '/policies/shipping-policy': '/support/shipping-returns',
+  '/policies/terms-of-service': null,
+};
+
+function remapPolicyUrl(url: string): string | null {
+  if (url in POLICY_URL_REMAP) return POLICY_URL_REMAP[url];
+  return url;
+}
+
 function FooterLegalMenu({
   menu,
   primaryDomainUrl,
@@ -250,12 +265,16 @@ function FooterLegalMenu({
     <nav className="flex flex-wrap justify-center md:justify-end gap-x-5 gap-y-2" role="navigation">
       {menuItems.map((item) => {
         if (!item.url) return null;
-        const url =
+        const rawUrl =
           item.url.includes('myshopify.com') ||
           item.url.includes(publicStoreDomain) ||
           (primaryDomainUrl && item.url.includes(primaryDomainUrl))
             ? new URL(item.url).pathname
             : item.url;
+        // Refund/Shipping/Terms shop policies are unpublished and 404; repoint
+        // the first two to the live Shipping & Returns page and drop the last.
+        const url = remapPolicyUrl(rawUrl);
+        if (url === null) return null;
         const isExternal = !url.startsWith('/');
         return isExternal ? (
           <a

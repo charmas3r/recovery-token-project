@@ -227,7 +227,7 @@ export const meta: Route.MetaFunction = ({data, params}) => {
   return buildMeta({
     title: 'Custom Milestones | Personalized Recovery & Sobriety Gift Coins',
     description:
-      'Give someone you love a custom-engraved coin that marks their recovery milestone — handcrafted, made to keep forever, and arriving ready to give in a premium gift box.',
+      'Give someone you love a custom-engraved coin that marks their recovery milestone — handcrafted, made to keep, and arriving in a premium gift box.',
     canonical: '/',
   });
 };

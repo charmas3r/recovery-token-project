@@ -31,6 +31,15 @@ export function getVariantUrl({
 }) {
   const match = /(\/[a-zA-Z]{2}-[a-zA-Z]{2}\/)/g.exec(pathname);
   const isLocalePathname = match && match.length > 0;
+  const localePrefix = isLocalePathname ? match![0] : '/';
+
+  // `custom-token` is the builder's backing SKU, not a browsable PDP — its
+  // /products/custom-token route 301s to the /custom-token wizard. Link grids,
+  // cards, and recommendations straight to the wizard so we never emit the dead
+  // PDP URL that only resolves via a redirect. (Locale-prefix preserving.)
+  if (handle === 'custom-token') {
+    return `${localePrefix}custom-token`.replace('//', '/');
+  }
 
   const path = isLocalePathname
     ? `${match![0]}products/${handle}`

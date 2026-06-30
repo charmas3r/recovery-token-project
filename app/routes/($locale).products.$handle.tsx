@@ -503,8 +503,12 @@ export default function Product() {
     {label: title},
   ];
 
-  // Build product schema with reviews
-  const productSchema = {
+  // Build product schema with reviews. Accepts optional resolved reviews so the
+  // deferred `review[]` array can be folded into the same Product node once it
+  // streams in (avoids emitting a second, duplicate Product node).
+  const buildProductSchema = (
+    resolvedReviews?: {reviews: ProductReview[]} | null,
+  ) => ({
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: title,
@@ -523,20 +527,86 @@ export default function Product() {
         ? 'https://schema.org/InStock'
         : 'https://schema.org/OutOfStock',
       url: `https://custommilestones.com/products/${product.handle}`,
+      // Standard USPS First Class — matches app/data/shipping-returns.ts
+      shippingDetails: {
+        '@type': 'OfferShippingDetails',
+        shippingRate: {
+          '@type': 'MonetaryAmount',
+          value: '4.99',
+          currency: 'USD',
+        },
+        shippingDestination: {
+          '@type': 'DefinedRegion',
+          addressCountry: 'US',
+        },
+        deliveryTime: {
+          '@type': 'ShippingDeliveryTime',
+          handlingTime: {
+            '@type': 'QuantitativeValue',
+            minValue: 1,
+            maxValue: 2,
+            unitCode: 'DAY',
+          },
+          transitTime: {
+            '@type': 'QuantitativeValue',
+            minValue: 5,
+            maxValue: 7,
+            unitCode: 'DAY',
+          },
+        },
+      },
+      // 30-day returns on non-personalized items; customer covers return shipping
+      hasMerchantReturnPolicy: {
+        '@type': 'MerchantReturnPolicy',
+        applicableCountry: 'US',
+        returnPolicyCategory:
+          'https://schema.org/MerchantReturnFiniteReturnWindow',
+        merchantReturnDays: 30,
+        returnMethod: 'https://schema.org/ReturnByMail',
+        returnFees: 'https://schema.org/ReturnShippingFees',
+      },
     },
-    aggregateRating: reviewsSummary && reviewsSummary.reviewCount > 0 ? {
-      '@type': 'AggregateRating',
-      ratingValue: reviewsSummary.rating,
-      reviewCount: reviewsSummary.reviewCount,
-      bestRating: 5,
-      worstRating: 1,
-    } : undefined,
-  };
+    aggregateRating:
+      reviewsSummary && reviewsSummary.reviewCount > 0
+        ? {
+            '@type': 'AggregateRating',
+            ratingValue: reviewsSummary.rating,
+            reviewCount: reviewsSummary.reviewCount,
+            bestRating: 5,
+            worstRating: 1,
+          }
+        : undefined,
+    review:
+      resolvedReviews && resolvedReviews.reviews.length > 0
+        ? resolvedReviews.reviews.map((r) => ({
+            '@type': 'Review',
+            ...(r.title ? {name: r.title} : {}),
+            reviewBody: r.body,
+            datePublished: r.created_at,
+            author: {
+              '@type': 'Person',
+              name: r.reviewer.name,
+            },
+            reviewRating: {
+              '@type': 'Rating',
+              ratingValue: r.rating,
+              bestRating: 5,
+              worstRating: 1,
+            },
+          }))
+        : undefined,
+  });
 
   return (
     <>
-      {/* JSON-LD Structured Data */}
-      <JsonLd data={productSchema} />
+      {/* JSON-LD Structured Data. Base node (offers + shipping + returns +
+          aggregateRating) renders in the initial HTML; the deferred reviews
+          enrich the same node with review[] once they stream in. */}
+      <Suspense fallback={<JsonLd data={buildProductSchema(null)} />}>
+        <Await resolve={productReviews} errorElement={<JsonLd data={buildProductSchema(null)} />}>
+          {(resolved) => <JsonLd data={buildProductSchema(resolved)} />}
+        </Await>
+      </Suspense>
 
       {/* Main Product Section */}
       <section className="py-8 md:py-12">

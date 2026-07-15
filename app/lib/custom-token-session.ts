@@ -11,6 +11,7 @@ export interface CustomTokenSession {
   occasion?: string;
   description?: string;
   inspirationImageIds?: string[];
+  inspirationImageUrls?: Record<string, string>;
   contactEmail?: string;
   engraving?: {
     name?: string;

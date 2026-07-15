@@ -13,12 +13,19 @@ export async function loader({context}: Route.LoaderArgs) {
   if (!session || session.path !== 'we-design' || !canProceedToStep(session, 'description')) {
     return redirect('/custom-token/we-design/occasion');
   }
-  // Resolve image IDs to URLs for display
+  // Resolve image IDs to URLs for display. Prefer the URL captured at
+  // upload time — Shopify's fileCreate processes MediaImage assets
+  // asynchronously, so querying the Admin API for a just-uploaded file's
+  // image.url can race the processing and return null.
   const imageIds = session.inspirationImageIds ?? [];
-  const resolvedUrls = imageIds.length
-    ? await resolveShopifyFileIds(imageIds, context.env)
+  const knownUrls = session.inspirationImageUrls ?? {};
+  const unknownIds = imageIds.filter((id) => !knownUrls[id]);
+  const resolvedUrls = unknownIds.length
+    ? await resolveShopifyFileIds(unknownIds, context.env)
     : {};
-  const inspirationImageUrls = imageIds.map((id) => resolvedUrls[id]).filter(Boolean);
+  const inspirationImageUrls = imageIds
+    .map((id) => knownUrls[id] ?? resolvedUrls[id])
+    .filter(Boolean);
 
   return {
     description: session.description ?? '',
@@ -39,9 +46,12 @@ export async function action({request, context}: Route.ActionArgs) {
     );
     const session = getCustomTokenSession(context.session as AppSession)!;
     const existingIds = session.inspirationImageIds ?? [];
+    const existingUrls = session.inspirationImageUrls ?? {};
     const newIds = results.map((r) => r.fileId);
+    const newUrls = Object.fromEntries(results.map((r) => [r.fileId, r.url]));
     updateCustomTokenSession(context.session as AppSession, {
       inspirationImageIds: [...existingIds, ...newIds],
+      inspirationImageUrls: {...existingUrls, ...newUrls},
     });
     return Response.json(
       {uploadedIds: newIds},

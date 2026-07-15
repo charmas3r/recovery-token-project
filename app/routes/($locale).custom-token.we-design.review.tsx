@@ -2,6 +2,7 @@ import {Form, redirect, useActionData, useLoaderData, useFetcher} from 'react-ro
 import {useState, useEffect} from 'react';
 import type {Route} from './+types/($locale).custom-token.we-design.review';
 import {getCustomTokenSession, updateCustomTokenSession, clearCustomTokenSession, canProceedToStep} from '~/lib/custom-token-session';
+import {resolveShopifyFileIds} from '~/lib/shopify-uploads.server';
 import {ReviewSummary} from '~/components/custom-token/ReviewSummary';
 import {WizardNav} from '~/components/custom-token/WizardNav';
 import {CartForm} from '@shopify/hydrogen';
@@ -42,7 +43,21 @@ export async function action({request, context}: Route.ActionArgs) {
   }
   if (session.engraving?.note) attributes.push({key: '_Engraving Note', value: session.engraving.note});
   if (session.inspirationImageIds?.length) {
-    attributes.push({key: '_Inspiration Images', value: session.inspirationImageIds.join(', ')});
+    // Resolve to permanent Shopify CDN URLs (rather than raw GIDs or the
+    // short-lived staged-upload URL) so admins can open the images
+    // directly from the order — by submission time the async fileCreate
+    // processing has almost always finished.
+    const knownUrls = session.inspirationImageUrls ?? {};
+    const unresolvedIds = session.inspirationImageIds.filter((id) => !knownUrls[id]);
+    const resolved = unresolvedIds.length
+      ? await resolveShopifyFileIds(unresolvedIds, context.env)
+      : {};
+    const imageUrls = session.inspirationImageIds
+      .map((id) => resolved[id] ?? knownUrls[id])
+      .filter(Boolean);
+    if (imageUrls.length) {
+      attributes.push({key: '_Inspiration Images', value: imageUrls.join(', ')});
+    }
   }
   attributes.push({key: '_Contact Email', value: contactEmail});
 

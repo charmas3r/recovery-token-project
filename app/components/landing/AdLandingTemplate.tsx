@@ -1,4 +1,4 @@
-import {Link, Form} from 'react-router';
+import {Link} from 'react-router';
 import {Star, Truck, Shield, Gift, Heart, Sparkles} from 'lucide-react';
 import {Button} from '~/components/ui/Button';
 import {CustomMilestonesLogo} from '~/components/layout/CustomMilestonesLogo';
@@ -18,21 +18,20 @@ const CARD_BG =
   'linear-gradient(180deg, #111 0%, #0A0A0A 40%, #080808 100%)';
 
 /**
- * Primary CTA — posts into the engraving funnel exactly like the homepage
- * hero (Form -> /custom-token?index with path=you-design). Yellow `#FFFF93`
- * fill with dark text for WCAG-AA contrast on the dark page.
+ * Primary CTA — links to /custom-token so visitors can choose which
+ * customization flow (You Design / We Design) they want, instead of being
+ * forced straight into one path.
  */
 function PrimaryCta({label}: {label: string}) {
   return (
-    <Form method="post" action="/custom-token?index" style={{width: '100%'}}>
-      <input type="hidden" name="path" value="you-design" />
+    <Link to="/custom-token" prefetch="intent" style={{width: '100%', display: 'block'}}>
       <motion.div
         whileHover={{scale: 1.02}}
         whileTap={{scale: 0.98}}
         transition={{duration: 0.2}}
       >
         <Button
-          type="submit"
+          as="span"
           variant="primary"
           size="lg"
           className="w-full sm:w-auto !px-10 !bg-accent !text-black"
@@ -40,7 +39,7 @@ function PrimaryCta({label}: {label: string}) {
           {label}
         </Button>
       </motion.div>
-    </Form>
+    </Link>
   );
 }
 

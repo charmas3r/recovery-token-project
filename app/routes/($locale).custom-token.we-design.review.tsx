@@ -1,4 +1,4 @@
-import {Form, useActionData, useLoaderData, useFetcher} from 'react-router';
+import {Form, redirect, useActionData, useLoaderData, useFetcher} from 'react-router';
 import {useState, useEffect} from 'react';
 import type {Route} from './+types/($locale).custom-token.we-design.review';
 import {getCustomTokenSession, updateCustomTokenSession, clearCustomTokenSession, canProceedToStep} from '~/lib/custom-token-session';
@@ -11,9 +11,9 @@ import {trackEvent} from '~/lib/ga4';
 export async function loader({context}: Route.LoaderArgs) {
   const session = getCustomTokenSession(context.session as AppSession);
   if (!session || session.path !== 'we-design' || !canProceedToStep(session, 'review')) {
-    return {redirect: '/custom-token/we-design/engraving'};
+    return redirect('/custom-token/we-design/engraving');
   }
-  return {session, redirect: null};
+  return {session};
 }
 
 export async function action({request, context}: Route.ActionArgs) {
@@ -36,7 +36,10 @@ export async function action({request, context}: Route.ActionArgs) {
   if (session.material) attributes.push({key: 'Material', value: session.material === 'brass' ? 'Brass' : 'Color'});
   if (session.engraving?.name) attributes.push({key: 'Engraving Name', value: session.engraving.name});
   if (session.engraving?.years) attributes.push({key: 'Engraving Years', value: session.engraving.years});
-  if (session.engraving?.cleanDate) attributes.push({key: 'Engraving Clean Date', value: session.engraving.cleanDate});
+  if (session.engraving?.symbol) {
+    const symbolLabel = {aa: 'AA (Triangle)', na: 'NA (Diamond)', other: 'Other (Circle)'}[session.engraving.symbol];
+    attributes.push({key: 'Recovery Symbol', value: symbolLabel});
+  }
   if (session.engraving?.note) attributes.push({key: '_Engraving Note', value: session.engraving.note});
   if (session.inspirationImageIds?.length) {
     attributes.push({key: '_Inspiration Images', value: session.inspirationImageIds.join(', ')});
@@ -56,7 +59,7 @@ export async function action({request, context}: Route.ActionArgs) {
         material: session.material,
         engravingName: session.engraving?.name,
         engravingYears: session.engraving?.years,
-        engravingCleanDate: session.engraving?.cleanDate,
+        engravingSymbol: session.engraving?.symbol,
         engravingNote: session.engraving?.note,
         inspirationImages: session.inspirationImageIds?.join(', '),
       },
@@ -101,7 +104,12 @@ export default function WeDesignReview() {
     {label: 'Material', value: session.material === 'brass' ? 'Brass' : 'Color'},
     ...(session.engraving?.name ? [{label: 'Engraving Name', value: session.engraving.name}] : []),
     ...(session.engraving?.years ? [{label: 'Engraving Years', value: session.engraving.years}] : []),
-    ...(session.engraving?.cleanDate ? [{label: 'Engraving Clean Date', value: session.engraving.cleanDate}] : []),
+    ...(session.engraving?.symbol
+      ? [{
+          label: 'Recovery Symbol',
+          value: {aa: 'AA (Triangle)', na: 'NA (Diamond)', other: 'Other (Circle)'}[session.engraving.symbol],
+        }]
+      : []),
   ].filter((item) => item.value);
 
   // When action returns success, submit to cart via fetcher

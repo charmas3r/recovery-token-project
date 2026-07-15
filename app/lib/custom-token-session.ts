@@ -15,7 +15,7 @@ export interface CustomTokenSession {
   engraving?: {
     name?: string;
     years?: string;
-    cleanDate?: string;
+    symbol?: 'aa' | 'na' | 'other';
     note?: string;
   };
 

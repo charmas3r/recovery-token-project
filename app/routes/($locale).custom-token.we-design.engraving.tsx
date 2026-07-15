@@ -13,20 +13,31 @@ export async function loader({context}: Route.LoaderArgs) {
   return {engraving: session.engraving ?? {}};
 }
 
+const SYMBOL_OPTIONS = [
+  {value: 'aa', label: 'AA', shape: 'Triangle'},
+  {value: 'na', label: 'NA', shape: 'Diamond'},
+  {value: 'other', label: 'Other', shape: 'Circle'},
+] as const;
+
 export async function action({request, context}: Route.ActionArgs) {
   const formData = await request.formData();
   const name = (formData.get('name') as string)?.trim() ?? '';
   const years = (formData.get('years') as string)?.trim() ?? '';
-  const cleanDate = (formData.get('cleanDate') as string)?.trim() ?? '';
+  const symbol = (formData.get('symbol') as string)?.trim() ?? '';
   const note = (formData.get('note') as string)?.trim() ?? '';
 
   // At least one engraving field should be filled
-  if (!name && !years && !cleanDate) {
+  if (!name && !years && !symbol) {
     return {error: 'Please fill in at least one engraving field'};
   }
 
   updateCustomTokenSession(context.session as AppSession, {
-    engraving: {name, years, cleanDate, note},
+    engraving: {
+      name,
+      years,
+      symbol: symbol === 'aa' || symbol === 'na' || symbol === 'other' ? symbol : undefined,
+      note,
+    },
   });
   return redirect('/custom-token/we-design/review', {
     headers: {'Set-Cookie': await context.session.commit()},
@@ -105,14 +116,35 @@ export default function WeDesignEngraving() {
         </div>
 
         <div>
-          <label htmlFor="cleanDate" style={labelStyle}>Clean Date</label>
-          <input
-            id="cleanDate"
-            name="cleanDate"
-            type="date"
-            defaultValue={engraving.cleanDate}
-            style={inputStyle}
-          />
+          <span style={labelStyle}>Recovery Symbol</span>
+          <div style={{display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.75rem'}}>
+            {SYMBOL_OPTIONS.map((option) => (
+              <label
+                key={option.value}
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: '0.375rem',
+                  borderRadius: '0.75rem',
+                  border: '1px solid rgba(255,255,255,0.08)',
+                  background: 'rgba(255,255,255,0.03)',
+                  padding: '0.75rem 0.5rem',
+                  cursor: 'pointer',
+                }}
+              >
+                <input
+                  type="radio"
+                  name="symbol"
+                  value={option.value}
+                  defaultChecked={engraving.symbol === option.value}
+                  style={{accentColor: '#B8764F'}}
+                />
+                <span style={{color: '#fff', fontSize: '0.875rem', fontWeight: 600}}>{option.label}</span>
+                <span style={{color: 'rgba(255,255,255,0.4)', fontSize: '0.75rem'}}>{option.shape}</span>
+              </label>
+            ))}
+          </div>
         </div>
 
         <div>

@@ -51,7 +51,7 @@ export async function action({request, context}: Route.ActionArgs) {
 
   // Build line item attributes
   const attributes: Array<{key: string; value: string}> = [
-    {key: 'Custom Design Path', value: 'You Design It'},
+    {key: 'Custom Design Path', value: 'AI Generated Design'},
     {key: 'Design Description', value: session.designPrompt ?? ''},
     {key: 'Material', value: session.material === 'brass' ? 'Brass' : 'Color'},
   ];

@@ -15,7 +15,7 @@ export function ReviewSummary({path, items, variantPrice}: ReviewSummaryProps) {
     <div style={{borderRadius: '1rem', border: '1px solid rgba(255,255,255,0.08)', overflow: 'hidden', background: 'linear-gradient(180deg, #111 0%, #0A0A0A 40%, #080808 100%)'}}>
       <div style={{padding: '1rem 1.5rem', borderBottom: '1px solid rgba(255,255,255,0.08)'}}>
         <span style={{display: 'inline-block', color: '#B8764F', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.25em', fontWeight: 600}}>
-          {path === 'we-design' ? 'We Design It For You' : 'You Design It'}
+          {path === 'we-design' ? 'We Design It For You' : 'AI Generated Design'}
         </span>
         <h3 style={{color: '#fff', fontWeight: 700, fontSize: '1.125rem', marginTop: '0.25rem'}}>Order Summary</h3>
       </div>

@@ -1,4 +1,4 @@
-import {Await, useLoaderData, Link, Form} from 'react-router';
+import {Await, useLoaderData, Link} from 'react-router';
 import type {Route} from './+types/_index';
 import {Suspense, useState, useEffect, useCallback, useRef, useMemo} from 'react';
 import type {
@@ -227,7 +227,7 @@ export const meta: Route.MetaFunction = ({data, params}) => {
   return buildMeta({
     title: 'Custom Milestones | Personalized Recovery & Sobriety Gift Coins',
     description:
-      'Give someone you love a custom-engraved coin that marks their recovery milestone — handcrafted, made to keep, and arriving in a premium gift box.',
+      'Give someone you love a custom-engraved coin that marks their recovery milestone — handcrafted, made to keep, and ready to give.',
     canonical: '/',
   });
 };
@@ -491,15 +491,14 @@ function HeroSection({
             {/* CTA Buttons — primary = personalize/engrave funnel */}
             <HeroItem>
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mt-10">
-                <Form method="post" action="/custom-token?index">
-                  <input type="hidden" name="path" value="you-design" />
+                <Link to="/custom-token" prefetch="intent" className="w-full sm:w-auto">
                   <motion.div
                     whileHover={{scale: 1.02}}
                     whileTap={{scale: 0.98}}
                     transition={{duration: 0.2}}
                   >
                     <Button
-                      type="submit"
+                      as="span"
                       variant="primary"
                       size="lg"
                       className="w-full sm:w-auto !px-10 !bg-accent !text-black"
@@ -507,7 +506,7 @@ function HeroSection({
                       Design their coin
                     </Button>
                   </motion.div>
-                </Form>
+                </Link>
                 <Link to="/collections/all" className="w-full sm:w-auto">
                   <Button
                     variant="secondary"
@@ -536,7 +535,7 @@ function HeroSection({
                   <span style={{color: '#B8764F', display: 'inline-flex'}}>
                     <GiftIcon />
                   </span>
-                  Arrives in a premium gift box, ready to give
+                  Arrives ready to give
                 </span>
               </div>
             </HeroItem>
@@ -592,8 +591,8 @@ const PROMOS = [
   },
   {
     icon: <GiftIcon />,
-    headline: 'Gift Wrapping',
-    subtext: 'Complimentary premium gift box with every token',
+    headline: 'Gift Ready',
+    subtext: 'Every token arrives ready to give, no wrapping required',
     accent: '#FF93C9',
     gradient: 'radial-gradient(ellipse at 50% 0%, rgba(255,147,201,0.12) 0%, transparent 70%)',
   },
@@ -810,7 +809,7 @@ const FALLBACK_FEATURED_TOKEN: FeaturedTokenData = {
   ],
   rightFeatures: [
     {icon: 'heart', title: 'Symbol of Hope', description: 'The sunflower represents new beginnings and growth.'},
-    {icon: 'sparkles', title: 'Gift Ready', description: 'Arrives in a premium gift box, perfect for gifting.'},
+    {icon: 'sparkles', title: 'Gift Ready', description: 'Arrives ready to give, perfect for gifting.'},
   ],
 };
 
@@ -1930,10 +1929,8 @@ function FinalCTA({
 
         <FadeUp>
           <div className="flex flex-col sm:flex-row items-center gap-3">
-            <Form method="post" action="/custom-token?index">
-              <input type="hidden" name="path" value="you-design" />
-              <motion.button
-                type="submit"
+            <Link to="/custom-token" prefetch="intent">
+              <motion.div
                 className="flex items-center gap-2 px-7 py-3 rounded-lg text-sm font-semibold text-black"
                 style={{background: '#FFFF93'}}
                 whileHover={{scale: 1.02, filter: 'brightness(1.08)'}}
@@ -1944,8 +1941,8 @@ function FinalCTA({
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="opacity-70">
                   <path d="M6 3l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
-              </motion.button>
-            </Form>
+              </motion.div>
+            </Link>
             <Link to={collection ? `/collections/${collection.handle}` : '/collections/all'}>
               <motion.div
                 className="flex items-center gap-2 px-6 py-3 text-sm font-medium"

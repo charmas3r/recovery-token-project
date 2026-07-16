@@ -9,7 +9,7 @@ const SITE_URL = BRAND.url;
 const DEFAULT_OG_IMAGE =
   'https://cdn.shopify.com/s/files/1/0980/8330/7822/files/og-image.webp?v=1773774508';
 const DEFAULT_DESCRIPTION =
-  'Premium hand-crafted recovery tokens and sobriety coins celebrating every milestone — personalized, made to keep, and arriving in a premium gift box.';
+  'Premium hand-crafted recovery tokens and sobriety coins celebrating every milestone — personalized, made to keep, and ready to give.';
 
 /** Recommended max length for a meta description before Google truncates it. */
 const MAX_DESCRIPTION_LENGTH = 158;

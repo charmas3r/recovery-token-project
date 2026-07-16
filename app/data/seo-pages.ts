@@ -598,7 +598,7 @@ registerSEOPage({
     {
       type: 'text',
       heading: 'The Difference a Custom Coin Makes',
-      body: "A standard sobriety coin is already meaningful — it carries decades of recovery tradition. A custom coin carries all of that plus something irreplaceable: the specific story of one person's recovery.\n\nWhen someone opens a gift box and finds a coin with their exact sobriety date engraved on the back, the effect is immediate. It's not a generic recovery gift — it's evidence that someone paid attention, cared enough to get it right, and marked the moment permanently.",
+      body: "A standard sobriety coin is already meaningful — it carries decades of recovery tradition. A custom coin carries all of that plus something irreplaceable: the specific story of one person's recovery.\n\nWhen someone opens the box and finds a coin with their exact sobriety date engraved on the back, the effect is immediate. It's not a generic recovery gift — it's evidence that someone paid attention, cared enough to get it right, and marked the moment permanently.",
     },
   ],
   faq: [

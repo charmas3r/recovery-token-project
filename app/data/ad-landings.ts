@@ -122,17 +122,17 @@ const AD_LANDINGS: Record<string, AdLanding> = {
       {
         title: 'Arrives gift-ready',
         description:
-          'It ships in a premium gift box, ready to hand over the moment it lands on your doorstep.',
+          'It ships ready to hand over the moment it lands on your doorstep.',
       },
     ],
     giftReassurance: {
       eyebrow: 'Made to be given',
       heading: 'Premium presentation, zero guesswork',
       body:
-        'Every coin arrives in a protective gift box that makes the moment feel as meaningful as it is. No assembly, no extra wrapping — just hand it over.',
+        'Every coin arrives ready to give, making the moment feel as meaningful as it is. No assembly, no extra wrapping — just hand it over.',
       points: [
-        'Presented in a premium gift box',
         'Ships ready to give, no wrapping needed',
+        'No assembly required',
         'A keepsake they can hold onto for years',
       ],
     },
@@ -145,7 +145,7 @@ const AD_LANDINGS: Record<string, AdLanding> = {
       {
         question: 'How fast does it arrive?',
         answer:
-          'Each coin is made to order and ships with free delivery, arriving in a gift box ready to hand over.',
+          'Each coin is made to order and ships with free delivery, ready to hand over.',
       },
       {
         question: 'What if it is not right?',

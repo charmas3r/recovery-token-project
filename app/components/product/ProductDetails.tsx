@@ -193,8 +193,7 @@ export function ProductDetails({
 
             <span className="text-white/40">Packaging</span>
             <span className="text-white/70">
-              Ships in a premium velvet pouch inside a branded gift box —
-              ready for gifting.
+              Ships in a premium velvet pouch, ready for gifting.
             </span>
           </div>
         </div>

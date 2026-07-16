@@ -55,7 +55,7 @@ export default function CustomTokenLanding() {
         </p>
       </div>
 
-      <div style={{display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1.5rem'}}>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         {/* We Design It */}
         <Form method="post" action="?index">
           <input type="hidden" name="path" value="we-design" />
@@ -67,28 +67,34 @@ export default function CustomTokenLanding() {
               width: '100%',
               textAlign: 'left',
               borderRadius: '1rem',
-              border: '1px solid rgba(255,255,255,0.08)',
+              border: '1px solid rgba(0,0,0,0.08)',
               padding: '2rem',
-              transition: 'border-color 0.2s',
-              background: 'linear-gradient(180deg, #111 0%, #0A0A0A 40%, #080808 100%)',
+              transition: 'transform 0.15s, filter 0.15s',
+              background: '#FFFF93',
               cursor: 'pointer',
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.borderColor = 'rgba(184,118,79,0.5)')}
-            onMouseLeave={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'scale(1.01)';
+              e.currentTarget.style.filter = 'brightness(1.05)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'scale(1)';
+              e.currentTarget.style.filter = 'brightness(1)';
+            }}
           >
-            <span style={{display: 'inline-block', color: '#B8764F', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.25em', fontWeight: 600, marginBottom: '0.5rem'}}>
+            <span style={{display: 'inline-block', color: 'rgba(0,0,0,0.6)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.25em', fontWeight: 700, marginBottom: '0.5rem'}}>
               Option 1
             </span>
-            <h2 style={{fontFamily: 'var(--font-display, serif)', fontSize: '1.25rem', fontWeight: 700, color: '#FFFFFF', marginBottom: '0.5rem'}}>
+            <h2 style={{fontFamily: 'var(--font-display, serif)', fontSize: '1.375rem', fontWeight: 700, color: '#000000', marginBottom: '0.5rem'}}>
               We Design It For You
             </h2>
-            <p style={{fontSize: '0.875rem', lineHeight: 1.6, color: 'rgba(255,255,255,0.5)'}}>
+            <p style={{fontSize: '0.875rem', lineHeight: 1.6, color: 'rgba(0,0,0,0.7)'}}>
               Tell us about your vision and we&apos;ll create a custom design. Share inspiration images, describe what matters to you, and we&apos;ll handle the rest. We&apos;ll follow up via email with design proofs.
             </p>
           </button>
         </Form>
 
-        {/* You Design It */}
+        {/* AI Generated Design */}
         <Form method="post" action="?index">
           <input type="hidden" name="path" value="you-design" />
           <button
@@ -99,22 +105,28 @@ export default function CustomTokenLanding() {
               width: '100%',
               textAlign: 'left',
               borderRadius: '1rem',
-              border: '1px solid rgba(255,255,255,0.08)',
+              border: '1px solid rgba(0,0,0,0.08)',
               padding: '2rem',
-              transition: 'border-color 0.2s',
-              background: 'linear-gradient(180deg, #111 0%, #0A0A0A 40%, #080808 100%)',
+              transition: 'transform 0.15s, filter 0.15s',
+              background: '#FFFF93',
               cursor: 'pointer',
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.borderColor = 'rgba(184,118,79,0.5)')}
-            onMouseLeave={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)')}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'scale(1.01)';
+              e.currentTarget.style.filter = 'brightness(1.05)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'scale(1)';
+              e.currentTarget.style.filter = 'brightness(1)';
+            }}
           >
-            <span style={{display: 'inline-block', color: '#B8764F', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.25em', fontWeight: 600, marginBottom: '0.5rem'}}>
+            <span style={{display: 'inline-block', color: 'rgba(0,0,0,0.6)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.25em', fontWeight: 700, marginBottom: '0.5rem'}}>
               Option 2
             </span>
-            <h2 style={{fontFamily: 'var(--font-display, serif)', fontSize: '1.25rem', fontWeight: 700, color: '#FFFFFF', marginBottom: '0.5rem'}}>
-              You Design It
+            <h2 style={{fontFamily: 'var(--font-display, serif)', fontSize: '1.375rem', fontWeight: 700, color: '#000000', marginBottom: '0.5rem'}}>
+              AI Generated Design
             </h2>
-            <p style={{fontSize: '0.875rem', lineHeight: 1.6, color: 'rgba(255,255,255,0.5)'}}>
+            <p style={{fontSize: '0.875rem', lineHeight: 1.6, color: 'rgba(0,0,0,0.7)'}}>
               Use our AI-powered design studio to create your token. Describe what you want, preview generated designs, and refine until it&apos;s perfect. See your design come to life in real time.
             </p>
           </button>

@@ -74,16 +74,20 @@ const SCRAMBLE_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123
 
 const HERO_WORDS = [
   {
-    word: 'milestone',
+    word: 'custom coin',
     gradient: 'linear-gradient(90deg, #00C6FF 0%, #0072FF 100%)',
   },
   {
-    word: 'comeback',
+    word: 'challenge coin',
     gradient: 'linear-gradient(90deg, #00F260 0%, #0575E6 100%)',
   },
   {
-    word: 'journey',
+    word: 'AA coin',
     gradient: 'linear-gradient(90deg, #7C3AED 0%, #C026D3 50%, #FF2D92 100%)',
+  },
+  {
+    word: 'NA coin',
+    gradient: 'linear-gradient(90deg, #FF9D00 0%, #FF2D92 100%)',
   },
 ] as const;
 
@@ -100,8 +104,8 @@ function ScrambleHeading() {
 
     let timeout: ReturnType<typeof setTimeout>;
     let frame: number;
-    // Start from Milestone (index 2) since that's what the server renders
-    let currentIndex = 2;
+    // Start from "custom coin" (index 0) since that's what the server renders
+    let currentIndex = 0;
     const holdDuration = 2000;
     const scrambleDuration = 750;
 
@@ -194,19 +198,19 @@ function ScrambleHeading() {
         fontFeatureSettings: '"ss01", "ss04", "ss11"',
       }}
     >
-      Mark their{' '}
+      It takes 1 minute to create their{' '}
       <span
         ref={spanRef}
         className="block"
         style={{
           background:
-            'linear-gradient(90deg, #7C3AED 0%, #C026D3 50%, #FF2D92 100%)',
+            'linear-gradient(90deg, #00C6FF 0%, #0072FF 100%)',
           WebkitBackgroundClip: 'text',
           WebkitTextFillColor: 'transparent',
           backgroundClip: 'text',
         }}
       >
-        journey
+        custom coin
       </span>
     </h1>
   );

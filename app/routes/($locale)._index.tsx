@@ -229,9 +229,9 @@ export const meta: Route.MetaFunction = ({data, params}) => {
     });
   }
   return buildMeta({
-    title: 'Custom Milestones | Personalized Recovery & Sobriety Gift Coins',
+    title: 'Custom Coin | Personalized AA & NA Recovery Coins',
     description:
-      'Give someone you love a custom-engraved coin that marks their recovery milestone — handcrafted, made to keep, and ready to give.',
+      'Create a custom coin in 1 minute — engraved AA, NA, and challenge coins that celebrate a recovery milestone. Handcrafted and ready to give.',
     canonical: '/',
   });
 };

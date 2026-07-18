@@ -238,7 +238,7 @@ export const meta: Route.MetaFunction = ({data, params}) => {
   return buildMeta({
     title: 'Custom Coin | Personalized AA & NA Recovery Coins',
     description:
-      'Create a custom coin in 1 minute — engraved AA, NA, and challenge coins that celebrate a recovery milestone. Handcrafted and ready to give.',
+      'Custom coin engraving for AA coins, NA coins, and challenge coins — create yours in 1 minute to celebrate a recovery milestone. Handcrafted and ready to give.',
     canonical: '/',
   });
 };
@@ -565,6 +565,7 @@ function HeroSection({
           <HeroImage className="order-2 lg:order-2 relative flex items-center justify-center w-full">
             <div className="relative w-full max-w-[24rem] sm:max-w-[28rem] lg:max-w-[32rem] max-h-[34vh] lg:max-h-none rounded-2xl overflow-hidden shadow-2xl shadow-white/5">
               <video
+                aria-label="Custom coin engraving — AA coin, NA coin, and challenge coin personalization in action"
                 autoPlay
                 loop
                 muted

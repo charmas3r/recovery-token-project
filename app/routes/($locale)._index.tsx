@@ -144,19 +144,26 @@ function ScrambleHeading() {
               if (i < revealedCount) {
                 scrambled += targetWord[i];
               } else if (i < targetWord.length) {
+                // Keep the word-boundary space intact so the string
+                // always stays wrappable — never collapse to one
+                // unbreakable blob mid-scramble.
                 scrambled +=
-                  SCRAMBLE_CHARS[
-                    Math.floor(Math.random() * SCRAMBLE_CHARS.length)
-                  ];
+                  targetWord[i] === ' '
+                    ? ' '
+                    : SCRAMBLE_CHARS[
+                        Math.floor(Math.random() * SCRAMBLE_CHARS.length)
+                      ];
               } else if (
                 i <
                 maxLen -
                   Math.floor(progress * (maxLen - targetWord.length))
               ) {
                 scrambled +=
-                  SCRAMBLE_CHARS[
-                    Math.floor(Math.random() * SCRAMBLE_CHARS.length)
-                  ];
+                  currentWord[i] === ' '
+                    ? ' '
+                    : SCRAMBLE_CHARS[
+                        Math.floor(Math.random() * SCRAMBLE_CHARS.length)
+                      ];
               }
             }
             span.textContent = scrambled;
@@ -188,10 +195,9 @@ function ScrambleHeading() {
 
   return (
     <h1
-      className="text-white mb-6"
+      className="text-white mb-4 sm:mb-6 text-[32px] sm:text-[42px] md:text-[48px] lg:text-[52px] xl:text-[64px]"
       style={{
         fontFamily: "'Charter', 'Georgia', 'Times New Roman', serif",
-        fontSize: 'clamp(48px, 5vw, 64px)',
         fontWeight: 400,
         lineHeight: 1.1,
         letterSpacing: '-0.64px',
@@ -458,9 +464,9 @@ function HeroSection({
         }}
       />
       <div className="container-wide relative z-10">
-        <div className="grid lg:grid-cols-2 gap-4 lg:gap-12 items-center min-h-[60vh] pt-24 pb-6 lg:pt-28 lg:pb-8">
+        <div className="grid lg:grid-cols-2 gap-4 lg:gap-12 items-center lg:min-h-[60vh] pt-6 sm:pt-16 lg:pt-28 pb-6 lg:pb-8">
           {/* Left Column - Content (leads on mobile so the primary CTA is above the fold) */}
-          <HeroContent className="order-1 lg:order-1 text-center lg:text-left w-full">
+          <HeroContent className="order-1 lg:order-1 text-center lg:text-left w-full min-w-0">
 
             {/* Eyebrow — recovery-first, umbrella-aware */}
             <HeroItem>
@@ -486,16 +492,22 @@ function HeroSection({
 
             {/* Subheading — gift moment, recipient as protagonist, Meta-safe */}
             <HeroItem>
-              <p className="text-lg lg:text-xl text-white/60 leading-relaxed lg:max-w-[32rem]">
-                Give someone you love a custom-engraved coin that honors how far
-                they&apos;ve come. Choose the words, the symbol, and the finish —
-                handcrafted to keep forever and ready to give.
+              <p className="text-base sm:text-lg lg:text-xl text-white/60 leading-snug sm:leading-relaxed lg:max-w-[32rem]">
+                <span className="sm:hidden">
+                  Give someone you love a custom-engraved coin that honors how
+                  far they&apos;ve come.
+                </span>
+                <span className="hidden sm:inline">
+                  Give someone you love a custom-engraved coin that honors how
+                  far they&apos;ve come. Choose the words, the symbol, and the
+                  finish — handcrafted to keep forever and ready to give.
+                </span>
               </p>
             </HeroItem>
 
             {/* CTA Buttons — primary = personalize/engrave funnel */}
             <HeroItem>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mt-10">
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start mt-6 sm:mt-10">
                 <Link to="/custom-token" prefetch="intent" className="w-full sm:w-auto">
                   <motion.div
                     whileHover={{scale: 1.02}}
@@ -518,7 +530,10 @@ function HeroSection({
                     size="lg"
                     className="w-full sm:w-auto !border-white/30 !text-white"
                   >
-                    Shop ready-made milestones
+                    <span className="sm:hidden">Shop milestones</span>
+                    <span className="hidden sm:inline">
+                      Shop ready-made milestones
+                    </span>
                   </Button>
                 </Link>
               </div>
@@ -526,7 +541,7 @@ function HeroSection({
 
             {/* Above-the-fold trust + gift reassurance */}
             <HeroItem>
-              <div className="mt-8 flex flex-col sm:flex-row items-center lg:items-start gap-4 sm:gap-6">
+              <div className="mt-4 sm:mt-8 flex flex-col sm:flex-row items-center lg:items-start gap-3 sm:gap-6">
                 <ReviewsCallout variant="inline" />
                 <span
                   style={{

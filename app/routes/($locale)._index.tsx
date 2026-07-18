@@ -208,6 +208,7 @@ function ScrambleHeading() {
           WebkitBackgroundClip: 'text',
           WebkitTextFillColor: 'transparent',
           backgroundClip: 'text',
+          minHeight: '2.2em',
         }}
       >
         custom coin

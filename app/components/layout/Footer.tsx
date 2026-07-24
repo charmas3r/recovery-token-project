@@ -229,6 +229,22 @@ function FooterContent({
             publicStoreDomain={publicStoreDomain}
           />
         </div>
+
+        {/* Attribution */}
+        <div style={{marginTop: '1.5rem', textAlign: 'center'}}>
+          <p style={{fontSize: '0.75rem', color: 'rgba(255,255,255,0.25)'}}>
+            Powered by{' '}
+            <a
+              href="https://www.lucidweb.studio/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="transition-colors duration-200 hover:text-white/60"
+              style={{color: 'rgba(255,255,255,0.4)'}}
+            >
+              Lucid Web Studios
+            </a>
+          </p>
+        </div>
       </div>
     </footer>
   );

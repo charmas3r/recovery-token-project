@@ -617,6 +617,23 @@ export function AdLandingTemplate({landing}: {landing: AdLanding}) {
           © {new Date().getFullYear()} Custom Milestones. Handcrafted keepsakes,
           made to give.
         </p>
+        <p
+          style={{
+            fontSize: '0.75rem',
+            color: 'rgba(255,255,255,0.25)',
+            marginTop: '0.75rem',
+          }}
+        >
+          Powered by{' '}
+          <a
+            href="https://www.lucidweb.studio/"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{color: 'rgba(255,255,255,0.4)'}}
+          >
+            Lucid Web Studios
+          </a>
+        </p>
       </footer>
     </div>
   );

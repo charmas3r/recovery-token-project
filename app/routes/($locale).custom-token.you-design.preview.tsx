@@ -62,8 +62,16 @@ export async function action({request, context}: Route.ActionArgs) {
       return {error: 'Generation limit reached for this session.'};
     }
 
-    const dailyCheck = await checkAndIncrementDailyLimit(context.env, 1);
-    if (!dailyCheck.allowed) {
+    try {
+      const dailyCheck = await checkAndIncrementDailyLimit(context.env, 1);
+      if (!dailyCheck.allowed) {
+        return {
+          error:
+            'Design service temporarily unavailable. Please try again later.',
+        };
+      }
+    } catch (e) {
+      console.error('Daily limit check failed:', e);
       return {
         error:
           'Design service temporarily unavailable. Please try again later.',
@@ -71,20 +79,27 @@ export async function action({request, context}: Route.ActionArgs) {
     }
 
     // Generate 1 preview
-    const provider = createImageProvider(context.env);
-    const prompt = buildTokenPrompt(session.designPrompt!, {
-      material: session.material,
-    });
-
     let result;
     try {
+      const provider = createImageProvider(context.env);
+      const prompt = buildTokenPrompt(session.designPrompt!, {
+        material: session.material,
+      });
       result = await provider.generate({prompt, count: 1, size: '1024x1024'});
     } catch (e: any) {
       const msg = e.message ?? '';
       if (msg.startsWith('SAFETY_REJECTED:')) {
         return {error: msg.replace('SAFETY_REJECTED: ', ''), safetyRejected: true};
       }
-      return {error: msg.replace('SYSTEM_ERROR: ', '')};
+      if (msg.startsWith('SYSTEM_ERROR:')) {
+        return {error: msg.replace('SYSTEM_ERROR: ', '')};
+      }
+      // Config/infrastructure errors (e.g. missing OPENAI_API_KEY) — don't 500
+      console.error('Custom token generation failed:', e);
+      return {
+        error:
+          'Image generation is temporarily unavailable. Please try again later.',
+      };
     }
 
     // Get the displayable URL (base64 data URL for immediate display)

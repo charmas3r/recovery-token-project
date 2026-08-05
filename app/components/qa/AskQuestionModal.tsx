@@ -5,13 +5,18 @@
  * Follows WriteReviewModal pattern for consistency.
  */
 
-import {useEffect} from 'react';
-import {useFetcher} from 'react-router';
+import {useEffect, useState} from 'react';
+import {useFetcher, useRouteLoaderData} from 'react-router';
 import * as Dialog from '@radix-ui/react-dialog';
 import {clsx} from 'clsx';
 import {X, CheckCircle2, MessageCircleQuestion} from 'lucide-react';
 import {Button} from '~/components/ui';
 import {trackEvent} from '~/lib/ga4';
+import {useRecaptcha} from '~/lib/useRecaptcha';
+import type {RootLoader} from '~/root';
+
+/** reCAPTCHA action name — must match the value checked in questions.submit. */
+const RECAPTCHA_ACTION = 'question';
 
 interface AskQuestionModalProps {
   open: boolean;
@@ -33,11 +38,42 @@ export function AskQuestionModal({
   productTitle,
 }: AskQuestionModalProps) {
   const fetcher = useFetcher<ActionData>();
+  const recaptchaSiteKey = useRouteLoaderData<RootLoader>('root')?.recaptchaSiteKey;
+  // The hook only mounts while the modal is open, so the reCAPTCHA script
+  // loads on first open rather than on every product page view.
+  const {getToken} = useRecaptcha(recaptchaSiteKey);
+  // Covers the token round-trip, which happens before fetcher.state flips.
+  const [isVerifying, setIsVerifying] = useState(false);
 
-  const isSubmitting = fetcher.state !== 'idle';
+  const isSubmitting = fetcher.state !== 'idle' || isVerifying;
   const isSuccess = fetcher.data?.success === true;
   const fieldErrors = fetcher.data?.fieldErrors;
   const serverError = fetcher.data?.error;
+
+  /**
+   * Fetch a reCAPTCHA token, then submit with it attached. When the script is
+   * blocked or unconfigured the token is null and the form posts without it —
+   * the server decides what that means.
+   */
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+
+    setIsVerifying(true);
+    try {
+      const token = await getToken(RECAPTCHA_ACTION);
+      if (token) {
+        formData.set('g-recaptcha-response', token);
+      }
+    } finally {
+      setIsVerifying(false);
+    }
+
+    void fetcher.submit(formData, {
+      method: 'post',
+      action: '/questions/submit',
+    });
+  };
 
   // Reset form when modal closes
   const handleOpenChange = (newOpen: boolean) => {
@@ -144,7 +180,12 @@ export function AskQuestionModal({
           </div>
 
           {/* Body */}
-          <fetcher.Form method="post" action="/questions/submit" className="p-4 space-y-5">
+          <fetcher.Form
+            method="post"
+            action="/questions/submit"
+            onSubmit={(event) => void handleSubmit(event)}
+            className="p-4 space-y-5"
+          >
             {/* Hidden fields */}
             <input type="hidden" name="productHandle" value={productHandle} />
             <input type="hidden" name="productTitle" value={productTitle} />
@@ -273,6 +314,32 @@ export function AskQuestionModal({
                 {isSubmitting ? 'Submitting...' : 'Submit Question'}
               </Button>
             </div>
+
+            {/* reCAPTCHA attribution — required by Google's terms while the
+                floating badge is hidden (see .grecaptcha-badge in app.css) */}
+            {recaptchaSiteKey && (
+              <p className="text-xs text-white/40 leading-relaxed">
+                This site is protected by reCAPTCHA and the Google{' '}
+                <a
+                  href="https://policies.google.com/privacy"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline hover:text-white/60"
+                >
+                  Privacy Policy
+                </a>{' '}
+                and{' '}
+                <a
+                  href="https://policies.google.com/terms"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline hover:text-white/60"
+                >
+                  Terms of Service
+                </a>{' '}
+                apply.
+              </p>
+            )}
           </fetcher.Form>
         </Dialog.Content>
       </Dialog.Portal>

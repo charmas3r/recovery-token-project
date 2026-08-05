@@ -110,6 +110,9 @@ export async function loader(args: Route.LoaderArgs) {
     postHogHost: env.VITE_PUBLIC_POSTHOG_HOST,
     ga4MeasurementId: env.PUBLIC_GA4_MEASUREMENT_ID,
     metaPixelId: env.PUBLIC_META_PIXEL_ID,
+    // Public site key, shared by every form using reCAPTCHA. The script itself
+    // is still lazy — it only loads where useRecaptcha() is mounted.
+    recaptchaSiteKey: env.PUBLIC_RECAPTCHA_SITE_KEY,
     shop: getShopAnalytics({
       storefront,
       publicStorefrontId: env.PUBLIC_STOREFRONT_ID,

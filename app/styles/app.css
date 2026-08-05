@@ -660,3 +660,15 @@ button.reset:hover:not(:has(> *)) {
 * (Inline SVG with inline styles — no CSS required)
 * --------------------------------------------------
 */
+
+/*
+* --------------------------------------------------
+* reCAPTCHA v3
+* Hide the floating badge (it clashes with the dark theme). Google's terms
+* allow this provided the attribution is shown instead — see the disclosure
+* text under the contact form's submit button.
+* --------------------------------------------------
+*/
+.grecaptcha-badge {
+  visibility: hidden;
+}

@@ -8,7 +8,7 @@
  */
 
 import {useState, useEffect} from 'react';
-import {Form, useActionData, useNavigation} from 'react-router';
+import {Form, useActionData, useNavigation, useLoaderData, useSubmit} from 'react-router';
 import type {Route} from './+types/contact';
 import {clsx} from 'clsx';
 import {trackEvent} from '~/lib/ga4';
@@ -17,7 +17,12 @@ import {Button} from '~/components/ui/Button';
 import {Input, Textarea, inputStyles, textareaStyles} from '~/components/ui/Input';
 import {contactFormSchema, formatZodErrors} from '~/lib/validation';
 import {getKlaviyoClient, KlaviyoError} from '~/lib/klaviyo.server';
+import {verifyRecaptcha, getRecaptchaErrorMessage} from '~/lib/recaptcha.server';
+import {useRecaptcha} from '~/lib/useRecaptcha';
 import {buildMeta} from '~/lib/meta';
+
+/** reCAPTCHA action name — must match the value checked server-side. */
+const RECAPTCHA_ACTION = 'contact';
 
 export const meta: Route.MetaFunction = () => {
   return buildMeta({
@@ -31,6 +36,14 @@ interface ActionData {
   success?: boolean;
   error?: string;
   fieldErrors?: Record<string, string | undefined>;
+}
+
+/**
+ * Expose the reCAPTCHA site key to this route only, keeping it out of every
+ * other page's payload.
+ */
+export async function loader({context}: Route.LoaderArgs) {
+  return {recaptchaSiteKey: context.env.PUBLIC_RECAPTCHA_SITE_KEY};
 }
 
 export async function action({request, context}: Route.ActionArgs): Promise<ActionData> {
@@ -48,6 +61,21 @@ export async function action({request, context}: Route.ActionArgs): Promise<Acti
   if (data.honeypot) {
     // Silently return success to not tip off bots
     return {success: true};
+  }
+
+  // reCAPTCHA v3 — runs before validation and before any outbound API call, so
+  // a blocked submission costs nothing. Fails open when unconfigured or when
+  // Google is unreachable; see recaptcha.server.ts.
+  const recaptcha = await verifyRecaptcha(
+    context.env,
+    formData.get('g-recaptcha-response')?.toString(),
+    RECAPTCHA_ACTION,
+    request.headers.get('CF-Connecting-IP') ??
+      request.headers.get('X-Forwarded-For'),
+  );
+
+  if (!recaptcha.ok) {
+    return {error: getRecaptchaErrorMessage(recaptcha.reason)};
   }
 
   // Validate form data
@@ -104,12 +132,40 @@ export async function action({request, context}: Route.ActionArgs): Promise<Acti
 
 export default function ContactPage() {
   const actionData = useActionData<typeof action>();
+  const {recaptchaSiteKey} = useLoaderData<typeof loader>();
   const navigation = useNavigation();
-  const isSubmitting = navigation.state === 'submitting';
+  const submit = useSubmit();
+  const {getToken} = useRecaptcha(recaptchaSiteKey);
+  // Covers the token round-trip, which happens before navigation.state flips.
+  const [isVerifying, setIsVerifying] = useState(false);
+  const isSubmitting = navigation.state === 'submitting' || isVerifying;
   const [touched, setTouched] = useState<Record<string, boolean>>({});
 
   const handleBlur = (field: string) => {
     setTouched((prev) => ({...prev, [field]: true}));
+  };
+
+  /**
+   * Fetch a reCAPTCHA token, then submit with it attached. When the script is
+   * blocked or unconfigured the token is null and the form posts without it —
+   * the server decides what that means.
+   */
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formElement = event.currentTarget;
+    const formData = new FormData(formElement);
+
+    setIsVerifying(true);
+    try {
+      const token = await getToken(RECAPTCHA_ACTION);
+      if (token) {
+        formData.set('g-recaptcha-response', token);
+      }
+    } finally {
+      setIsVerifying(false);
+    }
+
+    void submit(formData, {method: 'post', action: '/contact'});
   };
 
   // Fire GA4 lead event once the contact form action reports success.
@@ -159,7 +215,12 @@ export default function ContactPage() {
 
       {/* Contact Form */}
       <div style={{maxWidth: '32rem', margin: '0 auto'}}>
-        <Form method="post" action="/contact" className="space-y-6">
+        <Form
+          method="post"
+          action="/contact"
+          onSubmit={(event) => void handleSubmit(event)}
+          className="space-y-6"
+        >
           {/* General error */}
           {actionData?.error && (
             <div className="p-4 rounded-lg bg-red-500/10 flex items-start gap-3">
@@ -294,6 +355,32 @@ export default function ContactPage() {
               {isSubmitting ? 'Sending...' : 'Send Message'}
             </Button>
           </div>
+
+          {/* reCAPTCHA attribution — required by Google's terms when the
+              floating badge is hidden (see .grecaptcha-badge in app.css) */}
+          {recaptchaSiteKey && (
+            <p style={{fontSize: '0.75rem', color: 'rgba(255,255,255,0.4)', lineHeight: 1.6, textAlign: 'center'}}>
+              This site is protected by reCAPTCHA and the Google{' '}
+              <a
+                href="https://policies.google.com/privacy"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline hover:text-white/60"
+              >
+                Privacy Policy
+              </a>{' '}
+              and{' '}
+              <a
+                href="https://policies.google.com/terms"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline hover:text-white/60"
+              >
+                Terms of Service
+              </a>{' '}
+              apply.
+            </p>
+          )}
         </Form>
 
         {/* Additional Contact Info */}

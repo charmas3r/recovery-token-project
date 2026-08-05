@@ -29,6 +29,11 @@ declare module '@shopify/oxygen-workers-types' {
     PUBLIC_GA4_MEASUREMENT_ID?: string;
     PUBLIC_META_PIXEL_ID?: string;
 
+    // Google reCAPTCHA v3 (optional; contact form falls back to honeypot-only
+    // with a console warning when unset)
+    PUBLIC_RECAPTCHA_SITE_KEY?: string;
+    RECAPTCHA_SECRET_KEY?: string;
+
     // AI Image Generation
     AI_IMAGE_PROVIDER?: string;
     OPENAI_API_KEY?: string;

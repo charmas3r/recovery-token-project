@@ -44,6 +44,9 @@ export default async function handleRequest(
       'https://www.googletagmanager.com',
       'https://www.google-analytics.com',
       'https://connect.facebook.net',
+      // reCAPTCHA v3 loader (api.js) + its runtime bundle on gstatic
+      'https://www.google.com',
+      'https://www.gstatic.com',
     ],
     connectSrc: [
       // GA4 / Google Tag Manager beacons
@@ -70,12 +73,18 @@ export default async function handleRequest(
       'https://www.googletagmanager.com',
       'https://www.facebook.com',
       'https://connect.facebook.net',
+      // reCAPTCHA badge/asset images
+      'https://www.gstatic.com',
       'http://localhost:*',
       'data:',
       'blob:',
       ...(isStudioRoute ? ['https://cdn.sanity.io'] : []),
     ],
-    frameSrc: [...(isStudioRoute ? ['https://*.sanity.io'] : [])],
+    frameSrc: [
+      // reCAPTCHA v3 mounts a hidden anchor iframe even without a challenge
+      'https://www.google.com',
+      ...(isStudioRoute ? ['https://*.sanity.io'] : []),
+    ],
     styleSrc: [
       // Google Fonts stylesheet (loaded in root.tsx links())
       'https://fonts.googleapis.com',

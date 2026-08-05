@@ -15,19 +15,29 @@ a bot that posts a crafted request directly to the action URL.
 
 ## Scope
 
-`/contact` only.
+`/contact` and `/questions/submit`.
 
-The newsletter, product Q&A, and review endpoints keep their existing honeypot and
-are not modified. The honeypot also stays on `/contact` — it is free and catches a
-different class of bot than reCAPTCHA does.
+The newsletter and review endpoints keep their existing honeypot and are not
+modified. The honeypot also stays on both protected routes — it is free and catches
+a different class of bot than reCAPTCHA does.
 
-### Explicitly out of scope
+`/questions/submit` was added in a follow-up pass. It writes attacker-controlled
+text into a Shopify product metafield that renders on public product pages, making
+it a content-injection and SEO-damage vector rather than mere inbox noise — the
+higher-severity endpoint of the two.
 
-`/questions/submit` writes attacker-controlled text into a Shopify product
-metafield that renders on public product pages, making it a content-injection and
-SEO-damage vector rather than mere inbox noise. It is the higher-severity endpoint
-but was scoped out of this pass by the owner. Recorded here so the decision is
-traceable.
+### Site key delivery
+
+Because the Q&A form is a modal (`AskQuestionModal`) nested inside product pages
+rather than a standalone route, the site key is exposed from the **root loader**
+and read with `useRouteLoaderData<RootLoader>('root')`. An earlier iteration used a
+route-scoped loader on `/contact`; that was replaced so both surfaces share one
+source rather than maintaining two mechanisms.
+
+This puts a public, ~40-byte key in every page's payload. The reCAPTCHA *script* —
+the part with real performance cost — remains lazy: it loads only where
+`useRecaptcha()` mounts, which for the Q&A modal means on first modal open, not on
+every product page view.
 
 ## Design
 

@@ -18,7 +18,11 @@ import {questionFormSchema, formatZodErrors} from '~/lib/validation';
 import {getKlaviyoClient, KlaviyoError} from '~/lib/klaviyo.server';
 import {getProductQAFromStorefront, setProductMetafield} from '~/lib/shopify-admin.server';
 import {generateAnswerToken} from '~/lib/qa-tokens.server';
+import {verifyRecaptcha, getRecaptchaErrorMessage} from '~/lib/recaptcha.server';
 import type {QAItem} from '~/components/qa/QASection';
+
+/** reCAPTCHA action name — must match the value the client submits. */
+const RECAPTCHA_ACTION = 'question';
 
 interface ActionData {
   success?: boolean;
@@ -44,6 +48,21 @@ export async function action({
   // Honeypot check
   if (data.honeypot) {
     return {success: true};
+  }
+
+  // reCAPTCHA v3 — runs before the Admin API write, so a blocked submission
+  // never reaches the public product metafield. Fails open when unconfigured
+  // or when Google is unreachable; see recaptcha.server.ts.
+  const recaptcha = await verifyRecaptcha(
+    context.env,
+    formData.get('g-recaptcha-response')?.toString(),
+    RECAPTCHA_ACTION,
+    request.headers.get('CF-Connecting-IP') ??
+      request.headers.get('X-Forwarded-For'),
+  );
+
+  if (!recaptcha.ok) {
+    return {error: getRecaptchaErrorMessage(recaptcha.reason)};
   }
 
   // Validate form fields

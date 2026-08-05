@@ -8,8 +8,9 @@
  */
 
 import {useState, useEffect} from 'react';
-import {Form, useActionData, useNavigation, useLoaderData, useSubmit} from 'react-router';
+import {Form, useActionData, useNavigation, useRouteLoaderData, useSubmit} from 'react-router';
 import type {Route} from './+types/contact';
+import type {RootLoader} from '~/root';
 import {clsx} from 'clsx';
 import {trackEvent} from '~/lib/ga4';
 import {CheckCircle, AlertCircle} from 'lucide-react';
@@ -36,14 +37,6 @@ interface ActionData {
   success?: boolean;
   error?: string;
   fieldErrors?: Record<string, string | undefined>;
-}
-
-/**
- * Expose the reCAPTCHA site key to this route only, keeping it out of every
- * other page's payload.
- */
-export async function loader({context}: Route.LoaderArgs) {
-  return {recaptchaSiteKey: context.env.PUBLIC_RECAPTCHA_SITE_KEY};
 }
 
 export async function action({request, context}: Route.ActionArgs): Promise<ActionData> {
@@ -132,7 +125,7 @@ export async function action({request, context}: Route.ActionArgs): Promise<Acti
 
 export default function ContactPage() {
   const actionData = useActionData<typeof action>();
-  const {recaptchaSiteKey} = useLoaderData<typeof loader>();
+  const recaptchaSiteKey = useRouteLoaderData<RootLoader>('root')?.recaptchaSiteKey;
   const navigation = useNavigation();
   const submit = useSubmit();
   const {getToken} = useRecaptcha(recaptchaSiteKey);

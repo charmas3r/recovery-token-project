@@ -60,6 +60,12 @@ export default async function handleRequest(
       // PostHog (previously blocked by the connect-src override)
       'https://us.i.posthog.com',
       'https://us-assets.i.posthog.com',
+      // reCAPTCHA's client-signal beacon (/recaptcha/api2/clr). recaptcha__en.js
+      // runs in the page context, not inside the challenge iframe, so its fetch
+      // calls are governed by this directive. Blocking it doesn't stop tokens
+      // from being issued, but it starves Google's scoring of behavioral input,
+      // which biases scores down and causes false positives on real customers.
+      'https://www.google.com',
       ...(isStudioRoute
         ? ['https://*.sanity.io', 'https://*.apicdn.sanity.io']
         : []),

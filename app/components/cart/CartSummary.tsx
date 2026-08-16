@@ -5,6 +5,7 @@ import {useEffect, useRef} from 'react';
 import {useFetcher} from 'react-router';
 import type {FetcherWithComponents} from 'react-router';
 import {ga4ItemsValue, toGa4Items, trackEvent} from '~/lib/ga4';
+import {toMetaPixelContents, trackPixelEvent} from '~/lib/metaPixel';
 
 type CartSummaryProps = {
   cart: OptimisticCart<CartApiQueryFragment | null>;
@@ -102,9 +103,23 @@ function CartCheckoutActions({
       totalAmount != null
         ? Number.parseFloat(String(totalAmount))
         : ga4ItemsValue(items);
+    const resolvedValue = Number.isNaN(value) ? ga4ItemsValue(items) : value;
     trackEvent('begin_checkout', {
       items,
-      value: Number.isNaN(value) ? ga4ItemsValue(items) : value,
+      value: resolvedValue,
+      ...(currency ? {currency} : {}),
+    });
+    // Meta Pixel InitiateCheckout — fires alongside GA4's begin_checkout above,
+    // right before the browser navigates off-domain to Shopify's checkout.
+    trackPixelEvent('InitiateCheckout', {
+      ...toMetaPixelContents(
+        items.map((item) => ({
+          id: item.item_id,
+          price: item.price,
+          quantity: item.quantity,
+        })),
+      ),
+      value: resolvedValue,
       ...(currency ? {currency} : {}),
     });
   }

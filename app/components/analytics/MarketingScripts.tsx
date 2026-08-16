@@ -1,6 +1,7 @@
-import {useNonce} from '@shopify/hydrogen';
+import {useAnalytics, useNonce} from '@shopify/hydrogen';
 import {useEffect, useRef} from 'react';
 import {useLocation} from 'react-router';
+import {toMetaPixelContents, trackPixelEvent} from '~/lib/metaPixel';
 
 type FbqFn = ((...args: unknown[]) => void) & {
   callMethod?: (...args: unknown[]) => void;
@@ -29,6 +30,16 @@ interface MarketingScriptsProps {
   metaPixelId?: string;
 }
 
+/** Loosely-typed cart line — the analytics payload widens these to `unknown`. */
+type CartLineLike = {
+  quantity?: number | null;
+  merchandise?: {
+    id?: string | null;
+    price?: {amount?: string | null; currencyCode?: string | null} | null;
+    product?: {id?: string | null} | null;
+  } | null;
+} | null | undefined;
+
 /** Read consent from Shopify's Customer Privacy API (loaded by the privacy banner). */
 function getConsent() {
   const cp = (
@@ -52,9 +63,12 @@ function getConsent() {
  * - **CSP-safe:** external scripts are injected with the page nonce; their
  *   domains are allow-listed in `app/entry.server.tsx`.
  *
- * Purchase conversions are intentionally NOT fired here: Hydrogen checkout is on
- * Shopify's domain, so configure Purchase via the Shopify Meta/Google sales
- * channel or Customer Events.
+ * Meta Pixel AddToCart fires here via Hydrogen's Analytics event bus (mirrors
+ * `GoogleAnalytics.tsx`'s `add_to_cart` bridge); InitiateCheckout fires from
+ * `CartSummary.tsx` on the checkout link click. Purchase conversions are
+ * intentionally NOT fired here: Hydrogen checkout is on Shopify's domain, so
+ * configure Purchase via the Shopify Meta/Google sales channel or Customer
+ * Events.
  */
 export function MarketingScripts({
   ga4MeasurementId,
@@ -63,6 +77,24 @@ export function MarketingScripts({
   const nonce = useNonce();
   const location = useLocation();
   const firstLoad = useRef(true);
+  const {subscribe, register} = useAnalytics();
+  const {ready} = register('MetaPixel');
+
+  // Meta Pixel AddToCart. Guarded by trackPixelEvent, so this naturally no-ops
+  // until marketing consent is granted and fbq has loaded (see initPixel below).
+  useEffect(() => {
+    subscribe('product_added_to_cart', (data) => {
+      const line = data.currentLine as CartLineLike;
+      if (!line) return;
+      const contents = toMetaPixelContents({
+        id: line.merchandise?.product?.id ?? line.merchandise?.id,
+        price: line.merchandise?.price,
+        quantity: line.quantity,
+      });
+      trackPixelEvent('AddToCart', contents);
+    });
+    ready();
+  }, [subscribe, register, ready]);
 
   // Consent-gated lazy initialization.
   useEffect(() => {

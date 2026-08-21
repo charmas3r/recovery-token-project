@@ -149,7 +149,7 @@ function ShopHero() {
             words that matter.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Form method="post" action="/custom-token">
+            <Form method="post" action="/custom-token?index">
               <input type="hidden" name="path" value="you-design" />
               <Button
                 type="submit"
@@ -160,7 +160,7 @@ function ShopHero() {
                 Design It Yourself
               </Button>
             </Form>
-            <Form method="post" action="/custom-token">
+            <Form method="post" action="/custom-token?index">
               <input type="hidden" name="path" value="we-design" />
               <Button
                 type="submit"

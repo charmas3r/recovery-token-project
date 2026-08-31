@@ -23,7 +23,7 @@ import {
 } from '~/lib/sanity.queries';
 import type {Article} from '~/data/articles';
 import type {GlossaryTerm} from '~/data/glossary-terms';
-import {buildMeta} from '~/lib/meta';
+import {buildMeta, SOCIAL_PROFILES} from '~/lib/meta';
 
 export const meta: MetaFunction<typeof loader> = ({data}) => {
   if (!data?.article) {
@@ -83,6 +83,7 @@ export default function ArticlePage() {
       '@type': 'Organization',
       name: 'Custom Milestones',
       url: 'https://custommilestones.com',
+      sameAs: SOCIAL_PROFILES,
     },
     mainEntityOfPage: {
       '@type': 'WebPage',

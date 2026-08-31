@@ -10,7 +10,7 @@ import type {Route} from './+types/reviews';
 import {Breadcrumbs} from '~/components/ui/Breadcrumbs';
 import {JsonLd} from '~/components/seo/JsonLd';
 import {Button} from '~/components/ui/Button';
-import {buildMeta} from '~/lib/meta';
+import {buildMeta, SOCIAL_PROFILES} from '~/lib/meta';
 import {getLocalReviews, getReviewStats} from '~/lib/reviews-data';
 import type {LocalReview as Review} from '~/lib/reviews-data';
 
@@ -59,6 +59,7 @@ export default function ReviewsPage() {
         '@type': 'Organization',
         name: 'Custom Milestones',
         url: 'https://custommilestones.com',
+        sameAs: SOCIAL_PROFILES,
         aggregateRating: {
           '@type': 'AggregateRating',
           ratingValue: averageRating.toString(),

@@ -4,6 +4,19 @@ export const BRAND = {
   email: 'support@custommilestones.com',
 } as const;
 
+/**
+ * Official brand social profiles — the single source of truth for the footer
+ * links and the Schema.org `sameAs` set that ties the site to these accounts.
+ * Add a network here and it flows to both.
+ */
+export const SOCIAL = {
+  instagram: 'https://www.instagram.com/custom_milestones_co/',
+  facebook: 'https://www.facebook.com/profile.php?id=61584310800800',
+} as const;
+
+/** Profile URLs in `sameAs` form for Organization structured data. */
+export const SOCIAL_PROFILES: string[] = Object.values(SOCIAL);
+
 const SITE_NAME = BRAND.name;
 const SITE_URL = BRAND.url;
 const DEFAULT_OG_IMAGE =

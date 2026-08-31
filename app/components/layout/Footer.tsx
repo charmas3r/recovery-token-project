@@ -2,6 +2,7 @@ import {Suspense, useState, useEffect} from 'react';
 import {Await, NavLink, Link, useFetcher} from 'react-router';
 import type {FooterQuery, HeaderQuery} from 'storefrontapi.generated';
 import {trackEvent} from '~/lib/ga4';
+import {SOCIAL} from '~/lib/meta';
 
 interface FooterProps {
   footer: Promise<FooterQuery | null>;
@@ -89,6 +90,11 @@ const FOOTER_COLUMNS = [
   },
 ];
 
+const SOCIAL_LINKS = [
+  {label: 'Instagram', href: SOCIAL.instagram, Icon: InstagramIcon},
+  {label: 'Facebook', href: SOCIAL.facebook, Icon: FacebookIcon},
+];
+
 function FooterContent({
   menu,
   shop,
@@ -150,36 +156,20 @@ function FooterContent({
 
             {/* Social icons */}
             <div className="flex gap-3" style={{marginBottom: '1.75rem'}}>
-              <a
-                href="https://twitter.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-9 h-9 rounded-full flex items-center justify-center transition-colors duration-200"
-                style={{background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)'}}
-                aria-label="Twitter / X"
-              >
-                <TwitterIcon />
-              </a>
-              <a
-                href="https://instagram.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-9 h-9 rounded-full flex items-center justify-center transition-colors duration-200"
-                style={{background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)'}}
-                aria-label="Instagram"
-              >
-                <InstagramIcon />
-              </a>
-              <a
-                href="https://facebook.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-9 h-9 rounded-full flex items-center justify-center transition-colors duration-200"
-                style={{background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)'}}
-                aria-label="Facebook"
-              >
-                <FacebookIcon />
-              </a>
+              {SOCIAL_LINKS.map(({label, href, Icon}) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-9 h-9 rounded-full flex items-center justify-center transition-colors duration-200"
+                  style={{background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)'}}
+                  aria-label={`${label} (opens in a new tab)`}
+                  onClick={() => trackEvent('social_click', {network: label.toLowerCase(), location: 'footer'})}
+                >
+                  <Icon />
+                </a>
+              ))}
             </div>
 
             {/* Newsletter removed for now */}
@@ -396,17 +386,3 @@ function InstagramIcon() {
   );
 }
 
-function TwitterIcon() {
-  return (
-    <svg
-      width="16"
-      height="16"
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      aria-hidden="true"
-      style={{color: 'rgba(255,255,255,0.5)'}}
-    >
-      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-    </svg>
-  );
-}

@@ -22,6 +22,7 @@ import {PostHogAnalytics} from '~/components/analytics/PostHogAnalytics';
 import {GoogleAnalytics} from '~/components/analytics/GoogleAnalytics';
 import {MarketingScripts} from '~/components/analytics/MarketingScripts';
 import {JsonLd} from '~/components/seo/JsonLd';
+import {SOCIAL_PROFILES} from '~/lib/meta';
 
 export type RootLoader = typeof loader;
 
@@ -263,6 +264,7 @@ export default function App() {
           url: 'https://custommilestones.com',
           description: 'Premium hand-crafted recovery tokens celebrating sobriety milestones.',
           logo: 'https://cdn.shopify.com/s/files/1/0980/8330/7822/files/og-image.webp?v=1773774508',
+          sameAs: SOCIAL_PROFILES,
         }}
       />
       <PageLayout {...data}>

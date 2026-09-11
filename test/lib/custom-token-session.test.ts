@@ -32,12 +32,13 @@ describe('custom-token-session', () => {
     expect(getCustomTokenSession(session as any)).toBeNull();
   });
 
-  it('returns the current 5-step you-design order', () => {
+  it('returns the current 6-step you-design order including back', () => {
     expect(getSteps('you-design')).toEqual([
       'describe',
       'material',
       'preview',
       'refine',
+      'back',
       'review',
     ]);
   });
@@ -54,11 +55,8 @@ describe('custom-token-session', () => {
     expect(getCompletedSteps(data)).toEqual(['describe', 'material', 'preview', 'refine']);
   });
 
-  it('blocks access to review until every prior you-design step is completed', () => {
-    const partial: CustomTokenSession = {path: 'you-design', designPrompt: 'a phoenix'};
-    expect(canProceedToStep(partial, 'review')).toBe(false);
-
-    const complete: CustomTokenSession = {
+  it('marks the back step completed once backFinalDesignId is set', () => {
+    const withoutBack: CustomTokenSession = {
       path: 'you-design',
       designPrompt: 'a phoenix',
       material: 'brass',
@@ -66,6 +64,30 @@ describe('custom-token-session', () => {
       selectedPreviewId: 'gid://shopify/MediaImage/1',
       finalDesignId: 'gid://shopify/MediaImage/2',
     };
-    expect(canProceedToStep(complete, 'review')).toBe(true);
+    expect(getCompletedSteps(withoutBack)).toEqual(['describe', 'material', 'preview', 'refine']);
+
+    const withBack: CustomTokenSession = {...withoutBack, backFinalDesignId: 'gid://shopify/MediaImage/3'};
+    expect(getCompletedSteps(withBack)).toEqual([
+      'describe',
+      'material',
+      'preview',
+      'refine',
+      'back',
+    ]);
+  });
+
+  it('blocks access to review until the back step is completed too', () => {
+    const withoutBack: CustomTokenSession = {
+      path: 'you-design',
+      designPrompt: 'a phoenix',
+      material: 'brass',
+      variantId: 'gid://shopify/ProductVariant/1',
+      selectedPreviewId: 'gid://shopify/MediaImage/1',
+      finalDesignId: 'gid://shopify/MediaImage/2',
+    };
+    expect(canProceedToStep(withoutBack, 'review')).toBe(false);
+
+    const withBack: CustomTokenSession = {...withoutBack, backFinalDesignId: 'gid://shopify/MediaImage/3'};
+    expect(canProceedToStep(withBack, 'review')).toBe(true);
   });
 });

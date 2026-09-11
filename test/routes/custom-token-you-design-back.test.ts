@@ -18,6 +18,8 @@ vi.mock('~/lib/ai/rate-limit.server', () => ({
 }));
 
 import {loader, action} from '../../app/routes/($locale).custom-token.you-design.back';
+import {createImageProvider} from '~/lib/ai/adapter';
+import {uploadImageToShopifyFiles} from '~/lib/shopify-uploads.server';
 
 function baseSessionData() {
   return {
@@ -90,6 +92,9 @@ describe('you-design.back action — select-preset', () => {
     expect(stored.backMode).toBe('preset');
     expect(stored.backPresetId).toBe('unity-triangle');
     expect(stored.backFinalDesignId).toBe('gid://shopify/MediaImage/0000000000002');
+
+    expect(createImageProvider).not.toHaveBeenCalled();
+    expect(uploadImageToShopifyFiles).not.toHaveBeenCalled();
   });
 
   it('returns an error for an unknown preset id', async () => {
@@ -106,8 +111,6 @@ describe('you-design.back action — select-preset', () => {
     expect(response.error).toBe('Unknown preset selected');
   });
 });
-
-import {createImageProvider} from '~/lib/ai/adapter';
 
 describe('you-design.back action — generate (custom)', () => {
   it('generates, uploads, and stores a custom back design', async () => {

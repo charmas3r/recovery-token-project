@@ -176,7 +176,7 @@ export default function YouDesignPreview() {
             marginBottom: '0.5rem',
           }}
         >
-          Step 3 of 5
+          Step 3 of 6
         </span>
         <h2
           style={{

@@ -221,7 +221,7 @@ export async function action({request, context}: Route.ActionArgs) {
     const session = getCustomTokenSession(context.session as AppSession)!;
 
     if (!session.backFinalDesignId || session.backFinalDesignId === 'pending') {
-      if (session.backMode === 'custom' && session.backSelectedPreviewId) {
+      if (session.backMode === 'custom' && session.backSelectedPreviewId && session.backSelectedPreviewId !== 'pending') {
         updateCustomTokenSession(context.session as AppSession, {
           backFinalDesignId: session.backSelectedPreviewId,
         });

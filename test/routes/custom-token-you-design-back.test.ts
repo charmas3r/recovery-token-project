@@ -289,4 +289,27 @@ describe('you-design.back action — continue', () => {
     const stored = session.get('customToken') as any;
     expect(stored.backFinalDesignId).toBe('gid://shopify/MediaImage/back-preview-1');
   });
+
+  it('falls back to the default preset when the custom preview never finished uploading (both ids stuck at pending)', async () => {
+    const session = createFakeSession({
+      customToken: {
+        ...baseSessionData(),
+        backMode: 'custom',
+        backSelectedPreviewId: 'pending',
+        backFinalDesignId: 'pending',
+      },
+    });
+    const context = {session, env: createFakeEnv()};
+
+    const formData = new FormData();
+    formData.set('intent', 'continue');
+    const request = new Request('https://example.com', {method: 'POST', body: formData});
+
+    await action({context, request, params: {}} as any);
+
+    const stored = session.get('customToken') as any;
+    expect(stored.backFinalDesignId).not.toBe('pending');
+    expect(stored.backMode).toBe('preset');
+    expect(stored.backFinalDesignId).toBe('gid://shopify/MediaImage/0000000000001');
+  });
 });

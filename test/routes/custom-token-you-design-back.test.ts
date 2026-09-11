@@ -161,3 +161,70 @@ describe('you-design.back action — generate (custom)', () => {
     expect(response.error).toBe('Please describe your back design');
   });
 });
+
+describe('you-design.back action — refine (custom)', () => {
+  function customBackSession(overrides: Record<string, unknown> = {}) {
+    return {
+      ...baseSessionData(),
+      backMode: 'custom',
+      backDesignPrompt: 'A dove carrying an olive branch',
+      backSelectedPreviewId: 'gid://shopify/MediaImage/back-preview-1',
+      backFinalDesignId: 'gid://shopify/MediaImage/back-preview-1',
+      generationCount: 1,
+      ...overrides,
+    };
+  }
+
+  it('refines the back design and stores the new final id', async () => {
+    (createImageProvider as any).mockReturnValue({
+      generate: vi.fn(async () => ({
+        images: [{url: 'data:image/png;base64,refinedpixels', b64Data: 'refinedpixels'}],
+        provider: 'openai',
+        model: 'dall-e-3',
+      })),
+      healthCheck: vi.fn(),
+    });
+
+    const uploadsMock = await import('~/lib/shopify-uploads.server');
+    (uploadsMock.uploadImageToShopifyFiles as any) = vi.fn(async () => ({
+      url: 'https://cdn.shopify.com/back-refined-1.png',
+      fileId: 'gid://shopify/MediaImage/back-refined-1',
+    }));
+
+    const session = createFakeSession({customToken: customBackSession()});
+    const context = {session, env: createFakeEnv()};
+
+    const formData = new FormData();
+    formData.set('intent', 'refine');
+    formData.set('refinement', 'Make the olive branch larger');
+    const request = new Request('https://example.com', {method: 'POST', body: formData});
+
+    const response = await action({context, request, params: {}} as any);
+    const body = await (response as Response).json();
+
+    expect(body.backImageUrl).toBe('data:image/png;base64,refinedpixels');
+
+    const stored = session.get('customToken') as any;
+    expect(stored.backFinalDesignId).toBe('gid://shopify/MediaImage/back-refined-1');
+    expect(stored.backRefinementPrompts).toEqual(['Make the olive branch larger']);
+    expect(stored.generationCount).toBe(2);
+  });
+
+  it('rejects refinement past MAX_REFINEMENTS', async () => {
+    const session = createFakeSession({
+      customToken: customBackSession({
+        backRefinementPrompts: ['change 1', 'change 2', 'change 3'],
+      }),
+    });
+    const context = {session, env: createFakeEnv()};
+
+    const formData = new FormData();
+    formData.set('intent', 'refine');
+    formData.set('refinement', 'change 4');
+    const request = new Request('https://example.com', {method: 'POST', body: formData});
+
+    const response: any = await action({context, request, params: {}} as any);
+
+    expect(response.error).toBe('Maximum refinements reached');
+  });
+});

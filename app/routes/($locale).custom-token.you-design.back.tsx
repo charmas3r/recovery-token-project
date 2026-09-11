@@ -20,10 +20,13 @@ import {
   resolveShopifyFileIds,
 } from '~/lib/shopify-uploads.server';
 import {createImageProvider} from '~/lib/ai/adapter';
-import {buildTokenPrompt} from '~/lib/ai/prompt-engine';
+import {buildTokenPrompt, buildRefinementPrompt} from '~/lib/ai/prompt-engine';
 import {checkAndIncrementDailyLimit} from '~/lib/ai/rate-limit.server';
 import type {AppSession} from '~/lib/session';
 import {trackEvent} from '~/lib/ga4';
+import {DesignRefiner} from '~/components/custom-token/DesignRefiner';
+
+const MAX_REFINEMENTS = 3;
 
 export async function loader({context}: Route.LoaderArgs) {
   const session = getCustomTokenSession(context.session as AppSession);
@@ -151,6 +154,69 @@ export async function action({request, context}: Route.ActionArgs) {
     );
   }
 
+  if (intent === 'refine') {
+    const refinement = (formData.get('refinement') as string)?.trim();
+    if (!refinement) return {error: 'Please describe what to change'};
+
+    const session = getCustomTokenSession(context.session as AppSession)!;
+    const refinements = session.backRefinementPrompts ?? [];
+
+    if (refinements.length >= MAX_REFINEMENTS) {
+      return {error: 'Maximum refinements reached'};
+    }
+
+    const sessionLimit = parseInt(context.env.AI_MAX_GENERATIONS_PER_SESSION || '7', 10);
+    if ((session.generationCount ?? 0) + 1 > sessionLimit) {
+      return {error: 'Generation limit reached for this session.'};
+    }
+
+    const dailyCheck = await checkAndIncrementDailyLimit(context.env, 1);
+    if (!dailyCheck.allowed) {
+      return {error: 'Design service temporarily unavailable.'};
+    }
+
+    const provider = createImageProvider(context.env);
+    const prompt = buildRefinementPrompt(session.backDesignPrompt!, refinement, session.material);
+
+    let result;
+    try {
+      result = await provider.generate({prompt, count: 1, size: '1024x1024'});
+    } catch (e: any) {
+      const msg = e.message ?? '';
+      if (msg.startsWith('SAFETY_REJECTED:')) {
+        return {error: msg.replace('SAFETY_REJECTED: ', ''), safetyRejected: true};
+      }
+      return {error: msg.replace('SYSTEM_ERROR: ', '')};
+    }
+
+    const img = result.images[0];
+    const displayUrl = img.url;
+
+    let fileId = '';
+    try {
+      const uploadResult = await uploadImageToShopifyFiles(
+        img.b64Data
+          ? {b64Data: img.b64Data, filename: `custom-token-back-refined-${refinements.length + 1}.png`}
+          : {url: img.url, filename: `custom-token-back-refined-${refinements.length + 1}.png`},
+        context.env,
+      );
+      fileId = uploadResult.fileId;
+    } catch {
+      // Upload failed — still show the preview
+    }
+
+    updateCustomTokenSession(context.session as AppSession, {
+      backFinalDesignId: fileId || 'pending',
+      backRefinementPrompts: [...refinements, refinement],
+      generationCount: (session.generationCount ?? 0) + 1,
+    });
+
+    return Response.json(
+      {backImageUrl: displayUrl, backImageId: fileId},
+      {headers: {'Set-Cookie': await context.session.commit()}},
+    );
+  }
+
   return {error: 'Unknown action'};
 }
 
@@ -167,6 +233,7 @@ export default function YouDesignBack() {
   const actionData = useActionData<typeof action>();
   const presetFetcher = useFetcher<typeof action>();
   const generateFetcher = useFetcher<typeof action>();
+  const refineFetcher = useFetcher<typeof action>();
   const [mode, setMode] = useState<'preset' | 'custom'>(backMode === 'custom' ? 'custom' : 'preset');
   const [selectedPreset, setSelectedPreset] = useState(backPresetId ?? undefined);
   const [backImageUrl, setBackImageUrl] = useState(initialUrl);
@@ -183,6 +250,12 @@ export default function YouDesignBack() {
       setBackImageUrl(generateFetcher.data.backImageUrl);
     }
   }, [generateFetcher.data]);
+
+  useEffect(() => {
+    if (refineFetcher.data && 'backImageUrl' in refineFetcher.data) {
+      setBackImageUrl(refineFetcher.data.backImageUrl);
+    }
+  }, [refineFetcher.data]);
 
   return (
     <div>
@@ -324,9 +397,24 @@ export default function YouDesignBack() {
         </div>
       )}
 
-      {(actionData?.error || presetFetcher.data?.error || generateFetcher.data?.error) && (
+      {mode === 'custom' && backImageUrl && generateFetcher.state === 'idle' && (
+        <DesignRefiner
+          currentDesignUrl={backImageUrl}
+          refinementsUsed={backRefinementCount}
+          maxRefinements={MAX_REFINEMENTS}
+          refining={refineFetcher.state !== 'idle'}
+          onRefine={(prompt) => {
+            const fd = new FormData();
+            fd.set('intent', 'refine');
+            fd.set('refinement', prompt);
+            refineFetcher.submit(fd, {method: 'POST'});
+          }}
+        />
+      )}
+
+      {(actionData?.error || presetFetcher.data?.error || generateFetcher.data?.error || refineFetcher.data?.error) && (
         <p style={{color: '#f87171', fontSize: '0.875rem', marginTop: '1rem'}}>
-          {actionData?.error || presetFetcher.data?.error || generateFetcher.data?.error}
+          {actionData?.error || presetFetcher.data?.error || generateFetcher.data?.error || refineFetcher.data?.error}
         </p>
       )}
 

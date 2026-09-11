@@ -23,31 +23,31 @@ export async function loader({context}: Route.LoaderArgs) {
     return redirect('/custom-token/you-design/material');
   }
 
-  // Resolve final design ID to URL for display
-  let finalDesignUrl = '';
-  if (session.finalDesignId) {
-    const resolved = await resolveShopifyFileIds(
-      [session.finalDesignId],
-      context.env,
-    );
-    finalDesignUrl = resolved[session.finalDesignId] ?? '';
-  }
+  const idsToResolve = [session.finalDesignId, session.backFinalDesignId].filter(
+    (id): id is string => Boolean(id),
+  );
+  const resolved = idsToResolve.length
+    ? await resolveShopifyFileIds(idsToResolve, context.env)
+    : {};
 
-  return {session, finalDesignUrl};
+  const finalDesignUrl = session.finalDesignId ? resolved[session.finalDesignId] ?? '' : '';
+  const backFinalDesignUrl = session.backFinalDesignId ? resolved[session.backFinalDesignId] ?? '' : '';
+
+  return {session, finalDesignUrl, backFinalDesignUrl};
 }
 
 export async function action({request, context}: Route.ActionArgs) {
   const session = getCustomTokenSession(context.session as AppSession)!;
 
-  // Resolve final design ID to URL for line item property
-  let finalDesignUrl = '';
-  if (session.finalDesignId) {
-    const resolved = await resolveShopifyFileIds(
-      [session.finalDesignId],
-      context.env,
-    );
-    finalDesignUrl = resolved[session.finalDesignId] ?? '';
-  }
+  const idsToResolve = [session.finalDesignId, session.backFinalDesignId].filter(
+    (id): id is string => Boolean(id),
+  );
+  const resolved = idsToResolve.length
+    ? await resolveShopifyFileIds(idsToResolve, context.env)
+    : {};
+
+  const finalDesignUrl = session.finalDesignId ? resolved[session.finalDesignId] ?? '' : '';
+  const backFinalDesignUrl = session.backFinalDesignId ? resolved[session.backFinalDesignId] ?? '' : '';
 
   // Build line item attributes
   const attributes: Array<{key: string; value: string}> = [
@@ -58,11 +58,25 @@ export async function action({request, context}: Route.ActionArgs) {
   if (finalDesignUrl) {
     attributes.push({key: 'Final Design Image', value: finalDesignUrl});
   }
+  if (backFinalDesignUrl) {
+    attributes.push({key: 'Final Design Image (Back)', value: backFinalDesignUrl});
+    attributes.push({
+      key: 'Back Design Source',
+      value: session.backMode === 'custom' ? 'Custom' : 'Preset',
+    });
+  }
   attributes.push({key: '_Design Prompt', value: session.designPrompt ?? ''});
   attributes.push({
     key: '_Refinement History',
     value: JSON.stringify(session.refinementPrompts ?? []),
   });
+  if (session.backMode === 'custom') {
+    attributes.push({key: '_Design Prompt (Back)', value: session.backDesignPrompt ?? ''});
+    attributes.push({
+      key: '_Refinement History (Back)',
+      value: JSON.stringify(session.backRefinementPrompts ?? []),
+    });
+  }
   attributes.push({key: '_AI Provider', value: 'openai/dall-e-3'});
   attributes.push({
     key: '_Generation Cost',
@@ -83,6 +97,10 @@ export async function action({request, context}: Route.ActionArgs) {
         refinementHistory: JSON.stringify(session.refinementPrompts ?? []),
         generationCount: session.generationCount,
         aiProvider: 'openai/dall-e-3',
+        backDesignUrl: backFinalDesignUrl,
+        backMode: session.backMode ?? 'preset',
+        backDesignPrompt: session.backDesignPrompt,
+        backRefinementHistory: JSON.stringify(session.backRefinementPrompts ?? []),
       },
     });
   } catch {
@@ -99,7 +117,7 @@ export async function action({request, context}: Route.ActionArgs) {
 }
 
 export default function YouDesignReview() {
-  const {session, finalDesignUrl} = useLoaderData<typeof loader>();
+  const {session, finalDesignUrl, backFinalDesignUrl} = useLoaderData<typeof loader>();
   const actionData = useActionData<typeof action>();
   const cartFetcher = useFetcher();
   const [addedToCart, setAddedToCart] = useState(false);
@@ -118,6 +136,9 @@ export default function YouDesignReview() {
             type: 'image' as const,
           },
         ]
+      : []),
+    ...(backFinalDesignUrl
+      ? [{label: 'Back Design', value: backFinalDesignUrl, type: 'image' as const}]
       : []),
     ...(session.refinementPrompts?.length
       ? [
@@ -181,7 +202,7 @@ export default function YouDesignReview() {
             marginBottom: '0.5rem',
           }}
         >
-          Step 5 of 5
+          Step 6 of 6
         </span>
         <h2
           style={{
@@ -211,7 +232,7 @@ export default function YouDesignReview() {
 
         <Form method="post">
           <WizardNav
-            backTo="/custom-token/you-design/refine"
+            backTo="/custom-token/you-design/back"
             nextLabel="Add to Cart"
           />
         </Form>

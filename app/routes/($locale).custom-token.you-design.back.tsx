@@ -39,7 +39,7 @@ export async function loader({context}: Route.LoaderArgs) {
   }
 
   const [resolved, presetImageUrls] = await Promise.all([
-    idsToResolve.length ? resolveShopifyFileIds(idsToResolve, context.env) : Promise.resolve({}),
+    idsToResolve.length ? resolveShopifyFileIds(idsToResolve, context.env) : Promise.resolve({} as Record<string, string>),
     resolveShopifyFileIds(BACK_PRESETS.map((p) => p.fileGid), context.env),
   ]);
 

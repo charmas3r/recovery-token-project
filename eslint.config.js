@@ -237,6 +237,13 @@ export default [
         ...globals.jest,
       },
     },
+    settings: {
+      // This project uses Vitest (Jest-API-compatible), not Jest itself, so
+      // eslint-plugin-jest's auto-detection has nothing to find and crashes.
+      jest: {
+        version: 29,
+      },
+    },
   },
   {
     files: ['**/*.server.*'],

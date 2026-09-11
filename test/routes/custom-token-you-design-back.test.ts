@@ -83,7 +83,7 @@ describe('you-design.back action — select-preset', () => {
     const request = new Request('https://example.com', {method: 'POST', body: formData});
 
     const response = await action({context, request, params: {}} as any);
-    const body = await (response as Response).json();
+    const body = await (response as Response).json() as any;
 
     expect(body.backPresetId).toBe('unity-triangle');
     expect(body.backImageUrl).toBe('https://cdn.shopify.com/0000000000002.png');
@@ -138,7 +138,7 @@ describe('you-design.back action — generate (custom)', () => {
     const request = new Request('https://example.com', {method: 'POST', body: formData});
 
     const response = await action({context, request, params: {}} as any);
-    const body = await (response as Response).json();
+    const body = await (response as Response).json() as any;
 
     expect(body.backImageUrl).toBe('data:image/png;base64,fakepixels');
     expect(body.backImageId).toBe('gid://shopify/MediaImage/back-preview-1');
@@ -219,7 +219,7 @@ describe('you-design.back action — refine (custom)', () => {
     const request = new Request('https://example.com', {method: 'POST', body: formData});
 
     const response = await action({context, request, params: {}} as any);
-    const body = await (response as Response).json();
+    const body = await (response as Response).json() as any;
 
     expect(body.backImageUrl).toBe('data:image/png;base64,refinedpixels');
 

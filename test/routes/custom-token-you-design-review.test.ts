@@ -56,7 +56,7 @@ describe('you-design.review action — front-only baseline', () => {
     const context = {session, env: createFakeEnv()};
 
     const response = await action({request: buildRequest(), context, params: {}} as any);
-    const body = await (response as Response).json();
+    const body = await (response as Response).json() as any;
 
     expect(body).toEqual({
       success: true,
@@ -94,7 +94,7 @@ describe('you-design.review action — with a back design', () => {
     const context = {session, env: createFakeEnv()};
 
     const response = await action({request: buildRequest(), context, params: {}} as any);
-    const body = await (response as Response).json();
+    const body = await (response as Response).json() as any;
 
     expect(body.attributes).toEqual([
       {key: 'Custom Design Path', value: 'AI Generated Design'},
@@ -129,7 +129,7 @@ describe('you-design.review action — with a back design', () => {
     const context = {session, env: createFakeEnv()};
 
     const response = await action({request: buildRequest(), context, params: {}} as any);
-    const body = await (response as Response).json();
+    const body = await (response as Response).json() as any;
 
     expect(body.attributes).toEqual([
       {key: 'Custom Design Path', value: 'AI Generated Design'},

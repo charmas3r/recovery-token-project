@@ -120,7 +120,7 @@ export default function YouDesignMaterial() {
             marginBottom: '0.5rem',
           }}
         >
-          Step 2 of 5
+          Step 2 of 6
         </span>
         <h2
           style={{

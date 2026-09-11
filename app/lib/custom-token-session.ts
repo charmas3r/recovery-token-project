@@ -28,13 +28,22 @@ export interface CustomTokenSession {
   refinementPrompts?: string[];
   finalDesignId?: string;
 
+  // "You Design" back-side fields
+  backMode?: 'preset' | 'custom';
+  backPresetId?: string;
+  backDesignPrompt?: string;
+  backPreviewImageIds?: string[];
+  backSelectedPreviewId?: string;
+  backRefinementPrompts?: string[];
+  backFinalDesignId?: string;
+
   // Metadata
   generationCount?: number;
   startedAt?: string;
 }
 
 const WE_DESIGN_STEPS = ['occasion', 'description', 'material', 'engraving', 'review'] as const;
-const YOU_DESIGN_STEPS = ['describe', 'material', 'preview', 'refine', 'review'] as const;
+const YOU_DESIGN_STEPS = ['describe', 'material', 'preview', 'refine', 'back', 'review'] as const;
 
 export function getCustomTokenSession(session: AppSession): CustomTokenSession | null {
   return session.get(SESSION_KEY) ?? null;
@@ -69,6 +78,7 @@ export function getCompletedSteps(data: CustomTokenSession): string[] {
     if (data.material && data.variantId) completed.push('material');
     if (data.selectedPreviewId) completed.push('preview');
     if (data.finalDesignId) completed.push('refine');
+    if (data.backFinalDesignId) completed.push('back');
   }
 
   return completed;

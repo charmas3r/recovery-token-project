@@ -78,7 +78,7 @@ export default function YouDesignDescribe() {
             marginBottom: '0.5rem',
           }}
         >
-          Step 1 of 5
+          Step 1 of 6
         </span>
         <h2
           style={{

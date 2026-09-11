@@ -6,6 +6,15 @@ vi.mock('~/lib/shopify-uploads.server', () => ({
   resolveShopifyFileIds: vi.fn(async (ids: string[]) =>
     Object.fromEntries(ids.map((id) => [id, `https://cdn.shopify.com/${id.split('/').pop()}.png`])),
   ),
+  uploadImageToShopifyFiles: vi.fn(),
+}));
+
+vi.mock('~/lib/ai/adapter', () => ({
+  createImageProvider: vi.fn(),
+}));
+
+vi.mock('~/lib/ai/rate-limit.server', () => ({
+  checkAndIncrementDailyLimit: vi.fn(async () => ({allowed: true, current: 1, limit: 500})),
 }));
 
 import {loader, action} from '../../app/routes/($locale).custom-token.you-design.back';
@@ -79,5 +88,76 @@ describe('you-design.back action — select-preset', () => {
     const response: any = await action({context, request, params: {}} as any);
 
     expect(response.error).toBe('Unknown preset selected');
+  });
+});
+
+import {createImageProvider} from '~/lib/ai/adapter';
+
+describe('you-design.back action — generate (custom)', () => {
+  it('generates, uploads, and stores a custom back design', async () => {
+    (createImageProvider as any).mockReturnValue({
+      generate: vi.fn(async () => ({
+        images: [{url: 'data:image/png;base64,fakepixels', b64Data: 'fakepixels'}],
+        provider: 'openai',
+        model: 'dall-e-3',
+      })),
+      healthCheck: vi.fn(),
+    });
+
+    const uploadsMock = await import('~/lib/shopify-uploads.server');
+    (uploadsMock.uploadImageToShopifyFiles as any) = vi.fn(async () => ({
+      url: 'https://cdn.shopify.com/back-preview.png',
+      fileId: 'gid://shopify/MediaImage/back-preview-1',
+    }));
+
+    const session = createFakeSession({customToken: baseSessionData()});
+    const context = {session, env: createFakeEnv()};
+
+    const formData = new FormData();
+    formData.set('intent', 'generate');
+    formData.set('backDesignPrompt', 'A dove carrying an olive branch');
+    const request = new Request('https://example.com', {method: 'POST', body: formData});
+
+    const response = await action({context, request, params: {}} as any);
+    const body = await (response as Response).json();
+
+    expect(body.backImageUrl).toBe('data:image/png;base64,fakepixels');
+    expect(body.backImageId).toBe('gid://shopify/MediaImage/back-preview-1');
+
+    const stored = session.get('customToken') as any;
+    expect(stored.backMode).toBe('custom');
+    expect(stored.backDesignPrompt).toBe('A dove carrying an olive branch');
+    expect(stored.backFinalDesignId).toBe('gid://shopify/MediaImage/back-preview-1');
+    expect(stored.generationCount).toBe(1);
+  });
+
+  it('rejects generation when the session generation cap is already reached', async () => {
+    const session = createFakeSession({
+      customToken: {...baseSessionData(), generationCount: 7},
+    });
+    const context = {session, env: createFakeEnv({AI_MAX_GENERATIONS_PER_SESSION: '7'})};
+
+    const formData = new FormData();
+    formData.set('intent', 'generate');
+    formData.set('backDesignPrompt', 'A dove');
+    const request = new Request('https://example.com', {method: 'POST', body: formData});
+
+    const response: any = await action({context, request, params: {}} as any);
+
+    expect(response.error).toBe('Generation limit reached for this session.');
+  });
+
+  it('requires a non-empty backDesignPrompt', async () => {
+    const session = createFakeSession({customToken: baseSessionData()});
+    const context = {session, env: createFakeEnv()};
+
+    const formData = new FormData();
+    formData.set('intent', 'generate');
+    formData.set('backDesignPrompt', '   ');
+    const request = new Request('https://example.com', {method: 'POST', body: formData});
+
+    const response: any = await action({context, request, params: {}} as any);
+
+    expect(response.error).toBe('Please describe your back design');
   });
 });

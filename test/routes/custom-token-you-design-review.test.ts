@@ -12,11 +12,33 @@ vi.mock('~/lib/shopify-uploads.server', () => ({
   ),
 }));
 
-import {action} from '../../app/routes/($locale).custom-token.you-design.review';
+import {action, loader} from '../../app/routes/($locale).custom-token.you-design.review';
 
 function buildRequest() {
   return new Request('https://example.com/custom-token/you-design/review', {method: 'POST'});
 }
+
+describe('you-design.review loader — step gate', () => {
+  it('redirects to the back step when backFinalDesignId is missing (stale mid-wizard session)', async () => {
+    const session = createFakeSession({
+      customToken: {
+        path: 'you-design',
+        designPrompt: 'A rising phoenix with laurel leaves',
+        material: 'brass',
+        variantId: 'gid://shopify/ProductVariant/1',
+        selectedPreviewId: 'gid://shopify/MediaImage/preview-1',
+        finalDesignId: 'gid://shopify/MediaImage/front-1',
+        // backFinalDesignId intentionally omitted — customer never reached the back step
+      },
+    });
+    const context = {session, env: createFakeEnv()};
+
+    const result = await loader({context, request: new Request('https://example.com'), params: {}} as any);
+
+    expect(result).toBeInstanceOf(Response);
+    expect((result as Response).headers.get('Location')).toBe('/custom-token/you-design/back');
+  });
+});
 
 describe('you-design.review action — front-only baseline', () => {
   it('builds the exact cart attributes for a front-only session', async () => {

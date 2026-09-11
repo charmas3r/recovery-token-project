@@ -20,7 +20,7 @@ export async function loader({context}: Route.LoaderArgs) {
     session.path !== 'you-design' ||
     !canProceedToStep(session, 'review')
   ) {
-    return redirect('/custom-token/you-design/material');
+    return redirect('/custom-token/you-design/back');
   }
 
   const idsToResolve = [session.finalDesignId, session.backFinalDesignId].filter(

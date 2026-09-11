@@ -14,7 +14,7 @@ import {
 } from '~/lib/custom-token-session';
 import {WizardNav} from '~/components/custom-token/WizardNav';
 import {BackPresetSelector} from '~/components/custom-token/BackPresetSelector';
-import {BACK_PRESETS, getBackPresetById} from '~/lib/custom-token-presets';
+import {BACK_PRESETS, getBackPresetById, getDefaultBackPreset} from '~/lib/custom-token-presets';
 import {
   uploadImageToShopifyFiles,
   resolveShopifyFileIds,
@@ -215,6 +215,29 @@ export async function action({request, context}: Route.ActionArgs) {
       {backImageUrl: displayUrl, backImageId: fileId},
       {headers: {'Set-Cookie': await context.session.commit()}},
     );
+  }
+
+  if (intent === 'continue') {
+    const session = getCustomTokenSession(context.session as AppSession)!;
+
+    if (!session.backFinalDesignId || session.backFinalDesignId === 'pending') {
+      if (session.backMode === 'custom' && session.backSelectedPreviewId) {
+        updateCustomTokenSession(context.session as AppSession, {
+          backFinalDesignId: session.backSelectedPreviewId,
+        });
+      } else {
+        const defaultPreset = getDefaultBackPreset();
+        updateCustomTokenSession(context.session as AppSession, {
+          backMode: 'preset',
+          backPresetId: defaultPreset.id,
+          backFinalDesignId: defaultPreset.fileGid,
+        });
+      }
+    }
+
+    return redirect('/custom-token/you-design/review', {
+      headers: {'Set-Cookie': await context.session.commit()},
+    });
   }
 
   return {error: 'Unknown action'};

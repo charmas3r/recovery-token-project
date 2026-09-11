@@ -228,3 +228,65 @@ describe('you-design.back action — refine (custom)', () => {
     expect(response.error).toBe('Maximum refinements reached');
   });
 });
+
+describe('you-design.back action — continue', () => {
+  it('redirects to review, defaulting to the standard preset when back was never touched', async () => {
+    const session = createFakeSession({customToken: baseSessionData()});
+    const context = {session, env: createFakeEnv()};
+
+    const formData = new FormData();
+    formData.set('intent', 'continue');
+    const request = new Request('https://example.com', {method: 'POST', body: formData});
+
+    const response = await action({context, request, params: {}} as any);
+
+    expect(response).toBeInstanceOf(Response);
+    expect((response as Response).headers.get('Location')).toBe('/custom-token/you-design/review');
+
+    const stored = session.get('customToken') as any;
+    expect(stored.backMode).toBe('preset');
+    expect(stored.backFinalDesignId).toBe('gid://shopify/MediaImage/0000000000001');
+  });
+
+  it('keeps an already-selected preset as-is', async () => {
+    const session = createFakeSession({
+      customToken: {
+        ...baseSessionData(),
+        backMode: 'preset',
+        backPresetId: 'unity-triangle',
+        backFinalDesignId: 'gid://shopify/MediaImage/0000000000002',
+      },
+    });
+    const context = {session, env: createFakeEnv()};
+
+    const formData = new FormData();
+    formData.set('intent', 'continue');
+    const request = new Request('https://example.com', {method: 'POST', body: formData});
+
+    await action({context, request, params: {}} as any);
+
+    const stored = session.get('customToken') as any;
+    expect(stored.backFinalDesignId).toBe('gid://shopify/MediaImage/0000000000002');
+  });
+
+  it('falls back to the last generated preview if a custom design was never explicitly finalized', async () => {
+    const session = createFakeSession({
+      customToken: {
+        ...baseSessionData(),
+        backMode: 'custom',
+        backSelectedPreviewId: 'gid://shopify/MediaImage/back-preview-1',
+        backFinalDesignId: 'pending',
+      },
+    });
+    const context = {session, env: createFakeEnv()};
+
+    const formData = new FormData();
+    formData.set('intent', 'continue');
+    const request = new Request('https://example.com', {method: 'POST', body: formData});
+
+    await action({context, request, params: {}} as any);
+
+    const stored = session.get('customToken') as any;
+    expect(stored.backFinalDesignId).toBe('gid://shopify/MediaImage/back-preview-1');
+  });
+});

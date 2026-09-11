@@ -52,6 +52,22 @@ describe('you-design.back loader', () => {
     expect(result.presets.length).toBeGreaterThan(0);
     expect(result.presets[0]).toHaveProperty('imageUrl');
   });
+
+  it('prefers backFinalDesignId over backSelectedPreviewId when they differ (post-refine reload)', async () => {
+    const session = createFakeSession({
+      customToken: {
+        ...baseSessionData(),
+        backMode: 'custom',
+        backSelectedPreviewId: 'gid://shopify/MediaImage/back-preview-1',
+        backFinalDesignId: 'gid://shopify/MediaImage/back-refined-1',
+      },
+    });
+    const context = {session, env: createFakeEnv()};
+
+    const result: any = await loader({context, request: new Request('https://example.com'), params: {}} as any);
+
+    expect(result.backImageUrl).toBe('https://cdn.shopify.com/back-refined-1.png');
+  });
 });
 
 describe('you-design.back action — select-preset', () => {

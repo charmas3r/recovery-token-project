@@ -40,8 +40,10 @@ export async function loader({context}: Route.LoaderArgs) {
 
   const idsToResolve: string[] = [];
   if (session.backMode === 'custom') {
-    const backId = session.backSelectedPreviewId ?? session.backFinalDesignId;
-    if (backId && backId !== 'pending') idsToResolve.push(backId);
+    const backId = [session.backFinalDesignId, session.backSelectedPreviewId].find(
+      (id) => id && id !== 'pending',
+    );
+    if (backId) idsToResolve.push(backId);
   } else if (session.backPresetId) {
     const preset = getBackPresetById(session.backPresetId);
     if (preset) idsToResolve.push(preset.fileGid);

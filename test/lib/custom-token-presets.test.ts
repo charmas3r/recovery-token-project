@@ -27,4 +27,12 @@ describe('custom-token-presets', () => {
   it('getDefaultBackPreset returns the preset matching DEFAULT_BACK_PRESET_ID', () => {
     expect(getDefaultBackPreset().id).toBe(DEFAULT_BACK_PRESET_ID);
   });
+
+  // Guard-rail: BACK_PRESETS still ships with placeholder fileGid values pending
+  // real Shopify File uploads by the business. Un-skip this once those are swapped in.
+  it.skip('does not ship placeholder fileGid values', () => {
+    for (const preset of BACK_PRESETS) {
+      expect(preset.fileGid).not.toMatch(/MediaImage\/0{9}\d$/);
+    }
+  });
 });

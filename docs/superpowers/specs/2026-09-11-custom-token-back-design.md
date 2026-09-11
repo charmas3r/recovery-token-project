@@ -92,32 +92,33 @@ New step inserted between the existing `refine` and `review` steps:
 describe → material → preview → refine → you-design.back.tsx (NEW) → review
 ```
 
-### `you-design.back.tsx` (new)
+### `you-design.back.tsx` (new — single file, not three)
 
-- Renders a card grid of `BACK_PRESETS` (reusing the `MaterialSelector` card-grid pattern) — selecting one sets `backMode: 'preset'`, `backPresetId`, and resolves `backFinalDesignId` immediately (no AI call).
-- A "Customize instead" action routes into two new thin wrapper routes:
-  - `you-design.back.preview.tsx` — calls the *same* shared generation logic as `you-design.preview.tsx`'s action, passing `side: 'back'`, writing to `backPreviewImageIds`/`backSelectedPreviewId` instead of the front fields.
-  - `you-design.back.refine.tsx` — same relationship to `you-design.refine.tsx`.
-- Once a custom back design is finalized, the flow returns to `you-design.back.tsx`, which now displays the AI result in place of the preset grid (with an option to go back to presets).
+Implementation research (during plan-writing) found the shared AI/upload functions don't need a `side` parameter at all — `uploadImageToShopifyFiles` already takes an explicit filename per call site, and `checkAndIncrementDailyLimit`'s cap is global regardless of caller. So rather than three new files (`back.tsx` + `back.preview.tsx` + `back.refine.tsx`) each parameterized by `side`, all back-side logic — preset selection, custom generation, and refinement — lives in **one** new route file, `you-design.back.tsx`, with multiple action intents (`select-preset`, `generate`, `refine`, `continue`). This mirrors how the front's own `you-design.preview.tsx` and `refine.tsx` already multiplex behavior through an `intent` field on a single route, rather than one route per intent. It still satisfies Option B's actual requirement — front's existing route files are never touched, and the expensive/risky business logic (OpenAI calls, Shopify uploads, rate limiting) is reused as-is, not duplicated — just with one file instead of three.
+
+- Renders a card grid of `BACK_PRESETS` (a new `BackPresetSelector` component, image-thumbnail variant of the `MaterialSelector` card-grid pattern) — selecting one sets `backMode: 'preset'`, `backPresetId`, and resolves `backFinalDesignId` immediately (no AI call, `intent=select-preset`).
+- A "Customize instead" link reveals an inline description textarea + generate button (`intent=generate`, calling the same `createImageProvider`/`buildTokenPrompt`/`uploadImageToShopifyFiles` functions the front uses, with a back-specific filename), writing to `backDesignPrompt`/`backPreviewImageIds`/`backSelectedPreviewId`/`backFinalDesignId` instead of the front's fields.
+- Once generated, the same page shows the result via the existing `DesignRefiner` component, wired to `intent=refine` (mirrors `you-design.refine.tsx`'s refine action, writing to `backFinalDesignId`/`backRefinementPrompts`).
+- `intent=continue` guarantees `backFinalDesignId` is set before redirecting to review — defaulting to `DEFAULT_BACK_PRESET_ID` if the customer never touched this step, or falling back to the last generated preview if they generated but never explicitly finalized one.
 
 ### `you-design.review.tsx` (extended, not rewritten)
 
 - Reads both `finalDesignId` (front) and `backFinalDesignId` (back) from session.
 - Renders both images side by side.
 - Builds cart attributes for both sides (see below).
-- If `backFinalDesignId` is unset at this point (customer skipped the back step entirely), resolves it to `DEFAULT_BACK_PRESET_ID`'s file before building attributes — guaranteeing every order has a back image.
+- The defaulting to `DEFAULT_BACK_PRESET_ID` happens earlier, in `you-design.back.tsx`'s own `continue` action (see above) — by the time review's loader/action run, `backFinalDesignId` is guaranteed to be set. Review doesn't need its own defaulting logic; it also gates on this via `canProceedToStep(session, 'review')`, which now requires the `back` step to be completed.
 
 ---
 
-## Shared Generation Logic — `side` Parameter
+## Shared Generation Logic — No Signature Changes Needed
 
-Rather than duplicating the AI/upload/rate-limit code paths (rejected as Option C — see Decisions), the following existing functions take an added `side: 'front' | 'back'` argument used only for labeling/logging, not for branching business logic:
+Rather than duplicating the AI/upload/rate-limit code paths (rejected as Option C — see Decisions), `you-design.back.tsx`'s `generate` and `refine` action intents call the exact same functions the front routes call, with **no signature changes**:
 
-- `buildTokenPrompt(input, side)` / `buildRefinementPrompt(input, side)` (`app/lib/ai/prompt-engine.ts`)
-- `uploadImageToShopifyFiles(image, side)` (`app/lib/shopify-uploads.server.ts`)
-- `checkAndIncrementDailyLimit(session, side)` (`app/lib/ai/rate-limit.server.ts`) — side is recorded for observability, but the cap itself is shared (see Decisions).
+- `buildTokenPrompt(prompt, options)` / `buildRefinementPrompt(prompt, refinement, material)` (`app/lib/ai/prompt-engine.ts`) — prompt text differs (back's own `backDesignPrompt`), function signature doesn't.
+- `uploadImageToShopifyFiles(image, env)` (`app/lib/shopify-uploads.server.ts`) — differentiated by filename string alone (e.g. `custom-token-back-preview.png` vs. `custom-token-preview.png`), which the function already takes per call.
+- `checkAndIncrementDailyLimit(env, incrementBy)` (`app/lib/ai/rate-limit.server.ts`) — the cap is global and shared by design (see Decisions); there's nothing side-specific to pass.
 
-The new `you-design.back.preview.tsx` / `back.refine.tsx` route actions call these same shared functions with `side: 'back'`; the existing front routes pass `side: 'front'`. Neither front route's request/response behavior changes.
+An earlier draft of this spec proposed adding a `side: 'front' | 'back'` parameter to these functions for labeling. Implementation research found none of them branch or log per-side today, so the parameter would be unused ceremony. Isolation from the front routes is achieved by keeping all back-side call sites inside the new `you-design.back.tsx` file — the front routes are never imported from, or modified by, that file.
 
 ---
 
@@ -131,6 +132,7 @@ The new `you-design.back.preview.tsx` / `back.refine.tsx` route actions call the
 'Back Design Source': backMode               // NEW — 'preset' | 'custom', helps ops know what to expect
 '_Design Prompt': frontPrompt                // UNCHANGED
 '_Design Prompt (Back)': backPrompt          // NEW, only present when backMode === 'custom'
+'_Refinement History (Back)': backHistory    // NEW, only present when backMode === 'custom'
 ```
 
 All other existing private (`_`-prefixed) front metadata attributes are unchanged. The Klaviyo event fired from `review.tsx` is extended to carry the same back-side data as a backup channel, mirroring the existing front behavior.
@@ -143,7 +145,7 @@ All other existing private (`_`-prefixed) front metadata attributes are unchange
 |---|---|---|
 | Back customization scope | Standard presets by default, with a "fully customize" escape hatch into the same AI flow | Confirmed by product owner — most customers won't need full AI generation for the back |
 | Is back required? | Optional; defaults to a standard preset if skipped | Every order still ships with two designed sides without forcing extra steps on the customer |
-| Wizard architecture | Option B: new isolated files for the back flow, sharing only the underlying generation/upload/rate-limit functions via a `side` param | Front's existing, working route files are never touched — lowest regression risk — while still avoiding duplicating the expensive/risky business logic (Option C was rejected for this reason) |
+| Wizard architecture | Option B: one new isolated route file (`you-design.back.tsx`, multi-intent) for the back flow, reusing the underlying generation/upload/rate-limit functions unchanged | Front's existing, working route files are never touched — lowest regression risk — while still avoiding duplicating the expensive/risky business logic (Option C was rejected for this reason). Consolidated to one file instead of three during implementation planning, matching the front's own single-route-multi-intent convention |
 | Rate-limit budget | Shared across front + back (still 7 generations/session total) | Same underlying cost driver (OpenAI calls); no product reason identified to double the budget |
 | Cart attribute naming | Keep `'Final Design Image'` as-is for front; add `'Final Design Image (Back)'` for back | Avoids any risk to downstream automations (Klaviyo flows, Shopify Flow, fulfillment scripts) that may already key off the existing literal string |
 
@@ -162,10 +164,10 @@ No test runner exists in this repo today. This work includes bootstrapping one, 
    - `you-design.review.tsx` action's exact cart attributes for a front-only session — byte-for-byte match to today's output. This is the primary regression guard for this project.
 3. **New unit tests written before back-side implementation (TDD)**:
    - Session round-trip including back fields.
-   - Shared functions called with `side: 'back'` behave identically to `side: 'front'` aside from labeling.
    - Preset selection triggers no AI call and no new upload.
+   - Back-side generate/refine action intents produce the same shape of result as the front's, using the shared functions unchanged.
    - `review.tsx` action produces both front and back attributes correctly.
-   - Skipped-back-step path resolves to `DEFAULT_BACK_PRESET_ID` at review time.
+   - Skipped-back-step path resolves to `DEFAULT_BACK_PRESET_ID` when `you-design.back.tsx`'s `continue` action runs.
 4. **Component tests**: `you-design.back.tsx` preset grid selection and "Customize instead" escape hatch routing; `review.tsx` rendering both images.
 
 Exact test file names and enumerated cases are left to the implementation plan, not this spec.
@@ -174,5 +176,5 @@ Exact test file names and enumerated cases are left to the implementation plan, 
 
 ## Open Items for Implementation Plan
 
-- Exact preset image assets/GIDs to seed `BACK_PRESETS` (business-supplied, e.g. the Serenity Prayer scroll design already provided as a reference).
-- Whether `you-design.back.tsx` needs its own progress-bar step indicator update in the shared wizard layout route.
+- Exact preset image assets/GIDs to seed `BACK_PRESETS` (business-supplied, e.g. the Serenity Prayer scroll design already provided as a reference). The implementation plan seeds this file with clearly-labeled placeholder GIDs; swap in the real ones after uploading via Admin → Content → Files.
+- ~~Whether `you-design.back.tsx` needs its own progress-bar step indicator update~~ — resolved during implementation planning: `WizardProgress` already derives its step list from `getSteps('you-design')` and needs no changes; adding `'back'` to that array is sufficient.

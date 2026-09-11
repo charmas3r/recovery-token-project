@@ -59,11 +59,21 @@ export function BackPresetSelector({presets, selected, onChange, disabled = fals
               </div>
             )}
             <div style={{aspectRatio: '1', borderRadius: '0.75rem', overflow: 'hidden', marginBottom: '0.75rem'}}>
-              <img
-                src={preset.imageUrl}
-                alt={preset.label}
-                style={{width: '100%', height: '100%', objectFit: 'cover'}}
-              />
+              {preset.imageUrl ? (
+                <img
+                  src={preset.imageUrl}
+                  alt={preset.label}
+                  style={{width: '100%', height: '100%', objectFit: 'cover'}}
+                />
+              ) : (
+                <div
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    background: 'rgba(255,255,255,0.05)',
+                  }}
+                />
+              )}
             </div>
             <h3 style={{color: '#fff', fontWeight: 700, fontSize: '1rem', margin: 0}}>{preset.label}</h3>
           </button>

@@ -34,4 +34,14 @@ describe('BackPresetSelector', () => {
       expect(button).toBeDisabled();
     }
   });
+
+  it('renders a placeholder instead of a broken image when imageUrl is empty', () => {
+    const presetsWithMissingImage = [
+      {id: 'serenity-prayer', label: 'Serenity Prayer', imageUrl: ''},
+    ];
+    render(<BackPresetSelector presets={presetsWithMissingImage} onChange={() => {}} />);
+
+    expect(screen.queryByAltText('Serenity Prayer')).not.toBeInTheDocument();
+    expect(screen.getByText('Serenity Prayer')).toBeInTheDocument();
+  });
 });

@@ -110,6 +110,39 @@ describe('you-design.review action — with a back design', () => {
     ]);
   });
 
+  it('passes a preset back design URL straight through without calling resolveShopifyFileIds for it', async () => {
+    const {resolveShopifyFileIds} = await import('~/lib/shopify-uploads.server');
+    const session = createFakeSession({
+      customToken: {
+        path: 'you-design',
+        designPrompt: 'A rising phoenix with laurel leaves',
+        material: 'brass',
+        variantId: 'gid://shopify/ProductVariant/1',
+        finalDesignId: 'gid://shopify/MediaImage/front-1',
+        refinementPrompts: [],
+        generationCount: 1,
+        backMode: 'preset',
+        backPresetId: 'serenity-prayer',
+        backFinalDesignId: 'https://example.com/assets/custom-token/serenity-prayer-back.webp',
+      },
+    });
+    const context = {session, env: createFakeEnv()};
+
+    (resolveShopifyFileIds as any).mockClear();
+    const response = await action({request: buildRequest(), context, params: {}} as any);
+    const body = await (response as Response).json() as any;
+
+    expect(body.attributes).toContainEqual({
+      key: 'Final Design Image (Back)',
+      value: 'https://example.com/assets/custom-token/serenity-prayer-back.webp',
+    });
+    // Only the front GID needed resolving — the back URL was already absolute.
+    expect(resolveShopifyFileIds).toHaveBeenCalledWith(
+      ['gid://shopify/MediaImage/front-1'],
+      expect.anything(),
+    );
+  });
+
   it('adds custom-back attributes including the back design prompt and refinement history', async () => {
     const session = createFakeSession({
       customToken: {

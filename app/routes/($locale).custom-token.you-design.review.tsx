@@ -13,6 +13,20 @@ import {CartForm} from '@shopify/hydrogen';
 import type {AppSession} from '~/lib/session';
 import {trackEvent} from '~/lib/ga4';
 
+// Preset back designs store an already-absolute site URL (not a Shopify File
+// GID) in backFinalDesignId, since they're static assets rather than
+// AI-generated uploads. Only GIDs need an Admin API round trip to resolve;
+// sending a non-GID string to resolveShopifyFileIds would error out the
+// whole batch, including the sibling id.
+function isShopifyGid(id: string) {
+  return id.startsWith('gid://shopify/');
+}
+
+function resolveFinalDesignUrl(id: string | undefined, resolved: Record<string, string>) {
+  if (!id) return '';
+  return isShopifyGid(id) ? resolved[id] ?? '' : id;
+}
+
 export async function loader({context}: Route.LoaderArgs) {
   const session = getCustomTokenSession(context.session as AppSession);
   if (
@@ -24,14 +38,14 @@ export async function loader({context}: Route.LoaderArgs) {
   }
 
   const idsToResolve = [session.finalDesignId, session.backFinalDesignId].filter(
-    (id): id is string => Boolean(id),
+    (id): id is string => Boolean(id && isShopifyGid(id)),
   );
   const resolved = idsToResolve.length
     ? await resolveShopifyFileIds(idsToResolve, context.env)
     : {};
 
-  const finalDesignUrl = session.finalDesignId ? resolved[session.finalDesignId] ?? '' : '';
-  const backFinalDesignUrl = session.backFinalDesignId ? resolved[session.backFinalDesignId] ?? '' : '';
+  const finalDesignUrl = resolveFinalDesignUrl(session.finalDesignId, resolved);
+  const backFinalDesignUrl = resolveFinalDesignUrl(session.backFinalDesignId, resolved);
 
   return {session, finalDesignUrl, backFinalDesignUrl};
 }
@@ -40,14 +54,14 @@ export async function action({request, context}: Route.ActionArgs) {
   const session = getCustomTokenSession(context.session as AppSession)!;
 
   const idsToResolve = [session.finalDesignId, session.backFinalDesignId].filter(
-    (id): id is string => Boolean(id),
+    (id): id is string => Boolean(id && isShopifyGid(id)),
   );
   const resolved = idsToResolve.length
     ? await resolveShopifyFileIds(idsToResolve, context.env)
     : {};
 
-  const finalDesignUrl = session.finalDesignId ? resolved[session.finalDesignId] ?? '' : '';
-  const backFinalDesignUrl = session.backFinalDesignId ? resolved[session.backFinalDesignId] ?? '' : '';
+  const finalDesignUrl = resolveFinalDesignUrl(session.finalDesignId, resolved);
+  const backFinalDesignUrl = resolveFinalDesignUrl(session.backFinalDesignId, resolved);
 
   // Build line item attributes
   const attributes: Array<{key: string; value: string}> = [

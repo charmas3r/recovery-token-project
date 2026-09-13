@@ -19,7 +19,7 @@ vi.mock('~/lib/ai/rate-limit.server', () => ({
 
 import {loader, action} from '../../app/routes/($locale).custom-token.you-design.back';
 import {createImageProvider} from '~/lib/ai/adapter';
-import {uploadImageToShopifyFiles} from '~/lib/shopify-uploads.server';
+import {uploadImageToShopifyFiles, resolveShopifyFileIds} from '~/lib/shopify-uploads.server';
 
 function baseSessionData() {
   return {
@@ -73,28 +73,30 @@ describe('you-design.back loader', () => {
 });
 
 describe('you-design.back action — select-preset', () => {
-  it('sets backMode/backPresetId/backFinalDesignId and returns the resolved image url', async () => {
+  it('sets backMode/backPresetId/backFinalDesignId to an absolute site URL and never touches Shopify', async () => {
     const session = createFakeSession({customToken: baseSessionData()});
     const context = {session, env: createFakeEnv()};
 
     const formData = new FormData();
     formData.set('intent', 'select-preset');
-    formData.set('presetId', 'unity-triangle');
+    formData.set('presetId', 'serenity-prayer');
     const request = new Request('https://example.com', {method: 'POST', body: formData});
 
+    (resolveShopifyFileIds as any).mockClear();
     const response = await action({context, request, params: {}} as any);
     const body = await (response as Response).json() as any;
 
-    expect(body.backPresetId).toBe('unity-triangle');
-    expect(body.backImageUrl).toBe('https://cdn.shopify.com/0000000000002.png');
+    expect(body.backPresetId).toBe('serenity-prayer');
+    expect(body.backImageUrl).toBe('https://example.com/assets/custom-token/serenity-prayer-back.webp');
 
     const stored = session.get('customToken') as any;
     expect(stored.backMode).toBe('preset');
-    expect(stored.backPresetId).toBe('unity-triangle');
-    expect(stored.backFinalDesignId).toBe('gid://shopify/MediaImage/0000000000002');
+    expect(stored.backPresetId).toBe('serenity-prayer');
+    expect(stored.backFinalDesignId).toBe('https://example.com/assets/custom-token/serenity-prayer-back.webp');
 
     expect(createImageProvider).not.toHaveBeenCalled();
     expect(uploadImageToShopifyFiles).not.toHaveBeenCalled();
+    expect(resolveShopifyFileIds).not.toHaveBeenCalled();
   });
 
   it('returns an error for an unknown preset id', async () => {
@@ -264,7 +266,7 @@ describe('you-design.back action — continue', () => {
 
     const stored = session.get('customToken') as any;
     expect(stored.backMode).toBe('preset');
-    expect(stored.backFinalDesignId).toBe('gid://shopify/MediaImage/0000000000001');
+    expect(stored.backFinalDesignId).toBe('https://example.com/assets/custom-token/serenity-prayer-back.webp');
   });
 
   it('keeps an already-selected preset as-is', async () => {
@@ -272,8 +274,8 @@ describe('you-design.back action — continue', () => {
       customToken: {
         ...baseSessionData(),
         backMode: 'preset',
-        backPresetId: 'unity-triangle',
-        backFinalDesignId: 'gid://shopify/MediaImage/0000000000002',
+        backPresetId: 'serenity-prayer',
+        backFinalDesignId: 'https://example.com/assets/custom-token/serenity-prayer-back.webp',
       },
     });
     const context = {session, env: createFakeEnv()};
@@ -285,7 +287,7 @@ describe('you-design.back action — continue', () => {
     await action({context, request, params: {}} as any);
 
     const stored = session.get('customToken') as any;
-    expect(stored.backFinalDesignId).toBe('gid://shopify/MediaImage/0000000000002');
+    expect(stored.backFinalDesignId).toBe('https://example.com/assets/custom-token/serenity-prayer-back.webp');
   });
 
   it('falls back to the last generated preview if a custom design was never explicitly finalized', async () => {
@@ -329,6 +331,6 @@ describe('you-design.back action — continue', () => {
     const stored = session.get('customToken') as any;
     expect(stored.backFinalDesignId).not.toBe('pending');
     expect(stored.backMode).toBe('preset');
-    expect(stored.backFinalDesignId).toBe('gid://shopify/MediaImage/0000000000001');
+    expect(stored.backFinalDesignId).toBe('https://example.com/assets/custom-token/serenity-prayer-back.webp');
   });
 });

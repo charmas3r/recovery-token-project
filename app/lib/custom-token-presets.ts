@@ -1,21 +1,18 @@
 export interface BackPreset {
   id: string;
   label: string;
-  fileGid: string;
+  /** Path under /public, e.g. served at `${origin}${imageUrl}`. */
+  imageUrl: string;
+  /** Hex accent used for this preset's selected-state border/glow. */
+  accentColor: string;
 }
 
-// Replace these fileGid values with real Shopify File GIDs after uploading
-// the preset images via Admin → Content → Files.
 export const BACK_PRESETS: BackPreset[] = [
   {
     id: 'serenity-prayer',
     label: 'Serenity Prayer',
-    fileGid: 'gid://shopify/MediaImage/0000000000001',
-  },
-  {
-    id: 'unity-triangle',
-    label: 'Unity Triangle',
-    fileGid: 'gid://shopify/MediaImage/0000000000002',
+    imageUrl: '/assets/custom-token/serenity-prayer-back.webp',
+    accentColor: '#87755E',
   },
 ];
 

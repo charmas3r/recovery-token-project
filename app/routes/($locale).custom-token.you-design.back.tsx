@@ -38,30 +38,27 @@ export async function loader({context}: Route.LoaderArgs) {
     return redirect('/custom-token/you-design/refine');
   }
 
-  const idsToResolve: string[] = [];
+  let backImageUrl = '';
   if (session.backMode === 'custom') {
     const backId = [session.backFinalDesignId, session.backSelectedPreviewId].find(
       (id) => id && id !== 'pending',
     );
-    if (backId) idsToResolve.push(backId);
+    if (backId) {
+      const resolved = await resolveShopifyFileIds([backId], context.env);
+      backImageUrl = resolved[backId] ?? '';
+    }
   } else if (session.backPresetId) {
-    const preset = getBackPresetById(session.backPresetId);
-    if (preset) idsToResolve.push(preset.fileGid);
+    backImageUrl = getBackPresetById(session.backPresetId)?.imageUrl ?? '';
   }
-
-  const [resolved, presetImageUrls] = await Promise.all([
-    idsToResolve.length ? resolveShopifyFileIds(idsToResolve, context.env) : Promise.resolve({} as Record<string, string>),
-    resolveShopifyFileIds(BACK_PRESETS.map((p) => p.fileGid), context.env),
-  ]);
 
   return {
     backMode: session.backMode ?? null,
     backPresetId: session.backPresetId ?? null,
     backDesignPrompt: session.backDesignPrompt ?? '',
-    backImageUrl: idsToResolve[0] ? resolved[idsToResolve[0]] ?? '' : '',
+    backImageUrl,
     backRefinementCount: session.backRefinementPrompts?.length ?? 0,
     generationCount: session.generationCount ?? 0,
-    presets: BACK_PRESETS.map((p) => ({...p, imageUrl: presetImageUrls[p.fileGid] ?? ''})),
+    presets: BACK_PRESETS,
   };
 }
 
@@ -74,15 +71,16 @@ export async function action({request, context}: Route.ActionArgs) {
     const preset = getBackPresetById(presetId);
     if (!preset) return {error: 'Unknown preset selected'};
 
+    const backImageUrl = `${new URL(request.url).origin}${preset.imageUrl}`;
+
     updateCustomTokenSession(context.session as AppSession, {
       backMode: 'preset',
       backPresetId: preset.id,
-      backFinalDesignId: preset.fileGid,
+      backFinalDesignId: backImageUrl,
     });
 
-    const resolved = await resolveShopifyFileIds([preset.fileGid], context.env);
     return Response.json(
-      {backImageUrl: resolved[preset.fileGid] ?? '', backPresetId: preset.id},
+      {backImageUrl, backPresetId: preset.id},
       {headers: {'Set-Cookie': await context.session.commit()}},
     );
   }
@@ -232,7 +230,7 @@ export async function action({request, context}: Route.ActionArgs) {
         updateCustomTokenSession(context.session as AppSession, {
           backMode: 'preset',
           backPresetId: defaultPreset.id,
-          backFinalDesignId: defaultPreset.fileGid,
+          backFinalDesignId: `${new URL(request.url).origin}${defaultPreset.imageUrl}`,
         });
       }
     }
@@ -315,33 +313,33 @@ export default function YouDesignBack() {
       </div>
 
       {mode === 'preset' && (
-        <div>
-          <BackPresetSelector
-            presets={presets}
-            selected={selectedPreset}
-            onChange={(presetId) => {
-              const fd = new FormData();
-              fd.set('intent', 'select-preset');
-              fd.set('presetId', presetId);
-              presetFetcher.submit(fd, {method: 'POST'});
-            }}
-          />
-          <button
-            type="button"
-            onClick={() => setMode('custom')}
-            style={{
-              marginTop: '1.5rem',
-              background: 'none',
-              border: 'none',
-              color: '#B8764F',
-              fontSize: '0.875rem',
-              textDecoration: 'underline',
-              cursor: 'pointer',
-            }}
-          >
-            Or customize your own design →
-          </button>
-        </div>
+        <BackPresetSelector
+          options={[
+            ...presets.map((preset) => ({
+              id: preset.id,
+              label: preset.label,
+              imageUrl: preset.imageUrl,
+              accentColor: preset.accentColor,
+            })),
+            {
+              id: 'custom',
+              label: 'AI Custom Design',
+              isCustom: true,
+              description: 'Describe it, AI creates it',
+            },
+          ]}
+          selected={selectedPreset}
+          onChange={(id) => {
+            if (id === 'custom') {
+              setMode('custom');
+              return;
+            }
+            const fd = new FormData();
+            fd.set('intent', 'select-preset');
+            fd.set('presetId', id);
+            presetFetcher.submit(fd, {method: 'POST'});
+          }}
+        />
       )}
 
       {mode === 'custom' && !backImageUrl && generateFetcher.state === 'idle' && (

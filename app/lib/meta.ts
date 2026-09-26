@@ -1,7 +1,7 @@
 export const BRAND = {
   name: 'Custom Milestones',
   url: 'https://custommilestones.com',
-  email: 'support@custommilestones.com',
+  email: 'rdmachinellc@gmail.com',
 } as const;
 
 /**

@@ -150,10 +150,10 @@ export function getRecaptchaErrorMessage(reason: FailureReason): string {
     case 'invalid-token':
     case 'action-mismatch':
     case 'network-error':
-      return "We couldn't verify your submission. If you're using an ad blocker or privacy extension, please disable it for this page and try again — or email us directly at support@custommilestones.com.";
+      return "We couldn't verify your submission. If you're using an ad blocker or privacy extension, please disable it for this page and try again — or email us directly at rdmachinellc@gmail.com.";
     case 'low-score':
-      return "Your submission was flagged as automated traffic. If you're a real person, we're sorry — please email us directly at support@custommilestones.com and we'll get right back to you.";
+      return "Your submission was flagged as automated traffic. If you're a real person, we're sorry — please email us directly at rdmachinellc@gmail.com and we'll get right back to you.";
     default:
-      return 'Something went wrong verifying your submission. Please try again or email us at support@custommilestones.com.';
+      return 'Something went wrong verifying your submission. Please try again or email us at rdmachinellc@gmail.com.';
   }
 }

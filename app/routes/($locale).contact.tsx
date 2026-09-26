@@ -383,11 +383,11 @@ export default function ContactPage() {
               Prefer email?
             </p>
             <a
-              href="mailto:support@custommilestones.com"
+              href="mailto:rdmachinellc@gmail.com"
               style={{fontSize: '1.125rem', color: '#FFFF93', fontWeight: 500}}
               className="hover:underline"
             >
-              support@custommilestones.com
+              rdmachinellc@gmail.com
             </a>
           </div>
 

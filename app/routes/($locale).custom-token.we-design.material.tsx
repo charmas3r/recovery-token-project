@@ -47,7 +47,7 @@ export async function loader({context}: Route.LoaderArgs) {
       value: (v.title.toLowerCase().includes('brass') ? 'brass' : 'color') as 'brass' | 'color',
       price: `$${parseFloat(v.price.amount).toFixed(2)}`,
       description: v.title.toLowerCase().includes('brass')
-        ? 'Classic polished brass with silver engraving'
+        ? 'Matte antique bronze with detailed raised relief'
         : 'Vibrant color enamel with detailed design',
     }));
 
@@ -61,7 +61,7 @@ export async function loader({context}: Route.LoaderArgs) {
         value: (v.title.toLowerCase().includes('brass') ? 'brass' : 'color') as 'brass' | 'color',
         price: `$${parseFloat(v.price.amount).toFixed(2)}`,
         description: v.title.toLowerCase().includes('brass')
-          ? 'Classic polished brass with silver engraving'
+          ? 'Matte antique bronze with detailed raised relief'
           : 'Vibrant color enamel with detailed design',
       }));
   }

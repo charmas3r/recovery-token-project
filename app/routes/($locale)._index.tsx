@@ -8,7 +8,7 @@ import type {
 import {ProductItem} from '~/components/product/ProductItem';
 import {Button} from '~/components/ui/Button';
 import {buildMeta} from '~/lib/meta';
-import {getJudgeMeClient} from '~/lib/judgeme.server';
+import {getAllReviews, getReviewSummariesByProduct} from '~/lib/reviews.server';
 import {extractProductId} from '~/lib/judgeme';
 import {FEATURE_FLAGS} from '~/lib/feature-flags';
 import {getFeaturedToken} from '~/lib/sanity.queries';
@@ -38,6 +38,9 @@ import {MilestoneLandingTemplate} from '~/components/seo/MilestoneLandingTemplat
 import {GenericSEOLandingTemplate} from '~/components/seo/GenericSEOLandingTemplate';
 import {CustomIntentLandingTemplate} from '~/components/seo/CustomIntentLandingTemplate';
 import {ReviewsCallout} from '~/components/reviews/ReviewsCallout';
+import {ReviewsCarousel} from '~/components/reviews/ReviewsCarousel';
+import {getLocalReviews, pickFeaturedReviews} from '~/lib/reviews-data';
+import type {LocalReview} from '~/lib/reviews-data';
 
 /**
  * Resend-style dark section card — subtle near-black card with
@@ -310,14 +313,11 @@ function loadDeferredData({context}: Route.LoaderArgs) {
       return null;
     });
 
-  // Fetch store reviews from Judge.me (non-blocking)
-  const storeReviews = fetchStoreReviews(context.env).catch((error: Error) => {
-    console.error('Failed to fetch store reviews:', error);
-    return null;
-  });
+  // Judge.me reviews merged with the Etsy export (non-blocking, never rejects)
+  const storeReviews = getAllReviews(context);
 
   // Fetch per-product review summaries for product cards
-  const reviewSummaries = fetchProductReviewSummaries(context.env).catch((error: Error) => {
+  const reviewSummaries = getReviewSummariesByProduct(context).catch((error: Error) => {
     console.error('Failed to fetch review summaries:', error);
     return null;
   });
@@ -327,82 +327,6 @@ function loadDeferredData({context}: Route.LoaderArgs) {
     storeReviews,
     reviewSummaries,
   };
-}
-
-/**
- * Fetch recent store reviews for testimonials section
- */
-async function fetchStoreReviews(env: {
-  PUBLIC_JUDGEME_SHOP_DOMAIN?: string;
-  PUBLIC_STORE_DOMAIN?: string;
-  JUDGEME_PUBLIC_TOKEN?: string;
-}) {
-  const shopDomain = env.PUBLIC_JUDGEME_SHOP_DOMAIN || env.PUBLIC_STORE_DOMAIN;
-
-  if (!env.JUDGEME_PUBLIC_TOKEN || !shopDomain) {
-    return null;
-  }
-
-  const params = new URLSearchParams({
-    shop_domain: shopDomain,
-    api_token: env.JUDGEME_PUBLIC_TOKEN,
-    per_page: '6',
-    page: '1',
-  });
-
-  const response = await fetch(
-    `https://judge.me/api/v1/reviews?${params}`
-  );
-
-  if (!response.ok) {
-    throw new Error(`Judge.me API error: ${response.status}`);
-  }
-
-  const data = (await response.json()) as {
-    reviews?: Array<{
-      id: string;
-      title: string;
-      body: string;
-      rating: number;
-      created_at: string;
-      reviewer: {
-        name: string;
-        verified: boolean;
-      };
-    }>;
-    total?: number;
-  };
-
-  return {
-    reviews: data.reviews || [],
-    total: data.total || 0,
-  };
-}
-
-/**
- * Fetch per-product review summaries for product cards
- * Returns a Map of Shopify product external ID -> {rating, reviewCount}
- */
-async function fetchProductReviewSummaries(env: {
-  PUBLIC_JUDGEME_SHOP_DOMAIN?: string;
-  PUBLIC_STORE_DOMAIN?: string;
-  JUDGEME_PUBLIC_TOKEN?: string;
-  JUDGEME_PRIVATE_TOKEN?: string;
-}) {
-  if (!env.JUDGEME_PUBLIC_TOKEN) {
-    return null;
-  }
-
-  const judgeme = getJudgeMeClient(env as Parameters<typeof getJudgeMeClient>[0]);
-  const summaries = await judgeme.getShopReviewsSummaries();
-
-  // Convert Map to a plain object for serialization (Maps don't serialize through loaders)
-  const result: Record<string, {rating: number; reviewCount: number}> = {};
-  for (const [id, summary] of summaries) {
-    result[String(id)] = summary;
-  }
-
-  return result;
 }
 
 /**
@@ -1678,94 +1602,15 @@ function BrandStory() {
 }
 
 /**
- * Testimonials Section - Original style with hardcoded testimonials
- * Falls back to animated 5-star widget when Judge.me has no reviews
+ * Testimonials Section — newest reviews from Judge.me + the Etsy export.
+ * Shows Etsy-only reviews while the live list loads.
  */
-interface StoreReviewsData {
-  reviews: Array<{
-    id: string;
-    title: string;
-    body: string;
-    rating: number;
-    created_at: string;
-    reviewer: {
-      name: string;
-      verified: boolean;
-    };
-  }>;
-  total: number;
-}
-
-const TESTIMONIALS = [
-  {
-    quote: "This token means everything to me. I carry it every day as a reminder of how far I've come. It's more than jewelry — it's proof.",
-    author: "Michael R.",
-    milestone: "3 Years Sober",
-    avatar: "M",
-  },
-  {
-    quote: "I gave this to my son for his 1-year milestone. He teared up immediately. Worth every penny.",
-    author: "Sandra K.",
-    milestone: "Gift Giver",
-    avatar: "S",
-  },
-  {
-    quote: "The craftsmanship is incredible. You can feel the weight and quality the moment you hold it. This is a forever piece.",
-    author: "James T.",
-    milestone: "5 Years Sober",
-    avatar: "J",
-  },
-  {
-    quote: "I bought one for myself and ended up buying five more for friends in my group. Everyone deserves to feel this proud.",
-    author: "Danielle W.",
-    milestone: "2 Years Sober",
-    avatar: "D",
-  },
-  {
-    quote: "My sponsor gave me one of these at my 6-month mark. I've never taken it off my keychain since. It grounds me.",
-    author: "Chris P.",
-    milestone: "6 Months Sober",
-    avatar: "C",
-  },
-  {
-    quote: "Beautiful quality, fast shipping, and the packaging was so thoughtful. You can tell real people care about this product.",
-    author: "Angela M.",
-    milestone: "1 Year Sober",
-    avatar: "A",
-  },
-  {
-    quote: "I lost my first token and immediately ordered another. That's how much it means to me. Can't imagine my day without it.",
-    author: "Robert L.",
-    milestone: "10 Years Sober",
-    avatar: "R",
-  },
-  {
-    quote: "The Dia de los Muertos design is absolutely stunning. I get compliments every single time someone sees it.",
-    author: "Maria G.",
-    milestone: "4 Years Sober",
-    avatar: "M",
-  },
-  {
-    quote: "As a counselor, I buy these in bulk for my clients. Nothing motivates like a physical reminder of their strength.",
-    author: "Dr. Kevin H.",
-    milestone: "Recovery Counselor",
-    avatar: "K",
-  },
-  {
-    quote: "I was skeptical about buying online but wow — the photos don't do it justice. So much heavier and more detailed in person.",
-    author: "Tasha B.",
-    milestone: "18 Months Sober",
-    avatar: "T",
-  },
-];
-
 function CustomerReviewsSection({
   reviews,
 }: {
-  reviews: Promise<StoreReviewsData | null>;
+  reviews: Promise<LocalReview[]>;
 }) {
-  // Duplicate the list so the marquee loops seamlessly
-  const doubled = useMemo(() => [...TESTIMONIALS, ...TESTIMONIALS], []);
+  const fallback = useMemo(() => pickFeaturedReviews(getLocalReviews()), []);
 
   return (
     <section className="py-20 md:py-28 bg-black overflow-hidden">
@@ -1790,61 +1635,11 @@ function CustomerReviewsSection({
         <ReviewsCallout variant="inline" />
       </div>
 
-      {/* Marquee Carousel — full-width, no container */}
-      <div className="relative">
-        {/* Left fade */}
-        <div
-          className="absolute left-0 top-0 bottom-0 w-24 md:w-40 z-10 pointer-events-none"
-          style={{background: 'linear-gradient(to right, #000 0%, transparent 100%)'}}
-        />
-        {/* Right fade */}
-        <div
-          className="absolute right-0 top-0 bottom-0 w-24 md:w-40 z-10 pointer-events-none"
-          style={{background: 'linear-gradient(to left, #000 0%, transparent 100%)'}}
-        />
-
-        <motion.div
-          className="flex gap-6"
-          animate={{x: ['0%', '-50%']}}
-          transition={{
-            x: {duration: 60, repeat: Infinity, ease: 'linear'},
-          }}
-          style={{width: 'max-content'}}
-        >
-          {doubled.map((testimonial, index) => (
-            <div
-              key={index}
-              className="flex-shrink-0 w-[340px] md:w-[420px]"
-            >
-              <div
-                className="h-full rounded-2xl p-7 md:p-8 border border-white/[0.08] flex flex-col justify-between"
-                style={{background: 'linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)'}}
-              >
-                <p style={{fontSize: '0.9375rem', lineHeight: 1.7, color: 'rgba(255,255,255,0.6)', marginBottom: '1.5rem'}}>
-                  "{testimonial.quote}"
-                </p>
-
-                <div className="flex items-center gap-3">
-                  <div
-                    className="w-10 h-10 rounded-full flex items-center justify-center text-white font-display font-bold text-sm"
-                    style={{background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.1)'}}
-                  >
-                    {testimonial.avatar}
-                  </div>
-                  <div>
-                    <div className="font-display font-bold text-white text-sm">
-                      {testimonial.author}
-                    </div>
-                    <div className="text-xs" style={{color: '#00F260'}}>
-                      {testimonial.milestone}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </motion.div>
-      </div>
+      <Suspense fallback={<ReviewsCarousel reviews={fallback} />}>
+        <Await resolve={reviews} errorElement={<ReviewsCarousel reviews={fallback} />}>
+          {(resolved) => <ReviewsCarousel reviews={pickFeaturedReviews(resolved)} />}
+        </Await>
+      </Suspense>
     </section>
   );
 }

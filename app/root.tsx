@@ -23,6 +23,7 @@ import {GoogleAnalytics} from '~/components/analytics/GoogleAnalytics';
 import {MarketingScripts} from '~/components/analytics/MarketingScripts';
 import {JsonLd} from '~/components/seo/JsonLd';
 import {SOCIAL_PROFILES} from '~/lib/meta';
+import {getAllReviewStats} from '~/lib/reviews.server';
 
 export type RootLoader = typeof loader;
 
@@ -174,6 +175,8 @@ function loadDeferredData({context}: Route.LoaderArgs) {
     cart: cart.get(),
     isLoggedIn: customerAccount.isLoggedIn(),
     footer,
+    // Site-wide rating + review count for ReviewsCallout (never rejects)
+    reviewStats: getAllReviewStats(context),
   };
 }
 

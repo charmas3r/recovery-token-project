@@ -20,6 +20,7 @@ import {RatingBadge} from '~/components/reviews/RatingBadge';
 import {JsonLd} from '~/components/seo/JsonLd';
 import {getJudgeMeClient} from '~/lib/judgeme.server';
 import {extractProductId} from '~/lib/judgeme';
+import {getReviewsForProduct, getReviewSummariesByProduct} from '~/lib/reviews.server';
 import type {RelatedProductsQuery} from 'storefrontapi.generated';
 import {CUSTOMER_METAFIELDS_QUERY} from '~/graphql/customer-account/CustomerMetafieldsQuery';
 import {parseRecoveryCircle} from '~/lib/recoveryCircle';
@@ -28,6 +29,7 @@ import {trackEvent} from '~/lib/ga4';
 import {Heart, PenLine} from 'lucide-react';
 import {motion} from 'framer-motion';
 import {WriteReviewModal} from '~/components/reviews/WriteReviewModal';
+import {ReviewsCarousel} from '~/components/reviews/ReviewsCarousel';
 import {AskQuestionModal} from '~/components/qa/AskQuestionModal';
 import {QASection, parseQAMetafield} from '~/components/qa/QASection';
 import type {QAItem} from '~/components/qa/QASection';
@@ -191,19 +193,12 @@ async function fetchAccountData(context: Route.LoaderArgs['context'], productHan
 }
 
 /**
- * Fetch product reviews from Judge.me API
+ * Fetch product reviews from Judge.me (all pages, cached)
  */
 async function fetchProductReviews(context: Route.LoaderArgs['context'], handle: string) {
-  const {storefront, env} = context;
-  const shopDomain = env.PUBLIC_JUDGEME_SHOP_DOMAIN || env.PUBLIC_STORE_DOMAIN;
-
-  // GET /reviews requires the private token (public token lacks permissions)
-  if (!env.JUDGEME_PRIVATE_TOKEN || !shopDomain) {
-    return null;
-  }
+  const {storefront} = context;
 
   try {
-    // Get product ID
     const {product} = await storefront.query(
       `#graphql
         query ProductId($handle: String!) {
@@ -212,7 +207,7 @@ async function fetchProductReviews(context: Route.LoaderArgs['context'], handle:
           }
         }
       `,
-      {variables: {handle}}
+      {variables: {handle}, cache: storefront.CacheLong()}
     );
 
     if (!product?.id) {
@@ -220,67 +215,11 @@ async function fetchProductReviews(context: Route.LoaderArgs['context'], handle:
     }
 
     const externalId = Number(extractProductId(product.id));
-
-    // Fetch all reviews for the shop, then filter by product external ID.
-    // The GET /reviews endpoint only filters by Judge.me internal product_id,
-    // not Shopify external_id, so we filter client-side.
-    const params = new URLSearchParams({
-      shop_domain: shopDomain,
-      api_token: env.JUDGEME_PRIVATE_TOKEN,
-      per_page: '50',
-      page: '1',
-    });
-
-    const response = await fetch(
-      `https://judge.me/api/v1/reviews?${params}`
-    );
-
-    if (!response.ok) {
-      throw new Error(`Judge.me API error: ${response.status}`);
-    }
-
-    const data = (await response.json()) as {
-      reviews?: Array<{
-        id: number;
-        title: string;
-        body: string;
-        rating: number;
-        created_at: string;
-        product_external_id: number;
-        published: boolean;
-        hidden: boolean;
-        curated: string;
-        reviewer: {
-          name: string;
-          verified?: string;
-        };
-      }>;
-    };
-
-    // Filter to only published reviews for this specific product
-    const productReviews = (data.reviews || [])
-      .filter(
-        (r) =>
-          r.product_external_id === externalId &&
-          r.published &&
-          !r.hidden &&
-          r.curated !== 'spam',
-      )
-      .map((r) => ({
-        id: String(r.id),
-        title: r.title,
-        body: r.body,
-        rating: r.rating,
-        created_at: r.created_at,
-        reviewer: {
-          name: r.reviewer.name,
-          verified: r.reviewer.verified === 'buyer' || r.reviewer.verified === 'confirmed-buyer',
-        },
-      }));
+    const reviews = await getReviewsForProduct(context, externalId);
 
     return {
-      reviews: productReviews,
-      total: productReviews.length,
+      reviews,
+      total: reviews.length,
     };
   } catch (error) {
     console.error('Judge.me API error:', error);
@@ -326,9 +265,8 @@ async function fetchReviewsSummary(context: Route.LoaderArgs['context'], handle:
     // If widget parsing returned 0 reviews, try REST API as fallback
     if (summary.reviewCount === 0) {
       try {
-        const summaries = await judgeme.getShopReviewsSummaries();
-        const numericId = Number(productId);
-        const restSummary = summaries.get(numericId);
+        const summaries = await getReviewSummariesByProduct(context);
+        const restSummary = summaries[productId];
         if (restSummary && restSummary.reviewCount > 0) {
           return restSummary;
         }
@@ -1511,7 +1449,7 @@ function ProductReviewsSection({
       {showAllReviews ? (
         <ProductReviewsList reviews={reviews} />
       ) : (
-        <ProductReviewsCarousel reviews={reviews} />
+        <ReviewsCarousel reviews={reviews} />
       )}
       </>
       )}
@@ -1615,104 +1553,6 @@ function ProductReviewsList({reviews}: {reviews: ProductReview[]}) {
     </div>
   );
 }
-
-/**
- * Reviews Carousel — full-width animated marquee matching the landing page
- */
-function ProductReviewsCarousel({reviews}: {reviews: ProductReview[]}) {
-  // Repeat enough times so the marquee fills the viewport and loops seamlessly.
-  // We need at least ~6 visible cards to look like a real stream.
-  const repeatCount = Math.max(2, Math.ceil(8 / reviews.length));
-  const looped = useMemo(
-    () => Array.from({length: repeatCount}, () => reviews).flat(),
-    [reviews, repeatCount],
-  );
-  // The marquee translates by 50% (half the total width) to loop, so we need
-  // an even number of repetitions. Double the looped array for the x: 0→-50% trick.
-  const marqueeItems = useMemo(() => [...looped, ...looped], [looped]);
-
-  // Match landing page pace (~6s per card visible width)
-  const duration = looped.length * 6;
-
-  return (
-    <div className="relative">
-      {/* Left fade */}
-      <div
-        className="absolute left-0 top-0 bottom-0 w-24 md:w-40 z-10 pointer-events-none"
-        style={{background: 'linear-gradient(to right, #000 0%, transparent 100%)'}}
-      />
-      {/* Right fade */}
-      <div
-        className="absolute right-0 top-0 bottom-0 w-24 md:w-40 z-10 pointer-events-none"
-        style={{background: 'linear-gradient(to left, #000 0%, transparent 100%)'}}
-      />
-
-      <motion.div
-        className="flex gap-6"
-        animate={{x: ['0%', '-50%']}}
-        transition={{
-          x: {duration, repeat: Infinity, ease: 'linear'},
-        }}
-        style={{width: 'max-content'}}
-      >
-        {marqueeItems.map((review, index) => (
-          <div
-            key={`${review.id}-${index}`}
-            className="flex-shrink-0 w-[340px] md:w-[420px]"
-          >
-            <div
-              className="h-full rounded-2xl p-7 md:p-8 border border-white/[0.08] flex flex-col justify-between"
-              style={{background: 'linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)'}}
-            >
-              {/* Star rating */}
-              <div>
-                <div className="flex gap-0.5 mb-4">
-                  {Array.from({length: 5}).map((_, i) => (
-                    <svg
-                      key={i}
-                      viewBox="0 0 24 24"
-                      className={`w-5 h-5 ${
-                        i < review.rating
-                          ? 'text-yellow-400 fill-yellow-400'
-                          : 'text-white/20 fill-white/20'
-                      }`}
-                    >
-                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                    </svg>
-                  ))}
-                </div>
-
-                {/* Review body */}
-                <p style={{fontSize: '0.9375rem', lineHeight: 1.7, color: 'rgba(255,255,255,0.6)', marginBottom: '1.5rem'}}>
-                  "{review.body}"
-                </p>
-              </div>
-
-              {/* Reviewer info */}
-              <div className="flex items-center gap-3">
-                <div
-                  className="w-10 h-10 rounded-full flex items-center justify-center text-white font-display font-bold text-sm"
-                  style={{background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.1)'}}
-                >
-                  {review.reviewer.name.charAt(0).toUpperCase()}
-                </div>
-                <div>
-                  <div className="font-display font-bold text-white text-sm">
-                    {review.reviewer.name}
-                  </div>
-                  <div className="text-xs" style={{color: '#00F260'}}>
-                    {review.reviewer.verified ? 'Verified Buyer' : 'Customer'}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
-      </motion.div>
-    </div>
-  );
-}
-
 
 const PRODUCT_VARIANT_FRAGMENT = `#graphql
   fragment ProductVariant on ProductVariant {

@@ -11,8 +11,9 @@ import {Breadcrumbs} from '~/components/ui/Breadcrumbs';
 import {JsonLd} from '~/components/seo/JsonLd';
 import {Button} from '~/components/ui/Button';
 import {buildMeta, SOCIAL_PROFILES} from '~/lib/meta';
-import {getLocalReviews, getReviewStats} from '~/lib/reviews-data';
+import {computeReviewStats} from '~/lib/reviews-data';
 import type {LocalReview as Review} from '~/lib/reviews-data';
+import {getAllReviews} from '~/lib/reviews.server';
 
 export const meta: Route.MetaFunction = () => {
   return buildMeta({
@@ -22,9 +23,9 @@ export const meta: Route.MetaFunction = () => {
   });
 };
 
-export async function loader(_args: Route.LoaderArgs) {
-  const reviews = getLocalReviews();
-  const {averageRating, totalCount, distribution} = getReviewStats();
+export async function loader({context}: Route.LoaderArgs) {
+  const reviews = await getAllReviews(context);
+  const {averageRating, totalCount, distribution} = computeReviewStats(reviews);
   return {reviews, totalCount, averageRating, distribution};
 }
 

@@ -1,10 +1,40 @@
-import {Form, redirect, useNavigation} from 'react-router';
+import {Suspense} from 'react';
+import {Await, Form, redirect, useLoaderData, useNavigation} from 'react-router';
 import type {Route} from './+types/($locale).custom-token._index';
 import {updateCustomTokenSession, clearCustomTokenSession} from '~/lib/custom-token-session';
 import type {AppSession} from '~/lib/session';
 import {buildMeta} from '~/lib/meta';
 import {ReviewsCallout} from '~/components/reviews/ReviewsCallout';
+import {ReviewsCarousel} from '~/components/reviews/ReviewsCarousel';
+import {extractProductId} from '~/lib/judgeme';
+import {getReviewsForProduct} from '~/lib/reviews.server';
 import {trackEvent} from '~/lib/ga4';
+
+const CUSTOM_TOKEN_ID_QUERY = `#graphql
+  query CustomTokenId {
+    product(handle: "custom-token") {
+      id
+    }
+  }
+` as const;
+
+export function loader({context}: Route.LoaderArgs) {
+  // Custom orders all use the `custom-token` product, so Judge.me files their
+  // reviews under it. That product has no PDP, so this page shows them.
+  const customTokenReviews = context.storefront
+    .query(CUSTOM_TOKEN_ID_QUERY, {cache: context.storefront.CacheLong()})
+    .then(({product}) =>
+      product?.id
+        ? getReviewsForProduct(context, Number(extractProductId(product.id)))
+        : [],
+    )
+    .catch((error: Error) => {
+      console.error('Failed to fetch custom token reviews:', error);
+      return [];
+    });
+
+  return {customTokenReviews};
+}
 
 export async function action({request, context}: Route.ActionArgs) {
   const formData = await request.formData();
@@ -38,6 +68,7 @@ export const meta: Route.MetaFunction = () => {
 };
 
 export default function CustomTokenLanding() {
+  const {customTokenReviews} = useLoaderData<typeof loader>();
   const navigation = useNavigation();
   const isSubmitting = navigation.state === 'submitting';
 
@@ -132,6 +163,28 @@ export default function CustomTokenLanding() {
           </button>
         </Form>
       </div>
+
+      <Suspense fallback={null}>
+        <Await resolve={customTokenReviews}>
+          {(reviews) =>
+            reviews.length > 0 ? (
+              <section style={{marginTop: '4rem'}}>
+                <div style={{textAlign: 'center', maxWidth: '36rem', marginLeft: 'auto', marginRight: 'auto', marginBottom: '2rem'}}>
+                  <span style={{display: 'inline-block', color: '#B8764F', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.25em', fontWeight: 600, marginBottom: '0.75rem'}}>
+                    Custom Token Reviews
+                  </span>
+                  <h2 style={{fontFamily: 'var(--font-display, serif)', fontSize: 'clamp(1.5rem, 4vw, 2rem)', fontWeight: 700, color: '#FFFFFF', lineHeight: 1.15}}>
+                    One-of-a-Kind, In Their Words
+                  </h2>
+                </div>
+                <div style={{overflow: 'hidden', borderRadius: '1rem'}}>
+                  <ReviewsCarousel reviews={reviews} />
+                </div>
+              </section>
+            ) : null
+          }
+        </Await>
+      </Suspense>
 
       <div style={{marginTop: '3rem'}}>
         <ReviewsCallout variant="banner" />

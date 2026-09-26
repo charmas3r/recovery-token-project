@@ -36,6 +36,42 @@ interface JudgeMeRatingSummary {
   recommendation?: number;
 }
 
+/**
+ * Review shape returned by GET /reviews.
+ * `verified` lives on the review itself, not on `reviewer`.
+ */
+export interface JudgeMeApiReview {
+  id: number;
+  title: string | null;
+  body: string | null;
+  rating: number;
+  created_at: string;
+  product_external_id: number | null;
+  published: boolean;
+  hidden: boolean;
+  curated: string;
+  verified?: string;
+  reviewer: {
+    name: string;
+    email?: string;
+  };
+}
+
+const REVIEWS_PER_PAGE = 100;
+// Safety cap: 30 pages = 3,000 reviews
+const REVIEWS_MAX_PAGES = 30;
+const REVIEWS_TIMEOUT_MS = 8000;
+
+/** Whether a review should be shown on the storefront */
+export function isPublicReview(review: JudgeMeApiReview): boolean {
+  return review.published && !review.hidden && review.curated !== 'spam';
+}
+
+/** Judge.me marks purchase-verified reviews as "buyer" or "confirmed-buyer" */
+export function isVerifiedBuyer(review: JudgeMeApiReview): boolean {
+  return review.verified === 'buyer' || review.verified === 'confirmed-buyer';
+}
+
 interface JudgeMeReviewsResponse {
   reviews: JudgeMeReview[];
   currentPage: number;
@@ -82,6 +118,36 @@ export function createJudgeMeClient(config: JudgeMeConfig) {
       }
       throw error;
     }
+  }
+
+  /**
+   * List every review in the shop, following pagination.
+   * GET /reviews only returns one page at a time and cannot filter by
+   * Shopify product ID, so callers filter the full list themselves.
+   */
+  async function listAllReviews(): Promise<JudgeMeApiReview[]> {
+    const token = config.privateToken || config.publicToken;
+    const all: JudgeMeApiReview[] = [];
+
+    for (let page = 1; page <= REVIEWS_MAX_PAGES; page++) {
+      const params = new URLSearchParams({
+        shop_domain: config.shopDomain,
+        api_token: token,
+        per_page: String(REVIEWS_PER_PAGE),
+        page: String(page),
+      });
+
+      const data = await request<{reviews?: JudgeMeApiReview[]}>(
+        `/reviews?${params}`,
+        {signal: AbortSignal.timeout(REVIEWS_TIMEOUT_MS)},
+      );
+      const reviews = data.reviews || [];
+      all.push(...reviews);
+
+      if (reviews.length < REVIEWS_PER_PAGE) break;
+    }
+
+    return all;
   }
 
   return {
@@ -143,59 +209,9 @@ export function createJudgeMeClient(config: JudgeMeConfig) {
     },
 
     /**
-     * Get per-product review summaries for all products in the shop.
-     * Fetches reviews via REST API and computes averages.
-     * More reliable than widget endpoint HTML parsing.
+     * List every review in the shop, following pagination.
      */
-    async getShopReviewsSummaries(): Promise<Map<number, JudgeMeRatingSummary>> {
-      const token = config.privateToken || config.publicToken;
-      const params = new URLSearchParams({
-        shop_domain: config.shopDomain,
-        api_token: token,
-        per_page: '100',
-        page: '1',
-      });
-
-      const response = await fetch(`${baseUrl}/reviews?${params}`, {
-        headers: {'Content-Type': 'application/json'},
-      });
-
-      if (!response.ok) {
-        throw new Error(`Judge.me API error (${response.status})`);
-      }
-
-      const data = (await response.json()) as {
-        reviews?: Array<{
-          rating: number;
-          product_external_id: number;
-          published: boolean;
-          hidden: boolean;
-          curated: string;
-        }>;
-      };
-
-      // Group reviews by product and compute averages
-      const accumulator = new Map<number, {totalRating: number; count: number}>();
-
-      for (const review of data.reviews || []) {
-        if (!review.published || review.hidden || review.curated === 'spam') continue;
-
-        const existing = accumulator.get(review.product_external_id) || {totalRating: 0, count: 0};
-        existing.totalRating += review.rating;
-        existing.count += 1;
-        accumulator.set(review.product_external_id, existing);
-      }
-
-      const result = new Map<number, JudgeMeRatingSummary>();
-      for (const [id, {totalRating, count}] of accumulator) {
-        result.set(id, {
-          rating: Math.round((totalRating / count) * 10) / 10,
-          reviewCount: count,
-        });
-      }
-
-      return result;
-    },
+    listAllReviews,
 
     /**
      * Create a review (requires private token)
@@ -249,42 +265,22 @@ export function createJudgeMeClient(config: JudgeMeConfig) {
         return false;
       }
 
-      const params = new URLSearchParams({
-        shop_domain: config.shopDomain,
-        api_token: config.privateToken,
-        per_page: '100',
-        page: '1',
-      });
-
-      const response = await fetch(`${baseUrl}/reviews?${params}`, {
-        headers: {'Content-Type': 'application/json'},
-      });
-
-      if (!response.ok) {
-        console.error('Judge.me review check failed:', response.status);
+      let reviews: JudgeMeApiReview[];
+      try {
+        reviews = await listAllReviews();
+      } catch (error) {
+        console.error('Judge.me review check failed:', error);
         return false;
       }
-
-      const data = (await response.json()) as {
-        reviews?: Array<{
-          product_external_id: number;
-          reviewer: {email: string};
-          published: boolean;
-          hidden: boolean;
-          curated: string;
-        }>;
-      };
 
       const externalId = Number(productExternalId);
       const normalizedEmail = email.toLowerCase().trim();
 
-      return (data.reviews || []).some(
+      return reviews.some(
         (r) =>
           r.product_external_id === externalId &&
           r.reviewer?.email?.toLowerCase().trim() === normalizedEmail &&
-          r.published &&
-          !r.hidden &&
-          r.curated !== 'spam',
+          isPublicReview(r),
       );
     },
   };

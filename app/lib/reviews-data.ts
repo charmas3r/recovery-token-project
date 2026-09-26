@@ -60,9 +60,13 @@ export interface ReviewStats {
 
 let cachedStats: ReviewStats | null = null;
 
+/** Stats for the Etsy export alone — the fallback when Judge.me is unavailable */
 export function getReviewStats(): ReviewStats {
-  if (cachedStats) return cachedStats;
-  const reviews = getLocalReviews();
+  if (!cachedStats) cachedStats = computeReviewStats(getLocalReviews());
+  return cachedStats;
+}
+
+export function computeReviewStats(reviews: LocalReview[]): ReviewStats {
   const distribution = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0};
   let averageRating = 0;
 
@@ -80,6 +84,60 @@ export function getReviewStats(): ReviewStats {
     }
   }
 
-  cachedStats = {averageRating, totalCount: reviews.length, distribution};
-  return cachedStats;
+  return {averageRating, totalCount: reviews.length, distribution};
+}
+
+/**
+ * Normalized review text used to spot the same review in two sources.
+ * Returns '' for reviews with no text.
+ */
+function reviewTextKey(body: string): string {
+  return body
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim()
+    .slice(0, 160);
+}
+
+/**
+ * Merge live Judge.me reviews with the Etsy export, newest first.
+ * The Etsy reviews were also imported into Judge.me, so reviews with the same
+ * text are kept once (the Judge.me copy wins, but stays verified if either
+ * copy is). Reviews with no text are
+ * dropped, matching how the Etsy export is filtered.
+ */
+export function mergeReviews(
+  live: LocalReview[],
+  local: LocalReview[],
+): LocalReview[] {
+  const byKey = new Map<string, LocalReview>();
+
+  for (const review of [...live, ...local]) {
+    const key = reviewTextKey(review.body);
+    if (!key) continue;
+
+    const existing = byKey.get(key);
+    if (!existing) {
+      byKey.set(key, review);
+    } else if (review.reviewer.verified && !existing.reviewer.verified) {
+      // Etsy reviews are all from real orders; keep that even if the
+      // imported Judge.me copy isn't flagged as a verified buyer
+      byKey.set(key, {
+        ...existing,
+        reviewer: {...existing.reviewer, verified: true},
+      });
+    }
+  }
+
+  return [...byKey.values()].sort((a, b) => b.created_at.localeCompare(a.created_at));
+}
+
+/** Newest positive reviews that fit on a marquee card */
+export function pickFeaturedReviews(
+  reviews: LocalReview[],
+  limit = 12,
+): LocalReview[] {
+  return reviews
+    .filter((r) => r.rating >= 4 && r.body.length >= 40 && r.body.length <= 400)
+    .slice(0, limit);
 }

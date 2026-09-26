@@ -1,16 +1,39 @@
-import {Link} from 'react-router';
+import {Suspense} from 'react';
+import {Await, Link, useRouteLoaderData} from 'react-router';
 import {getReviewStats} from '~/lib/reviews-data';
+import type {ReviewStats} from '~/lib/reviews-data';
+import type {RootLoader} from '~/root';
 
 interface ReviewsCalloutProps {
   variant?: 'inline' | 'banner';
   className?: string;
 }
 
-export function ReviewsCallout({
+/**
+ * Rating + review count linking to /reviews. Uses live stats from the root
+ * loader; shows the Etsy-export stats while they load or if they fail.
+ */
+export function ReviewsCallout(props: ReviewsCalloutProps) {
+  const rootData = useRouteLoaderData<RootLoader>('root');
+  const fallback = <ReviewsCalloutView {...props} stats={getReviewStats()} />;
+
+  if (!rootData?.reviewStats) return fallback;
+
+  return (
+    <Suspense fallback={fallback}>
+      <Await resolve={rootData.reviewStats} errorElement={fallback}>
+        {(stats) => <ReviewsCalloutView {...props} stats={stats} />}
+      </Await>
+    </Suspense>
+  );
+}
+
+function ReviewsCalloutView({
   variant = 'inline',
   className = '',
-}: ReviewsCalloutProps) {
-  const {averageRating, totalCount} = getReviewStats();
+  stats,
+}: ReviewsCalloutProps & {stats: ReviewStats}) {
+  const {averageRating, totalCount} = stats;
   if (totalCount === 0) return null;
 
   if (variant === 'banner') {

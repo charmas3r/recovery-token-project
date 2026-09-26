@@ -103,9 +103,10 @@ const AD_LANDINGS: Record<string, AdLanding> = {
       {icon: 'Shield', label: '100% satisfaction guarantee'},
     ],
     testimonial: {
+      // Real 5-star Etsy review (Amber, 12/04/2025) — keep quotes verbatim
       quote:
-        'I had it engraved with her sobriety date and she cried when she opened it. The quality is unreal — it feels like a real heirloom.',
-      name: 'Verified Buyer',
+        'Super pleased with my purchase! Bought this for a loved one and it’s exactly what I was looking for; the image is beautiful, coin is sturdy with a great weight, and the personalized option was a sweet touch. Highly recommend!',
+      name: 'Amber',
       rating: 5,
     },
     howItWorks: [

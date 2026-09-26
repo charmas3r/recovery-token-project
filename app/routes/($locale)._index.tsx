@@ -313,8 +313,11 @@ function loadDeferredData({context}: Route.LoaderArgs) {
       return null;
     });
 
-  // Judge.me reviews merged with the Etsy export (non-blocking, never rejects)
-  const storeReviews = getAllReviews(context);
+  // Newest positive reviews from Judge.me + the Etsy export (non-blocking,
+  // never rejects). Trimmed here so the page doesn't stream every review.
+  const storeReviews = getAllReviews(context).then((reviews) =>
+    pickFeaturedReviews(reviews),
+  );
 
   // Fetch per-product review summaries for product cards
   const reviewSummaries = getReviewSummariesByProduct(context).catch((error: Error) => {
@@ -1637,7 +1640,7 @@ function CustomerReviewsSection({
 
       <Suspense fallback={<ReviewsCarousel reviews={fallback} />}>
         <Await resolve={reviews} errorElement={<ReviewsCarousel reviews={fallback} />}>
-          {(resolved) => <ReviewsCarousel reviews={pickFeaturedReviews(resolved)} />}
+          {(resolved) => <ReviewsCarousel reviews={resolved} />}
         </Await>
       </Suspense>
     </section>

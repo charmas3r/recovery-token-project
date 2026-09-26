@@ -67,9 +67,16 @@ export function isPublicReview(review: JudgeMeApiReview): boolean {
   return review.published && !review.hidden && review.curated !== 'spam';
 }
 
-/** Judge.me marks purchase-verified reviews as "buyer" or "confirmed-buyer" */
+/**
+ * Judge.me marks purchase-verified reviews as "buyer", "confirmed-buyer", or
+ * "verified-purchase"; unverified ones are "nothing"
+ */
 export function isVerifiedBuyer(review: JudgeMeApiReview): boolean {
-  return review.verified === 'buyer' || review.verified === 'confirmed-buyer';
+  return (
+    review.verified === 'buyer' ||
+    review.verified === 'confirmed-buyer' ||
+    review.verified === 'verified-purchase'
+  );
 }
 
 interface JudgeMeReviewsResponse {

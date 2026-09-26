@@ -1,9 +1,13 @@
-import {Link} from 'react-router';
+import {Suspense} from 'react';
+import {Await, Link, useRouteLoaderData} from 'react-router';
 import {Star, Truck, Shield, Gift, Heart, Sparkles} from 'lucide-react';
 import {Button} from '~/components/ui/Button';
 import {CustomMilestonesLogo} from '~/components/layout/CustomMilestonesLogo';
 import {FadeUp, StaggerContainer, StaggerItem, motion} from '~/components/ui/Animations';
 import type {AdLanding, AdLandingTrustPoint} from '~/data/ad-landings';
+import {getReviewStats} from '~/lib/reviews-data';
+import type {ReviewStats} from '~/lib/reviews-data';
+import type {RootLoader} from '~/root';
 
 const ICONS: Record<AdLandingTrustPoint['icon'], typeof Star> = {
   Star,
@@ -58,6 +62,50 @@ function Stars({rating}: {rating: number}) {
           stroke="none"
         />
       ))}
+    </div>
+  );
+}
+
+/**
+ * Hero rating badge from the live review stats in the root loader; shows the
+ * Etsy-export stats while they load or if they fail. Not a link, so the ad
+ * landing keeps visitors on the page.
+ */
+function HeroRating() {
+  const rootData = useRouteLoaderData<RootLoader>('root');
+  const fallback = <HeroRatingView stats={getReviewStats()} />;
+
+  if (!rootData?.reviewStats) return fallback;
+
+  return (
+    <Suspense fallback={fallback}>
+      <Await resolve={rootData.reviewStats} errorElement={fallback}>
+        {(stats) => <HeroRatingView stats={stats} />}
+      </Await>
+    </Suspense>
+  );
+}
+
+function HeroRatingView({stats}: {stats: ReviewStats}) {
+  const {averageRating, totalCount} = stats;
+  if (totalCount === 0) return null;
+
+  return (
+    <div
+      style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: '0.5rem',
+        marginTop: '1.5rem',
+      }}
+    >
+      <Stars rating={averageRating} />
+      <span style={{fontSize: '0.875rem', color: 'rgba(255,255,255,0.55)'}}>
+        <span style={{fontWeight: 600, color: '#FFFFFF'}}>
+          {averageRating.toFixed(1)}
+        </span>{' '}
+        · {totalCount} verified reviews
+      </span>
     </div>
   );
 }
@@ -173,24 +221,7 @@ export function AdLandingTemplate({landing}: {landing: AdLanding}) {
             </div>
 
             {/* Rating reassurance directly under CTA */}
-            <div
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                marginTop: '1.5rem',
-              }}
-            >
-              <Stars rating={landing.testimonial.rating} />
-              <span
-                style={{
-                  fontSize: '0.875rem',
-                  color: 'rgba(255,255,255,0.55)',
-                }}
-              >
-                {landing.trustPoints[0]?.label}
-              </span>
-            </div>
+            <HeroRating />
           </div>
         </section>
 

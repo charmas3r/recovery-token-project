@@ -98,7 +98,7 @@ const AD_LANDINGS: Record<string, AdLanding> = {
       to: '/collections/all',
     },
     trustPoints: [
-      {icon: 'Star', label: 'Loved by thousands of gift-givers'},
+      {icon: 'Star', label: 'Rated 4.9/5 by verified buyers'},
       {icon: 'Truck', label: 'Free shipping, arrives gift-ready'},
       {icon: 'Shield', label: '100% satisfaction guarantee'},
     ],

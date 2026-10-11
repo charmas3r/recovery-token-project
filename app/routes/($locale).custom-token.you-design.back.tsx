@@ -14,7 +14,12 @@ import {
 } from '~/lib/custom-token-session';
 import {WizardNav} from '~/components/custom-token/WizardNav';
 import {BackPresetSelector} from '~/components/custom-token/BackPresetSelector';
-import {BACK_PRESETS, getBackPresetById, getDefaultBackPreset} from '~/lib/custom-token-presets';
+import {
+  BACK_PRESETS,
+  getBackPresetAbsoluteUrl,
+  getBackPresetById,
+  getDefaultBackPreset,
+} from '~/lib/custom-token-presets';
 import {
   uploadImageToShopifyFiles,
   resolveShopifyFileIds,
@@ -71,7 +76,7 @@ export async function action({request, context}: Route.ActionArgs) {
     const preset = getBackPresetById(presetId);
     if (!preset) return {error: 'Unknown preset selected'};
 
-    const backImageUrl = `${new URL(request.url).origin}${preset.imageUrl}`;
+    const backImageUrl = getBackPresetAbsoluteUrl(preset, request.url);
 
     updateCustomTokenSession(context.session as AppSession, {
       backMode: 'preset',
@@ -230,7 +235,7 @@ export async function action({request, context}: Route.ActionArgs) {
         updateCustomTokenSession(context.session as AppSession, {
           backMode: 'preset',
           backPresetId: defaultPreset.id,
-          backFinalDesignId: `${new URL(request.url).origin}${defaultPreset.imageUrl}`,
+          backFinalDesignId: getBackPresetAbsoluteUrl(defaultPreset, request.url),
         });
       }
     }

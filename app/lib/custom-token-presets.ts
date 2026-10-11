@@ -1,7 +1,12 @@
+// Imported (not served from /public) so the build fingerprints it and points
+// it at the Oxygen CDN; Oxygen doesn't serve /public files from the
+// storefront origin, and the CSP img-src doesn't allow 'self'.
+import serenityPrayerBackUrl from '~/assets/custom-token/serenity-prayer-back.webp';
+
 export interface BackPreset {
   id: string;
   label: string;
-  /** Path under /public, e.g. served at `${origin}${imageUrl}`. */
+  /** Absolute CDN URL in production, root-relative path in dev. */
   imageUrl: string;
   /** Hex accent used for this preset's selected-state border/glow. */
   accentColor: string;
@@ -11,7 +16,7 @@ export const BACK_PRESETS: BackPreset[] = [
   {
     id: 'serenity-prayer',
     label: 'Serenity Prayer',
-    imageUrl: '/assets/custom-token/serenity-prayer-back.webp',
+    imageUrl: serenityPrayerBackUrl,
     accentColor: '#87755E',
   },
 ];
@@ -30,4 +35,9 @@ export function getDefaultBackPreset(): BackPreset {
     );
   }
   return preset;
+}
+
+/** Absolute URL for a preset image, safe to store on an order line item. */
+export function getBackPresetAbsoluteUrl(preset: BackPreset, requestUrl: string): string {
+  return new URL(preset.imageUrl, requestUrl).toString();
 }

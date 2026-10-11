@@ -20,6 +20,9 @@ vi.mock('~/lib/ai/rate-limit.server', () => ({
 import {loader, action} from '../../app/routes/($locale).custom-token.you-design.back';
 import {createImageProvider} from '~/lib/ai/adapter';
 import {uploadImageToShopifyFiles, resolveShopifyFileIds} from '~/lib/shopify-uploads.server';
+import {getDefaultBackPreset} from '~/lib/custom-token-presets';
+
+const SERENITY_URL = new URL(getDefaultBackPreset().imageUrl, 'https://example.com/').toString();
 
 function baseSessionData() {
   return {
@@ -87,12 +90,12 @@ describe('you-design.back action — select-preset', () => {
     const body = await (response as Response).json() as any;
 
     expect(body.backPresetId).toBe('serenity-prayer');
-    expect(body.backImageUrl).toBe('https://example.com/assets/custom-token/serenity-prayer-back.webp');
+    expect(body.backImageUrl).toBe(SERENITY_URL);
 
     const stored = session.get('customToken') as any;
     expect(stored.backMode).toBe('preset');
     expect(stored.backPresetId).toBe('serenity-prayer');
-    expect(stored.backFinalDesignId).toBe('https://example.com/assets/custom-token/serenity-prayer-back.webp');
+    expect(stored.backFinalDesignId).toBe(SERENITY_URL);
 
     expect(createImageProvider).not.toHaveBeenCalled();
     expect(uploadImageToShopifyFiles).not.toHaveBeenCalled();
@@ -266,7 +269,7 @@ describe('you-design.back action — continue', () => {
 
     const stored = session.get('customToken') as any;
     expect(stored.backMode).toBe('preset');
-    expect(stored.backFinalDesignId).toBe('https://example.com/assets/custom-token/serenity-prayer-back.webp');
+    expect(stored.backFinalDesignId).toBe(SERENITY_URL);
   });
 
   it('keeps an already-selected preset as-is', async () => {
@@ -275,7 +278,7 @@ describe('you-design.back action — continue', () => {
         ...baseSessionData(),
         backMode: 'preset',
         backPresetId: 'serenity-prayer',
-        backFinalDesignId: 'https://example.com/assets/custom-token/serenity-prayer-back.webp',
+        backFinalDesignId: SERENITY_URL,
       },
     });
     const context = {session, env: createFakeEnv()};
@@ -287,7 +290,7 @@ describe('you-design.back action — continue', () => {
     await action({context, request, params: {}} as any);
 
     const stored = session.get('customToken') as any;
-    expect(stored.backFinalDesignId).toBe('https://example.com/assets/custom-token/serenity-prayer-back.webp');
+    expect(stored.backFinalDesignId).toBe(SERENITY_URL);
   });
 
   it('falls back to the last generated preview if a custom design was never explicitly finalized', async () => {
@@ -331,6 +334,6 @@ describe('you-design.back action — continue', () => {
     const stored = session.get('customToken') as any;
     expect(stored.backFinalDesignId).not.toBe('pending');
     expect(stored.backMode).toBe('preset');
-    expect(stored.backFinalDesignId).toBe('https://example.com/assets/custom-token/serenity-prayer-back.webp');
+    expect(stored.backFinalDesignId).toBe(SERENITY_URL);
   });
 });

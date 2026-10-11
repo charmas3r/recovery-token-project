@@ -25,6 +25,18 @@ describe('prompt-engine', () => {
     expectCoreConstraints(prompt);
   });
 
+  it('buildTokenPrompt asks for multi-color enamel, not a plain bronze coin, for the color material', () => {
+    const prompt = buildTokenPrompt('a lotus', {material: 'color'});
+    expect(prompt).toMatch(/multiple distinct colors/i);
+    expect(prompt).toMatch(/Must:.*multi-color enamel/i);
+    expect(prompt).not.toMatch(/Must:.*matte bronze \(not shiny gold\)/i);
+  });
+
+  it('buildRefinementPrompt keeps the color checklist for the color material', () => {
+    const prompt = buildRefinementPrompt('a lotus', 'add a sunrise', 'color');
+    expect(prompt).toMatch(/Must:.*multi-color enamel/i);
+  });
+
   it('buildRefinementPrompt includes the original design and the requested change', () => {
     const prompt = buildRefinementPrompt('a lotus', 'make it bigger', 'brass');
     expect(prompt).toContain('The current design on the coin: a lotus');

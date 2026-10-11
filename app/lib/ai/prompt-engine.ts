@@ -16,10 +16,11 @@ Recessed areas are slightly darker where the patina settles.
 No mirror shine, no specular highlights, no glossy reflections.
 It is not polished gold and not shiny brass.`;
 
-const COLOR_MATERIAL = `Material: matte antique bronze base with enamel color fills.
-Recessed areas are filled with enamel in rich, saturated tones — vivid but realistic, like real applied pigment.
-Raised metal borders, rims and text are matte antique bronze: dark brown-bronze, non-reflective, no shine.
-The metal is not polished gold and not shiny brass.`;
+const COLOR_MATERIAL = `Material: full-color enamel coin. Color is the dominant feature of the design.
+The recessed areas of the coin face are filled with bright, saturated enamel in multiple distinct colors (for example deep blue, red, green, white, yellow), chosen to suit the design.
+Each colored region is cleanly separated by thin raised metal outlines, like a cloisonné enamel pin.
+Only the thin outlines, rim and lettering are metal: matte antique bronze, non-reflective, no shine.
+The metal is not polished gold and not shiny brass. The coin must not look like plain uncolored metal.`;
 
 const PHOTOGRAPHY_STYLE = `Lighting: soft, even, diffuse light from directly in front of the coin.
 No strong directional light, no hard shadows, no bright hotspots, no glow or halo around the coin.
@@ -27,7 +28,15 @@ Background: pure solid black, with a clean, sharp edge between coin and backgrou
 Sharp focus across the entire coin face, no blur, no vignette, no watermarks.
 Render any lettering exactly as described; do not add any extra text.`;
 
-const FINAL_CHECKLIST = `Must: perfect circle, head-on view, matte bronze (not shiny gold), even lighting, pure black background.`;
+const BRONZE_CHECKLIST = `Must: perfect circle, head-on view, matte bronze (not shiny gold), even lighting, pure black background.`;
+
+const COLOR_CHECKLIST = `Must: perfect circle, head-on view, vivid multi-color enamel fills with matte bronze outlines (not shiny gold), even lighting, pure black background.`;
+
+function materialParts(material?: 'brass' | 'color') {
+  return material === 'color'
+    ? {materialDesc: COLOR_MATERIAL, checklist: COLOR_CHECKLIST}
+    : {materialDesc: BRONZE_MATERIAL, checklist: BRONZE_CHECKLIST};
+}
 
 export function buildTokenPrompt(
   customerPrompt: string,
@@ -35,7 +44,7 @@ export function buildTokenPrompt(
     material?: 'brass' | 'color';
   },
 ): string {
-  const materialDesc = options?.material === 'color' ? COLOR_MATERIAL : BRONZE_MATERIAL;
+  const {materialDesc, checklist} = materialParts(options?.material);
 
   return [
     VIEW_REQUIREMENTS,
@@ -43,7 +52,7 @@ export function buildTokenPrompt(
     materialDesc,
     `Design on the coin face: ${customerPrompt}`,
     PHOTOGRAPHY_STYLE,
-    FINAL_CHECKLIST,
+    checklist,
   ].join('\n');
 }
 
@@ -52,7 +61,7 @@ export function buildRefinementPrompt(
   refinement: string,
   material?: 'brass' | 'color',
 ): string {
-  const materialDesc = material === 'color' ? COLOR_MATERIAL : BRONZE_MATERIAL;
+  const {materialDesc, checklist} = materialParts(material);
   return [
     VIEW_REQUIREMENTS,
     SYSTEM_PREFIX,
@@ -61,6 +70,6 @@ export function buildRefinementPrompt(
     `Requested changes: ${refinement}`,
     'Apply the changes while keeping the same coin, camera angle, finish and lighting.',
     PHOTOGRAPHY_STYLE,
-    FINAL_CHECKLIST,
+    checklist,
   ].join('\n');
 }

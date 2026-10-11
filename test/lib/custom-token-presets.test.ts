@@ -3,6 +3,7 @@ import {
   BACK_PRESETS,
   DEFAULT_BACK_PRESET_ID,
   getBackPresetById,
+  getBackPresetAbsoluteUrl,
   getDefaultBackPreset,
 } from '~/lib/custom-token-presets';
 
@@ -27,5 +28,18 @@ describe('custom-token-presets', () => {
 
   it('getDefaultBackPreset returns the preset matching DEFAULT_BACK_PRESET_ID', () => {
     expect(getDefaultBackPreset().id).toBe(DEFAULT_BACK_PRESET_ID);
+  });
+
+  it('getBackPresetAbsoluteUrl resolves a root-relative dev path against the request origin', () => {
+    const preset = {...getDefaultBackPreset(), imageUrl: '/app/assets/back.webp'};
+    expect(getBackPresetAbsoluteUrl(preset, 'https://shop.test/custom-token/you-design/back')).toBe(
+      'https://shop.test/app/assets/back.webp',
+    );
+  });
+
+  it('getBackPresetAbsoluteUrl keeps an absolute CDN url untouched', () => {
+    const cdnUrl = 'https://cdn.shopify.com/oxygen-v2/1/2/3/assets/back-abc123.webp';
+    const preset = {...getDefaultBackPreset(), imageUrl: cdnUrl};
+    expect(getBackPresetAbsoluteUrl(preset, 'https://shop.test/custom-token/you-design/back')).toBe(cdnUrl);
   });
 });

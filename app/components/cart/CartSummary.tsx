@@ -83,50 +83,9 @@ function CartCheckoutActions({
 }) {
   if (!checkoutUrl) return null;
 
-  // Fire GA4 begin_checkout before the browser navigates off-domain to the
-  // Shopify checkout. Guarded via trackEvent (no-ops until analytics consent).
-  function handleCheckoutClick() {
-    const items = toGa4Items(
-      (cart?.lines?.nodes ?? []).map((line) => ({
-        id: line?.merchandise?.product?.id ?? line?.merchandise?.id,
-        title: line?.merchandise?.product?.title,
-        vendor: line?.merchandise?.product?.vendor,
-        price: line?.merchandise?.price,
-        variantId: line?.merchandise?.id,
-        variantTitle: line?.merchandise?.title,
-        quantity: line?.quantity,
-      })),
-    );
-    const currency = cart?.cost?.totalAmount?.currencyCode;
-    const totalAmount = cart?.cost?.totalAmount?.amount;
-    const value =
-      totalAmount != null
-        ? Number.parseFloat(String(totalAmount))
-        : ga4ItemsValue(items);
-    const resolvedValue = Number.isNaN(value) ? ga4ItemsValue(items) : value;
-    trackEvent('begin_checkout', {
-      items,
-      value: resolvedValue,
-      ...(currency ? {currency} : {}),
-    });
-    // Meta Pixel InitiateCheckout — fires alongside GA4's begin_checkout above,
-    // right before the browser navigates off-domain to Shopify's checkout.
-    trackPixelEvent('InitiateCheckout', {
-      ...toMetaPixelContents(
-        items.map((item) => ({
-          id: item.item_id,
-          price: item.price,
-          quantity: item.quantity,
-        })),
-      ),
-      value: resolvedValue,
-      ...(currency ? {currency} : {}),
-    });
-  }
-
   return (
     <div>
-      <a href={checkoutUrl} target="_self" onClick={handleCheckoutClick}>
+      <a href={checkoutUrl} target="_self" onClick={() => trackBeginCheckout(cart)}>
         <p>Continue to Checkout &rarr;</p>
       </a>
       <br />
@@ -307,4 +266,48 @@ function RemoveGiftCardForm({
       {children}
     </CartForm>
   );
+}
+
+/**
+ * Fire GA4 begin_checkout + Meta Pixel InitiateCheckout right before the
+ * browser navigates off-domain to the Shopify checkout. Guarded via
+ * trackEvent/trackPixelEvent (no-ops until analytics consent).
+ */
+export function trackBeginCheckout(cart: CartSummaryProps['cart']) {
+  const items = toGa4Items(
+    (cart?.lines?.nodes ?? []).map((line) => ({
+      id: line?.merchandise?.product?.id ?? line?.merchandise?.id,
+      title: line?.merchandise?.product?.title,
+      vendor: line?.merchandise?.product?.vendor,
+      price: line?.merchandise?.price,
+      variantId: line?.merchandise?.id,
+      variantTitle: line?.merchandise?.title,
+      quantity: line?.quantity,
+    })),
+  );
+  const currency = cart?.cost?.totalAmount?.currencyCode;
+  const totalAmount = cart?.cost?.totalAmount?.amount;
+  const value =
+    totalAmount != null
+      ? Number.parseFloat(String(totalAmount))
+      : ga4ItemsValue(items);
+  const resolvedValue = Number.isNaN(value) ? ga4ItemsValue(items) : value;
+  trackEvent('begin_checkout', {
+    items,
+    value: resolvedValue,
+    ...(currency ? {currency} : {}),
+  });
+  // Meta Pixel InitiateCheckout — fires alongside GA4's begin_checkout above,
+  // right before the browser navigates off-domain to Shopify's checkout.
+  trackPixelEvent('InitiateCheckout', {
+    ...toMetaPixelContents(
+      items.map((item) => ({
+        id: item.item_id,
+        price: item.price,
+        quantity: item.quantity,
+      })),
+    ),
+    value: resolvedValue,
+    ...(currency ? {currency} : {}),
+  });
 }

@@ -9,6 +9,7 @@ import {
 import {resolveShopifyFileIds} from '~/lib/shopify-uploads.server';
 import {ReviewSummary} from '~/components/custom-token/ReviewSummary';
 import {WizardNav} from '~/components/custom-token/WizardNav';
+import {AddedToCartPanel} from '~/components/custom-token/AddedToCartPanel';
 import {CartForm} from '@shopify/hydrogen';
 import type {AppSession} from '~/lib/session';
 import {trackEvent} from '~/lib/ga4';
@@ -48,6 +49,14 @@ export async function loader({context}: Route.LoaderArgs) {
   const backFinalDesignUrl = resolveFinalDesignUrl(session.backFinalDesignId, resolved);
 
   return {session, finalDesignUrl, backFinalDesignUrl};
+}
+
+// Submitting this step clears the wizard session, so re-running the loader
+// (after this action, or after the follow-up /cart submit) would redirect the
+// customer away before they see the checkout / design-another prompt. Nothing
+// else mutates this page's data, so skip revalidation entirely.
+export function shouldRevalidate() {
+  return false;
 }
 
 export async function action({request, context}: Route.ActionArgs) {
@@ -189,16 +198,12 @@ export default function YouDesignReview() {
 
   if (addedToCart) {
     return (
-      <div style={{textAlign: 'center', padding: '3rem 0'}}>
-        <p style={{color: '#fff', fontSize: '1.125rem', marginBottom: '1rem'}}>
-          {cartFetcher.state !== 'idle' ? 'Adding to cart...' : 'Added to cart!'}
-        </p>
-        {cartFetcher.state === 'idle' && (
-          <a href="/cart" style={{color: '#B8764F', fontSize: '0.875rem', textDecoration: 'underline'}}>
-            View Cart
-          </a>
-        )}
-      </div>
+      <AddedToCartPanel
+        path="you-design"
+        adding={cartFetcher.state !== 'idle'}
+        cartResult={cartFetcher.data}
+        previewUrl={finalDesignUrl}
+      />
     );
   }
 
